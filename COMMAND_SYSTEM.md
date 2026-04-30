@@ -77,3 +77,21 @@ Provide a development-first admin and debug surface that accelerates gameplay it
 - `/kd hologram status` reports the active hologram refs owned by the player.
 - `/kd hologram clear` removes the player's active debug holograms.
 - Hologram spawns log model resolution, nameplate-only fallback use, successful refs, and spawn/removal failures so console output explains why a label did not appear.
+
+## Middleware Control Plane
+- CLI entry point: `com.tavall.hytale.resourcegame.controlserver.cli.ControlConsoleApplication`.
+- Spring Boot control panel entry point: `com.tavall.hytale.resourcegame.controlserver.web.ControlServerApplication`, with pages rooted at `/control`.
+- Both surfaces delegate to `ControlCommandDispatchHandler`; neither the CLI nor the web controllers mutate gameplay state directly.
+- Current command batch includes `DEBUG_PLAYER_STATE`, `REGISTER_GLOBAL_ASSET`, `REFRESH_FRONTEND_PROJECTIONS`, `ASSIGN_TROOP_WOUND`, `START_TROOP_HEALING`, `RUN_HEALING_TICK`, `GIVE_RESOURCE`, `BROADCAST_PLATFORM_MESSAGE`, `SYNC_PLATFORM_STATE`, and `DEBUG_TROOP_HEALING_STATE`.
+- Useful CLI examples:
+  - `dry-run troop wound <troopId> GENERAL_WOUND MODERATE`
+  - `execute troop wound <troopId> GENERAL_WOUND MODERATE`
+  - `resource give <universalPlayerId> item.healing.field_rations 20`
+  - `troop heal treatment <universalPlayerId> <troopId> recipe.healing.general_wound.proper 4`
+  - `tick healing 1`
+  - `projection refresh minecraft`
+  - `platform sync all`
+  - `broadcast "message"`
+- Dry-run commands validate permissions and arguments and calculate intended object/platform effects without mutating middleware state or sending platform fanout.
+- Command results and audit logs are repository-backed; the current runtime uses in-memory repositories for tests/local control-server boot and `004_cross_platform_middleware.sql` defines the Postgres table shape for production adapters.
+- Minecraft and Hytale verification should start from the shared control pipeline, then use platform debug/projection hooks to observe wound/healing projection changes. Roblox and Discord are verified through in-memory fanout/projection adapters until live runtimes are wired.
