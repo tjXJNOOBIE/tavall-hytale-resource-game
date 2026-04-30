@@ -45,6 +45,7 @@ public final class PlayerGameStateService implements IPlayerGameStateService, ID
     private final SemanticCache cache;
     private final JacksonCacheCodec<PlayerGameState> codec;
     private final ObjectMapper objectMapper;
+    private final InfrastructureMetricsRecorder metricsRecorder;
 
     public PlayerGameStateService(
             PlayerGameStateStore repository,
@@ -52,17 +53,31 @@ public final class PlayerGameStateService implements IPlayerGameStateService, ID
             JacksonCacheCodec<PlayerGameState> codec,
             ObjectMapper objectMapper
     ) {
+        this(repository, cache, codec, objectMapper, InfrastructureMetricsRecorder.defaultRecorder());
+    }
+
+    public PlayerGameStateService(
+            PlayerGameStateStore repository,
+            SemanticCache cache,
+            JacksonCacheCodec<PlayerGameState> codec,
+            ObjectMapper objectMapper,
+            InfrastructureMetricsRecorder metricsRecorder
+    ) {
         this.repository = repository;
         this.cache = cache;
         this.codec = codec;
         this.objectMapper = objectMapper;
+        this.metricsRecorder = metricsRecorder;
     }
 
     public Optional<PlayerGameState> readCached(UUID playerId) {
+        long startedAtNanos = System.nanoTime();
         try {
             Optional<ICacheValue<PlayerGameState>> cached = cache.get(CacheKeyFactory.playerGameStateKey(playerId.toString()), codec);
+            metricsRecorder.recordGameStateCacheRead(cached.isPresent(), true, System.nanoTime() - startedAtNanos);
             return cached.map(ICacheValue::getValue);
         } catch (Exception ex) {
+            metricsRecorder.recordGameStateCacheRead(false, false, System.nanoTime() - startedAtNanos);
             LOGGER.warning(() -> "Player game-state cache read failed for " + playerId + ". Falling back to persistence. " + ex.getMessage());
             return Optional.empty();
         }
@@ -76,7 +91,7 @@ public final class PlayerGameStateService implements IPlayerGameStateService, ID
         }
 
         try {
-            Optional<PlayerGameState> existing = repository.findByProfileId(profileId);
+            Optional<PlayerGameState> existing = findByProfileId(profileId);
             if (existing.isPresent()) {
                 LOGGER.info(() -> "Player game state repository hit for profile " + profileId + ".");
             } else {
@@ -106,16 +121,19 @@ public final class PlayerGameStateService implements IPlayerGameStateService, ID
     public PlayerGameState persistState(PlayerGameState state, Instant now) {
         try {
             PlayerGameState prepared = withMetadata(state);
-            return repository.upsert(prepared, now);
+            return upsertGameState(prepared, now);
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to persist player game state", ex);
         }
     }
 
     public void cacheState(UUID playerId, PlayerGameState state) {
+        long startedAtNanos = System.nanoTime();
         try {
             cache.put(CacheKeyFactory.playerGameStateKey(playerId.toString()), state, STATE_TTL, codec);
+            metricsRecorder.recordCacheWrite(true, System.nanoTime() - startedAtNanos);
         } catch (Exception ex) {
+            metricsRecorder.recordCacheWrite(false, System.nanoTime() - startedAtNanos);
             LOGGER.warning(() -> "Player game-state cache write failed for " + playerId + ". " + ex.getMessage());
         }
     }
@@ -318,6 +336,30 @@ public final class PlayerGameStateService implements IPlayerGameStateService, ID
             return state.castleAssetType();
         }
         return DEFAULT_CASTLE_ASSET_TYPE;
+    }
+
+    private Optional<PlayerGameState> findByProfileId(long profileId) throws Exception {
+        long startedAtNanos = System.nanoTime();
+        try {
+            Optional<PlayerGameState> existing = repository.findByProfileId(profileId);
+            metricsRecorder.recordGameStateStoreRead(true, System.nanoTime() - startedAtNanos);
+            return existing;
+        } catch (Exception ex) {
+            metricsRecorder.recordGameStateStoreRead(false, System.nanoTime() - startedAtNanos);
+            throw ex;
+        }
+    }
+
+    private PlayerGameState upsertGameState(PlayerGameState state, Instant now) throws Exception {
+        long startedAtNanos = System.nanoTime();
+        try {
+            PlayerGameState updated = repository.upsert(state, now);
+            metricsRecorder.recordGameStateSave(true, System.nanoTime() - startedAtNanos);
+            return updated;
+        } catch (Exception ex) {
+            metricsRecorder.recordGameStateSave(false, System.nanoTime() - startedAtNanos);
+            throw ex;
+        }
     }
 
     @Override

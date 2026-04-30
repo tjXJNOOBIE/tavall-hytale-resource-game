@@ -26,19 +26,33 @@ public final class PlayerProfileService implements IPlayerProfileService, IDepen
     private final PlayerProfileStore repository;
     private final SemanticCache cache;
     private final JacksonCacheCodec<PlayerProfile> codec;
+    private final InfrastructureMetricsRecorder metricsRecorder;
 
     public PlayerProfileService(PlayerProfileStore repository, SemanticCache cache, JacksonCacheCodec<PlayerProfile> codec) {
+        this(repository, cache, codec, InfrastructureMetricsRecorder.defaultRecorder());
+    }
+
+    public PlayerProfileService(
+            PlayerProfileStore repository,
+            SemanticCache cache,
+            JacksonCacheCodec<PlayerProfile> codec,
+            InfrastructureMetricsRecorder metricsRecorder
+    ) {
         this.repository = repository;
         this.cache = cache;
         this.codec = codec;
+        this.metricsRecorder = metricsRecorder;
     }
 
     public Optional<PlayerProfile> readCached(UUID playerId) {
         SemanticCacheKey key = CacheKeyFactory.playerProfileKey(playerId.toString());
+        long startedAtNanos = System.nanoTime();
         try {
             Optional<ICacheValue<PlayerProfile>> cached = cache.get(key, codec);
+            metricsRecorder.recordProfileCacheRead(cached.isPresent(), true, System.nanoTime() - startedAtNanos);
             return cached.map(ICacheValue::getValue);
         } catch (Exception ex) {
+            metricsRecorder.recordProfileCacheRead(false, false, System.nanoTime() - startedAtNanos);
             LOGGER.warning(() -> "Player profile cache read failed for " + playerId + ". Falling back to persistence. " + ex.getMessage());
             return Optional.empty();
         }
@@ -52,20 +66,20 @@ public final class PlayerProfileService implements IPlayerProfileService, IDepen
         }
 
         try {
-            Optional<PlayerProfile> existing = repository.findByUuid(playerId);
+            Optional<PlayerProfile> existing = findByUuid(playerId);
             if (existing.isPresent()) {
                 LOGGER.info(() -> "Player profile repository hit for " + playerId + ".");
             } else {
                 LOGGER.info(() -> "Creating new player profile for " + playerId + ".");
             }
-            PlayerProfile profile = existing.orElseGet(() -> {
+            if (existing.isEmpty()) {
                 try {
-                    return repository.upsert(playerId, name, timezone, ipHash, now);
+                    upsertProfile(playerId, name, timezone, ipHash, now);
                 } catch (Exception ex) {
                     throw new IllegalStateException("Failed to create player profile", ex);
                 }
-            });
-            PlayerProfile refreshed = repository.upsert(playerId, name, timezone, ipHash, now);
+            }
+            PlayerProfile refreshed = upsertProfile(playerId, name, timezone, ipHash, now);
             cacheProfile(playerId, refreshed);
             return refreshed;
         } catch (Exception ex) {
@@ -75,7 +89,7 @@ public final class PlayerProfileService implements IPlayerProfileService, IDepen
 
     public void persist(PlayerProfile profile, Instant now) {
         try {
-            PlayerProfile refreshed = repository.upsert(profile.uuid(), profile.name(), profile.timezone(), profile.ipHash(), now);
+            PlayerProfile refreshed = upsertProfile(profile.uuid(), profile.name(), profile.timezone(), profile.ipHash(), now);
             cacheProfile(profile.uuid(), refreshed);
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to persist profile", ex);
@@ -83,10 +97,37 @@ public final class PlayerProfileService implements IPlayerProfileService, IDepen
     }
 
     private void cacheProfile(UUID playerId, PlayerProfile profile) {
+        long startedAtNanos = System.nanoTime();
         try {
             cache.put(CacheKeyFactory.playerProfileKey(playerId.toString()), profile, PROFILE_TTL, codec);
+            metricsRecorder.recordCacheWrite(true, System.nanoTime() - startedAtNanos);
         } catch (Exception ex) {
+            metricsRecorder.recordCacheWrite(false, System.nanoTime() - startedAtNanos);
             LOGGER.warning(() -> "Player profile cache write failed for " + playerId + ". " + ex.getMessage());
+        }
+    }
+
+    private Optional<PlayerProfile> findByUuid(UUID playerId) throws Exception {
+        long startedAtNanos = System.nanoTime();
+        try {
+            Optional<PlayerProfile> existing = repository.findByUuid(playerId);
+            metricsRecorder.recordProfileStoreRead(true, System.nanoTime() - startedAtNanos);
+            return existing;
+        } catch (Exception ex) {
+            metricsRecorder.recordProfileStoreRead(false, System.nanoTime() - startedAtNanos);
+            throw ex;
+        }
+    }
+
+    private PlayerProfile upsertProfile(UUID playerId, String name, String timezone, String ipHash, Instant now) throws Exception {
+        long startedAtNanos = System.nanoTime();
+        try {
+            PlayerProfile profile = repository.upsert(playerId, name, timezone, ipHash, now);
+            metricsRecorder.recordProfileSave(true, System.nanoTime() - startedAtNanos);
+            return profile;
+        } catch (Exception ex) {
+            metricsRecorder.recordProfileSave(false, System.nanoTime() - startedAtNanos);
+            throw ex;
         }
     }
 }

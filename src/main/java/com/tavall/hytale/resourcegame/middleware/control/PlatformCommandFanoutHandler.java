@@ -9,20 +9,28 @@ import java.util.Map;
 public final class PlatformCommandFanoutHandler {
     private final Map<GamePlatform, PlatformFrontendAdapter> adaptersByPlatform;
     private final PlatformFanoutTargetResolver targetResolver;
+    private final java.util.Optional<ControlPlatformFanoutRetryHandler> retryHandler;
 
     public PlatformCommandFanoutHandler(List<PlatformFrontendAdapter> platformAdapters, PlatformFanoutTargetResolver targetResolver) {
+        this(platformAdapters, targetResolver, null);
+    }
+
+    public PlatformCommandFanoutHandler(List<PlatformFrontendAdapter> platformAdapters, PlatformFanoutTargetResolver targetResolver, ControlPlatformFanoutRetryHandler retryHandler) {
         EnumMap<GamePlatform, PlatformFrontendAdapter> adapters = new EnumMap<>(GamePlatform.class);
         for (PlatformFrontendAdapter adapter : platformAdapters) {
             adapters.put(adapter.getPlatform(), adapter);
         }
         this.adaptersByPlatform = Map.copyOf(adapters);
         this.targetResolver = targetResolver;
+        this.retryHandler = java.util.Optional.ofNullable(retryHandler);
     }
 
     public List<PlatformCommandResult> fanoutCommand(ControlCommand command, List<String> changedObjectIds) {
-        return targetResolver.resolveTargets(command, adaptersByPlatform).stream()
+        List<PlatformCommandResult> platformResults = targetResolver.resolveTargets(command, adaptersByPlatform).stream()
                 .map(adapter -> fanoutToAdapter(adapter, command, changedObjectIds))
                 .toList();
+        retryHandler.ifPresent(handler -> handler.recordFailedFanout(command, changedObjectIds, platformResults, java.time.Instant.now()));
+        return platformResults;
     }
 
     public List<PlatformConnectionStatus> platformStatuses() {

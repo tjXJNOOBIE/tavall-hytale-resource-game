@@ -20,6 +20,8 @@ Persist core player identity and gameplay state through in-memory session state,
 - `PlayerGameStateRepository`
 - `SemanticCacheFactory`
 - `JacksonCacheCodec`
+- `InfrastructureHealthService`
+- `InfrastructureMetricsRecorder`
 
 ## Data shape
 - `player_profile` stores identity and timing basics.
@@ -29,9 +31,12 @@ Persist core player identity and gameplay state through in-memory session state,
 ## Read/write path
 - Active gameplay uses in-memory session state.
 - Cache lookups occur before repository reads.
+- `InfrastructureMetricsRecorder` tracks profile/game-state cache hit rates, cache write failures, store-read latency, and save latency.
 - Async persistence is used for post-mutation durability.
 - Rehydration reconstructs population metadata and onboarding state from JSON.
 - Reachable Postgres runtimes self-apply the packaged schema before the JDBC stores are activated.
+- JDBC repositories open fresh Postgres connections per operation, so active Postgres stores recover on the next operation after a transient connection loss.
+- `InfrastructureHealthService` probes Redis and Postgres with short timeouts and exposes health plus metrics snapshots for debug/control surfaces.
 - When Redis/Postgres are configured locally through SSH tunnels, the repo restart scripts verify those tunnel endpoints before boot.
 
 ## Links to other systems

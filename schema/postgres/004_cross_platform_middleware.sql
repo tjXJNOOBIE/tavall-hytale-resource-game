@@ -305,7 +305,8 @@ CREATE TABLE IF NOT EXISTS control_command_audit_log (
     audit_log_id UUID PRIMARY KEY,
     command_id UUID NOT NULL,
     command_type TEXT NOT NULL,
-    issued_by UUID NOT NULL,
+    issued_by TEXT NOT NULL,
+    operator_role TEXT NOT NULL DEFAULT 'OPERATOR',
     issued_from TEXT NOT NULL,
     target_scope TEXT NOT NULL,
     target_platforms_json JSONB NOT NULL DEFAULT '[]'::jsonb,
@@ -322,13 +323,39 @@ CREATE TABLE IF NOT EXISTS control_command_audit_log (
 CREATE TABLE IF NOT EXISTS control_platform_fanout_result (
     fanout_result_id UUID PRIMARY KEY,
     command_id UUID NOT NULL,
+    command_type TEXT NOT NULL,
     platform TEXT NOT NULL,
     success BOOLEAN NOT NULL,
     message TEXT NOT NULL,
     frontend_event_ids_json JSONB NOT NULL DEFAULT '[]'::jsonb,
     projection_ids_json JSONB NOT NULL DEFAULT '[]'::jsonb,
+    changed_object_ids_json JSONB NOT NULL DEFAULT '[]'::jsonb,
+    retry_state TEXT NOT NULL DEFAULT 'PENDING',
+    attempt_count INTEGER NOT NULL DEFAULT 0,
+    max_attempts INTEGER NOT NULL DEFAULT 5,
+    next_attempt_at TIMESTAMPTZ,
+    last_attempt_at TIMESTAMPTZ,
     metadata_json JSONB NOT NULL DEFAULT '{}'::jsonb,
-    created_at TIMESTAMPTZ NOT NULL
+    created_at TIMESTAMPTZ NOT NULL,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS control_command_schedule (
+    schedule_id UUID PRIMARY KEY,
+    command_id UUID NOT NULL,
+    command_type TEXT NOT NULL,
+    issued_by TEXT NOT NULL,
+    operator_role TEXT NOT NULL DEFAULT 'OPERATOR',
+    issued_from TEXT NOT NULL,
+    target_scope TEXT NOT NULL,
+    target_platforms_json JSONB NOT NULL DEFAULT '[]'::jsonb,
+    arguments_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+    dry_run BOOLEAN NOT NULL DEFAULT FALSE,
+    run_at TIMESTAMPTZ NOT NULL,
+    state TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL,
+    dispatched_at TIMESTAMPTZ,
+    metadata_json JSONB NOT NULL DEFAULT '{}'::jsonb
 );
 
 CREATE INDEX IF NOT EXISTS universal_player_account_email_idx ON universal_player_account (primary_email);
@@ -369,3 +396,6 @@ CREATE INDEX IF NOT EXISTS control_command_audit_created_idx ON control_command_
 CREATE INDEX IF NOT EXISTS control_command_audit_success_idx ON control_command_audit_log (success);
 CREATE INDEX IF NOT EXISTS control_platform_fanout_command_idx ON control_platform_fanout_result (command_id);
 CREATE INDEX IF NOT EXISTS control_platform_fanout_platform_idx ON control_platform_fanout_result (platform);
+CREATE INDEX IF NOT EXISTS control_platform_fanout_retry_idx ON control_platform_fanout_result (retry_state, next_attempt_at) WHERE retry_state IN ('PENDING', 'RETRYING');
+CREATE INDEX IF NOT EXISTS control_command_schedule_due_idx ON control_command_schedule (state, run_at) WHERE state = 'PENDING';
+CREATE INDEX IF NOT EXISTS control_command_schedule_command_idx ON control_command_schedule (command_id);

@@ -5,6 +5,7 @@ import com.tavall.hytale.resourcegame.config.DatabaseConfig;
 import com.tavall.hytale.resourcegame.dependency.IDependencyInjectableConcrete;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInfrastructureHealthService;
 import com.tavall.hytale.resourcegame.domain.InfrastructureHealthSnapshot;
+import com.tavall.hytale.resourcegame.domain.InfrastructureMetricsSnapshot;
 import redis.clients.jedis.JedisPooled;
 
 import java.sql.Connection;
@@ -25,10 +26,20 @@ public final class InfrastructureHealthService implements IInfrastructureHealthS
 
     private final CacheConfig cacheConfig;
     private final DatabaseConfig databaseConfig;
+    private final InfrastructureMetricsRecorder metricsRecorder;
 
     public InfrastructureHealthService(CacheConfig cacheConfig, DatabaseConfig databaseConfig) {
+        this(cacheConfig, databaseConfig, InfrastructureMetricsRecorder.defaultRecorder());
+    }
+
+    public InfrastructureHealthService(
+            CacheConfig cacheConfig,
+            DatabaseConfig databaseConfig,
+            InfrastructureMetricsRecorder metricsRecorder
+    ) {
         this.cacheConfig = Objects.requireNonNull(cacheConfig, "cacheConfig");
         this.databaseConfig = Objects.requireNonNull(databaseConfig, "databaseConfig");
+        this.metricsRecorder = Objects.requireNonNull(metricsRecorder, "metricsRecorder");
     }
 
     @Override
@@ -41,6 +52,11 @@ public final class InfrastructureHealthService implements IInfrastructureHealthS
                 postgresConfigured,
                 postgresConfigured && probePostgres()
         );
+    }
+
+    @Override
+    public InfrastructureMetricsSnapshot metricsSnapshot() {
+        return metricsRecorder.snapshot();
     }
 
     private boolean probeRedis() {

@@ -27,6 +27,7 @@
 ## Persistence
 - PlayerProfileRepository and PlayerGameStateRepository use explicit Postgres tables.
 - Semantic cache (hot memory + Redis) is used for read-through caching.
+- InfrastructureHealthService probes Redis/Postgres, and InfrastructureMetricsRecorder tracks cache hit rates plus repository save latency.
 - AsyncTask is used for all persistence writes off the main thread.
 
 ## Cross-Platform Middleware
@@ -41,8 +42,10 @@
 - The middleware/control server now has a shared `ControlCommandDispatchHandler` pipeline for CLI and Spring MVC control-panel inputs.
 - CLI commands, web-panel forms, and future API inputs parse once into `ControlCommand`, validate permissions/dry-run policy, mutate only canonical middleware state, and then fan out projection refresh/control events to Minecraft, Hytale, Roblox, and Discord adapters.
 - Control operators use explicit roles and permissions; high-risk commands require ADMIN, OWNER, or SYSTEM policy hooks, and all accepted/rejected/dry-run commands are audit logged with sensitive arguments redacted.
-- Platform fanout is adapter-based and idempotent around command IDs; offline platform failures produce partial command results without rolling back canonical middleware state.
+- Platform fanout is adapter-based and idempotent around command IDs; offline platform failures produce partial command results without rolling back canonical middleware state, and failed targets are captured as retry records.
 - The Spring Boot panel under `controlserver/web` is an admin/control surface only; controllers stay thin and route command submissions through `WebControlPanelCommandHandler` into the shared dispatcher.
+- Control command results, audit logs, operators, fanout retry records, and scheduled commands have in-memory and Postgres-backed repository ports; scheduled commands dispatch through the same canonical pipeline.
+- Compensation handling currently produces explicit decisions for partial/failed commands so operators can distinguish platform retry work from gameplay compensation.
 
 ## Troop Healing
 - Troop healing is middleware-first under `middleware/healing`; frontends only consume `TroopHealingProjection` and submit action IDs back to handlers.

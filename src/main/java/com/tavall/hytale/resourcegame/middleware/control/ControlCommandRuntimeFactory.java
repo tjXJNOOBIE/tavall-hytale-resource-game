@@ -36,6 +36,8 @@ public final class ControlCommandRuntimeFactory {
         InMemoryControlCommandAuditLogRepository auditLogRepository = new InMemoryControlCommandAuditLogRepository();
         InMemoryControlCommandResultRepository resultRepository = new InMemoryControlCommandResultRepository();
         InMemoryControlOperatorRepository operatorRepository = new InMemoryControlOperatorRepository();
+        InMemoryControlPlatformFanoutRetryRepository fanoutRetryRepository = new InMemoryControlPlatformFanoutRetryRepository();
+        InMemoryScheduledControlCommandRepository scheduledCommandRepository = new InMemoryScheduledControlCommandRepository();
         operatorRepository.saveOperator(ControlOperator.localOwner(now));
         operatorRepository.saveOperator(ControlOperator.system(now));
 
@@ -66,12 +68,13 @@ public final class ControlCommandRuntimeFactory {
                 healingStartHandler,
                 progressTickHandler
         );
+        ControlPlatformFanoutRetryHandler fanoutRetryHandler = new ControlPlatformFanoutRetryHandler(fanoutRetryRepository);
         PlatformCommandFanoutHandler fanoutHandler = new PlatformCommandFanoutHandler(List.of(
                 new InMemoryPlatformFrontendAdapter(GamePlatform.MINECRAFT, true),
                 new InMemoryPlatformFrontendAdapter(GamePlatform.HYTALE, true),
                 new InMemoryPlatformFrontendAdapter(GamePlatform.ROBLOX, true),
                 new InMemoryPlatformFrontendAdapter(GamePlatform.DISCORD, true)
-        ), new PlatformFanoutTargetResolver());
+        ), new PlatformFanoutTargetResolver(), fanoutRetryHandler);
         ControlCommandResultHandler resultHandler = new ControlCommandResultHandler(resultRepository);
         ControlCommandAuditLogHandler auditLogHandler = new ControlCommandAuditLogHandler(auditLogRepository, new ControlCommandSerializer());
         ControlCommandDispatchHandler dispatchHandler = new ControlCommandDispatchHandler(
@@ -92,6 +95,10 @@ public final class ControlCommandRuntimeFactory {
                 auditLogRepository,
                 resultRepository,
                 operatorRepository,
+                fanoutRetryRepository,
+                scheduledCommandRepository,
+                new ControlCommandSchedulingHandler(scheduledCommandRepository, dispatchHandler),
+                new ControlCommandCompensationHandler(),
                 identityRepository,
                 identityRepository,
                 assetRepository,

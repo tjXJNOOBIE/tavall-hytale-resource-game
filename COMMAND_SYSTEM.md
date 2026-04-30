@@ -94,4 +94,6 @@ Provide a development-first admin and debug surface that accelerates gameplay it
   - `broadcast "message"`
 - Dry-run commands validate permissions and arguments and calculate intended object/platform effects without mutating middleware state or sending platform fanout.
 - Command results and audit logs are repository-backed; the current runtime uses in-memory repositories for tests/local control-server boot and `004_cross_platform_middleware.sql` defines the Postgres table shape for production adapters.
+- Postgres-backed repositories now exist for control command results, audit logs, operators, platform fanout retry records, and scheduled commands.
+- Failed platform fanout creates retry records instead of silently disappearing; scheduled commands dispatch through the same `ControlCommandDispatchHandler` as CLI and web input.
 - Minecraft and Hytale verification should start from the shared control pipeline, then use platform debug/projection hooks to observe wound/healing projection changes. Roblox and Discord are verified through in-memory fanout/projection adapters until live runtimes are wired.

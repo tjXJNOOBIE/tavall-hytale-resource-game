@@ -19,6 +19,7 @@ Keep object wiring and fast state access aligned with Tavall patterns used elsew
 - `JacksonCacheCodec` handles strongly typed serialization.
 - Player profile and game state both use semantic cache keys and TTLs.
 - Redis is the fast-access layer when configured.
+- `InfrastructureMetricsRecorder` records cache hit/miss rates, cache write failures, repository read latency, and save latency without introducing a separate metrics backend.
 
 ## Current enforcement
 - New services in this repo should be added through `ResourceGameDependencyModule` and registered on interfaces where appropriate.
