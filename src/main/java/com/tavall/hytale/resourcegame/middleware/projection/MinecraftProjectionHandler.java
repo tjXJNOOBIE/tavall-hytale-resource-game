@@ -5,6 +5,10 @@ import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildKingdom;
 import com.tavall.hytale.resourcegame.middleware.node.ResourceNode;
 import com.tavall.hytale.resourcegame.middleware.petition.Petition;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendActionCatalog;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendActionDescriptor;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendObjectKind;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
 
 import java.util.List;
 import java.util.Map;
@@ -13,28 +17,45 @@ import java.util.Set;
 
 public final class MinecraftProjectionHandler {
     private final FrontendProjectionHandler frontendProjectionHandler;
+    private final ResourceGameFrontendActionCatalog actionCatalog;
 
     public MinecraftProjectionHandler(FrontendProjectionHandler frontendProjectionHandler) {
         this.frontendProjectionHandler = frontendProjectionHandler;
+        this.actionCatalog = new ResourceGameFrontendActionCatalog();
     }
 
     public FrontendProjection projectCastleForMinecraftClient(Castle castle) {
-        return frontendProjectionHandler.projectCastle(castle, GamePlatform.MINECRAFT, List.of(action("kingdom.castle.info", "Castle", PlatformInteractionType.MINECRAFT_COMMAND)));
+        return frontendProjectionHandler.projectCastle(castle, GamePlatform.MINECRAFT, actionsFor(ResourceGameFrontendObjectKind.CASTLE));
     }
 
     public FrontendProjection projectResourceNodeForMinecraftClient(ResourceNode node) {
-        return frontendProjectionHandler.projectResourceNode(node, GamePlatform.MINECRAFT, List.of(action("kingdom.node.collect", "Collect", PlatformInteractionType.MINECRAFT_ENTITY_INTERACT)));
+        return frontendProjectionHandler.projectResourceNode(node, GamePlatform.MINECRAFT, actionsFor(ResourceGameFrontendObjectKind.RESOURCE_NODE));
     }
 
     public FrontendProjection projectGuildForMinecraftClient(GuildKingdom guildKingdom) {
-        return frontendProjectionHandler.projectGuildSummary(guildKingdom, GamePlatform.MINECRAFT, List.of(action("kingdom.info", "Info", PlatformInteractionType.MINECRAFT_COMMAND)));
+        return frontendProjectionHandler.projectGuildSummary(guildKingdom, GamePlatform.MINECRAFT, actionsFor(ResourceGameFrontendObjectKind.GUILD));
     }
 
     public FrontendProjection projectPetitionForMinecraftClient(Petition petition) {
-        return frontendProjectionHandler.projectPetition(petition, GamePlatform.MINECRAFT, List.of(action("kingdom.petition.fund", "Fund", PlatformInteractionType.MINECRAFT_COMMAND)));
+        return frontendProjectionHandler.projectPetition(petition, GamePlatform.MINECRAFT, actionsFor(ResourceGameFrontendObjectKind.PETITION));
     }
 
-    private InteractionAction action(String id, String label, PlatformInteractionType type) {
-        return new InteractionAction(id, label, Optional.empty(), Set.of(), true, Optional.empty(), type, Map.of());
+    private List<InteractionAction> actionsFor(ResourceGameFrontendObjectKind objectKind) {
+        return actionCatalog.actionsFor(ResourceGameFrontendPlatform.MINECRAFT, objectKind).stream()
+                .map(this::action)
+                .toList();
+    }
+
+    private InteractionAction action(ResourceGameFrontendActionDescriptor descriptor) {
+        return new InteractionAction(
+                descriptor.actionId(),
+                descriptor.label(),
+                Optional.empty(),
+                Set.of(),
+                true,
+                Optional.empty(),
+                PlatformInteractionType.valueOf(descriptor.interactionType()),
+                Map.of()
+        );
     }
 }

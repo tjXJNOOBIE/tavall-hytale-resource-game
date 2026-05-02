@@ -5,6 +5,10 @@ import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildKingdom;
 import com.tavall.hytale.resourcegame.middleware.node.ResourceNode;
 import com.tavall.hytale.resourcegame.middleware.petition.Petition;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendActionCatalog;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendActionDescriptor;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendObjectKind;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
 
 import java.util.List;
 import java.util.Map;
@@ -13,28 +17,45 @@ import java.util.Set;
 
 public final class RobloxProjectionHandler {
     private final FrontendProjectionHandler frontendProjectionHandler;
+    private final ResourceGameFrontendActionCatalog actionCatalog;
 
     public RobloxProjectionHandler(FrontendProjectionHandler frontendProjectionHandler) {
         this.frontendProjectionHandler = frontendProjectionHandler;
+        this.actionCatalog = new ResourceGameFrontendActionCatalog();
     }
 
     public FrontendProjection projectCastleForRobloxClient(Castle castle) {
-        return frontendProjectionHandler.projectCastle(castle, GamePlatform.ROBLOX, List.of(action("roblox.castle.prompt", "Castle", PlatformInteractionType.ROBLOX_PROXIMITY_PROMPT)));
+        return frontendProjectionHandler.projectCastle(castle, GamePlatform.ROBLOX, actionsFor(ResourceGameFrontendObjectKind.CASTLE));
     }
 
     public FrontendProjection projectResourceNodeForRobloxClient(ResourceNode node) {
-        return frontendProjectionHandler.projectResourceNode(node, GamePlatform.ROBLOX, List.of(action("roblox.node.remote_event", "Node", PlatformInteractionType.ROBLOX_REMOTE_EVENT)));
+        return frontendProjectionHandler.projectResourceNode(node, GamePlatform.ROBLOX, actionsFor(ResourceGameFrontendObjectKind.RESOURCE_NODE));
     }
 
     public FrontendProjection projectGuildForRobloxClient(GuildKingdom guildKingdom) {
-        return frontendProjectionHandler.projectGuildSummary(guildKingdom, GamePlatform.ROBLOX, List.of(action("roblox.guild.gui", "Guild", PlatformInteractionType.ROBLOX_GUI_ACTION)));
+        return frontendProjectionHandler.projectGuildSummary(guildKingdom, GamePlatform.ROBLOX, actionsFor(ResourceGameFrontendObjectKind.GUILD));
     }
 
     public FrontendProjection projectPetitionForRobloxClient(Petition petition) {
-        return frontendProjectionHandler.projectPetition(petition, GamePlatform.ROBLOX, List.of(action("roblox.petition.gui", "Petition", PlatformInteractionType.ROBLOX_GUI_ACTION)));
+        return frontendProjectionHandler.projectPetition(petition, GamePlatform.ROBLOX, actionsFor(ResourceGameFrontendObjectKind.PETITION));
     }
 
-    private InteractionAction action(String id, String label, PlatformInteractionType type) {
-        return new InteractionAction(id, label, Optional.empty(), Set.of(), true, Optional.empty(), type, Map.of());
+    private List<InteractionAction> actionsFor(ResourceGameFrontendObjectKind objectKind) {
+        return actionCatalog.actionsFor(ResourceGameFrontendPlatform.ROBLOX, objectKind).stream()
+                .map(this::action)
+                .toList();
+    }
+
+    private InteractionAction action(ResourceGameFrontendActionDescriptor descriptor) {
+        return new InteractionAction(
+                descriptor.actionId(),
+                descriptor.label(),
+                Optional.empty(),
+                Set.of(),
+                true,
+                Optional.empty(),
+                PlatformInteractionType.valueOf(descriptor.interactionType()),
+                Map.of()
+        );
     }
 }

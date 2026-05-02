@@ -24,11 +24,13 @@ The existing `tavall-hytale-resource-game` module remains the current control-se
 - Platform asset references map back to canonical global asset IDs.
 - Android and PC app modules are future shells, not canonical state owners.
 - Java frontend modules must depend on `tavall-resource-game-shared-contracts` for adapter descriptors instead of redefining platform ownership rules.
+- Platform action IDs and interaction-type names belong in the shared action catalog before canonical projection handlers consume them.
 
 ## Migration Path
 
 1. Keep current Hytale plugin code running in `tavall-hytale-resource-game`.
 2. Keep shared adapter contracts in `tavall-resource-game-shared-contracts`.
-3. Move Hytale-only command/UI/rendering classes into `tavall-resource-game-hytale-frontend` once active UI work is clean.
-4. Extract middleware/control-server code into a dedicated control module when the frontend module boundaries are stable.
-5. Keep Minecraft, Roblox, Discord, Android, and PC app modules consuming shared DTOs/projections only.
+3. Move additional platform action catalogs and projection DTO contracts into `tavall-resource-game-shared-contracts`.
+4. Move Hytale-only command/UI/rendering classes into `tavall-resource-game-hytale-frontend` once active UI work is clean.
+5. Extract middleware/control-server code into a dedicated control module when the frontend module boundaries are stable.
+6. Keep Minecraft, Roblox, Discord, Android, and PC app modules consuming shared DTOs/projections only.

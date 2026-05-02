@@ -30,4 +30,4 @@ These modules live under the current `tavall-hytale-resource-game` folder and ar
 
 The existing root `tavall-hytale-resource-game` module remains the current middleware/control-server and Hytale plugin home until Hytale-specific runtime code can be moved safely. Canonical gameplay state stays in the Java control server; frontend modules consume projections and dispatch command/input events back to middleware.
 
-The `tavall-resource-game-shared-contracts` module is the first extraction boundary. Java platform modules depend on it for frontend adapter descriptors, and future projection/command DTOs should move there before platform-specific adapters consume them.
+The `tavall-resource-game-shared-contracts` module is the first extraction boundary. Java platform modules depend on it for frontend adapter descriptors, platform action descriptors, and shared action catalogs. Future projection/command DTOs should move there before platform-specific adapters consume them.
