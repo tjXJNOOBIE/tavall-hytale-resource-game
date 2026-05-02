@@ -9,7 +9,7 @@ public final class RobloxFrontendModule {
             "tavall-resource-game-roblox-frontend",
             ResourceGameFrontendPlatform.ROBLOX,
             ResourceGameFrontendRuntime.ROBLOX_LUAU,
-            "ControlCommandDispatchHandler",
+            "FrontendCommandIngressHandler",
             false
     );
 

@@ -9,7 +9,7 @@ public final class HytaleFrontendModule {
             "tavall-resource-game-hytale-frontend",
             ResourceGameFrontendPlatform.HYTALE,
             ResourceGameFrontendRuntime.HYTALE_NATIVE_JAVA,
-            "ControlCommandDispatchHandler",
+            "FrontendCommandIngressHandler",
             false
     );
 

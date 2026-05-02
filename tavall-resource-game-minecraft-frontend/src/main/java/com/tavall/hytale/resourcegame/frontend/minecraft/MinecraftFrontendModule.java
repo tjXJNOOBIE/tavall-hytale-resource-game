@@ -9,7 +9,7 @@ public final class MinecraftFrontendModule {
             "tavall-resource-game-minecraft-frontend",
             ResourceGameFrontendPlatform.MINECRAFT,
             ResourceGameFrontendRuntime.MINECRAFT_JAVA_PLUGIN,
-            "ControlCommandDispatchHandler",
+            "FrontendCommandIngressHandler",
             false
     );
 

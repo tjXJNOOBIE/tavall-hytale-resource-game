@@ -9,7 +9,7 @@ public final class DiscordFrontendModule {
             "tavall-resource-game-discord-frontend",
             ResourceGameFrontendPlatform.DISCORD,
             ResourceGameFrontendRuntime.DISCORD_JAVA_BOT,
-            "ControlCommandDispatchHandler",
+            "FrontendCommandIngressHandler",
             false
     );
 
