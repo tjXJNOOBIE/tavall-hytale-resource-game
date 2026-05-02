@@ -3,6 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.tavall</groupId>
+        <artifactId>tavall-java-hytale-games</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
     <groupId>com.tavall.hytale</groupId>
     <artifactId>tavall-hytale-resource-game</artifactId>
     <version>0.1.1-SNAPSHOT</version>
@@ -39,6 +46,46 @@
             <groupId>com.tavall</groupId>
             <artifactId>tavall-resource-game-shared-contracts</artifactId>
             <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-di</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-eventbus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-concurrency</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-scheduler</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-reflection</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tavall</groupId>
+            <artifactId>abstract-cache-semantic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tavall</groupId>
+            <artifactId>abstract-cache-storage-memory</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tavall</groupId>
+            <artifactId>abstract-cache-storage-postgres</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tavall</groupId>
+            <artifactId>abstract-cache-storage-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hypixel.hytale</groupId>
