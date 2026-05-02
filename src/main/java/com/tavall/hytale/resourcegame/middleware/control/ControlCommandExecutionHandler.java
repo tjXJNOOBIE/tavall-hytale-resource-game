@@ -93,6 +93,7 @@ public final class ControlCommandExecutionHandler {
                 case BROADCAST_PLATFORM_MESSAGE -> informational(command, startedAt, "Broadcast queued for platform fanout.", List.of());
                 case SYNC_PLATFORM_STATE -> informational(command, startedAt, "Platform sync requested.", List.of());
                 case DEBUG_TROOP_HEALING_STATE -> debugTroopHealingState(command, startedAt);
+                case VERIFY_FRONTEND_ACTION -> verifyFrontendAction(command, startedAt);
                 default -> rejected(command, startedAt, "Command type is registered but execution is not implemented yet: " + command.commandType() + ".");
             };
         } catch (RuntimeException exception) {
@@ -191,6 +192,16 @@ public final class ControlCommandExecutionHandler {
         wounds.forEach(wound -> changedObjectIds.add("wound:" + wound.woundId()));
         activePlan.ifPresent(plan -> changedObjectIds.add("healingPlan:" + plan.healingPlanId()));
         return informational(command, startedAt, message, changedObjectIds);
+    }
+
+    private ControlCommandResult verifyFrontendAction(ControlCommand command, Instant startedAt) {
+        String message = "Frontend action verified platform="
+                + command.argument("platform")
+                + " surface="
+                + command.argument("surface")
+                + " category="
+                + command.argument("category");
+        return informational(command, startedAt, message, List.of("frontend:" + command.argument("platform") + ":" + command.argument("category")));
     }
 
     private TroopHealingRecipe recipeForMode(HealingMode healingMode, WoundType woundType) {

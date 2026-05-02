@@ -77,6 +77,7 @@ public final class ControlCommandRuntimeFactory {
         ), new PlatformFanoutTargetResolver(), fanoutRetryHandler);
         ControlCommandResultHandler resultHandler = new ControlCommandResultHandler(resultRepository);
         ControlCommandAuditLogHandler auditLogHandler = new ControlCommandAuditLogHandler(auditLogRepository, new ControlCommandSerializer());
+        ControlCommandParsingHandler parsingHandler = new ControlCommandParsingHandler();
         ControlCommandDispatchHandler dispatchHandler = new ControlCommandDispatchHandler(
                 commandRegistry,
                 validationHandler,
@@ -86,10 +87,17 @@ public final class ControlCommandRuntimeFactory {
                 resultHandler,
                 auditLogHandler
         );
+        FrontendCommandIngressHandler frontendCommandIngressHandler = new FrontendCommandIngressHandler(
+                parsingHandler,
+                dispatchHandler,
+                new KdControlCommandTranslationHandler(),
+                ControlOperator.system(now)
+        );
 
         return new ControlCommandRuntime(
                 dispatchHandler,
-                new ControlCommandParsingHandler(),
+                frontendCommandIngressHandler,
+                parsingHandler,
                 commandRegistry,
                 fanoutHandler,
                 auditLogRepository,

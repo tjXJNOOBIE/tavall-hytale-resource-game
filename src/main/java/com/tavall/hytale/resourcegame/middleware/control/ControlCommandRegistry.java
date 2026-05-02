@@ -46,6 +46,11 @@ public final class ControlCommandRegistry {
                 arg("platform", false, "Optional platform or ALL")));
         register(definitions, definition(ControlCommandType.DEBUG_TROOP_HEALING_STATE, "Debug Troop Healing State", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.TROOP, true, false,
                 arg("troopId", true, "Troop ID")));
+        register(definitions, definition(ControlCommandType.VERIFY_FRONTEND_ACTION, "Verify Frontend Action", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.PLATFORM, true, false,
+                arg("platform", true, "Frontend platform"),
+                arg("surface", true, "Frontend surface"),
+                arg("category", true, "Platform command category"),
+                arg("input", true, "Raw command or action id")));
         this.definitionsByType = Map.copyOf(definitions);
     }
 

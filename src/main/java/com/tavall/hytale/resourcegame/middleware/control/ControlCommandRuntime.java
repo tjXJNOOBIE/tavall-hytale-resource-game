@@ -9,6 +9,7 @@ import com.tavall.hytale.resourcegame.middleware.troop.TroopRepository;
 
 public record ControlCommandRuntime(
         ControlCommandDispatchHandler dispatchHandler,
+        FrontendCommandIngressHandler frontendCommandIngressHandler,
         ControlCommandParsingHandler parsingHandler,
         ControlCommandRegistry commandRegistry,
         PlatformCommandFanoutHandler fanoutHandler,
