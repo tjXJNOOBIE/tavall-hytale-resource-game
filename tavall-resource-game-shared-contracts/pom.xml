@@ -10,24 +10,19 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>tavall-resource-game-discord-frontend</artifactId>
+    <artifactId>tavall-resource-game-shared-contracts</artifactId>
     <packaging>jar</packaging>
 
-    <name>Tavall Resource Game Discord Frontend</name>
-    <description>Discord bot/buttons adapter surface for the cross-platform resource game.</description>
+    <name>Tavall Resource Game Shared Contracts</name>
+    <description>Shared frontend adapter contracts for the cross-platform resource game.</description>
 
     <properties>
-        <maven.compiler.release>25</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.11.4</junit.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.tavall</groupId>
-            <artifactId>tavall-resource-game-shared-contracts</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

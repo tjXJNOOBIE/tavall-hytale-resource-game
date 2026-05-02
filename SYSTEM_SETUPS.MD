@@ -20,6 +20,7 @@ These modules live under the current `tavall-hytale-resource-game` folder and ar
 
 | Module | Platform | Runtime | State ownership |
 | --- | --- | --- | --- |
+| `tavall-resource-game-shared-contracts` | Shared | Java | Adapter/projection contracts only |
 | `tavall-resource-game-hytale-frontend` | Hytale | Java/Hytale-native | Adapter only |
 | `tavall-resource-game-minecraft-frontend` | Minecraft | Java plugin/native adapter | Adapter only |
 | `tavall-resource-game-roblox-frontend` | Roblox | Luau | Adapter only |
@@ -28,3 +29,5 @@ These modules live under the current `tavall-hytale-resource-game` folder and ar
 | `tavall-resource-game-pc-app` | PC app future | C# | Adapter/app shell only |
 
 The existing root `tavall-hytale-resource-game` module remains the current middleware/control-server and Hytale plugin home until Hytale-specific runtime code can be moved safely. Canonical gameplay state stays in the Java control server; frontend modules consume projections and dispatch command/input events back to middleware.
+
+The `tavall-resource-game-shared-contracts` module is the first extraction boundary. Java platform modules depend on it for frontend adapter descriptors, and future projection/command DTOs should move there before platform-specific adapters consume them.

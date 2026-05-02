@@ -1,23 +1,39 @@
 package com.tavall.hytale.resourcegame.frontend.minecraft;
 
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendModuleDescriptor;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendRuntime;
+
 public final class MinecraftFrontendModule {
+    private static final ResourceGameFrontendModuleDescriptor DESCRIPTOR = new ResourceGameFrontendModuleDescriptor(
+            "tavall-resource-game-minecraft-frontend",
+            ResourceGameFrontendPlatform.MINECRAFT,
+            ResourceGameFrontendRuntime.MINECRAFT_JAVA_PLUGIN,
+            "ControlCommandDispatchHandler",
+            false
+    );
+
+    public ResourceGameFrontendModuleDescriptor descriptor() {
+        return DESCRIPTOR;
+    }
+
     public String moduleName() {
-        return "tavall-resource-game-minecraft-frontend";
+        return DESCRIPTOR.moduleName();
     }
 
     public String platformKey() {
-        return "MINECRAFT";
+        return DESCRIPTOR.platformKey();
     }
 
     public String implementationLanguage() {
-        return "Java plugin/native adapter";
+        return DESCRIPTOR.runtime().name();
     }
 
     public boolean ownsCanonicalGameplayState() {
-        return false;
+        return DESCRIPTOR.ownsCanonicalGameplayState();
     }
 
     public String commandPipelineEntryPoint() {
-        return "ControlCommandDispatchHandler";
+        return DESCRIPTOR.commandPipelineEntryPoint();
     }
 }

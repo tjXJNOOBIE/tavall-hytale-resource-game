@@ -1,23 +1,39 @@
 package com.tavall.hytale.resourcegame.frontend.discord;
 
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendModuleDescriptor;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendRuntime;
+
 public final class DiscordFrontendModule {
+    private static final ResourceGameFrontendModuleDescriptor DESCRIPTOR = new ResourceGameFrontendModuleDescriptor(
+            "tavall-resource-game-discord-frontend",
+            ResourceGameFrontendPlatform.DISCORD,
+            ResourceGameFrontendRuntime.DISCORD_JAVA_BOT,
+            "ControlCommandDispatchHandler",
+            false
+    );
+
+    public ResourceGameFrontendModuleDescriptor descriptor() {
+        return DESCRIPTOR;
+    }
+
     public String moduleName() {
-        return "tavall-resource-game-discord-frontend";
+        return DESCRIPTOR.moduleName();
     }
 
     public String platformKey() {
-        return "DISCORD";
+        return DESCRIPTOR.platformKey();
     }
 
     public String implementationLanguage() {
-        return "Java bot/buttons";
+        return DESCRIPTOR.runtime().name();
     }
 
     public boolean ownsCanonicalGameplayState() {
-        return false;
+        return DESCRIPTOR.ownsCanonicalGameplayState();
     }
 
     public String commandPipelineEntryPoint() {
-        return "ControlCommandDispatchHandler";
+        return DESCRIPTOR.commandPipelineEntryPoint();
     }
 }
