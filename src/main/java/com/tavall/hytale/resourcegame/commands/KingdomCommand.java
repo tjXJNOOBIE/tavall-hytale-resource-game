@@ -17,6 +17,7 @@ import com.tavall.hytale.resourcegame.dependency.interfaces.ICastlePromptLaneSer
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleSiteVisualService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleSpawnService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IFocusedWorldOverrideService;
+import com.tavall.hytale.resourcegame.dependency.interfaces.IFrontendCommandVerificationService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInfrastructureHealthService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInteriorWorldService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IPlacementModeService;
@@ -37,12 +38,15 @@ import com.tavall.hytale.resourcegame.domain.UiNavigationContext;
 import com.tavall.hytale.resourcegame.resources.ResourceType;
 import com.tavall.hytale.resourcegame.services.CastleEconomySimulationService;
 import com.tavall.hytale.resourcegame.services.PlayerSession;
+import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationResult;
+import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationState;
 import com.tavall.hytale.resourcegame.tasks.AsyncTask;
 import com.tavall.hytale.resourcegame.ui.UiPageType;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.UUID;
@@ -78,6 +82,7 @@ public final class KingdomCommand extends AbstractAsyncCommand {
     private final KingdomPlacementCommandSupport placementCommandSupport;
     private final KingdomInteractionCommandSupport interactionCommandSupport;
     private final KingdomHologramCommandSupport hologramCommandSupport;
+    private final IFrontendCommandVerificationService frontendCommandVerificationService;
 
     public KingdomCommand(
             String name,
@@ -104,7 +109,8 @@ public final class KingdomCommand extends AbstractAsyncCommand {
             KingdomNodeCommandSupport nodeCommandSupport,
             KingdomPlacementCommandSupport placementCommandSupport,
             KingdomInteractionCommandSupport interactionCommandSupport,
-            KingdomHologramCommandSupport hologramCommandSupport
+            KingdomHologramCommandSupport hologramCommandSupport,
+            IFrontendCommandVerificationService frontendCommandVerificationService
     ) {
         super(name, "Kingdom debug command");
         this.sessionStore = sessionStore;
@@ -129,6 +135,7 @@ public final class KingdomCommand extends AbstractAsyncCommand {
         this.placementCommandSupport = placementCommandSupport;
         this.interactionCommandSupport = interactionCommandSupport;
         this.hologramCommandSupport = hologramCommandSupport;
+        this.frontendCommandVerificationService = frontendCommandVerificationService;
         addAliases("kd");
         setPermissionGroup(GameMode.Adventure);
         setAllowsExtraArguments(true);
@@ -145,12 +152,6 @@ public final class KingdomCommand extends AbstractAsyncCommand {
         Executor executor = resolveCommandExecutor(player);
         return playerDataService.ensureSession(player)
                 .thenCompose(ignored -> CompletableFuture.runAsync(() -> {
-                    if (tokens.isEmpty()) {
-                        sendHelp(context);
-                        return;
-                    }
-
-                    String root = tokens.getFirst().toLowerCase(Locale.ROOT);
                     PlayerSession session = sessionStore.get(player.getUuid());
                     if (session == null) {
                         LOGGER.at(Level.WARNING).log("Command %s rejected for %s because the session is not ready after bootstrap.", tokens, player.getDisplayName());
@@ -158,6 +159,15 @@ public final class KingdomCommand extends AbstractAsyncCommand {
                         return;
                     }
 
+                    if (!verifyWithControlPlane(context, player, tokens)) {
+                        return;
+                    }
+                    if (tokens.isEmpty()) {
+                        sendHelp(context);
+                        return;
+                    }
+
+                    String root = tokens.getFirst().toLowerCase(Locale.ROOT);
                     switch (root) {
                         case "ui" -> handleUi(context, player, tokens, session);
                         case "data" -> handleData(context, player, session);
@@ -200,6 +210,27 @@ public final class KingdomCommand extends AbstractAsyncCommand {
     @Override
     protected boolean canGeneratePermission() {
         return false;
+    }
+
+    private boolean verifyWithControlPlane(CommandContext context, Player player, List<String> tokens) {
+        FrontendCommandVerificationResult verificationResult = frontendCommandVerificationService.verifyHytaleKdCommand(
+                player.getUuid().toString(),
+                player.getDisplayName(),
+                tokens,
+                Map.of(
+                        "commandName", getName(),
+                        "surface", "command"
+                )
+        );
+        if (!verificationResult.success()) {
+            context.sendMessage(Message.raw("Control verification rejected command: " + verificationResult.message()).color("red"));
+            return false;
+        }
+        if (verificationResult.state() == FrontendCommandVerificationState.DISPATCHED) {
+            context.sendMessage(Message.raw("Control command dispatched: " + verificationResult.message()).color("green"));
+            return false;
+        }
+        return true;
     }
 
     private void handleUi(CommandContext context, Player player, List<String> tokens, PlayerSession session) {

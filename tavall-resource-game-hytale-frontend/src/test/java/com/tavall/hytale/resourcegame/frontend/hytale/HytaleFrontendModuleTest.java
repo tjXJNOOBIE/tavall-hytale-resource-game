@@ -38,4 +38,21 @@ public final class HytaleFrontendModuleTest {
         assertEquals(ResourceGameFrontendPlatform.HYTALE, envelope.platform());
         assertEquals("/kd ui castle-main", envelope.rawInput());
     }
+
+    @Test
+    void kdBridgePreservesNativeCommandAsControlEnvelope() {
+        HytaleKdCommandEnvelopeBridge bridge = new HytaleKdCommandEnvelopeBridge();
+
+        FrontendCommandEnvelope envelope = bridge.commandEnvelope(
+                "hytale-player",
+                "Builder",
+                java.util.List.of("resources", "add", "food", "10"),
+                "corr-kd-resources",
+                Map.of("server", "hytale-dev")
+        );
+
+        assertEquals(ResourceGameFrontendPlatform.HYTALE, envelope.platform());
+        assertEquals("/kd resources add food 10", envelope.rawInput());
+        assertEquals("hytale-dev", envelope.sourceMetadata().get("server"));
+    }
 }

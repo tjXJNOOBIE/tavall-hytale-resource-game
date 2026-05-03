@@ -24,6 +24,7 @@ import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleSpawnService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IDebugCommandService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IFocusedWorldInteractionService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IFocusedWorldOverrideService;
+import com.tavall.hytale.resourcegame.dependency.interfaces.IFrontendCommandVerificationService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInfrastructureHealthService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInteriorInstanceService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInteriorWorldService;
@@ -51,8 +52,11 @@ import com.tavall.hytale.resourcegame.dependency.interfaces.IUiPageRegistry;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IWorkerNpcInteractionService;
 import com.tavall.hytale.resourcegame.domain.PlayerGameState;
 import com.tavall.hytale.resourcegame.domain.PlayerProfile;
+import com.tavall.hytale.resourcegame.frontend.hytale.HytaleKdCommandEnvelopeBridge;
 import com.tavall.hytale.resourcegame.interior.InteriorLayoutService;
 import com.tavall.hytale.resourcegame.interior.InteriorStructureService;
+import com.tavall.hytale.resourcegame.middleware.control.ControlCommandRuntime;
+import com.tavall.hytale.resourcegame.middleware.control.ControlCommandRuntimeFactory;
 import com.tavall.hytale.resourcegame.persistence.InMemoryPlayerGameStateStore;
 import com.tavall.hytale.resourcegame.persistence.InMemoryPlayerProfileStore;
 import com.tavall.hytale.resourcegame.persistence.PersistenceStoreBootstrap;
@@ -80,6 +84,7 @@ import com.tavall.hytale.resourcegame.services.DebugCommandService;
 import com.tavall.hytale.resourcegame.services.FocusedWorldInteractionService;
 import com.tavall.hytale.resourcegame.services.FocusedWorldOverrideService;
 import com.tavall.hytale.resourcegame.services.FocusedWorldTargetPlanner;
+import com.tavall.hytale.resourcegame.services.FrontendCommandVerificationService;
 import com.tavall.hytale.resourcegame.services.InteriorInstanceService;
 import com.tavall.hytale.resourcegame.services.InteriorTourMarkerService;
 import com.tavall.hytale.resourcegame.services.InteriorWorldService;
@@ -383,6 +388,11 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         );
         KingdomInteractionCommandSupport interactionCommandSupport = new KingdomInteractionCommandSupport(focusedWorldInteractionService);
         KingdomHologramCommandSupport hologramCommandSupport = new KingdomHologramCommandSupport(worldLabelService);
+        ControlCommandRuntime controlCommandRuntime = ControlCommandRuntimeFactory.createInMemoryRuntime();
+        FrontendCommandVerificationService frontendCommandVerificationService = new FrontendCommandVerificationService(
+                controlCommandRuntime,
+                new HytaleKdCommandEnvelopeBridge()
+        );
         DebugCommandService debugCommandService = new DebugCommandService(
                 sessionStore,
                 uiNavigator,
@@ -407,7 +417,8 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                 nodeCommandSupport,
                 placementCommandSupport,
                 interactionCommandSupport,
-                hologramCommandSupport
+                hologramCommandSupport,
+                frontendCommandVerificationService
         );
 
         registerSingleton(IPlayerProfileService.class, profileService);
@@ -454,6 +465,8 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         registerSingleton(KingdomPlacementCommandSupport.class, placementCommandSupport);
         registerSingleton(KingdomInteractionCommandSupport.class, interactionCommandSupport);
         registerSingleton(KingdomHologramCommandSupport.class, hologramCommandSupport);
+        registerSingleton(ControlCommandRuntime.class, controlCommandRuntime);
+        registerSingleton(IFrontendCommandVerificationService.class, frontendCommandVerificationService);
         registerSingleton(IDebugCommandService.class, debugCommandService);
         registerSingleton(IInfrastructureHealthService.class, infrastructureHealthService);
         registerSingleton(WorldLabelService.class, worldLabelService);
