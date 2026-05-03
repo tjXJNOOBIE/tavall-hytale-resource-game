@@ -51,6 +51,7 @@ public final class ControlCommandExecutionHandler {
     private final TroopHealingRecipeValidationHandler recipeValidationHandler;
     private final TroopHealingStartHandler healingStartHandler;
     private final TroopHealingProgressTickHandler healingProgressTickHandler;
+    private final ControlSurfaceLaunchHandler surfaceLaunchHandler;
 
     public ControlCommandExecutionHandler(
             UniversalPlayerAccountRepository accountRepository,
@@ -64,7 +65,8 @@ public final class ControlCommandExecutionHandler {
             TroopHealingRecipeSelectionHandler recipeSelectionHandler,
             TroopHealingRecipeValidationHandler recipeValidationHandler,
             TroopHealingStartHandler healingStartHandler,
-            TroopHealingProgressTickHandler healingProgressTickHandler
+            TroopHealingProgressTickHandler healingProgressTickHandler,
+            ControlSurfaceLaunchHandler surfaceLaunchHandler
     ) {
         this.accountRepository = accountRepository;
         this.platformAccountBindingRepository = platformAccountBindingRepository;
@@ -78,6 +80,7 @@ public final class ControlCommandExecutionHandler {
         this.recipeValidationHandler = recipeValidationHandler;
         this.healingStartHandler = healingStartHandler;
         this.healingProgressTickHandler = healingProgressTickHandler;
+        this.surfaceLaunchHandler = surfaceLaunchHandler;
     }
 
     public ControlCommandResult executeCommand(ControlCommand command, Instant startedAt) {
@@ -94,6 +97,7 @@ public final class ControlCommandExecutionHandler {
                 case SYNC_PLATFORM_STATE -> informational(command, startedAt, "Platform sync requested.", List.of());
                 case DEBUG_TROOP_HEALING_STATE -> debugTroopHealingState(command, startedAt);
                 case VERIFY_FRONTEND_ACTION -> verifyFrontendAction(command, startedAt);
+                case START_CONTROL_SURFACE -> startControlSurface(command, startedAt);
                 default -> rejected(command, startedAt, "Command type is registered but execution is not implemented yet: " + command.commandType() + ".");
             };
         } catch (RuntimeException exception) {
@@ -202,6 +206,29 @@ public final class ControlCommandExecutionHandler {
                 + " category="
                 + command.argument("category");
         return informational(command, startedAt, message, List.of("frontend:" + command.argument("platform") + ":" + command.argument("category")));
+    }
+
+    private ControlCommandResult startControlSurface(ControlCommand command, Instant startedAt) {
+        String surface = command.argument("surface");
+        if (command.dryRun()) {
+            return dryRun(command, startedAt, "Control surface can be launched: " + surface + ".", List.of("control-surface:" + surface));
+        }
+        ControlSurfaceLaunchResult launchResult = surfaceLaunchHandler.startSurface(surface, command.arguments());
+        if (!launchResult.success()) {
+            return rejected(command, startedAt, launchResult.message());
+        }
+        return new ControlCommandResult(
+                command.commandId(),
+                CommandExecutionState.COMPLETED,
+                true,
+                launchResult.message(),
+                List.of(),
+                List.of("control-surface:" + surface),
+                List.of(),
+                startedAt,
+                Instant.now(),
+                launchResult.metadata()
+        );
     }
 
     private TroopHealingRecipe recipeForMode(HealingMode healingMode, WoundType woundType) {

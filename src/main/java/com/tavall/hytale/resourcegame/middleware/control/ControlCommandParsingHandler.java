@@ -35,6 +35,8 @@ public final class ControlCommandParsingHandler {
             case "tick" -> parseTickCommand(tokens, operator, issuedFrom, dryRun, now);
             case "resource" -> parseResourceCommand(tokens, operator, issuedFrom, dryRun, now);
             case "broadcast" -> parseBroadcastCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "control" -> parseControlCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "web-panel", "web", "panel" -> parseImplicitWebPanelCommand(tokens, operator, issuedFrom, dryRun, now);
             default -> throw new ControlCommandValidationException("Unknown console command: " + tokens.getFirst() + ".");
         };
     }
@@ -138,6 +140,66 @@ public final class ControlCommandParsingHandler {
         requireSize(tokens, 2, "broadcast <message>");
         String message = String.join(" ", tokens.subList(1, tokens.size()));
         return command(ControlCommandType.BROADCAST_PLATFORM_MESSAGE, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of("message", message), dryRun, now);
+    }
+
+    private ControlCommand parseControlCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 3, "control start web-panel [port]");
+        ArrayList<String> remainingTokens = new ArrayList<>(tokens.subList(1, tokens.size()));
+        if (remainingTokens.getFirst().equalsIgnoreCase("start")) {
+            remainingTokens.removeFirst();
+            String surface = normalizeControlSurface(remainingTokens.removeFirst());
+            return controlSurfaceStartCommand(surface, remainingTokens, operator, issuedFrom, dryRun, now);
+        }
+        String surface = normalizeControlSurface(remainingTokens.removeFirst());
+        if (!remainingTokens.isEmpty() && remainingTokens.getFirst().equalsIgnoreCase("start")) {
+            remainingTokens.removeFirst();
+            return controlSurfaceStartCommand(surface, remainingTokens, operator, issuedFrom, dryRun, now);
+        }
+        throw new ControlCommandValidationException("Expected control start web-panel [port] or control web-panel start [port].");
+    }
+
+    private ControlCommand parseImplicitWebPanelCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        String surface = normalizeControlSurface(tokens.removeFirst());
+        if (tokens.isEmpty() || !tokens.removeFirst().equalsIgnoreCase("start")) {
+            throw new ControlCommandValidationException("Expected web-panel start [port].");
+        }
+        return controlSurfaceStartCommand(surface, tokens, operator, issuedFrom, dryRun, now);
+    }
+
+    private ControlCommand controlSurfaceStartCommand(
+            String surface,
+            ArrayList<String> remainingTokens,
+            ControlOperator operator,
+            CommandIssuedFrom issuedFrom,
+            boolean dryRun,
+            Instant now
+    ) {
+        LinkedHashMap<String, String> arguments = new LinkedHashMap<>();
+        arguments.put("surface", surface);
+        arguments.put("port", "8080");
+        while (!remainingTokens.isEmpty()) {
+            String token = remainingTokens.removeFirst();
+            if (token.equalsIgnoreCase("--port") || token.equalsIgnoreCase("-p")) {
+                if (remainingTokens.isEmpty()) {
+                    throw new ControlCommandValidationException("Port value is required.");
+                }
+                arguments.put("port", remainingTokens.removeFirst());
+                continue;
+            }
+            if (token.matches("\\d+")) {
+                arguments.put("port", token);
+                continue;
+            }
+            throw new ControlCommandValidationException("Unknown control surface start argument: " + token + ".");
+        }
+        return command(ControlCommandType.START_CONTROL_SURFACE, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), arguments, dryRun, now);
+    }
+
+    private String normalizeControlSurface(String surface) {
+        if (surface.equalsIgnoreCase("web") || surface.equalsIgnoreCase("panel") || surface.equalsIgnoreCase("web-panel") || surface.equalsIgnoreCase("webpanel")) {
+            return "web-panel";
+        }
+        throw new ControlCommandValidationException("Unsupported control surface: " + surface + ".");
     }
 
     private ControlCommand command(

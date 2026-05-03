@@ -45,6 +45,22 @@ public final class ControlCommandParsingIntegrationTest {
     }
 
     @Test
+    void consoleParserSupportsControlStartWebPanelPermutations() {
+        ControlCommandParsingHandler parser = new ControlCommandParsingHandler();
+        ControlOperator operator = ControlOperator.localOwner(Instant.parse("2026-04-30T16:00:00Z"));
+
+        ControlCommand first = parser.parseConsoleCommand("control start web-panel 18090", operator, CommandIssuedFrom.CLI, Instant.now());
+        ControlCommand second = parser.parseConsoleCommand("control web start --port 18091", operator, CommandIssuedFrom.CLI, Instant.now());
+        ControlCommand third = parser.parseConsoleCommand("web-panel start -p 18092", operator, CommandIssuedFrom.CLI, Instant.now());
+
+        assertEquals(ControlCommandType.START_CONTROL_SURFACE, first.commandType());
+        assertEquals("web-panel", first.argument("surface"));
+        assertEquals("18090", first.argument("port"));
+        assertEquals("18091", second.argument("port"));
+        assertEquals("18092", third.argument("port"));
+    }
+
+    @Test
     void parserRejectsUnknownAndMalformedCommands() {
         ControlCommandParsingHandler parser = new ControlCommandParsingHandler();
         ControlOperator operator = ControlOperator.localOwner(Instant.now());

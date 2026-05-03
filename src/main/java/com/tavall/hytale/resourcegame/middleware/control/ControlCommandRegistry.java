@@ -51,6 +51,9 @@ public final class ControlCommandRegistry {
                 arg("surface", true, "Frontend surface"),
                 arg("category", true, "Platform command category"),
                 arg("input", true, "Raw command or action id")));
+        register(definitions, definition(ControlCommandType.START_CONTROL_SURFACE, "Start Control Surface", ControlPermission.MANAGE_CONTROL_OPERATORS, true, CommandTargetScope.GLOBAL, true, false,
+                arg("surface", true, "Control surface to launch, for example web-panel"),
+                arg("port", false, "Optional HTTP port")));
         this.definitionsByType = Map.copyOf(definitions);
     }
 

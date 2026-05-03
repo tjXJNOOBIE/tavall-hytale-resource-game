@@ -75,6 +75,8 @@ public final class ControlConsoleInputHandler {
                 "tick healing <count>",
                 "projection refresh [platform]",
                 "platform sync <platform|all>",
+                "control start web-panel [port]",
+                "control web-panel start [port]",
                 "broadcast <message>",
                 "audit recent",
                 "exit",

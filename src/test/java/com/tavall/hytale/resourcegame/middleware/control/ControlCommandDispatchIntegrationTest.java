@@ -144,6 +144,27 @@ public final class ControlCommandDispatchIntegrationTest {
         assertTrue(runtime.resultRepository().findResult(result.commandId()).isPresent());
     }
 
+    @Test
+    void controlStartWebPanelUsesLaunchPortWithoutEmbeddingSpringInCanonicalRuntime() {
+        RecordingControlSurfaceLaunchHandler launchHandler = new RecordingControlSurfaceLaunchHandler();
+        ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime(launchHandler);
+        ControlOperator operator = ControlOperator.localOwner(Instant.now());
+
+        ControlCommandResult result = runtime.dispatchHandler().dispatchCommand(command(
+                ControlCommandType.START_CONTROL_SURFACE,
+                operator,
+                CommandTargetScope.GLOBAL,
+                Map.of("surface", "web-panel", "port", "18093"),
+                false
+        ));
+
+        assertEquals(CommandExecutionState.COMPLETED, result.state());
+        assertTrue(result.success());
+        assertEquals(1, launchHandler.launchResults().size());
+        assertEquals("18093", launchHandler.launchResults().getFirst().metadata().get("port"));
+        assertTrue(result.changedObjectIds().contains("control-surface:web-panel"));
+    }
+
     private Troop registerTroop(ControlCommandRuntime runtime, UniversalPlayerId playerId) {
         return new TroopRegistrationHandler(runtime.troopRepository())
                 .registerTroop(Optional.of(playerId), Optional.empty(), "infantry", 2, new CanonicalLocation("world", 0.0d, 64.0d, 0.0d));

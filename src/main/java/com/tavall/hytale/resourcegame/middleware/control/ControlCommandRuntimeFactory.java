@@ -27,6 +27,10 @@ public final class ControlCommandRuntimeFactory {
     }
 
     public static ControlCommandRuntime createInMemoryRuntime() {
+        return createInMemoryRuntime(new RecordingControlSurfaceLaunchHandler());
+    }
+
+    public static ControlCommandRuntime createInMemoryRuntime(ControlSurfaceLaunchHandler surfaceLaunchHandler) {
         Instant now = Instant.now();
         InMemoryIdentityRepository identityRepository = new InMemoryIdentityRepository();
         InMemoryGlobalAssetRepository assetRepository = new InMemoryGlobalAssetRepository();
@@ -66,7 +70,8 @@ public final class ControlCommandRuntimeFactory {
                 recipeSelectionHandler,
                 recipeValidationHandler,
                 healingStartHandler,
-                progressTickHandler
+                progressTickHandler,
+                surfaceLaunchHandler
         );
         ControlPlatformFanoutRetryHandler fanoutRetryHandler = new ControlPlatformFanoutRetryHandler(fanoutRetryRepository);
         PlatformCommandFanoutHandler fanoutHandler = new PlatformCommandFanoutHandler(List.of(

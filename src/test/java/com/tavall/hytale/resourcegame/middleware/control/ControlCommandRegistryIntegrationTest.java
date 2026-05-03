@@ -15,6 +15,7 @@ public final class ControlCommandRegistryIntegrationTest {
         ControlCommandDefinition healingDefinition = registry.definition(ControlCommandType.START_TROOP_HEALING);
         ControlCommandDefinition giveResourceDefinition = registry.definition(ControlCommandType.GIVE_RESOURCE);
         ControlCommandDefinition syncDefinition = registry.definition(ControlCommandType.SYNC_PLATFORM_STATE);
+        ControlCommandDefinition webPanelDefinition = registry.definition(ControlCommandType.START_CONTROL_SURFACE);
 
         assertEquals(ControlPermission.MANAGE_TROOP_STATE, woundDefinition.permissionRequirement().permission());
         assertTrue(woundDefinition.dryRunSupported());
@@ -24,6 +25,8 @@ public final class ControlCommandRegistryIntegrationTest {
         assertTrue(giveResourceDefinition.permissionRequirement().highRisk());
         assertFalse(giveResourceDefinition.fanout());
         assertFalse(syncDefinition.dryRunSupported());
-        assertEquals(10, registry.definitions().size());
+        assertTrue(webPanelDefinition.permissionRequirement().highRisk());
+        assertEquals(ControlPermission.MANAGE_CONTROL_OPERATORS, webPanelDefinition.permissionRequirement().permission());
+        assertEquals(12, registry.definitions().size());
     }
 }
