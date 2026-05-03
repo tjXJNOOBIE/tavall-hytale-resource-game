@@ -3,9 +3,13 @@ package com.tavall.hytale.resourcegame.frontend.hytale;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendRuntime;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandEnvelope;
+import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationResult;
+import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationState;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -54,5 +58,37 @@ public final class HytaleFrontendModuleTest {
         assertEquals(ResourceGameFrontendPlatform.HYTALE, envelope.platform());
         assertEquals("/kd resources add food 10", envelope.rawInput());
         assertEquals("hytale-dev", envelope.sourceMetadata().get("server"));
+    }
+
+    @Test
+    void hytaleControlPlaneBridgeSubmitsKdCommandToClient() {
+        AtomicReference<FrontendCommandEnvelope> submittedEnvelope = new AtomicReference<>();
+        HytaleControlPlaneCommandBridge bridge = new HytaleControlPlaneCommandBridge(
+                new HytaleKdCommandEnvelopeBridge(),
+                envelope -> {
+                    submittedEnvelope.set(envelope);
+                    return new FrontendCommandVerificationResult(
+                            envelope,
+                            FrontendCommandVerificationState.LOCAL_ACTION_ALLOWED,
+                            true,
+                            "verified",
+                            "cmd-hytale",
+                            "COMPLETED",
+                            Map.of("verifiedCategory", "ui")
+                    );
+                }
+        );
+
+        FrontendCommandVerificationResult result = bridge.submitKdCommand(
+                "hytale-player",
+                "Builder",
+                List.of("ui", "castle-main"),
+                "corr-hytale-submit",
+                Map.of("server", "hytale-dev")
+        );
+
+        assertEquals(FrontendCommandVerificationState.LOCAL_ACTION_ALLOWED, result.state());
+        assertEquals("/kd ui castle-main", submittedEnvelope.get().rawInput());
+        assertEquals(ResourceGameFrontendPlatform.HYTALE, submittedEnvelope.get().platform());
     }
 }

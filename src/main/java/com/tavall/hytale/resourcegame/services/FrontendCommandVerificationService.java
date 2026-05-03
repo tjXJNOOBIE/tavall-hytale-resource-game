@@ -2,9 +2,9 @@ package com.tavall.hytale.resourcegame.services;
 
 import com.tavall.hytale.resourcegame.dependency.IDependencyInjectableConcrete;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IFrontendCommandVerificationService;
+import com.tavall.hytale.resourcegame.frontend.hytale.HytaleControlPlaneCommandBridge;
 import com.tavall.hytale.resourcegame.frontend.hytale.HytaleKdCommandEnvelopeBridge;
 import com.tavall.hytale.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandEnvelope;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationResult;
 
 import java.time.Instant;
@@ -14,15 +14,17 @@ import java.util.Objects;
 import java.util.UUID;
 
 public final class FrontendCommandVerificationService implements IFrontendCommandVerificationService, IDependencyInjectableConcrete {
-    private final ControlCommandRuntime controlCommandRuntime;
-    private final HytaleKdCommandEnvelopeBridge hytaleKdCommandEnvelopeBridge;
+    private final HytaleControlPlaneCommandBridge hytaleControlPlaneCommandBridge;
 
     public FrontendCommandVerificationService(
             ControlCommandRuntime controlCommandRuntime,
             HytaleKdCommandEnvelopeBridge hytaleKdCommandEnvelopeBridge
     ) {
-        this.controlCommandRuntime = Objects.requireNonNull(controlCommandRuntime, "controlCommandRuntime");
-        this.hytaleKdCommandEnvelopeBridge = Objects.requireNonNull(hytaleKdCommandEnvelopeBridge, "hytaleKdCommandEnvelopeBridge");
+        ControlCommandRuntime runtime = Objects.requireNonNull(controlCommandRuntime, "controlCommandRuntime");
+        this.hytaleControlPlaneCommandBridge = new HytaleControlPlaneCommandBridge(
+                Objects.requireNonNull(hytaleKdCommandEnvelopeBridge, "hytaleKdCommandEnvelopeBridge"),
+                envelope -> runtime.frontendCommandIngressHandler().ingest(envelope, Instant.now())
+        );
     }
 
     @Override
@@ -32,13 +34,12 @@ public final class FrontendCommandVerificationService implements IFrontendComman
             List<String> commandTokens,
             Map<String, String> sourceMetadata
     ) {
-        FrontendCommandEnvelope envelope = hytaleKdCommandEnvelopeBridge.commandEnvelope(
+        return hytaleControlPlaneCommandBridge.submitKdCommand(
                 platformAccountId,
                 platformDisplayName,
                 commandTokens,
                 "hytale-kd-" + UUID.randomUUID(),
                 sourceMetadata
         );
-        return controlCommandRuntime.frontendCommandIngressHandler().ingest(envelope, Instant.now());
     }
 }

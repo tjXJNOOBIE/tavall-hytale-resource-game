@@ -3,9 +3,13 @@ package com.tavall.hytale.resourcegame.frontend.minecraft;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendRuntime;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandEnvelope;
+import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationResult;
+import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationState;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -54,5 +58,37 @@ public final class MinecraftFrontendModuleTest {
         assertEquals(ResourceGameFrontendPlatform.MINECRAFT, envelope.platform());
         assertEquals("/kd troops debug troop-1", envelope.rawInput());
         assertEquals("kingdoms", envelope.sourceMetadata().get("server"));
+    }
+
+    @Test
+    void minecraftControlPlaneBridgeSubmitsKdCommandToClient() {
+        AtomicReference<FrontendCommandEnvelope> submittedEnvelope = new AtomicReference<>();
+        MinecraftControlPlaneCommandBridge bridge = new MinecraftControlPlaneCommandBridge(
+                new MinecraftKdCommandEnvelopeBridge(),
+                envelope -> {
+                    submittedEnvelope.set(envelope);
+                    return new FrontendCommandVerificationResult(
+                            envelope,
+                            FrontendCommandVerificationState.DISPATCHED,
+                            true,
+                            "dispatched",
+                            "cmd-minecraft",
+                            "COMPLETED",
+                            Map.of("controlConsoleInput", "troop debug troop-1")
+                    );
+                }
+        );
+
+        FrontendCommandVerificationResult result = bridge.submitKdCommand(
+                "minecraft-player",
+                "Miner",
+                List.of("kd", "troops", "debug", "troop-1"),
+                "corr-minecraft-submit",
+                Map.of("server", "kingdoms")
+        );
+
+        assertEquals(FrontendCommandVerificationState.DISPATCHED, result.state());
+        assertEquals("/kd troops debug troop-1", submittedEnvelope.get().rawInput());
+        assertEquals(ResourceGameFrontendPlatform.MINECRAFT, submittedEnvelope.get().platform());
     }
 }
