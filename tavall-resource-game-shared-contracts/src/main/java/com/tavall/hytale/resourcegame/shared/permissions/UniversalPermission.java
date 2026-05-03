@@ -1,0 +1,18 @@
+package com.tavall.hytale.resourcegame.shared.permissions;
+
+public enum UniversalPermission {
+    VIEW_GAME_SUMMARY,
+    EXECUTE_USER_COMMAND,
+    EXECUTE_ADMIN_COMMAND,
+    EXECUTE_DEBUG_COMMAND,
+    MANAGE_PLAYERS,
+    MANAGE_GUILDS,
+    MANAGE_ASSETS,
+    MANAGE_RESOURCES,
+    MANAGE_TROOPS,
+    MANAGE_HEALING,
+    RUN_GLOBAL_TICK,
+    BROADCAST_GLOBAL_MESSAGE,
+    VIEW_AUDIT_LOG,
+    MANAGE_PERMISSIONS
+}
