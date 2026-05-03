@@ -38,4 +38,21 @@ public final class MinecraftFrontendModuleTest {
         assertEquals(ResourceGameFrontendPlatform.MINECRAFT, envelope.platform());
         assertEquals("/kd resources", envelope.rawInput());
     }
+
+    @Test
+    void minecraftKdBridgeCreatesNativeCommandEnvelope() {
+        MinecraftKdCommandEnvelopeBridge bridge = new MinecraftKdCommandEnvelopeBridge();
+
+        FrontendCommandEnvelope envelope = bridge.commandEnvelope(
+                "minecraft-player",
+                "Miner",
+                java.util.List.of("kd", "troops", "debug", "troop-1"),
+                "corr-minecraft-kd",
+                Map.of("server", "kingdoms")
+        );
+
+        assertEquals(ResourceGameFrontendPlatform.MINECRAFT, envelope.platform());
+        assertEquals("/kd troops debug troop-1", envelope.rawInput());
+        assertEquals("kingdoms", envelope.sourceMetadata().get("server"));
+    }
 }

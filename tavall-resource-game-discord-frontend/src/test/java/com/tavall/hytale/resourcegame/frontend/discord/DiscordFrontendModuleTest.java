@@ -41,4 +41,21 @@ public final class DiscordFrontendModuleTest {
         assertEquals(ResourceGameFrontendPlatform.DISCORD, envelope.platform());
         assertEquals("listing-1", envelope.arguments().get("listingId"));
     }
+
+    @Test
+    void discordKdBridgeCreatesSlashCommandEnvelope() {
+        DiscordKdCommandEnvelopeBridge bridge = new DiscordKdCommandEnvelopeBridge();
+
+        FrontendCommandEnvelope envelope = bridge.commandEnvelope(
+                "discord-user",
+                "Treasurer",
+                java.util.List.of("kingdom", "resources", "give", "player-1", "resource.food.rations", "10"),
+                "corr-discord-kd",
+                Map.of("guildId", "discord-guild")
+        );
+
+        assertEquals(ResourceGameFrontendPlatform.DISCORD, envelope.platform());
+        assertEquals("/kingdom resources give player-1 resource.food.rations 10", envelope.rawInput());
+        assertEquals("discord-guild", envelope.sourceMetadata().get("guildId"));
+    }
 }

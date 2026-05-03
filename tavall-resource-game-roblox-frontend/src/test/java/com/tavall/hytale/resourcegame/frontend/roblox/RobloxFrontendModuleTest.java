@@ -41,4 +41,21 @@ public final class RobloxFrontendModuleTest {
         assertEquals(ResourceGameFrontendPlatform.ROBLOX, envelope.platform());
         assertEquals("route-1", envelope.arguments().get("routeId"));
     }
+
+    @Test
+    void robloxKdBridgeCreatesRemoteCommandEnvelope() {
+        RobloxKdCommandEnvelopeBridge bridge = new RobloxKdCommandEnvelopeBridge();
+
+        FrontendCommandEnvelope envelope = bridge.commandEnvelope(
+                "roblox-user",
+                "Courier",
+                java.util.List.of("market", "listing", "inspect", "listing-1"),
+                "corr-roblox-kd",
+                Map.of("placeId", "kingdoms")
+        );
+
+        assertEquals(ResourceGameFrontendPlatform.ROBLOX, envelope.platform());
+        assertEquals("/kd market listing inspect listing-1", envelope.rawInput());
+        assertEquals("kingdoms", envelope.sourceMetadata().get("placeId"));
+    }
 }
