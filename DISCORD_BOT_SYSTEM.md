@@ -42,7 +42,15 @@ Remote deployment:
 
 Discord installation note:
 
-The bot cannot install itself into a Discord guild from the bot token alone. Use the Discord Developer Portal OAuth2 URL generator with `applications.commands` and `bot` scopes, then install the app into Project Novus. After the bot is present in the guild, it registers the slash commands automatically using `RESOURCE_GAME_DISCORD_GUILD_ID`.
+The bot cannot approve its own Discord guild install, but the repo can open the OAuth install URL for the logged-in local Discord session:
+
+```powershell
+$env:RESOURCE_GAME_DISCORD_CLIENT_ID = "<discord application id>"
+$env:RESOURCE_GAME_DISCORD_GUILD_ID = "<project novus guild id>"
+.\scripts\open-discord-bot-install.ps1
+```
+
+If `RESOURCE_GAME_DISCORD_CLIENT_ID` is not set, the script can discover it from `RESOURCE_GAME_DISCORD_BOT_TOKEN`. After the bot is present in the guild, it registers the slash commands automatically using `RESOURCE_GAME_DISCORD_GUILD_ID`.
 
 Ports:
 
