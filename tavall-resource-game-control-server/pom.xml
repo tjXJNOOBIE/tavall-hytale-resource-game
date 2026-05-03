@@ -34,6 +34,30 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.tavall</groupId>
+            <artifactId>tavall-resource-game-hytale-frontend</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tavall</groupId>
+            <artifactId>tavall-resource-game-minecraft-frontend</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tavall</groupId>
+            <artifactId>tavall-resource-game-roblox-frontend</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tavall</groupId>
+            <artifactId>tavall-resource-game-discord-frontend</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.tjxjnoobie</groupId>
             <artifactId>tavall-logging</artifactId>
         </dependency>

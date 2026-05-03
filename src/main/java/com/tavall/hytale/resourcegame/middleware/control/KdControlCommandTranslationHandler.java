@@ -17,6 +17,11 @@ public final class KdControlCommandTranslationHandler {
             "resources",
             "buildings",
             "nodes",
+            "trade",
+            "market",
+            "scout",
+            "recon",
+            "intel",
             "place",
             "focus",
             "interact",
@@ -27,6 +32,7 @@ public final class KdControlCommandTranslationHandler {
             "bootstrap",
             "scene",
             "tick",
+            "retaliation",
             "tutorial"
     );
 
