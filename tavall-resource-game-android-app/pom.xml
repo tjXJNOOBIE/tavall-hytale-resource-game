@@ -15,4 +15,20 @@
 
     <name>Tavall Resource Game Android App</name>
     <description>Future Kotlin Android app shell for the cross-platform resource game.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.tavall</groupId>
+            <artifactId>tavall-resource-game-shared-contracts</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-di</artifactId>
+        </dependency>
+    </dependencies>
 </project>

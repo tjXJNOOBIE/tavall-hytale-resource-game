@@ -48,6 +48,36 @@ final class ResourceGameModuleDependencyTest {
     }
 
     @Test
+    void futureAndroidModuleInheritsSharedContractsAndTavallToolsThroughMaven() throws IOException {
+        String pom = Files.readString(RESOURCE_GAME_ROOT.resolve("tavall-resource-game-android-app").resolve("pom.xml"));
+
+        assertTrue(pom.contains("<artifactId>tavall-resource-game-shared-contracts</artifactId>"));
+        assertTrue(pom.contains("<artifactId>tavall-logging</artifactId>"));
+        assertTrue(pom.contains("<artifactId>tavall-di</artifactId>"));
+    }
+
+    @Test
+    void futurePcModuleTracksSharedContractVersionWithoutClaimingJavaRuntimeConsumption() throws IOException {
+        String pom = Files.readString(RESOURCE_GAME_ROOT.resolve("tavall-resource-game-pc-app").resolve("pom.xml"));
+
+        assertTrue(pom.contains("<resource.game.contract.artifactId>tavall-resource-game-shared-contracts</resource.game.contract.artifactId>"));
+        assertTrue(pom.contains("<resource.game.future.csharp.contract.namespace>Tavall.ResourceGame.Contracts</resource.game.future.csharp.contract.namespace>"));
+    }
+
+    @Test
+    void futureAppModulesPointAtFrontendIngressInsteadOfCanonicalDispatchDirectly() throws IOException {
+        String androidModule = Files.readString(RESOURCE_GAME_ROOT
+                .resolve("tavall-resource-game-android-app")
+                .resolve("src/main/kotlin/com/tavall/hytale/resourcegame/android/ResourceGameAndroidModule.kt"));
+        String pcModule = Files.readString(RESOURCE_GAME_ROOT
+                .resolve("tavall-resource-game-pc-app")
+                .resolve("src/ResourceGamePcModule.cs"));
+
+        assertTrue(androidModule.contains("FrontendCommandIngressHandler"));
+        assertTrue(pcModule.contains("FrontendCommandIngressHandler"));
+    }
+
+    @Test
     void resourceGameRootDoesNotVendAbstractCacheSources() throws IOException {
         try (var paths = Files.walk(RESOURCE_GAME_ROOT)) {
             long vendoredAbstractCacheSourceCount = paths
