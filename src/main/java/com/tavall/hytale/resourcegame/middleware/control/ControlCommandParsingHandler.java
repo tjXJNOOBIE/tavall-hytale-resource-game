@@ -33,6 +33,9 @@ public final class ControlCommandParsingHandler {
             case "platform" -> parsePlatformCommand(tokens, operator, issuedFrom, dryRun, now);
             case "troop" -> parseTroopCommand(tokens, operator, issuedFrom, dryRun, now);
             case "kingdom" -> parseKingdomCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "clock" -> parseClockCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "schedule" -> parseScheduleCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "aging" -> parseAgingCommand(tokens, operator, issuedFrom, dryRun, now);
             case "coord", "coordinate" -> parseCoordinateCommand(tokens, operator, issuedFrom, dryRun, now);
             case "instance" -> parseInstanceCommand(tokens, operator, issuedFrom, dryRun, now);
             case "params", "parameter", "parameters" -> parseParameterCommand(tokens, operator, issuedFrom, dryRun, now);
@@ -135,11 +138,119 @@ public final class ControlCommandParsingHandler {
         if (tokens.get(1).equalsIgnoreCase("kingdom")) {
             return command(ControlCommandType.RUN_KINGDOM_SIMULATION_TICK, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of(), dryRun, now);
         }
+        if (tokens.get(1).equalsIgnoreCase("clock")) {
+            if (tokens.size() >= 3 && tokens.get(2).equalsIgnoreCase("all")) {
+                return command(ControlCommandType.TICK_ALL_KINGDOM_CLOCKS, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of(), dryRun, now);
+            }
+            return command(ControlCommandType.TICK_KINGDOM_CLOCK, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of(
+                    "kingdomId", tokens.size() >= 3 ? tokens.get(2) : "kingdom-1"
+            ), dryRun, now);
+        }
         if (!tokens.get(1).equalsIgnoreCase("healing")) {
-            throw new ControlCommandValidationException("Expected tick healing [count] or tick kingdom.");
+            throw new ControlCommandValidationException("Expected tick healing [count], tick kingdom, or tick clock [kingdomId|all].");
         }
         String count = tokens.size() >= 3 ? tokens.get(2) : "1";
         return command(ControlCommandType.RUN_HEALING_TICK, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of("tickCount", count), dryRun, now);
+    }
+
+    private ControlCommand parseClockCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "clock <state|tick|tick-all|mode|override|clear-override|pause|resume|config|debug|projection> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("state") || operation.equals("debug")) {
+            return command(operation.equals("debug") ? ControlCommandType.DEBUG_KINGDOM_CLOCK : ControlCommandType.GET_KINGDOM_CLOCK_STATE, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of(
+                    "kingdomId", tokens.size() >= 3 ? tokens.get(2) : "kingdom-1"
+            ), dryRun, now);
+        }
+        if (operation.equals("tick")) {
+            return command(ControlCommandType.TICK_KINGDOM_CLOCK, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of(
+                    "kingdomId", tokens.size() >= 3 ? tokens.get(2) : "kingdom-1"
+            ), dryRun, now);
+        }
+        if (operation.equals("tick-all")) {
+            return command(ControlCommandType.TICK_ALL_KINGDOM_CLOCKS, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of(), dryRun, now);
+        }
+        if (operation.equals("mode")) {
+            requireSize(tokens, 4, "clock mode <kingdomId> <mode>");
+            return command(ControlCommandType.SET_KINGDOM_CLOCK_MODE, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of("kingdomId", tokens.get(2), "mode", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("override")) {
+            requireSize(tokens, 4, "clock override <kingdomId> <HH:mm>");
+            return command(ControlCommandType.SET_KINGDOM_TIME_OVERRIDE, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of("kingdomId", tokens.get(2), "time", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("clear-override")) {
+            requireSize(tokens, 3, "clock clear-override <kingdomId>");
+            return command(ControlCommandType.CLEAR_KINGDOM_TIME_OVERRIDE, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of("kingdomId", tokens.get(2)), dryRun, now);
+        }
+        if (operation.equals("pause") || operation.equals("resume")) {
+            return command(operation.equals("pause") ? ControlCommandType.PAUSE_KINGDOM_CLOCK : ControlCommandType.RESUME_KINGDOM_CLOCK, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of(
+                    "kingdomId", tokens.size() >= 3 ? tokens.get(2) : "kingdom-1"
+            ), dryRun, now);
+        }
+        if (operation.equals("config")) {
+            requireSize(tokens, 3, "clock config <kingdomId> key=value ...");
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 3);
+            arguments.put("kingdomId", tokens.get(2));
+            return command(ControlCommandType.UPDATE_KINGDOM_CLOCK_CONFIG, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("projection")) {
+            requireSize(tokens, 3, "clock projection <kingdomId> [platform]");
+            return command(ControlCommandType.REFRESH_KINGDOM_CLOCK_PROJECTION, operator, issuedFrom, CommandTargetScope.KINGDOM, parsePlatforms(tokens.size() >= 4 ? tokens.get(3) : "ALL"), Map.of(
+                    "kingdomId", tokens.get(2),
+                    "platform", tokens.size() >= 4 ? tokens.get(3) : "HYTALE"
+            ), dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown clock command: " + operation + ".");
+    }
+
+    private ControlCommand parseScheduleCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "schedule <active|create|enable|disable|apply|debug|projection> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("active") || operation.equals("debug")) {
+            return command(operation.equals("debug") ? ControlCommandType.DEBUG_KINGDOM_SCHEDULE : ControlCommandType.LIST_ACTIVE_KINGDOM_SCHEDULE_RULES, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of(
+                    "kingdomId", tokens.size() >= 3 ? tokens.get(2) : "kingdom-1"
+            ), dryRun, now);
+        }
+        if (operation.equals("create")) {
+            requireSize(tokens, 4, "schedule create <kingdomId> <ruleType> key=value ...");
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 4);
+            arguments.put("kingdomId", tokens.get(2));
+            arguments.put("ruleType", tokens.get(3));
+            return command(ControlCommandType.CREATE_KINGDOM_SCHEDULE_RULE, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("enable") || operation.equals("disable")) {
+            requireSize(tokens, 3, "schedule enable <ruleId>");
+            return command(operation.equals("enable") ? ControlCommandType.ENABLE_KINGDOM_SCHEDULE_RULE : ControlCommandType.DISABLE_KINGDOM_SCHEDULE_RULE, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of("scheduleRuleId", tokens.get(2)), dryRun, now);
+        }
+        if (operation.equals("apply")) {
+            return command(ControlCommandType.APPLY_KINGDOM_SCHEDULED_STATE_CHANGES, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of(
+                    "kingdomId", tokens.size() >= 3 ? tokens.get(2) : "kingdom-1"
+            ), dryRun, now);
+        }
+        if (operation.equals("projection")) {
+            requireSize(tokens, 3, "schedule projection <kingdomId> [platform]");
+            return command(ControlCommandType.REFRESH_KINGDOM_SCHEDULE_PROJECTION, operator, issuedFrom, CommandTargetScope.KINGDOM, parsePlatforms(tokens.size() >= 4 ? tokens.get(3) : "ALL"), Map.of(
+                    "kingdomId", tokens.get(2),
+                    "platform", tokens.size() >= 4 ? tokens.get(3) : "HYTALE"
+            ), dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown schedule command: " + operation + ".");
+    }
+
+    private ControlCommand parseAgingCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "aging <policy|tick|debug> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("policy")) {
+            requireSize(tokens, 3, "aging policy <kingdomId> key=value ...");
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 3);
+            arguments.put("kingdomId", tokens.get(2));
+            return command(ControlCommandType.UPDATE_AGING_TICK_POLICY, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("tick") || operation.equals("debug")) {
+            return command(operation.equals("debug") ? ControlCommandType.DEBUG_AGING_TICK : ControlCommandType.RUN_AGING_TICK, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of(
+                    "kingdomId", tokens.size() >= 3 ? tokens.get(2) : "kingdom-1"
+            ), dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown aging command: " + operation + ".");
     }
 
     private ControlCommand parseKingdomCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {

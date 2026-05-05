@@ -167,6 +167,28 @@ public final class ControlCommandDispatchIntegrationTest {
         assertTrue(result.changedObjectIds().contains("control-surface:web-panel"));
     }
 
+    @Test
+    void kingdomClockCommandsMutateOnlyThroughSharedCommandPipeline() {
+        ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime();
+        ControlOperator operator = ControlOperator.localOwner(Instant.now());
+
+        ControlCommand dryRun = command(ControlCommandType.SET_KINGDOM_TIME_OVERRIDE, operator, CommandTargetScope.KINGDOM, Map.of("kingdomId", "kingdom-1", "time", "22:00"), true);
+        ControlCommand apply = command(ControlCommandType.SET_KINGDOM_TIME_OVERRIDE, operator, CommandTargetScope.KINGDOM, Map.of("kingdomId", "kingdom-1", "time", "22:00"), false);
+        ControlCommand projection = command(ControlCommandType.REFRESH_KINGDOM_CLOCK_PROJECTION, operator, CommandTargetScope.KINGDOM, Map.of("kingdomId", "kingdom-1", "platform", "ROBLOX"), false);
+
+        ControlCommandResult dryRunResult = runtime.dispatchHandler().dispatchCommand(dryRun);
+        assertEquals(CommandExecutionState.DRY_RUN_COMPLETED, dryRunResult.state());
+        assertFalse(runtime.kingdomClockSystem().getCurrentClockState("kingdom-1").timeOverride().isPresent());
+
+        ControlCommandResult applyResult = runtime.dispatchHandler().dispatchCommand(apply);
+        ControlCommandResult projectionResult = runtime.dispatchHandler().dispatchCommand(projection);
+
+        assertEquals(CommandExecutionState.COMPLETED, applyResult.state());
+        assertTrue(runtime.kingdomClockSystem().getCurrentClockState("kingdom-1").timeOverride().isPresent());
+        assertEquals("plain-java-control-server", projectionResult.metadata().get("canonicalOwner"));
+        assertEquals(1, runtime.auditLogRepository().findAuditLogsForCommand(apply.commandId()).size());
+    }
+
     private Troop registerTroop(ControlCommandRuntime runtime, UniversalPlayerId playerId) {
         return new TroopRegistrationHandler(runtime.troopRepository())
                 .registerTroop(Optional.of(playerId), Optional.empty(), "infantry", 2, new CanonicalLocation("world", 0.0d, 64.0d, 0.0d));

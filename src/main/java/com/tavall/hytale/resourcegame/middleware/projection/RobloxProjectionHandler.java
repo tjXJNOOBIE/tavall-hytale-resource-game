@@ -1,6 +1,8 @@
 package com.tavall.hytale.resourcegame.middleware.projection;
 
 import com.tavall.hytale.resourcegame.middleware.castle.Castle;
+import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockProjection;
+import com.tavall.hytale.resourcegame.middleware.clock.KingdomScheduleProjection;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildAuthorityTier;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildKingdom;
@@ -40,6 +42,14 @@ public final class RobloxProjectionHandler {
 
     public FrontendProjection projectPetitionForRobloxClient(Petition petition) {
         return frontendProjectionHandler.projectPetition(petition, GamePlatform.ROBLOX, actionsFor(ResourceGameFrontendObjectKind.PETITION));
+    }
+
+    public FrontendProjection projectKingdomClockForRobloxClient(KingdomClockProjection clockProjection) {
+        return frontendProjectionHandler.projectKingdomClock(clockProjection, GamePlatform.ROBLOX, List.of());
+    }
+
+    public FrontendProjection projectKingdomScheduleForRobloxClient(KingdomScheduleProjection scheduleProjection) {
+        return frontendProjectionHandler.projectKingdomSchedule(scheduleProjection, GamePlatform.ROBLOX, List.of());
     }
 
     private List<InteractionAction> actionsFor(ResourceGameFrontendObjectKind objectKind) {

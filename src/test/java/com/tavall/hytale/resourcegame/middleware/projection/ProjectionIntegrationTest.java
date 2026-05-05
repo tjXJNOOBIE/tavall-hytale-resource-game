@@ -8,6 +8,7 @@ import com.tavall.hytale.resourcegame.middleware.asset.InMemoryGlobalAssetReposi
 import com.tavall.hytale.resourcegame.middleware.asset.PlatformAssetVersionRegistrationHandler;
 import com.tavall.hytale.resourcegame.middleware.castle.Castle;
 import com.tavall.hytale.resourcegame.middleware.castle.CastleCreationHandler;
+import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
 import com.tavall.hytale.resourcegame.middleware.castle.InMemoryCastleRepository;
 import com.tavall.hytale.resourcegame.middleware.common.CanonicalLocation;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
@@ -117,6 +118,27 @@ public final class ProjectionIntegrationTest {
         assertTrue(discordPetitionAction.requiredPermissions().contains(GuildPermission.CREATE_PETITION));
         assertEquals(PlatformInteractionType.MINECRAFT_COMMAND, minecraftPetitionAction.interactionType());
         assertEquals(GuildAuthorityTier.COUNCIL, minecraftPetitionAction.requiredTier().orElseThrow());
+    }
+
+    @Test
+    void kingdomClockAndScheduleProjectForMinecraftHytaleRobloxAndDiscordWithoutFrontendTimeOwnership() {
+        InMemoryGlobalAssetRepository assetRepository = new InMemoryGlobalAssetRepository();
+        FrontendProjectionHandler projectionHandler = new FrontendProjectionHandler(new GlobalAssetProjectionHandler(new GlobalAssetResolutionHandler(assetRepository)));
+        KingdomClockControlSystem clockSystem = KingdomClockControlSystem.inMemory();
+
+        clockSystem.setTimeOverride("kingdom-1", java.time.LocalTime.of(22, 0));
+
+        FrontendProjection minecraftClock = new MinecraftProjectionHandler(projectionHandler).projectKingdomClockForMinecraftClient(clockSystem.projectClockState("kingdom-1", GamePlatform.MINECRAFT));
+        FrontendProjection hytaleClock = new HytaleProjectionHandler(projectionHandler).projectKingdomClockForHytaleClient(clockSystem.projectClockState("kingdom-1", GamePlatform.HYTALE));
+        FrontendProjection robloxClock = new RobloxProjectionHandler(projectionHandler).projectKingdomClockForRobloxClient(clockSystem.projectClockState("kingdom-1", GamePlatform.ROBLOX));
+        FrontendProjection discordSchedule = new DiscordProjectionHandler(projectionHandler).projectKingdomScheduleSummaryForDiscord(clockSystem.projectScheduleState("kingdom-1", GamePlatform.DISCORD));
+
+        assertEquals(ProjectionObjectType.KINGDOM_CLOCK, minecraftClock.objectType());
+        assertEquals("NIGHT", minecraftClock.state());
+        assertEquals("true", hytaleClock.metadata().get("isNight"));
+        assertEquals("plain-java-control-server", robloxClock.metadata().get("canonicalOwner"));
+        assertEquals(ProjectionObjectType.KINGDOM_SCHEDULE, discordSchedule.objectType());
+        assertTrue(discordSchedule.metadata().containsKey("shopOpenCloseHints"));
     }
 
     @Test

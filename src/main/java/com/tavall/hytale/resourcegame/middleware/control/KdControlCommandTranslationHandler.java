@@ -32,6 +32,9 @@ public final class KdControlCommandTranslationHandler {
             "bootstrap",
             "scene",
             "tick",
+            "clock",
+            "schedule",
+            "aging",
             "retaliation",
             "tutorial"
     );
@@ -51,6 +54,9 @@ public final class KdControlCommandTranslationHandler {
         String category = tokens.get(1).toLowerCase(Locale.ROOT);
         return switch (category) {
             case "tick" -> translateTick(tokens);
+            case "clock" -> translatePrefixed(tokens, "clock");
+            case "schedule" -> translatePrefixed(tokens, "schedule");
+            case "aging" -> translatePrefixed(tokens, "aging");
             case "resources" -> translateResources(tokens);
             case "troops" -> translateTroops(tokens);
             case "account" -> translateAccount(tokens);
@@ -75,11 +81,24 @@ public final class KdControlCommandTranslationHandler {
             String count = tokens.size() >= 4 ? tokens.get(3) : "1";
             return Optional.of("tick healing " + count);
         }
+        if (tokens.get(2).equalsIgnoreCase("clock")) {
+            if (tokens.size() >= 4 && tokens.get(3).equalsIgnoreCase("all")) {
+                return Optional.of("tick clock all");
+            }
+            return Optional.of("tick clock " + (tokens.size() >= 4 ? tokens.get(3) : "kingdom-1"));
+        }
         if (tokens.get(2).equalsIgnoreCase("run")) {
             String count = tokens.size() >= 4 ? tokens.get(3) : "1";
             return Optional.of("tick healing " + count);
         }
         return Optional.empty();
+    }
+
+    private Optional<String> translatePrefixed(List<String> tokens, String prefix) {
+        if (tokens.size() < 3) {
+            return Optional.empty();
+        }
+        return Optional.of(prefix + " " + String.join(" ", tokens.subList(2, tokens.size())));
     }
 
     private Optional<String> translateResources(List<String> tokens) {

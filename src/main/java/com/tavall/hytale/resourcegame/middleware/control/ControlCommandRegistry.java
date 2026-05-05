@@ -157,6 +157,54 @@ public final class ControlCommandRegistry {
         register(definitions, definition(ControlCommandType.EVALUATE_NEW_PLAYER_KINGDOM, "Evaluate New Player Kingdom", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, true, false));
         register(definitions, definition(ControlCommandType.ASSIGN_NEW_PLAYER_KINGDOM, "Assign New Player Kingdom", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
                 arg("universalPlayerId", true, "Universal player ID")));
+        register(definitions, definition(ControlCommandType.GET_KINGDOM_CLOCK_STATE, "Get Kingdom Clock State", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, false,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.TICK_KINGDOM_CLOCK, "Tick Kingdom Clock", ControlPermission.EXECUTE_GLOBAL_TICK, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.TICK_ALL_KINGDOM_CLOCKS, "Tick All Kingdom Clocks", ControlPermission.EXECUTE_GLOBAL_TICK, true, CommandTargetScope.GLOBAL, true, true));
+        register(definitions, definition(ControlCommandType.SET_KINGDOM_CLOCK_MODE, "Set Kingdom Clock Mode", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID"),
+                arg("mode", true, "REAL_TIME_SYNCED, ACCELERATED, FIXED_OVERRIDE, or PAUSED")));
+        register(definitions, definition(ControlCommandType.SET_KINGDOM_TIME_OVERRIDE, "Set Kingdom Time Override", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID"),
+                arg("time", true, "HH:mm")));
+        register(definitions, definition(ControlCommandType.CLEAR_KINGDOM_TIME_OVERRIDE, "Clear Kingdom Time Override", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.PAUSE_KINGDOM_CLOCK, "Pause Kingdom Clock", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.RESUME_KINGDOM_CLOCK, "Resume Kingdom Clock", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.UPDATE_KINGDOM_CLOCK_CONFIG, "Update Kingdom Clock Config", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.DEBUG_KINGDOM_CLOCK, "Debug Kingdom Clock", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, false,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.CREATE_KINGDOM_SCHEDULE_RULE, "Create Kingdom Schedule Rule", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID"),
+                arg("ruleType", true, "Schedule rule type")));
+        register(definitions, definition(ControlCommandType.UPDATE_KINGDOM_SCHEDULE_RULE, "Update Kingdom Schedule Rule", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("scheduleRuleId", true, "Schedule rule ID")));
+        register(definitions, definition(ControlCommandType.ENABLE_KINGDOM_SCHEDULE_RULE, "Enable Kingdom Schedule Rule", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("scheduleRuleId", true, "Schedule rule ID")));
+        register(definitions, definition(ControlCommandType.DISABLE_KINGDOM_SCHEDULE_RULE, "Disable Kingdom Schedule Rule", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("scheduleRuleId", true, "Schedule rule ID")));
+        register(definitions, definition(ControlCommandType.LIST_ACTIVE_KINGDOM_SCHEDULE_RULES, "List Active Kingdom Schedule Rules", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, false,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.APPLY_KINGDOM_SCHEDULED_STATE_CHANGES, "Apply Kingdom Scheduled State Changes", ControlPermission.EXECUTE_GLOBAL_TICK, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.DEBUG_KINGDOM_SCHEDULE, "Debug Kingdom Schedule", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, false,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.UPDATE_AGING_TICK_POLICY, "Update Aging Tick Policy", ControlPermission.MANAGE_KINGDOM_STATE, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.RUN_AGING_TICK, "Run Aging Tick", ControlPermission.EXECUTE_GLOBAL_TICK, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.DEBUG_AGING_TICK, "Debug Aging Tick", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, false,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.REFRESH_KINGDOM_CLOCK_PROJECTION, "Refresh Kingdom Clock Projection", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, true,
+                arg("kingdomId", false, "Kingdom ID"),
+                arg("platform", false, "Platform")));
+        register(definitions, definition(ControlCommandType.REFRESH_KINGDOM_SCHEDULE_PROJECTION, "Refresh Kingdom Schedule Projection", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, true,
+                arg("kingdomId", false, "Kingdom ID"),
+                arg("platform", false, "Platform")));
         this.definitionsByType = Map.copyOf(definitions);
     }
 

@@ -5,5 +5,7 @@ public enum ResourceGameFrontendObjectKind {
     RESOURCE_NODE,
     GUILD,
     PETITION,
-    PROPAGANDA_CAMPAIGN
+    PROPAGANDA_CAMPAIGN,
+    KINGDOM_CLOCK,
+    KINGDOM_SCHEDULE
 }

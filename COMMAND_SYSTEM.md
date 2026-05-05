@@ -83,6 +83,7 @@ Provide a development-first admin and debug surface that accelerates gameplay it
 - Spring Boot control panel entry point: `com.tavall.hytale.resourcegame.controlserver.web.ControlServerApplication`, with pages rooted at `/control`.
 - Both surfaces delegate to `ControlCommandDispatchHandler`; neither the CLI nor the web controllers mutate gameplay state directly.
 - Current command batch includes `DEBUG_PLAYER_STATE`, `REGISTER_GLOBAL_ASSET`, `REFRESH_FRONTEND_PROJECTIONS`, `ASSIGN_TROOP_WOUND`, `START_TROOP_HEALING`, `RUN_HEALING_TICK`, `GIVE_RESOURCE`, `BROADCAST_PLATFORM_MESSAGE`, `SYNC_PLATFORM_STATE`, `DEBUG_TROOP_HEALING_STATE`, and the universal kingdom commands for kingdom creation/scaling, borders, coordinates, player locations, instance routing, editable parameters, and new-player routing.
+- Kingdom Clock commands are also plain Java control-plane commands. Spring web panel forms and frontend `/kd clock`, `/kd schedule`, and `/kd aging` inputs submit through the same parser/dispatcher instead of mutating clock state directly.
 - Useful CLI examples:
   - `dry-run troop wound <troopId> GENERAL_WOUND MODERATE`
   - `execute troop wound <troopId> GENERAL_WOUND MODERATE`
@@ -94,6 +95,14 @@ Provide a development-first admin and debug surface that accelerates gameplay it
   - `kingdom create --displayName First --worldId default --borderSize 1000`
   - `kingdom debug kingdom-1`
   - `kingdom scaling evaluate`
+  - `clock state kingdom-1`
+  - `clock override kingdom-1 22:00`
+  - `clock mode kingdom-1 ACCELERATED`
+  - `clock config kingdom-1 acceleratedTimeMultiplier=12`
+  - `schedule active kingdom-1`
+  - `schedule create kingdom-1 SHOP_OPEN startHour=8 endHour=20`
+  - `aging policy kingdom-1 enabled=true realMinutesPerAgeIncrement=60`
+  - `aging tick kingdom-1`
   - `kingdom border resolve default 100 65 100`
   - `kingdom border simulate-crossing player-1 default 100 65 100 1200 65 100`
   - `coord convert roblox default 10 0 20`
@@ -113,3 +122,4 @@ Provide a development-first admin and debug surface that accelerates gameplay it
 - Failed platform fanout creates retry records instead of silently disappearing; scheduled commands dispatch through the same `ControlCommandDispatchHandler` as CLI and web input.
 - Minecraft and Hytale verification should start from the shared control pipeline, then use platform debug/projection hooks to observe wound/healing projection changes. Roblox and Discord are verified through in-memory fanout/projection adapters until live runtimes are wired.
 - Universal kingdom verification should start in the plain Java control runtime. Minecraft/Hytale/Roblox location updates are platform coordinates, the backend converts to canonical coordinates, border containment resolves the kingdom, and any cross-border transition creates an instance-switch request for the frontend adapter to execute.
+- Kingdom Clock verification should start in the same runtime: set `clock override kingdom-1 22:00`, refresh clock/schedule projections for Minecraft/Hytale/Roblox/Discord, and verify frontends render `NIGHT` without calculating canonical time locally.

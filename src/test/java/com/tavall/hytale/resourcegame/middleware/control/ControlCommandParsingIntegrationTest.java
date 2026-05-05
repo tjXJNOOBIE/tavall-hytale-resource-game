@@ -61,6 +61,22 @@ public final class ControlCommandParsingIntegrationTest {
     }
 
     @Test
+    void consoleParserCreatesKingdomClockScheduleAndAgingCommands() {
+        ControlCommandParsingHandler parser = new ControlCommandParsingHandler();
+        ControlOperator operator = ControlOperator.localOwner(Instant.parse("2026-05-05T16:00:00Z"));
+
+        ControlCommand clockOverride = parser.parseConsoleCommand("clock override kingdom-1 22:00", operator, CommandIssuedFrom.CLI, Instant.now());
+        ControlCommand scheduleCreate = parser.parseConsoleCommand("schedule create kingdom-1 SHOP_OPEN startHour=8 endHour=20", operator, CommandIssuedFrom.CLI, Instant.now());
+        ControlCommand agingTick = parser.parseConsoleCommand("aging tick kingdom-1", operator, CommandIssuedFrom.CLI, Instant.now());
+
+        assertEquals(ControlCommandType.SET_KINGDOM_TIME_OVERRIDE, clockOverride.commandType());
+        assertEquals("22:00", clockOverride.argument("time"));
+        assertEquals(ControlCommandType.CREATE_KINGDOM_SCHEDULE_RULE, scheduleCreate.commandType());
+        assertEquals("SHOP_OPEN", scheduleCreate.argument("ruleType"));
+        assertEquals(ControlCommandType.RUN_AGING_TICK, agingTick.commandType());
+    }
+
+    @Test
     void parserRejectsUnknownAndMalformedCommands() {
         ControlCommandParsingHandler parser = new ControlCommandParsingHandler();
         ControlOperator operator = ControlOperator.localOwner(Instant.now());

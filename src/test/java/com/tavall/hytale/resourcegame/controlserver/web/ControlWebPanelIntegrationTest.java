@@ -74,6 +74,33 @@ public final class ControlWebPanelIntegrationTest {
                 .andExpect(content().string(containsString("GENERAL_WOUND")));
     }
 
+    @Test
+    void clockPanelQueriesDirectJavaRuntimeAndSubmitsCommandsThroughDispatcher() throws Exception {
+        ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime();
+        MockMvc mockMvc = mockMvc(runtime);
+
+        mockMvc.perform(get("/control/clock"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Kingdom Clock")))
+                .andExpect(content().string(containsString("plain-java-control-server")));
+
+        mockMvc.perform(post("/control/clock/override")
+                        .param("kingdomId", "kingdom-1")
+                        .param("time", "22:00")
+                        .param("dryRun", "true"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("DRY_RUN_COMPLETED")));
+        org.junit.jupiter.api.Assertions.assertTrue(runtime.kingdomClockSystem().getCurrentClockState("kingdom-1").timeOverride().isEmpty());
+
+        mockMvc.perform(post("/control/clock/override")
+                        .param("kingdomId", "kingdom-1")
+                        .param("time", "22:00")
+                        .param("dryRun", "false"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("COMPLETED")));
+        org.junit.jupiter.api.Assertions.assertTrue(runtime.kingdomClockSystem().getCurrentClockState("kingdom-1").timeOverride().isPresent());
+    }
+
     private MockMvc mockMvc(ControlCommandRuntime runtime) {
         ControlOperator webOperator = ControlOperator.localOwner(Instant.now());
         return MockMvcBuilders.standaloneSetup(
@@ -86,6 +113,7 @@ public final class ControlWebPanelIntegrationTest {
                 new ControlGuildController(),
                 new ControlCastleController(),
                 new ControlGlobalAssetController(),
+                new ControlKingdomClockController(runtime, webOperator),
                 new ControlOperatorController(runtime)
         ).build();
     }

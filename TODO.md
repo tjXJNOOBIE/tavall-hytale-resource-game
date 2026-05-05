@@ -26,6 +26,7 @@
 ## Citizen Aging
 - Finalize the real-world aging cadence ("1 Real world da..." pending).
 - Add lifecycle milestones and retirement handling.
+- Promote the new control-plane `AgingTickPolicy` from in-memory test/local storage to durable persistence once clock migrations are added.
 
 ## Resources & Economy
 - Add production buildings for Food/Wood/Iron generation.
@@ -53,6 +54,12 @@
 - Future wound expansion remains: burn wounds and additional status injuries are not included in this pass; integration point is `WoundType`, `TroopHealingRecipeSelectionHandler`, projection tests, and balance policy after current wound set is validated.
 
 ## Control Plane Follow-ups
+- Durable Kingdom Clock persistence remains: `KingdomClockControlSystem` has in-memory repository ports for `KingdomClockState`, `KingdomClockConfig`, `KingdomScheduleRule`, `AgingTickPolicy`, and last aging tick state, but no production tables/JDBC adapters yet. Expected integration point: `com.tavall.hytale.resourcegame.middleware.clock.KingdomClockRepository` plus a future clock migration.
+- Full clock downstream integrations remain: citizen AI, shops, interiors, troop training, building productivity, morale, companion recovery, raid windows, seasons, holidays/festivals, laws, and tax schedules should consume the canonical clock/schedule hooks instead of adding local time logic.
+- Hytale live clock bot verification remains: Java projection tests pass, but the live bot scenario should mirror `C:\Users\TJ\Documents\HytaleDevServer` to the remote 1:1 and run the bot harness beside it to verify `clock override kingdom-1 22:00` projects `NIGHT` into Hytale. Expected integration point: remote Hytale bot scripts plus `KingdomClockControlSystem` projection commands.
+- Minecraft live clock command verification remains: `/kingdom clock` or equivalent Minecraft adapter commands should read `KingdomClockProjection` and render phase/hour from the backend. Expected integration point: future Minecraft command adapter calling `REFRESH_KINGDOM_CLOCK_PROJECTION`.
+- Roblox/Discord live clock bridge remains: in-memory projection tests exist, but live Roblox RemoteEvent and Discord summary/button surfaces still need runtime transport wiring. Expected integration point: `RobloxProjectionHandler`, `DiscordProjectionHandler`, and frontend command-envelope adapters.
+- Optional Spring clock panel production hardening remains: `/control/clock` uses direct Java runtime/query and dispatcher paths now, but authentication/session-backed operator identity should replace the local owner dev operator before public exposure.
 - Durable universal kingdom persistence remains: the new kingdom simulation has repository ports and in-memory adapters for tests/local control-server boot, but no Postgres tables or JDBC repositories have been added yet. Expected integration point: `com.tavall.hytale.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.UniversalKingdomRepository` plus a future `schema/postgres/005_universal_kingdom_simulation.sql`.
 - Advanced kingdom border geometry remains: rectangular borders are implemented first; polygon/custom borders need geometry validation, overlap policy, and editor support. Expected integration point: `KingdomBorderDefinition`, `KingdomBorderShape`, and `KingdomBorderContainmentHandler`-style extraction under `middleware.kingdom`.
 - Production instance health checks remain: routing profiles and platform instance health commands exist, but no live polling worker updates instance health from Minecraft/Hytale/Roblox servers. Expected integration point: `PlatformInstanceHealthUpdateHandler`, `PlatformInstanceSelectionHandler`, and the control-server scheduler loop.

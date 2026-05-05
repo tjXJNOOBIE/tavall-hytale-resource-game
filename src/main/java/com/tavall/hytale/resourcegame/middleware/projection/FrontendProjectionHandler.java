@@ -3,6 +3,9 @@ package com.tavall.hytale.resourcegame.middleware.projection;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetId;
 import com.tavall.hytale.resourcegame.middleware.asset.ResolvedPlatformAsset;
 import com.tavall.hytale.resourcegame.middleware.castle.Castle;
+import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockProjection;
+import com.tavall.hytale.resourcegame.middleware.clock.KingdomScheduleProjection;
+import com.tavall.hytale.resourcegame.middleware.clock.KingdomTimePhase;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildKingdom;
 import com.tavall.hytale.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
@@ -89,6 +92,38 @@ public final class FrontendProjectionHandler {
         ));
     }
 
+    public FrontendProjection projectKingdomClock(KingdomClockProjection clockProjection, GamePlatform platform, List<InteractionAction> actions) {
+        return projection(platform, "kingdom-clock:" + clockProjection.kingdomId(), ProjectionObjectType.KINGDOM_CLOCK, new GlobalAssetId(globalAssetForClockPhase(clockProjection.currentPhase())),
+                clockProjection.kingdomId() + " clock", Optional.empty(), clockProjection.currentPhase().name(), actions, Map.ofEntries(
+                        Map.entry("kingdomId", clockProjection.kingdomId()),
+                        Map.entry("currentKingdomDay", Long.toString(clockProjection.currentKingdomDay())),
+                        Map.entry("currentHour", Integer.toString(clockProjection.currentHour())),
+                        Map.entry("currentMinute", Integer.toString(clockProjection.currentMinute())),
+                        Map.entry("currentPhase", clockProjection.currentPhase().name()),
+                        Map.entry("isDay", Boolean.toString(clockProjection.isDay())),
+                        Map.entry("isNight", Boolean.toString(clockProjection.isNight())),
+                        Map.entry("mode", clockProjection.mode().name()),
+                        Map.entry("timezoneId", clockProjection.timezoneId()),
+                        Map.entry("visualMood", clockProjection.visualMood().name()),
+                        Map.entry("canonicalOwner", "plain-java-control-server")
+                ));
+    }
+
+    public FrontendProjection projectKingdomSchedule(KingdomScheduleProjection scheduleProjection, GamePlatform platform, List<InteractionAction> actions) {
+        return projection(platform, "kingdom-schedule:" + scheduleProjection.kingdomId(), ProjectionObjectType.KINGDOM_SCHEDULE, new GlobalAssetId("kingdom_schedule.shop.open"),
+                scheduleProjection.kingdomId() + " schedule", Optional.empty(), "ACTIVE_WINDOWS_" + scheduleProjection.activeWindows().size(), actions, Map.of(
+                        "kingdomId", scheduleProjection.kingdomId(),
+                        "activeWindowCount", Integer.toString(scheduleProjection.activeWindows().size()),
+                        "citizenScheduleHints", String.join(",", scheduleProjection.citizenScheduleHints()),
+                        "shopOpenCloseHints", String.join(",", scheduleProjection.shopOpenCloseHints()),
+                        "interiorMoodHints", String.join(",", scheduleProjection.interiorMoodHints()),
+                        "troopTrainingHints", String.join(",", scheduleProjection.troopTrainingHints()),
+                        "buildingProductivityHints", String.join(",", scheduleProjection.buildingProductivityHints()),
+                        "moraleHints", String.join(",", scheduleProjection.moraleHints()),
+                        "canonicalOwner", "plain-java-control-server"
+                ));
+    }
+
     private FrontendProjection projection(
             GamePlatform platform,
             String canonicalObjectId,
@@ -128,6 +163,15 @@ public final class FrontendProjectionHandler {
             case FULL -> "kingdom.full";
             case OVERPOWERED -> "kingdom.overpowered";
             default -> "kingdom.default";
+        };
+    }
+
+    private String globalAssetForClockPhase(KingdomTimePhase phase) {
+        return switch (phase) {
+            case DAWN -> "kingdom_clock.phase.dawn";
+            case DAY -> "kingdom_clock.phase.day";
+            case DUSK -> "kingdom_clock.phase.dusk";
+            case NIGHT -> "kingdom_clock.phase.night";
         };
     }
 }

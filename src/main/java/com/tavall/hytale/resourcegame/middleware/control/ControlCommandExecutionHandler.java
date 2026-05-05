@@ -4,6 +4,7 @@ import com.tavall.hytale.resourcegame.middleware.asset.GlobalAsset;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetId;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetRepository;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetType;
+import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.healing.HealingFacilityDefinitionRegistry;
 import com.tavall.hytale.resourcegame.middleware.healing.HealingFacilityLevelDefinition;
@@ -54,6 +55,7 @@ public final class ControlCommandExecutionHandler {
     private final TroopHealingProgressTickHandler healingProgressTickHandler;
     private final ControlSurfaceLaunchHandler surfaceLaunchHandler;
     private final UniversalKingdomSimulationSystem kingdomSimulationSystem;
+    private final KingdomClockControlSystem kingdomClockSystem;
 
     public ControlCommandExecutionHandler(
             UniversalPlayerAccountRepository accountRepository,
@@ -69,7 +71,8 @@ public final class ControlCommandExecutionHandler {
             TroopHealingStartHandler healingStartHandler,
             TroopHealingProgressTickHandler healingProgressTickHandler,
             ControlSurfaceLaunchHandler surfaceLaunchHandler,
-            UniversalKingdomSimulationSystem kingdomSimulationSystem
+            UniversalKingdomSimulationSystem kingdomSimulationSystem,
+            KingdomClockControlSystem kingdomClockSystem
     ) {
         this.accountRepository = accountRepository;
         this.platformAccountBindingRepository = platformAccountBindingRepository;
@@ -85,6 +88,7 @@ public final class ControlCommandExecutionHandler {
         this.healingProgressTickHandler = healingProgressTickHandler;
         this.surfaceLaunchHandler = surfaceLaunchHandler;
         this.kingdomSimulationSystem = kingdomSimulationSystem;
+        this.kingdomClockSystem = kingdomClockSystem;
     }
 
     public ControlCommandResult executeCommand(ControlCommand command, Instant startedAt) {
@@ -114,6 +118,16 @@ public final class ControlCommandExecutionHandler {
                      UPDATE_EDITABLE_PARAMETER, DRY_RUN_EDITABLE_PARAMETER_UPDATE,
                      EVALUATE_NEW_PLAYER_KINGDOM, ASSIGN_NEW_PLAYER_KINGDOM ->
                         kingdomSimulationSystem.handleControlCommand(command, startedAt);
+                case GET_KINGDOM_CLOCK_STATE, TICK_KINGDOM_CLOCK, TICK_ALL_KINGDOM_CLOCKS,
+                     SET_KINGDOM_CLOCK_MODE, SET_KINGDOM_TIME_OVERRIDE, CLEAR_KINGDOM_TIME_OVERRIDE,
+                     PAUSE_KINGDOM_CLOCK, RESUME_KINGDOM_CLOCK, UPDATE_KINGDOM_CLOCK_CONFIG,
+                     DEBUG_KINGDOM_CLOCK, CREATE_KINGDOM_SCHEDULE_RULE, UPDATE_KINGDOM_SCHEDULE_RULE,
+                     ENABLE_KINGDOM_SCHEDULE_RULE, DISABLE_KINGDOM_SCHEDULE_RULE,
+                     LIST_ACTIVE_KINGDOM_SCHEDULE_RULES, APPLY_KINGDOM_SCHEDULED_STATE_CHANGES,
+                     DEBUG_KINGDOM_SCHEDULE, UPDATE_AGING_TICK_POLICY, RUN_AGING_TICK,
+                     DEBUG_AGING_TICK, REFRESH_KINGDOM_CLOCK_PROJECTION,
+                     REFRESH_KINGDOM_SCHEDULE_PROJECTION ->
+                        kingdomClockSystem.handleControlCommand(command, startedAt);
                 default -> rejected(command, startedAt, "Command type is registered but execution is not implemented yet: " + command.commandType() + ".");
             };
         } catch (RuntimeException exception) {
