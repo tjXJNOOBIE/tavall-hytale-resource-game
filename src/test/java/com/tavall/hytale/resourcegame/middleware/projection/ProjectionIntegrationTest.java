@@ -19,6 +19,7 @@ import com.tavall.hytale.resourcegame.middleware.guild.GuildMemberProfile;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildMembershipHandler;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildPermissionValidationHandler;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildAuthorityTierHandler;
+import com.tavall.hytale.resourcegame.middleware.guild.GuildPermission;
 import com.tavall.hytale.resourcegame.middleware.guild.InMemoryGuildRepository;
 import com.tavall.hytale.resourcegame.middleware.identity.UniversalPlayerId;
 import com.tavall.hytale.resourcegame.middleware.node.InMemoryResourceNodeRepository;
@@ -109,8 +110,13 @@ public final class ProjectionIntegrationTest {
 
         Petition petition = new GuildPetitionCreationHandler(new InMemoryPetitionRepository())
                 .createPetition(guildKingdom.guildId(), council.universalPlayerId(), council, PetitionType.AUDIT_TREASURY, "Audit treasury", now);
-        assertEquals(PlatformInteractionType.DISCORD_BUTTON, discordProjectionHandler.projectPetitionForDiscord(petition).interactionActions().getFirst().interactionType());
-        assertEquals(PlatformInteractionType.MINECRAFT_COMMAND, minecraftProjectionHandler.projectPetitionForMinecraftClient(petition).interactionActions().getFirst().interactionType());
+        InteractionAction discordPetitionAction = discordProjectionHandler.projectPetitionForDiscord(petition).interactionActions().getFirst();
+        InteractionAction minecraftPetitionAction = minecraftProjectionHandler.projectPetitionForMinecraftClient(petition).interactionActions().getFirst();
+        assertEquals(PlatformInteractionType.DISCORD_BUTTON, discordPetitionAction.interactionType());
+        assertEquals(GuildAuthorityTier.COUNCIL, discordPetitionAction.requiredTier().orElseThrow());
+        assertTrue(discordPetitionAction.requiredPermissions().contains(GuildPermission.CREATE_PETITION));
+        assertEquals(PlatformInteractionType.MINECRAFT_COMMAND, minecraftPetitionAction.interactionType());
+        assertEquals(GuildAuthorityTier.COUNCIL, minecraftPetitionAction.requiredTier().orElseThrow());
     }
 
     @Test

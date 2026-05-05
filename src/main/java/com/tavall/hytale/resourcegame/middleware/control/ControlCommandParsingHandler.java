@@ -32,6 +32,10 @@ public final class ControlCommandParsingHandler {
             case "projection" -> parseProjectionCommand(tokens, operator, issuedFrom, dryRun, now);
             case "platform" -> parsePlatformCommand(tokens, operator, issuedFrom, dryRun, now);
             case "troop" -> parseTroopCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "kingdom" -> parseKingdomCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "coord", "coordinate" -> parseCoordinateCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "instance" -> parseInstanceCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "params", "parameter", "parameters" -> parseParameterCommand(tokens, operator, issuedFrom, dryRun, now);
             case "tick" -> parseTickCommand(tokens, operator, issuedFrom, dryRun, now);
             case "resource" -> parseResourceCommand(tokens, operator, issuedFrom, dryRun, now);
             case "broadcast" -> parseBroadcastCommand(tokens, operator, issuedFrom, dryRun, now);
@@ -43,8 +47,19 @@ public final class ControlCommandParsingHandler {
 
     private ControlCommand parsePlayerCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
         requireSize(tokens, 3, "player debug <universalPlayerId>");
+        if (tokens.get(1).equalsIgnoreCase("location")) {
+            requireSize(tokens, 8, "player location <universalPlayerId> <platform> <worldId> <x> <y> <z>");
+            return command(ControlCommandType.UPDATE_PLAYER_LOCATION, operator, issuedFrom, CommandTargetScope.PLAYER, parsePlatforms(tokens.get(3)), Map.of(
+                    "universalPlayerId", tokens.get(2),
+                    "platform", tokens.get(3),
+                    "worldId", tokens.get(4),
+                    "x", tokens.get(5),
+                    "y", tokens.get(6),
+                    "z", tokens.get(7)
+            ), dryRun, now);
+        }
         if (!tokens.get(1).equalsIgnoreCase("debug")) {
-            throw new ControlCommandValidationException("Expected player debug <universalPlayerId>.");
+            throw new ControlCommandValidationException("Expected player debug <universalPlayerId> or player location <universalPlayerId> <platform> <worldId> <x> <y> <z>.");
         }
         return command(ControlCommandType.DEBUG_PLAYER_STATE, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), Map.of("universalPlayerId", tokens.get(2)), dryRun, now);
     }
@@ -117,11 +132,171 @@ public final class ControlCommandParsingHandler {
 
     private ControlCommand parseTickCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
         requireSize(tokens, 2, "tick healing [count]");
+        if (tokens.get(1).equalsIgnoreCase("kingdom")) {
+            return command(ControlCommandType.RUN_KINGDOM_SIMULATION_TICK, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of(), dryRun, now);
+        }
         if (!tokens.get(1).equalsIgnoreCase("healing")) {
-            throw new ControlCommandValidationException("Expected tick healing [count].");
+            throw new ControlCommandValidationException("Expected tick healing [count] or tick kingdom.");
         }
         String count = tokens.size() >= 3 ? tokens.get(2) : "1";
         return command(ControlCommandType.RUN_HEALING_TICK, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of("tickCount", count), dryRun, now);
+    }
+
+    private ControlCommand parseKingdomCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "kingdom <create|debug|scaling|tick|border> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("create")) {
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 2);
+            if (tokens.size() >= 3 && !tokens.get(2).startsWith("--") && !tokens.get(2).contains("=")) {
+                arguments.putIfAbsent("displayName", tokens.get(2));
+            }
+            return command(ControlCommandType.CREATE_KINGDOM, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("debug")) {
+            requireSize(tokens, 3, "kingdom debug <kingdomId>");
+            return command(ControlCommandType.DEBUG_KINGDOM_STATE, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), Map.of("kingdomId", tokens.get(2)), dryRun, now);
+        }
+        if (operation.equals("scaling")) {
+            requireSize(tokens, 3, "kingdom scaling evaluate");
+            if (!tokens.get(2).equalsIgnoreCase("evaluate")) {
+                throw new ControlCommandValidationException("Expected kingdom scaling evaluate.");
+            }
+            return command(ControlCommandType.EVALUATE_KINGDOM_SCALING, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of(), dryRun, now);
+        }
+        if (operation.equals("tick")) {
+            return command(ControlCommandType.RUN_KINGDOM_SIMULATION_TICK, operator, issuedFrom, CommandTargetScope.GLOBAL, Set.of(), Map.of(), dryRun, now);
+        }
+        if (operation.equals("border")) {
+            return parseKingdomBorderCommand(tokens, operator, issuedFrom, dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown kingdom command: " + operation + ".");
+    }
+
+    private ControlCommand parseKingdomBorderCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 3, "kingdom border <create|update|debug|resolve|simulate-crossing> ...");
+        String operation = tokens.get(2).toLowerCase();
+        if (operation.equals("create") || operation.equals("update")) {
+            requireSize(tokens, 8, "kingdom border update <kingdomId> <minX> <maxX> <minZ> <maxZ> [worldId]");
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 8);
+            arguments.put("kingdomId", tokens.get(3));
+            arguments.put("minX", tokens.get(4));
+            arguments.put("maxX", tokens.get(5));
+            arguments.put("minZ", tokens.get(6));
+            arguments.put("maxZ", tokens.get(7));
+            arguments.putIfAbsent("worldId", tokens.size() >= 9 && !tokens.get(8).startsWith("--") && !tokens.get(8).contains("=") ? tokens.get(8) : "default");
+            return command(operation.equals("create") ? ControlCommandType.CREATE_KINGDOM_BORDER : ControlCommandType.UPDATE_KINGDOM_BORDER, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("debug") || operation.equals("resolve")) {
+            requireSize(tokens, 7, "kingdom border resolve <worldId> <x> <y> <z>");
+            return command(operation.equals("debug") ? ControlCommandType.DEBUG_KINGDOM_BORDER : ControlCommandType.RESOLVE_COORDINATE_KINGDOM, operator, issuedFrom, CommandTargetScope.COORDINATE_CONVERSION, Set.of(), Map.of(
+                    "worldId", tokens.get(3),
+                    "x", tokens.get(4),
+                    "y", tokens.get(5),
+                    "z", tokens.get(6)
+            ), dryRun, now);
+        }
+        if (operation.equals("simulate-crossing")) {
+            requireSize(tokens, 11, "kingdom border simulate-crossing <playerId> <worldId> <fromX> <fromY> <fromZ> <toX> <toY> <toZ>");
+            return command(ControlCommandType.SIMULATE_BORDER_CROSSING, operator, issuedFrom, CommandTargetScope.COORDINATE_CONVERSION, Set.of(), Map.of(
+                    "universalPlayerId", tokens.get(3),
+                    "worldId", tokens.get(4),
+                    "fromX", tokens.get(5),
+                    "fromY", tokens.get(6),
+                    "fromZ", tokens.get(7),
+                    "toX", tokens.get(8),
+                    "toY", tokens.get(9),
+                    "toZ", tokens.get(10)
+            ), dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown kingdom border command: " + operation + ".");
+    }
+
+    private ControlCommand parseCoordinateCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "coord <convert|debug> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("convert") || operation.equals("debug")) {
+            requireSize(tokens, 7, "coord convert <platform> <worldId> <x> <y> <z>");
+            return command(operation.equals("debug") ? ControlCommandType.DEBUG_COORDINATE_CONVERSION : ControlCommandType.CONVERT_PLATFORM_COORDINATE, operator, issuedFrom, CommandTargetScope.COORDINATE_CONVERSION, Set.of(), Map.of(
+                    "platform", tokens.get(2),
+                    "worldId", tokens.get(3),
+                    "x", tokens.get(4),
+                    "y", tokens.get(5),
+                    "z", tokens.get(6)
+            ), dryRun, now);
+        }
+        if (operation.equals("params")) {
+            requireSize(tokens, 4, "coord params <platform> key=value ...");
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 3);
+            arguments.put("platform", tokens.get(2));
+            return command(ControlCommandType.UPDATE_COORDINATE_CONVERSION_PARAMETERS, operator, issuedFrom, CommandTargetScope.COORDINATE_CONVERSION, Set.of(), arguments, dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown coordinate command: " + operation + ".");
+    }
+
+    private ControlCommand parseInstanceCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "instance <register|health|switch|routing> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("register")) {
+            requireSize(tokens, 5, "instance register <platform> <kingdomId> <platformInstanceId> [instanceName]");
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 5);
+            arguments.put("platform", tokens.get(2));
+            arguments.put("kingdomId", tokens.get(3));
+            arguments.put("platformInstanceId", tokens.get(4));
+            if (tokens.size() >= 6 && !tokens.get(5).startsWith("--") && !tokens.get(5).contains("=")) {
+                arguments.put("instanceName", tokens.get(5));
+            }
+            return command(ControlCommandType.REGISTER_PLATFORM_INSTANCE, operator, issuedFrom, CommandTargetScope.PLATFORM_INSTANCE, parsePlatforms(tokens.get(2)), arguments, dryRun, now);
+        }
+        if (operation.equals("health")) {
+            requireSize(tokens, 4, "instance health <platformInstanceId> <state>");
+            return command(ControlCommandType.UPDATE_PLATFORM_INSTANCE_HEALTH, operator, issuedFrom, CommandTargetScope.PLATFORM_INSTANCE, Set.of(), Map.of("platformInstanceId", tokens.get(2), "state", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("switch")) {
+            requireSize(tokens, 6, "instance switch <playerId> <platform> <fromKingdomId> <toKingdomId>");
+            return command(ControlCommandType.REQUEST_INSTANCE_SWITCH, operator, issuedFrom, CommandTargetScope.PLAYER, parsePlatforms(tokens.get(3)), Map.of(
+                    "universalPlayerId", tokens.get(2),
+                    "platform", tokens.get(3),
+                    "fromKingdomId", tokens.get(4),
+                    "toKingdomId", tokens.get(5)
+            ), dryRun, now);
+        }
+        if (operation.equals("routing")) {
+            requireSize(tokens, 5, "instance routing debug <kingdomId> <platform>");
+            if (!tokens.get(2).equalsIgnoreCase("debug")) {
+                throw new ControlCommandValidationException("Expected instance routing debug <kingdomId> <platform>.");
+            }
+            return command(ControlCommandType.DEBUG_INSTANCE_ROUTING, operator, issuedFrom, CommandTargetScope.PLATFORM_INSTANCE, parsePlatforms(tokens.get(4)), Map.of("kingdomId", tokens.get(3), "platform", tokens.get(4)), dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown instance command: " + operation + ".");
+    }
+
+    private ControlCommand parseParameterCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "params <list|get|set|dry-run> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("list")) {
+            return command(ControlCommandType.LIST_EDITABLE_PARAMETERS, operator, issuedFrom, CommandTargetScope.PARAMETER, Set.of(), Map.of(), dryRun, now);
+        }
+        if (operation.equals("get")) {
+            requireSize(tokens, 3, "params get <parameterKey> [scopeId]");
+            LinkedHashMap<String, String> arguments = new LinkedHashMap<>();
+            arguments.put("parameterKey", tokens.get(2));
+            if (tokens.size() >= 4) {
+                arguments.put("scopeId", tokens.get(3));
+            }
+            return command(ControlCommandType.GET_EDITABLE_PARAMETER, operator, issuedFrom, CommandTargetScope.PARAMETER, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("set") || operation.equals("dry-run")) {
+            requireSize(tokens, 4, "params set <parameterKey> <value> [scopeType] [scopeId]");
+            LinkedHashMap<String, String> arguments = new LinkedHashMap<>();
+            arguments.put("parameterKey", tokens.get(2));
+            arguments.put("value", tokens.get(3));
+            arguments.put("scopeType", tokens.size() >= 5 ? tokens.get(4) : "GLOBAL");
+            if (tokens.size() >= 6) {
+                arguments.put("scopeId", tokens.get(5));
+            }
+            return command(operation.equals("dry-run") ? ControlCommandType.DRY_RUN_EDITABLE_PARAMETER_UPDATE : ControlCommandType.UPDATE_EDITABLE_PARAMETER, operator, issuedFrom, CommandTargetScope.PARAMETER, Set.of(), arguments, dryRun || operation.equals("dry-run"), now);
+        }
+        throw new ControlCommandValidationException("Unknown params command: " + operation + ".");
     }
 
     private ControlCommand parseResourceCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
@@ -224,6 +399,29 @@ public final class ControlCommandParsingHandler {
                 .filter(platform -> !platform.isBlank())
                 .map(platform -> GamePlatform.valueOf(platform.toUpperCase()))
                 .collect(Collectors.toSet());
+    }
+
+    private LinkedHashMap<String, String> namedArguments(ArrayList<String> tokens, int startIndex) {
+        LinkedHashMap<String, String> arguments = new LinkedHashMap<>();
+        for (int index = startIndex; index < tokens.size(); index++) {
+            String token = tokens.get(index);
+            if (token.startsWith("--")) {
+                String key = token.substring(2);
+                if (key.isBlank()) {
+                    throw new ControlCommandValidationException("Named argument key is required.");
+                }
+                if (index + 1 >= tokens.size()) {
+                    throw new ControlCommandValidationException("Value is required for argument: " + key + ".");
+                }
+                arguments.put(key, tokens.get(++index));
+                continue;
+            }
+            int equalsIndex = token.indexOf('=');
+            if (equalsIndex > 0) {
+                arguments.put(token.substring(0, equalsIndex), token.substring(equalsIndex + 1));
+            }
+        }
+        return arguments;
     }
 
     private void requireSize(ArrayList<String> tokens, int minSize, String usage) {

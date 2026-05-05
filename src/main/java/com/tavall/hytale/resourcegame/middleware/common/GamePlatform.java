@@ -5,5 +5,7 @@ public enum GamePlatform {
     HYTALE,
     ROBLOX,
     DISCORD,
+    ANDROID,
+    PC,
     UNKNOWN
 }

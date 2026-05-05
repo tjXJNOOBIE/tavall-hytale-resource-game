@@ -62,8 +62,10 @@ public final class ControlCommandDispatchIntegrationTest {
         ControlCommandResult result = runtime.dispatchHandler().dispatchCommand(command);
 
         assertEquals(CommandExecutionState.COMPLETED, result.state());
-        assertEquals(4, result.platformResults().size());
+        assertEquals(runtime.fanoutHandler().adaptersByPlatform().size(), result.platformResults().size());
         assertTrue(result.platformResults().stream().allMatch(PlatformCommandResult::success));
+        assertTrue(result.platformResults().stream().anyMatch(platformResult -> platformResult.platform() == GamePlatform.ANDROID && platformResult.success()));
+        assertTrue(result.platformResults().stream().anyMatch(platformResult -> platformResult.platform() == GamePlatform.PC && platformResult.success()));
         assertEquals(1, runtime.troopHealingRepository().findActiveWoundsForTroop(troop.troopId()).size());
         assertTrue(result.changedObjectIds().stream().anyMatch(id -> id.startsWith("wound:")));
         assertTrue(((InMemoryPlatformFrontendAdapter) runtime.fanoutHandler().adaptersByPlatform().get(GamePlatform.ROBLOX)).refreshedProjectionIds().stream()

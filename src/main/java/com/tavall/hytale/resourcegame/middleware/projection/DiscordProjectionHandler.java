@@ -71,12 +71,16 @@ public final class DiscordProjectionHandler {
         return new InteractionAction(
                 descriptor.actionId(),
                 descriptor.label(),
-                Optional.empty(),
-                Set.of(),
+                descriptor.requiredTier().map(GuildAuthorityTier::valueOf),
+                permissions(descriptor),
                 true,
                 Optional.empty(),
                 PlatformInteractionType.valueOf(descriptor.interactionType()),
                 Map.of()
         );
+    }
+
+    private Set<GuildPermission> permissions(ResourceGameFrontendActionDescriptor descriptor) {
+        return Set.copyOf(descriptor.requiredPermissions().stream().map(GuildPermission::valueOf).toList());
     }
 }

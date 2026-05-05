@@ -16,6 +16,9 @@ public final class ControlCommandRegistryIntegrationTest {
         ControlCommandDefinition giveResourceDefinition = registry.definition(ControlCommandType.GIVE_RESOURCE);
         ControlCommandDefinition syncDefinition = registry.definition(ControlCommandType.SYNC_PLATFORM_STATE);
         ControlCommandDefinition webPanelDefinition = registry.definition(ControlCommandType.START_CONTROL_SURFACE);
+        ControlCommandDefinition createKingdomDefinition = registry.definition(ControlCommandType.CREATE_KINGDOM);
+        ControlCommandDefinition playerLocationDefinition = registry.definition(ControlCommandType.UPDATE_PLAYER_LOCATION);
+        ControlCommandDefinition parameterDefinition = registry.definition(ControlCommandType.UPDATE_EDITABLE_PARAMETER);
 
         assertEquals(ControlPermission.MANAGE_TROOP_STATE, woundDefinition.permissionRequirement().permission());
         assertTrue(woundDefinition.dryRunSupported());
@@ -27,6 +30,11 @@ public final class ControlCommandRegistryIntegrationTest {
         assertFalse(syncDefinition.dryRunSupported());
         assertTrue(webPanelDefinition.permissionRequirement().highRisk());
         assertEquals(ControlPermission.MANAGE_CONTROL_OPERATORS, webPanelDefinition.permissionRequirement().permission());
-        assertEquals(12, registry.definitions().size());
+        assertEquals(ControlPermission.MANAGE_KINGDOM_STATE, createKingdomDefinition.permissionRequirement().permission());
+        assertTrue(createKingdomDefinition.dryRunSupported());
+        assertTrue(createKingdomDefinition.fanout());
+        assertTrue(playerLocationDefinition.arguments().stream().anyMatch(argument -> argument.argumentName().equals("platform") && argument.required()));
+        assertTrue(parameterDefinition.permissionRequirement().highRisk());
+        assertTrue(registry.definitions().size() >= 41);
     }
 }

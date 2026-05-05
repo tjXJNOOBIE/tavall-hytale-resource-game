@@ -2,7 +2,9 @@ package com.tavall.hytale.resourcegame.middleware.projection;
 
 import com.tavall.hytale.resourcegame.middleware.castle.Castle;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
+import com.tavall.hytale.resourcegame.middleware.guild.GuildAuthorityTier;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildKingdom;
+import com.tavall.hytale.resourcegame.middleware.guild.GuildPermission;
 import com.tavall.hytale.resourcegame.middleware.node.ResourceNode;
 import com.tavall.hytale.resourcegame.middleware.petition.Petition;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendActionCatalog;
@@ -50,12 +52,16 @@ public final class RobloxProjectionHandler {
         return new InteractionAction(
                 descriptor.actionId(),
                 descriptor.label(),
-                Optional.empty(),
-                Set.of(),
+                descriptor.requiredTier().map(GuildAuthorityTier::valueOf),
+                permissions(descriptor),
                 true,
                 Optional.empty(),
                 PlatformInteractionType.valueOf(descriptor.interactionType()),
                 Map.of()
         );
+    }
+
+    private Set<GuildPermission> permissions(ResourceGameFrontendActionDescriptor descriptor) {
+        return Set.copyOf(descriptor.requiredPermissions().stream().map(GuildPermission::valueOf).toList());
     }
 }

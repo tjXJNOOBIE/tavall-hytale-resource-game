@@ -129,7 +129,8 @@ public final class FrontendCommandIngressHandler {
             case MINECRAFT -> Optional.of(GamePlatform.MINECRAFT);
             case ROBLOX -> Optional.of(GamePlatform.ROBLOX);
             case DISCORD -> Optional.of(GamePlatform.DISCORD);
-            case ANDROID, PC -> Optional.empty();
+            case ANDROID -> Optional.of(GamePlatform.ANDROID);
+            case PC -> Optional.of(GamePlatform.PC);
         };
     }
 
@@ -139,7 +140,8 @@ public final class FrontendCommandIngressHandler {
             case MINECRAFT -> CommandIssuedFrom.MINECRAFT;
             case ROBLOX -> CommandIssuedFrom.ROBLOX;
             case DISCORD -> CommandIssuedFrom.DISCORD;
-            case ANDROID, PC -> CommandIssuedFrom.SYSTEM;
+            case ANDROID -> CommandIssuedFrom.ANDROID;
+            case PC -> CommandIssuedFrom.PC;
         };
     }
 

@@ -5,6 +5,7 @@ import com.tavall.hytale.resourcegame.middleware.asset.ResolvedPlatformAsset;
 import com.tavall.hytale.resourcegame.middleware.castle.Castle;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.guild.GuildKingdom;
+import com.tavall.hytale.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
 import com.tavall.hytale.resourcegame.middleware.node.ResourceNode;
 import com.tavall.hytale.resourcegame.middleware.petition.Petition;
 import com.tavall.hytale.resourcegame.middleware.petition.PropagandaCampaign;
@@ -51,6 +52,43 @@ public final class FrontendProjectionHandler {
         return projection(platform, tradeRoute.routeId().value().toString(), ProjectionObjectType.TRADE_ROUTE, tradeRoute.globalAssetId(), "Trade route", Optional.empty(), tradeRoute.state().name(), actions, Map.of("travelProgress", Double.toString(tradeRoute.travelProgress())));
     }
 
+    public FrontendProjection projectUniversalKingdom(UniversalKingdomSimulationSystem.UniversalKingdom kingdom, GamePlatform platform, List<InteractionAction> actions) {
+        return projection(platform, kingdom.kingdomId().value(), ProjectionObjectType.KINGDOM, new GlobalAssetId(globalAssetForKingdom(kingdom)), kingdom.displayName(), Optional.empty(), kingdom.state().name(), actions, Map.of(
+                "folderName", kingdom.folderName(),
+                "worldId", kingdom.worldId(),
+                "currentPlayers", Integer.toString(kingdom.populationStats().currentPlayers()),
+                "routingProfileId", kingdom.instanceRoutingProfileId()
+        ));
+    }
+
+    public FrontendProjection projectKingdomBorder(UniversalKingdomSimulationSystem.KingdomBorderDefinition border, GamePlatform platform, List<InteractionAction> actions) {
+        return projection(platform, border.borderDefinitionId(), ProjectionObjectType.KINGDOM_BORDER, new GlobalAssetId("kingdom.border.default"), border.kingdomId().value() + " border", Optional.empty(), border.borderShape().name(), actions, Map.of(
+                "kingdomId", border.kingdomId().value(),
+                "worldId", border.worldId(),
+                "minX", Double.toString(border.minX()),
+                "maxX", Double.toString(border.maxX()),
+                "minZ", Double.toString(border.minZ()),
+                "maxZ", Double.toString(border.maxZ())
+        ));
+    }
+
+    public FrontendProjection projectPlayerKingdomLocation(UniversalKingdomSimulationSystem.PlayerKingdomLocation location, GamePlatform platform, List<InteractionAction> actions) {
+        return projection(platform, location.universalPlayerId(), ProjectionObjectType.PLAYER_KINGDOM_LOCATION, new GlobalAssetId("coordinate.debug.marker"), location.universalPlayerId(), Optional.empty(), location.currentKingdomId().value(), actions, Map.of(
+                "kingdomId", location.currentKingdomId().value(),
+                "coordinate", location.canonicalCoordinate().compact(),
+                "sourcePlatform", location.platform().name()
+        ));
+    }
+
+    public FrontendProjection projectInstanceSwitchRequest(UniversalKingdomSimulationSystem.InstanceSwitchRequest request, GamePlatform platform, List<InteractionAction> actions) {
+        return projection(platform, request.switchRequestId(), ProjectionObjectType.INSTANCE_SWITCH_REQUEST, new GlobalAssetId("kingdom.transition.border_crossing"), request.universalPlayerId(), Optional.empty(), request.state().name(), actions, Map.of(
+                "fromKingdomId", request.fromKingdomId().value(),
+                "toKingdomId", request.toKingdomId().value(),
+                "toInstanceId", request.toInstanceId(),
+                "reason", request.reason().name()
+        ));
+    }
+
     private FrontendProjection projection(
             GamePlatform platform,
             String canonicalObjectId,
@@ -82,5 +120,14 @@ public final class FrontendProjectionHandler {
         java.util.HashMap<String, String> copy = new java.util.HashMap<>(metadata);
         copy.put("fallbackAssetKey", fallbackAssetKey);
         return Map.copyOf(copy);
+    }
+
+    private String globalAssetForKingdom(UniversalKingdomSimulationSystem.UniversalKingdom kingdom) {
+        return switch (kingdom.state()) {
+            case PROTECTED -> "kingdom.protected";
+            case FULL -> "kingdom.full";
+            case OVERPOWERED -> "kingdom.overpowered";
+            default -> "kingdom.default";
+        };
     }
 }

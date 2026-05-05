@@ -1,6 +1,7 @@
 package com.tavall.hytale.resourcegame.middleware.control;
 
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandEnvelope;
+import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandSurface;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationResult;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationState;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
@@ -56,20 +57,33 @@ class FrontendCommandIngressHandlerIntegrationTest {
     }
 
     @Test
-    void unsupportedFutureFrontendIsRejectedUntilRuntimeAdapterExists() {
+    void androidAndPcFrontendsCanSubmitThroughControlIngress() {
         ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime();
-        FrontendCommandEnvelope envelope = FrontendCommandEnvelope.command(
+        FrontendCommandEnvelope pcEnvelope = FrontendCommandEnvelope.command(
                 ResourceGameFrontendPlatform.PC,
                 "pc-player-1",
                 "FutureClient",
-                "/kd castle info",
+                "params list",
                 "corr-pc",
                 Map.of()
         );
+        FrontendCommandEnvelope androidEnvelope = FrontendCommandEnvelope.action(
+                ResourceGameFrontendPlatform.ANDROID,
+                FrontendCommandSurface.UI_ACTION,
+                "android-player-1",
+                "MobileClient",
+                "android.kingdom.summary",
+                Map.of("kingdomId", "kingdom-1"),
+                "corr-android",
+                Map.of()
+        );
 
-        FrontendCommandVerificationResult result = runtime.frontendCommandIngressHandler().ingest(envelope, Instant.now());
+        FrontendCommandVerificationResult pcResult = runtime.frontendCommandIngressHandler().ingest(pcEnvelope, Instant.now());
+        FrontendCommandVerificationResult androidResult = runtime.frontendCommandIngressHandler().ingest(androidEnvelope, Instant.now());
 
-        assertEquals(FrontendCommandVerificationState.REJECTED, result.state());
-        assertFalse(result.success());
+        assertEquals(FrontendCommandVerificationState.DISPATCHED, pcResult.state());
+        assertTrue(pcResult.success());
+        assertEquals(FrontendCommandVerificationState.LOCAL_ACTION_ALLOWED, androidResult.state());
+        assertTrue(androidResult.success());
     }
 }

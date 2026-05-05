@@ -1,6 +1,7 @@
 package com.tavall.hytale.resourcegame.frontend.hytale;
 
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandEnvelope;
+import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandSurface;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationResult;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendControlCommandClient;
 import com.tjxjnoobie.api.platform.global.console.Log;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 public final class HytaleControlPlaneCommandBridge {
     private final HytaleKdCommandEnvelopeBridge kdCommandEnvelopeBridge;
+    private final HytaleFrontendCommandEnvelopeFactory envelopeFactory;
     private final FrontendControlCommandClient controlCommandClient;
 
     public HytaleControlPlaneCommandBridge(
@@ -18,6 +20,7 @@ public final class HytaleControlPlaneCommandBridge {
             FrontendControlCommandClient controlCommandClient
     ) {
         this.kdCommandEnvelopeBridge = Objects.requireNonNull(kdCommandEnvelopeBridge, "kdCommandEnvelopeBridge");
+        this.envelopeFactory = new HytaleFrontendCommandEnvelopeFactory();
         this.controlCommandClient = Objects.requireNonNull(controlCommandClient, "controlCommandClient");
     }
 
@@ -36,6 +39,20 @@ public final class HytaleControlPlaneCommandBridge {
                 sourceMetadata
         );
         Log.info("Submitting Hytale frontend command to control plane correlationId=" + correlationId);
+        return controlCommandClient.submitCommand(envelope);
+    }
+
+    public FrontendCommandVerificationResult submitAction(
+            FrontendCommandSurface surface,
+            String platformAccountId,
+            String platformDisplayName,
+            String actionId,
+            Map<String, String> actionArguments,
+            String correlationId,
+            Map<String, String> sourceMetadata
+    ) {
+        FrontendCommandEnvelope envelope = envelopeFactory.actionEnvelope(surface, platformAccountId, platformDisplayName, actionId, actionArguments, correlationId, sourceMetadata);
+        Log.info("Submitting Hytale frontend action to control plane correlationId=" + correlationId);
         return controlCommandClient.submitCommand(envelope);
     }
 }

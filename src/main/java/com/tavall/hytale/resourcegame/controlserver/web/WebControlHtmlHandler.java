@@ -8,7 +8,7 @@ public final class WebControlHtmlHandler {
         return "<!doctype html><html><head><meta charset=\"utf-8\"><title>"
                 + escape(title)
                 + "</title><style>body{font-family:Arial,sans-serif;margin:24px}nav a{margin-right:12px}table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:6px 8px}.ok{color:#0a6b2b}.bad{color:#a00000}textarea{width:720px;height:96px}</style></head><body><nav>"
-                + "<a href=\"/control\">Dashboard</a><a href=\"/control/commands\">Commands</a><a href=\"/control/platforms\">Platforms</a><a href=\"/control/players\">Players</a><a href=\"/control/guilds\">Guilds</a><a href=\"/control/castles\">Castles/Nodes</a><a href=\"/control/healing\">Troop Healing</a><a href=\"/control/assets\">Assets</a><a href=\"/control/audit\">Audit</a><a href=\"/control/operators\">Operators</a>"
+                + "<a href=\"/control\">Dashboard</a><a href=\"/control/commands\">Commands</a><a href=\"/control/kingdoms\">Kingdoms</a><a href=\"/control/platforms\">Platforms</a><a href=\"/control/players\">Players</a><a href=\"/control/guilds\">Guilds</a><a href=\"/control/castles\">Castles/Nodes</a><a href=\"/control/healing\">Troop Healing</a><a href=\"/control/assets\">Assets</a><a href=\"/control/audit\">Audit</a><a href=\"/control/operators\">Operators</a>"
                 + "</nav><h1>"
                 + escape(title)
                 + "</h1>"

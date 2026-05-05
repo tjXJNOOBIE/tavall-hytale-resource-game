@@ -5,6 +5,7 @@ import com.tavall.hytale.resourcegame.middleware.healing.HealingInventoryReposit
 import com.tavall.hytale.resourcegame.middleware.healing.TroopHealingRepository;
 import com.tavall.hytale.resourcegame.middleware.identity.PlatformAccountBindingRepository;
 import com.tavall.hytale.resourcegame.middleware.identity.UniversalPlayerAccountRepository;
+import com.tavall.hytale.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
 import com.tavall.hytale.resourcegame.middleware.troop.TroopRepository;
 
 public record ControlCommandRuntime(
@@ -23,6 +24,7 @@ public record ControlCommandRuntime(
         UniversalPlayerAccountRepository accountRepository,
         PlatformAccountBindingRepository platformAccountBindingRepository,
         GlobalAssetRepository globalAssetRepository,
+        UniversalKingdomSimulationSystem kingdomSimulationSystem,
         TroopRepository troopRepository,
         TroopHealingRepository troopHealingRepository,
         HealingInventoryRepository healingInventoryRepository

@@ -26,6 +26,7 @@ import com.tavall.hytale.resourcegame.middleware.identity.PlatformAccountBinding
 import com.tavall.hytale.resourcegame.middleware.identity.PlatformAccountBindingRepository;
 import com.tavall.hytale.resourcegame.middleware.identity.UniversalPlayerAccountRepository;
 import com.tavall.hytale.resourcegame.middleware.identity.UniversalPlayerId;
+import com.tavall.hytale.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
 import com.tavall.hytale.resourcegame.middleware.troop.Troop;
 import com.tavall.hytale.resourcegame.middleware.troop.TroopId;
 import com.tavall.hytale.resourcegame.middleware.troop.TroopRepository;
@@ -52,6 +53,7 @@ public final class ControlCommandExecutionHandler {
     private final TroopHealingStartHandler healingStartHandler;
     private final TroopHealingProgressTickHandler healingProgressTickHandler;
     private final ControlSurfaceLaunchHandler surfaceLaunchHandler;
+    private final UniversalKingdomSimulationSystem kingdomSimulationSystem;
 
     public ControlCommandExecutionHandler(
             UniversalPlayerAccountRepository accountRepository,
@@ -66,7 +68,8 @@ public final class ControlCommandExecutionHandler {
             TroopHealingRecipeValidationHandler recipeValidationHandler,
             TroopHealingStartHandler healingStartHandler,
             TroopHealingProgressTickHandler healingProgressTickHandler,
-            ControlSurfaceLaunchHandler surfaceLaunchHandler
+            ControlSurfaceLaunchHandler surfaceLaunchHandler,
+            UniversalKingdomSimulationSystem kingdomSimulationSystem
     ) {
         this.accountRepository = accountRepository;
         this.platformAccountBindingRepository = platformAccountBindingRepository;
@@ -81,6 +84,7 @@ public final class ControlCommandExecutionHandler {
         this.healingStartHandler = healingStartHandler;
         this.healingProgressTickHandler = healingProgressTickHandler;
         this.surfaceLaunchHandler = surfaceLaunchHandler;
+        this.kingdomSimulationSystem = kingdomSimulationSystem;
     }
 
     public ControlCommandResult executeCommand(ControlCommand command, Instant startedAt) {
@@ -98,6 +102,18 @@ public final class ControlCommandExecutionHandler {
                 case DEBUG_TROOP_HEALING_STATE -> debugTroopHealingState(command, startedAt);
                 case VERIFY_FRONTEND_ACTION -> verifyFrontendAction(command, startedAt);
                 case START_CONTROL_SURFACE -> startControlSurface(command, startedAt);
+                case CREATE_KINGDOM, ARCHIVE_KINGDOM, DEBUG_KINGDOM_STATE, EVALUATE_KINGDOM_SCALING,
+                     RUN_KINGDOM_SIMULATION_TICK, CREATE_KINGDOM_BORDER, UPDATE_KINGDOM_BORDER,
+                     DEBUG_KINGDOM_BORDER, RESOLVE_COORDINATE_KINGDOM, SIMULATE_BORDER_CROSSING,
+                     CONVERT_PLATFORM_COORDINATE, UPDATE_COORDINATE_CONVERSION_PARAMETERS,
+                     DEBUG_COORDINATE_CONVERSION, UPDATE_PLAYER_LOCATION, DEBUG_PLAYER_KINGDOM_LOCATION,
+                     FORCE_PLAYER_KINGDOM_TRANSITION, REGISTER_PLATFORM_INSTANCE,
+                     UPDATE_PLATFORM_INSTANCE_HEALTH, UPDATE_KINGDOM_INSTANCE_ROUTING,
+                     REQUEST_INSTANCE_SWITCH, CONFIRM_INSTANCE_SWITCH, FAIL_INSTANCE_SWITCH,
+                     DEBUG_INSTANCE_ROUTING, LIST_EDITABLE_PARAMETERS, GET_EDITABLE_PARAMETER,
+                     UPDATE_EDITABLE_PARAMETER, DRY_RUN_EDITABLE_PARAMETER_UPDATE,
+                     EVALUATE_NEW_PLAYER_KINGDOM, ASSIGN_NEW_PLAYER_KINGDOM ->
+                        kingdomSimulationSystem.handleControlCommand(command, startedAt);
                 default -> rejected(command, startedAt, "Command type is registered but execution is not implemented yet: " + command.commandType() + ".");
             };
         } catch (RuntimeException exception) {

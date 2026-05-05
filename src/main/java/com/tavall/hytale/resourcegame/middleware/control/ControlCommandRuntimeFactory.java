@@ -17,6 +17,7 @@ import com.tavall.hytale.resourcegame.middleware.healing.TroopHealingRepository;
 import com.tavall.hytale.resourcegame.middleware.healing.TroopHealingStartHandler;
 import com.tavall.hytale.resourcegame.middleware.healing.TroopWoundAssignmentHandler;
 import com.tavall.hytale.resourcegame.middleware.identity.InMemoryIdentityRepository;
+import com.tavall.hytale.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
 import com.tavall.hytale.resourcegame.middleware.troop.InMemoryTroopRepository;
 
 import java.time.Instant;
@@ -46,6 +47,7 @@ public final class ControlCommandRuntimeFactory {
         operatorRepository.saveOperator(ControlOperator.system(now));
 
         RecordingDomainEventPublisher eventPublisher = new RecordingDomainEventPublisher();
+        UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.inMemory(eventPublisher);
         HealingFacilityDefinitionRegistry facilityDefinitionRegistry = new HealingFacilityDefinitionRegistry();
         HealingFacilityModifierCalculationHandler modifierCalculationHandler = new HealingFacilityModifierCalculationHandler();
         HealingResourceCostCalculationHandler costCalculationHandler = new HealingResourceCostCalculationHandler(modifierCalculationHandler);
@@ -71,14 +73,17 @@ public final class ControlCommandRuntimeFactory {
                 recipeValidationHandler,
                 healingStartHandler,
                 progressTickHandler,
-                surfaceLaunchHandler
+                surfaceLaunchHandler,
+                kingdomSimulationSystem
         );
         ControlPlatformFanoutRetryHandler fanoutRetryHandler = new ControlPlatformFanoutRetryHandler(fanoutRetryRepository);
         PlatformCommandFanoutHandler fanoutHandler = new PlatformCommandFanoutHandler(List.of(
                 new InMemoryPlatformFrontendAdapter(GamePlatform.MINECRAFT, true),
                 new InMemoryPlatformFrontendAdapter(GamePlatform.HYTALE, true),
                 new InMemoryPlatformFrontendAdapter(GamePlatform.ROBLOX, true),
-                new InMemoryPlatformFrontendAdapter(GamePlatform.DISCORD, true)
+                new InMemoryPlatformFrontendAdapter(GamePlatform.DISCORD, true),
+                new InMemoryPlatformFrontendAdapter(GamePlatform.ANDROID, true),
+                new InMemoryPlatformFrontendAdapter(GamePlatform.PC, true)
         ), new PlatformFanoutTargetResolver(), fanoutRetryHandler);
         ControlCommandResultHandler resultHandler = new ControlCommandResultHandler(resultRepository);
         ControlCommandAuditLogHandler auditLogHandler = new ControlCommandAuditLogHandler(auditLogRepository, new ControlCommandSerializer());
@@ -115,6 +120,7 @@ public final class ControlCommandRuntimeFactory {
                 identityRepository,
                 identityRepository,
                 assetRepository,
+                kingdomSimulationSystem,
                 troopRepository,
                 troopHealingRepository,
                 healingInventoryRepository

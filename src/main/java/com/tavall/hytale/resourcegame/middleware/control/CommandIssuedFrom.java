@@ -7,5 +7,7 @@ public enum CommandIssuedFrom {
     HYTALE,
     ROBLOX,
     DISCORD,
+    ANDROID,
+    PC,
     SYSTEM
 }

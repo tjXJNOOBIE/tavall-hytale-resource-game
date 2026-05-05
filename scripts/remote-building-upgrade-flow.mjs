@@ -48,6 +48,52 @@ function isBotConnected(bot) {
   return typeof bot.isConnected === "function" ? bot.isConnected() : true;
 }
 
+function parseServerPosition(message) {
+  const match = message?.match(/(?:\|\s*pos| at)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/);
+  if (!match) {
+    return null;
+  }
+  return {
+    x: Number.parseFloat(match[1]),
+    y: Number.parseFloat(match[2]),
+    z: Number.parseFloat(match[3])
+  };
+}
+
+async function waitForNewServerMessage(bot, previousCount, predicate, timeoutMs, label) {
+  const startedAt = Date.now();
+  while ((Date.now() - startedAt) < timeoutMs) {
+    const messages = bot.getServerMessages();
+    for (const message of messages.slice(previousCount)) {
+      if (predicate(message)) {
+        return message;
+      }
+    }
+    await delay(100);
+  }
+  throw new Error(`Timed out waiting for ${label}`);
+}
+
+async function scanAndSeedPlayerPosition(bot) {
+  const previousCount = bot.getServerMessages().length;
+  bot.chat("/kd scan");
+  const message = await waitForNewServerMessage(
+    bot,
+    previousCount,
+    (entry) => entry.includes("World:") && entry.includes("| pos "),
+    8_000,
+    "player scan position"
+  );
+  const position = parseServerPosition(message);
+  if (!position) {
+    throw new Error(`Could not parse player position from scan message: ${message}`);
+  }
+  if (typeof bot.assumePosition === "function") {
+    bot.assumePosition(position);
+  }
+  return position;
+}
+
 function summarizePageSnapshot(snapshot) {
   if (!snapshot) {
     return null;
@@ -233,10 +279,13 @@ async function main() {
       username,
       nearbyRadius: 16
     });
+    const scannedPosition = await scanAndSeedPlayerPosition(bot);
+    assertions.push("position-seeded-from-scan");
     await delay(1_000);
 
     const setupCommands = [
       "/kingdom buildings clear",
+      "/kingdom account setlevel 50",
       "/kingdom resources set food 250",
       "/kingdom resources set wood 250",
       "/kingdom resources set iron 250"
@@ -246,6 +295,14 @@ async function main() {
       await delay(450);
     }
     assertions.push("building-setup-complete");
+
+    bot.chat("/kingdom interior");
+    await bot.waitForWorldActivity(20_000);
+    const interiorReady = await waitForInteriorReady(bot);
+    await delay(2_000);
+    pages.push({ key: INTERIOR_MAIN_PAGE, title: interiorReady.via, snapshot: interiorReady.page ?? interiorReady.worldSnapshot ?? interiorReady.serverMessage ?? null });
+    assertions.push("entered-interior-for-buildings");
+    assertions.push(`interior-ready-${interiorReady.via}`);
 
     let buildingDetailSnapshot = await placeBuildingUntilDetail(
       bot,
@@ -302,14 +359,6 @@ async function main() {
     pages.push({ key: BUILDINGS_OVERVIEW_PAGE, title: null, snapshot: overviewSnapshot });
     assertions.push("building-overview-reflects-upgrade");
 
-    bot.chat("/kingdom interior");
-    await bot.waitForWorldActivity(20_000);
-    const interiorReady = await waitForInteriorReady(bot);
-    await delay(2_000);
-    pages.push({ key: INTERIOR_MAIN_PAGE, title: interiorReady.via, snapshot: interiorReady.page ?? interiorReady.worldSnapshot ?? interiorReady.serverMessage ?? null });
-    assertions.push("entered-interior-for-buildings");
-    assertions.push(`interior-ready-${interiorReady.via}`);
-
     let barracksSnapshot = await placeBuildingUntilDetail(
       bot,
       "barracks",
@@ -350,6 +399,7 @@ async function main() {
       pages,
       clientSnapshot: {
         baseline: baseline.snapshot,
+        scannedPosition,
         final: captureWorldSnapshot(bot, 12)
       },
       finalServerMessage: bot.getServerMessages().at(-1) ?? null
