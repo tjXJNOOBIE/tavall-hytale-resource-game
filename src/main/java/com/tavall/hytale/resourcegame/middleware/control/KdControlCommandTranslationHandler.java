@@ -57,6 +57,7 @@ public final class KdControlCommandTranslationHandler {
             case "clock" -> translatePrefixed(tokens, "clock");
             case "schedule" -> translatePrefixed(tokens, "schedule");
             case "aging" -> translatePrefixed(tokens, "aging");
+            case "citizens" -> translateCitizens(tokens);
             case "resources" -> translateResources(tokens);
             case "troops" -> translateTroops(tokens);
             case "account" -> translateAccount(tokens);
@@ -104,6 +105,13 @@ public final class KdControlCommandTranslationHandler {
     private Optional<String> translateResources(List<String> tokens) {
         if (tokens.size() >= 6 && (tokens.get(2).equalsIgnoreCase("give") || tokens.get(2).equalsIgnoreCase("grant"))) {
             return Optional.of("resource give " + tokens.get(3) + " " + tokens.get(4) + " " + tokens.get(5));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<String> translateCitizens(List<String> tokens) {
+        if (tokens.size() >= 3 && Set.of("spawn", "create", "migrate", "list", "summary", "debug", "get", "age", "ageall", "setstage", "setjob", "clearjob", "train", "promote", "demote", "health", "morale", "nutrition", "housing", "maintenance", "refresh-cache", "refresh-displays", "food-effects", "morale-effects", "night-rest").contains(tokens.get(2).toLowerCase(Locale.ROOT))) {
+            return Optional.of("citizens " + String.join(" ", tokens.subList(2, tokens.size())));
         }
         return Optional.empty();
     }

@@ -23,6 +23,8 @@ public final class ResourceGameFrontendActionCatalog {
             case PETITION -> List.of(action("hytale.petition.bot_verify", "Bot Verify", "HYTALE_BOT_TEST_ACTION", "COUNCIL", Set.of("CREATE_PETITION")));
             case PROPAGANDA_CAMPAIGN -> List.of(action("hytale.propaganda.summary", "Campaign", "HYTALE_UI_ACTION"));
             case KINGDOM_CLOCK, KINGDOM_SCHEDULE -> List.of();
+            case CITIZEN_POPULATION -> List.of(action("hytale.citizens.summary", "Citizens", "HYTALE_UI_ACTION"));
+            case CITIZEN_DISPLAY_ANCHOR -> List.of(action("hytale.citizens.anchor", "Anchor", "HYTALE_CUSTOM_ASSET_VISUAL"));
         };
     }
 
@@ -34,6 +36,8 @@ public final class ResourceGameFrontendActionCatalog {
             case PETITION -> List.of(action("kingdom.petition.fund", "Fund", "MINECRAFT_COMMAND", "COUNCIL", Set.of("CREATE_PETITION")));
             case PROPAGANDA_CAMPAIGN -> List.of(action("kingdom.propaganda.info", "Campaign", "MINECRAFT_COMMAND"));
             case KINGDOM_CLOCK, KINGDOM_SCHEDULE -> List.of();
+            case CITIZEN_POPULATION -> List.of(action("kingdom.citizens.summary", "Citizens", "MINECRAFT_COMMAND"));
+            case CITIZEN_DISPLAY_ANCHOR -> List.of(action("kingdom.citizens.anchor", "Anchor", "MINECRAFT_RESOURCE_PACK_VISUAL"));
         };
     }
 
@@ -45,6 +49,8 @@ public final class ResourceGameFrontendActionCatalog {
             case PETITION -> List.of(action("roblox.petition.gui", "Petition", "ROBLOX_GUI_ACTION", "COUNCIL", Set.of("CREATE_PETITION")));
             case PROPAGANDA_CAMPAIGN -> List.of(action("roblox.propaganda.gui", "Campaign", "ROBLOX_GUI_ACTION"));
             case KINGDOM_CLOCK, KINGDOM_SCHEDULE -> List.of();
+            case CITIZEN_POPULATION -> List.of(action("roblox.citizens.summary", "Citizens", "ROBLOX_GUI_ACTION"));
+            case CITIZEN_DISPLAY_ANCHOR -> List.of(action("roblox.citizens.anchor", "Anchor", "ROBLOX_ASSET_VISUAL"));
         };
     }
 
@@ -56,6 +62,8 @@ public final class ResourceGameFrontendActionCatalog {
             case PETITION -> List.of(action("discord.petition.fund", "Fund Petition", "DISCORD_BUTTON", "COUNCIL", Set.of("CREATE_PETITION")));
             case PROPAGANDA_CAMPAIGN -> List.of(action("discord.propaganda.summary", "Campaign", "DISCORD_EMBED_ACTION"));
             case KINGDOM_CLOCK, KINGDOM_SCHEDULE -> List.of();
+            case CITIZEN_POPULATION -> List.of(action("discord.citizens.summary", "Citizens", "DISCORD_SLASH_COMMAND"));
+            case CITIZEN_DISPLAY_ANCHOR -> List.of(action("discord.citizens.anchor", "Anchor", "DISCORD_EMBED_ACTION"));
         };
     }
 

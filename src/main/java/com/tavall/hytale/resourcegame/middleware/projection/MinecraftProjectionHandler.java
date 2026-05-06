@@ -1,6 +1,8 @@
 package com.tavall.hytale.resourcegame.middleware.projection;
 
 import com.tavall.hytale.resourcegame.middleware.castle.Castle;
+import com.tavall.hytale.resourcegame.middleware.citizen.CitizenDisplayAnchorProjection;
+import com.tavall.hytale.resourcegame.middleware.citizen.CitizenPopulationProjection;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockProjection;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomScheduleProjection;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
@@ -50,6 +52,14 @@ public final class MinecraftProjectionHandler {
 
     public FrontendProjection projectKingdomScheduleForMinecraftClient(KingdomScheduleProjection scheduleProjection) {
         return frontendProjectionHandler.projectKingdomSchedule(scheduleProjection, GamePlatform.MINECRAFT, List.of());
+    }
+
+    public FrontendProjection projectCitizenPopulationForMinecraftClient(CitizenPopulationProjection citizenProjection) {
+        return frontendProjectionHandler.projectCitizenPopulation(citizenProjection, GamePlatform.MINECRAFT, List.of());
+    }
+
+    public FrontendProjection projectCitizenDisplayAnchorForMinecraftClient(CitizenDisplayAnchorProjection anchorProjection) {
+        return frontendProjectionHandler.projectCitizenDisplayAnchor(anchorProjection, GamePlatform.MINECRAFT, List.of());
     }
 
     private List<InteractionAction> actionsFor(ResourceGameFrontendObjectKind objectKind) {

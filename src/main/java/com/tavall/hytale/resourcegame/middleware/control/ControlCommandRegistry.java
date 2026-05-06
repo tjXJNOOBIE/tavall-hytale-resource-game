@@ -205,6 +205,72 @@ public final class ControlCommandRegistry {
         register(definitions, definition(ControlCommandType.REFRESH_KINGDOM_SCHEDULE_PROJECTION, "Refresh Kingdom Schedule Projection", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, true,
                 arg("kingdomId", false, "Kingdom ID"),
                 arg("platform", false, "Platform")));
+        register(definitions, definition(ControlCommandType.CREATE_CITIZEN, "Create Citizen", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.CREATE_CITIZENS, "Create Citizens", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("amount", true, "Citizen amount"),
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.MIGRATE_CITIZEN_IN, "Migrate Citizen In", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("amount", false, "Citizen amount"),
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.LIST_CITIZENS, "List Citizens", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.PLAYER, false, false,
+                arg("ownerPlayerId", false, "Owner universal player ID"),
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.GET_CITIZEN, "Get Citizen", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.PLAYER, false, false,
+                arg("citizenId", true, "Citizen ID")));
+        register(definitions, definition(ControlCommandType.DEBUG_CITIZEN, "Debug Citizen", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.PLAYER, false, false,
+                arg("citizenId", true, "Citizen ID")));
+        register(definitions, definition(ControlCommandType.DEBUG_CITIZEN_SUMMARY, "Debug Citizen Summary", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.PLAYER, false, false,
+                arg("ownerPlayerId", false, "Owner universal player ID"),
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.UPDATE_CITIZEN_AGE_STAGE, "Update Citizen Age Stage", ControlPermission.MANAGE_PLAYER_STATE, true, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID"),
+                arg("ageStage", true, "Age stage")));
+        register(definitions, definition(ControlCommandType.DEBUG_SET_CITIZEN_AGE, "Debug Set Citizen Age", ControlPermission.EXECUTE_DEBUG_COMMAND, true, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID"),
+                arg("years", true, "Derived citizen years")));
+        register(definitions, definition(ControlCommandType.DEBUG_AGE_ALL_CITIZENS, "Debug Age All Citizens", ControlPermission.EXECUTE_DEBUG_COMMAND, true, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.ASSIGN_CITIZEN_JOB, "Assign Citizen Job", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID"),
+                arg("jobType", true, "Existing CitizenJobType value")));
+        register(definitions, definition(ControlCommandType.CLEAR_CITIZEN_JOB, "Clear Citizen Job", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID")));
+        register(definitions, definition(ControlCommandType.START_CITIZEN_TRAINING, "Start Citizen Training", ControlPermission.MANAGE_TROOP_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID")));
+        register(definitions, definition(ControlCommandType.PROMOTE_CITIZEN_TO_TROOP, "Promote Citizen To Troop", ControlPermission.MANAGE_TROOP_STATE, true, CommandTargetScope.TROOP, true, true,
+                arg("citizenId", true, "Citizen ID")));
+        register(definitions, definition(ControlCommandType.DEMOTE_TROOP_TO_CITIZEN, "Demote Troop To Citizen", ControlPermission.MANAGE_TROOP_STATE, true, CommandTargetScope.TROOP, true, true,
+                arg("citizenId", true, "Citizen ID")));
+        register(definitions, definition(ControlCommandType.UPDATE_CITIZEN_HEALTH, "Update Citizen Health", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID"),
+                arg("healthState", true, "Health state")));
+        register(definitions, definition(ControlCommandType.UPDATE_CITIZEN_MORALE, "Update Citizen Morale", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID"),
+                arg("moraleState", true, "Morale state")));
+        register(definitions, definition(ControlCommandType.UPDATE_CITIZEN_NUTRITION, "Update Citizen Nutrition", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID"),
+                arg("nutritionState", true, "Nutrition state")));
+        register(definitions, definition(ControlCommandType.UPDATE_CITIZEN_HOUSING, "Update Citizen Housing", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.PLAYER, true, true,
+                arg("citizenId", true, "Citizen ID"),
+                arg("housingState", true, "Housing state")));
+        register(definitions, definition(ControlCommandType.RUN_CITIZEN_MAINTENANCE, "Run Citizen Maintenance", ControlPermission.EXECUTE_GLOBAL_TICK, false, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.APPLY_CITIZEN_FOOD_EFFECTS, "Apply Citizen Food Effects", ControlPermission.EXECUTE_GLOBAL_TICK, false, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.APPLY_CITIZEN_MORALE_EFFECTS, "Apply Citizen Morale Effects", ControlPermission.EXECUTE_GLOBAL_TICK, false, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.APPLY_CITIZEN_NIGHT_REST_EFFECTS, "Apply Citizen Night Rest Effects", ControlPermission.EXECUTE_GLOBAL_TICK, false, CommandTargetScope.KINGDOM, true, true,
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.REFRESH_CITIZEN_SUMMARY_CACHE, "Refresh Citizen Summary Cache", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, true,
+                arg("ownerPlayerId", false, "Owner universal player ID"),
+                arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.REFRESH_CITIZEN_DISPLAY_PROJECTIONS, "Refresh Citizen Display Projections", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, true,
+                arg("ownerPlayerId", false, "Owner universal player ID"),
+                arg("kingdomId", false, "Kingdom ID")));
         this.definitionsByType = Map.copyOf(definitions);
     }
 

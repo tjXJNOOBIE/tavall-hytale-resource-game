@@ -1,6 +1,7 @@
 package com.tavall.hytale.resourcegame.middleware.control;
 
 import com.tavall.hytale.resourcegame.middleware.asset.InMemoryGlobalAssetRepository;
+import com.tavall.hytale.resourcegame.middleware.citizen.CitizenControlSystem;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.event.RecordingDomainEventPublisher;
@@ -50,6 +51,7 @@ public final class ControlCommandRuntimeFactory {
         RecordingDomainEventPublisher eventPublisher = new RecordingDomainEventPublisher();
         UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.inMemory(eventPublisher);
         KingdomClockControlSystem kingdomClockSystem = KingdomClockControlSystem.inMemory(eventPublisher);
+        CitizenControlSystem citizenControlSystem = CitizenControlSystem.inMemory(kingdomClockSystem);
         HealingFacilityDefinitionRegistry facilityDefinitionRegistry = new HealingFacilityDefinitionRegistry();
         HealingFacilityModifierCalculationHandler modifierCalculationHandler = new HealingFacilityModifierCalculationHandler();
         HealingResourceCostCalculationHandler costCalculationHandler = new HealingResourceCostCalculationHandler(modifierCalculationHandler);
@@ -77,7 +79,8 @@ public final class ControlCommandRuntimeFactory {
                 progressTickHandler,
                 surfaceLaunchHandler,
                 kingdomSimulationSystem,
-                kingdomClockSystem
+                kingdomClockSystem,
+                citizenControlSystem
         );
         ControlPlatformFanoutRetryHandler fanoutRetryHandler = new ControlPlatformFanoutRetryHandler(fanoutRetryRepository);
         PlatformCommandFanoutHandler fanoutHandler = new PlatformCommandFanoutHandler(List.of(
@@ -125,6 +128,7 @@ public final class ControlCommandRuntimeFactory {
                 assetRepository,
                 kingdomSimulationSystem,
                 kingdomClockSystem,
+                citizenControlSystem,
                 troopRepository,
                 troopHealingRepository,
                 healingInventoryRepository

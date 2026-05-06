@@ -82,8 +82,9 @@ Provide a development-first admin and debug surface that accelerates gameplay it
 - CLI entry point: `com.tavall.hytale.resourcegame.controlserver.cli.ControlConsoleApplication`.
 - Spring Boot control panel entry point: `com.tavall.hytale.resourcegame.controlserver.web.ControlServerApplication`, with pages rooted at `/control`.
 - Both surfaces delegate to `ControlCommandDispatchHandler`; neither the CLI nor the web controllers mutate gameplay state directly.
-- Current command batch includes `DEBUG_PLAYER_STATE`, `REGISTER_GLOBAL_ASSET`, `REFRESH_FRONTEND_PROJECTIONS`, `ASSIGN_TROOP_WOUND`, `START_TROOP_HEALING`, `RUN_HEALING_TICK`, `GIVE_RESOURCE`, `BROADCAST_PLATFORM_MESSAGE`, `SYNC_PLATFORM_STATE`, `DEBUG_TROOP_HEALING_STATE`, and the universal kingdom commands for kingdom creation/scaling, borders, coordinates, player locations, instance routing, editable parameters, and new-player routing.
+- Current command batch includes `DEBUG_PLAYER_STATE`, `REGISTER_GLOBAL_ASSET`, `REFRESH_FRONTEND_PROJECTIONS`, `ASSIGN_TROOP_WOUND`, `START_TROOP_HEALING`, `RUN_HEALING_TICK`, `GIVE_RESOURCE`, `BROADCAST_PLATFORM_MESSAGE`, `SYNC_PLATFORM_STATE`, `DEBUG_TROOP_HEALING_STATE`, the universal kingdom commands for kingdom creation/scaling, borders, coordinates, player locations, instance routing, editable parameters, and new-player routing, and canonical citizen commands for citizen creation, aging, job assignment, training, troop promotion, condition updates, cache refresh, and projection refresh.
 - Kingdom Clock commands are also plain Java control-plane commands. Spring web panel forms and frontend `/kd clock`, `/kd schedule`, and `/kd aging` inputs submit through the same parser/dispatcher instead of mutating clock state directly.
+- Citizen commands are plain Java control-plane commands. Hytale `/kd citizens spawn|summary|debug|setjob|train|promote|demote|maintenance|refresh-cache|refresh-displays` inputs are translated into canonical command text and then dispatched through `FrontendCommandIngressHandler`; Hytale's older aggregate `/kd citizens add|set` commands remain a live UI compatibility path until they are deliberately bridged to canonical records.
 - Useful CLI examples:
   - `dry-run troop wound <troopId> GENERAL_WOUND MODERATE`
   - `execute troop wound <troopId> GENERAL_WOUND MODERATE`
@@ -103,6 +104,13 @@ Provide a development-first admin and debug surface that accelerates gameplay it
   - `schedule create kingdom-1 SHOP_OPEN startHour=8 endHour=20`
   - `aging policy kingdom-1 enabled=true realMinutesPerAgeIncrement=60`
   - `aging tick kingdom-1`
+  - `citizens spawn <universalPlayerId> 5 kingdom-1`
+  - `citizens summary kingdom-1`
+  - `citizens setjob <citizenId> MINER`
+  - `citizens train <citizenId>`
+  - `citizens promote <citizenId>`
+  - `citizens refresh-cache kingdom-1`
+  - `citizens refresh-displays kingdom-1`
   - `kingdom border resolve default 100 65 100`
   - `kingdom border simulate-crossing player-1 default 100 65 100 1200 65 100`
   - `coord convert roblox default 10 0 20`
@@ -123,3 +131,4 @@ Provide a development-first admin and debug surface that accelerates gameplay it
 - Minecraft and Hytale verification should start from the shared control pipeline, then use platform debug/projection hooks to observe wound/healing projection changes. Roblox and Discord are verified through in-memory fanout/projection adapters until live runtimes are wired.
 - Universal kingdom verification should start in the plain Java control runtime. Minecraft/Hytale/Roblox location updates are platform coordinates, the backend converts to canonical coordinates, border containment resolves the kingdom, and any cross-border transition creates an instance-switch request for the frontend adapter to execute.
 - Kingdom Clock verification should start in the same runtime: set `clock override kingdom-1 22:00`, refresh clock/schedule projections for Minecraft/Hytale/Roblox/Discord, and verify frontends render `NIGHT` without calculating canonical time locally.
+- Citizen verification should start with canonical control commands: spawn citizens for a universal player, assign an existing `CitizenJobType`, train/promote the same `citizenId`, refresh summaries/projections, then verify Minecraft/Hytale/Roblox/Discord consume `CitizenPopulationProjection` and `CitizenDisplayAnchorProjection` without owning citizen counts or lifecycle rules.

@@ -3,6 +3,8 @@ package com.tavall.hytale.resourcegame.middleware.projection;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetId;
 import com.tavall.hytale.resourcegame.middleware.asset.ResolvedPlatformAsset;
 import com.tavall.hytale.resourcegame.middleware.castle.Castle;
+import com.tavall.hytale.resourcegame.middleware.citizen.CitizenDisplayAnchorProjection;
+import com.tavall.hytale.resourcegame.middleware.citizen.CitizenPopulationProjection;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockProjection;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomScheduleProjection;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomTimePhase;
@@ -122,6 +124,31 @@ public final class FrontendProjectionHandler {
                         "moraleHints", String.join(",", scheduleProjection.moraleHints()),
                         "canonicalOwner", "plain-java-control-server"
                 ));
+    }
+
+    public FrontendProjection projectCitizenPopulation(CitizenPopulationProjection citizenProjection, GamePlatform platform, List<InteractionAction> actions) {
+        java.util.LinkedHashMap<String, String> metadata = new java.util.LinkedHashMap<>(citizenProjection.metadata());
+        metadata.put("scopeType", citizenProjection.scope().scopeType().name());
+        metadata.put("scopeId", citizenProjection.scope().scopeId());
+        metadata.put("totalCitizens", Integer.toString(citizenProjection.totalCitizens()));
+        metadata.put("totalTroops", Integer.toString(citizenProjection.totalTroops()));
+        metadata.put("inTraining", Integer.toString(citizenProjection.inTraining()));
+        metadata.put("wounded", Integer.toString(citizenProjection.wounded()));
+        metadata.put("jobSummary", citizenProjection.jobSummary().toString());
+        metadata.put("ageStageSummary", citizenProjection.ageStageSummary().toString());
+        return projection(platform, "citizen-population:" + citizenProjection.scope().cacheKey(), ProjectionObjectType.CITIZEN_POPULATION, new GlobalAssetId(citizenProjection.globalAssetId()),
+                "Citizen population", Optional.empty(), "ACTIVE", actions, metadata);
+    }
+
+    public FrontendProjection projectCitizenDisplayAnchor(CitizenDisplayAnchorProjection anchorProjection, GamePlatform platform, List<InteractionAction> actions) {
+        java.util.LinkedHashMap<String, String> metadata = new java.util.LinkedHashMap<>(anchorProjection.metadata());
+        metadata.put("scopeType", anchorProjection.scope().scopeType().name());
+        metadata.put("scopeId", anchorProjection.scope().scopeId());
+        metadata.put("anchorType", anchorProjection.anchorType().name());
+        metadata.put("displayText", anchorProjection.displayText());
+        metadata.put("count", Integer.toString(anchorProjection.count()));
+        return projection(platform, anchorProjection.anchorId(), ProjectionObjectType.CITIZEN_DISPLAY_ANCHOR, new GlobalAssetId(anchorProjection.globalAssetId()),
+                anchorProjection.displayText(), Optional.empty(), anchorProjection.anchorType().name(), actions, metadata);
     }
 
     private FrontendProjection projection(

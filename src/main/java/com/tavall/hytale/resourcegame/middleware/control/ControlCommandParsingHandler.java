@@ -36,6 +36,7 @@ public final class ControlCommandParsingHandler {
             case "clock" -> parseClockCommand(tokens, operator, issuedFrom, dryRun, now);
             case "schedule" -> parseScheduleCommand(tokens, operator, issuedFrom, dryRun, now);
             case "aging" -> parseAgingCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "citizen", "citizens" -> parseCitizenCommand(tokens, operator, issuedFrom, dryRun, now);
             case "coord", "coordinate" -> parseCoordinateCommand(tokens, operator, issuedFrom, dryRun, now);
             case "instance" -> parseInstanceCommand(tokens, operator, issuedFrom, dryRun, now);
             case "params", "parameter", "parameters" -> parseParameterCommand(tokens, operator, issuedFrom, dryRun, now);
@@ -251,6 +252,89 @@ public final class ControlCommandParsingHandler {
             ), dryRun, now);
         }
         throw new ControlCommandValidationException("Unknown aging command: " + operation + ".");
+    }
+
+    private ControlCommand parseCitizenCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "citizens <spawn|migrate|list|summary|debug|age|ageall|setstage|setjob|clearjob|train|promote|demote|health|morale|nutrition|housing|maintenance|refresh-cache|refresh-displays> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("spawn") || operation.equals("create")) {
+            requireSize(tokens, 4, "citizens spawn <ownerPlayerId> <amount> [kingdomId]");
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 4);
+            arguments.put("ownerPlayerId", tokens.get(2));
+            arguments.put("amount", tokens.get(3));
+            arguments.putIfAbsent("kingdomId", tokens.size() >= 5 && !tokens.get(4).startsWith("--") && !tokens.get(4).contains("=") ? tokens.get(4) : "kingdom-1");
+            return command(ControlCommandType.CREATE_CITIZENS, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("migrate")) {
+            requireSize(tokens, 4, "citizens migrate <ownerPlayerId> <amount> [kingdomId]");
+            LinkedHashMap<String, String> arguments = namedArguments(tokens, 4);
+            arguments.put("ownerPlayerId", tokens.get(2));
+            arguments.put("amount", tokens.get(3));
+            arguments.putIfAbsent("kingdomId", tokens.size() >= 5 && !tokens.get(4).startsWith("--") && !tokens.get(4).contains("=") ? tokens.get(4) : "kingdom-1");
+            return command(ControlCommandType.MIGRATE_CITIZEN_IN, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("list") || operation.equals("summary") || operation.equals("refresh-cache") || operation.equals("refresh-displays")) {
+            LinkedHashMap<String, String> arguments = scopedCitizenArguments(tokens, 2);
+            ControlCommandType type = switch (operation) {
+                case "list" -> ControlCommandType.LIST_CITIZENS;
+                case "summary" -> ControlCommandType.DEBUG_CITIZEN_SUMMARY;
+                case "refresh-cache" -> ControlCommandType.REFRESH_CITIZEN_SUMMARY_CACHE;
+                default -> ControlCommandType.REFRESH_CITIZEN_DISPLAY_PROJECTIONS;
+            };
+            return command(type, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("debug") || operation.equals("get")) {
+            requireSize(tokens, 3, "citizens debug <citizenId>");
+            return command(operation.equals("debug") ? ControlCommandType.DEBUG_CITIZEN : ControlCommandType.GET_CITIZEN, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), Map.of("citizenId", tokens.get(2)), dryRun, now);
+        }
+        if (operation.equals("age")) {
+            requireSize(tokens, 4, "citizens age <citizenId> <years>");
+            return command(ControlCommandType.DEBUG_SET_CITIZEN_AGE, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), Map.of("citizenId", tokens.get(2), "years", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("ageall") || operation.equals("maintenance")) {
+            LinkedHashMap<String, String> arguments = scopedCitizenArguments(tokens, 2);
+            return command(operation.equals("ageall") ? ControlCommandType.DEBUG_AGE_ALL_CITIZENS : ControlCommandType.RUN_CITIZEN_MAINTENANCE, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), arguments, dryRun, now);
+        }
+        if (operation.equals("setstage")) {
+            requireSize(tokens, 4, "citizens setstage <citizenId> <stage>");
+            return command(ControlCommandType.UPDATE_CITIZEN_AGE_STAGE, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), Map.of("citizenId", tokens.get(2), "ageStage", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("setjob")) {
+            requireSize(tokens, 4, "citizens setjob <citizenId> <job>");
+            return command(ControlCommandType.ASSIGN_CITIZEN_JOB, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), Map.of("citizenId", tokens.get(2), "jobType", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("clearjob") || operation.equals("train") || operation.equals("promote") || operation.equals("demote")) {
+            requireSize(tokens, 3, "citizens " + operation + " <citizenId>");
+            ControlCommandType type = switch (operation) {
+                case "clearjob" -> ControlCommandType.CLEAR_CITIZEN_JOB;
+                case "train" -> ControlCommandType.START_CITIZEN_TRAINING;
+                case "promote" -> ControlCommandType.PROMOTE_CITIZEN_TO_TROOP;
+                default -> ControlCommandType.DEMOTE_TROOP_TO_CITIZEN;
+            };
+            CommandTargetScope targetScope = operation.equals("promote") || operation.equals("demote") ? CommandTargetScope.TROOP : CommandTargetScope.PLAYER;
+            return command(type, operator, issuedFrom, targetScope, Set.of(), Map.of("citizenId", tokens.get(2)), dryRun, now);
+        }
+        if (operation.equals("health") || operation.equals("morale") || operation.equals("nutrition") || operation.equals("housing")) {
+            requireSize(tokens, 4, "citizens " + operation + " <citizenId> <state>");
+            ControlCommandType type = switch (operation) {
+                case "health" -> ControlCommandType.UPDATE_CITIZEN_HEALTH;
+                case "morale" -> ControlCommandType.UPDATE_CITIZEN_MORALE;
+                case "nutrition" -> ControlCommandType.UPDATE_CITIZEN_NUTRITION;
+                default -> ControlCommandType.UPDATE_CITIZEN_HOUSING;
+            };
+            String key = operation + "State";
+            return command(type, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), Map.of("citizenId", tokens.get(2), key, tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("food-effects") || operation.equals("morale-effects") || operation.equals("night-rest")) {
+            LinkedHashMap<String, String> arguments = scopedCitizenArguments(tokens, 2);
+            ControlCommandType type = switch (operation) {
+                case "food-effects" -> ControlCommandType.APPLY_CITIZEN_FOOD_EFFECTS;
+                case "morale-effects" -> ControlCommandType.APPLY_CITIZEN_MORALE_EFFECTS;
+                default -> ControlCommandType.APPLY_CITIZEN_NIGHT_REST_EFFECTS;
+            };
+            return command(type, operator, issuedFrom, CommandTargetScope.KINGDOM, Set.of(), arguments, dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown citizens command: " + operation + ".");
     }
 
     private ControlCommand parseKingdomCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
@@ -532,6 +616,20 @@ public final class ControlCommandParsingHandler {
                 arguments.put(token.substring(0, equalsIndex), token.substring(equalsIndex + 1));
             }
         }
+        return arguments;
+    }
+
+    private LinkedHashMap<String, String> scopedCitizenArguments(ArrayList<String> tokens, int startIndex) {
+        LinkedHashMap<String, String> arguments = namedArguments(tokens, startIndex);
+        if (tokens.size() > startIndex && !tokens.get(startIndex).startsWith("--") && !tokens.get(startIndex).contains("=")) {
+            String scopeId = tokens.get(startIndex);
+            if (scopeId.startsWith("kingdom-")) {
+                arguments.put("kingdomId", scopeId);
+            } else {
+                arguments.put("ownerPlayerId", scopeId);
+            }
+        }
+        arguments.putIfAbsent("kingdomId", "kingdom-1");
         return arguments;
     }
 

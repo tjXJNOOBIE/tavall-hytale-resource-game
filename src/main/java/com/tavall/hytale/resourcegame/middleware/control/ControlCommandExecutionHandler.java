@@ -4,6 +4,7 @@ import com.tavall.hytale.resourcegame.middleware.asset.GlobalAsset;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetId;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetRepository;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetType;
+import com.tavall.hytale.resourcegame.middleware.citizen.CitizenControlSystem;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.healing.HealingFacilityDefinitionRegistry;
@@ -56,6 +57,7 @@ public final class ControlCommandExecutionHandler {
     private final ControlSurfaceLaunchHandler surfaceLaunchHandler;
     private final UniversalKingdomSimulationSystem kingdomSimulationSystem;
     private final KingdomClockControlSystem kingdomClockSystem;
+    private final CitizenControlSystem citizenControlSystem;
 
     public ControlCommandExecutionHandler(
             UniversalPlayerAccountRepository accountRepository,
@@ -72,7 +74,8 @@ public final class ControlCommandExecutionHandler {
             TroopHealingProgressTickHandler healingProgressTickHandler,
             ControlSurfaceLaunchHandler surfaceLaunchHandler,
             UniversalKingdomSimulationSystem kingdomSimulationSystem,
-            KingdomClockControlSystem kingdomClockSystem
+            KingdomClockControlSystem kingdomClockSystem,
+            CitizenControlSystem citizenControlSystem
     ) {
         this.accountRepository = accountRepository;
         this.platformAccountBindingRepository = platformAccountBindingRepository;
@@ -89,6 +92,7 @@ public final class ControlCommandExecutionHandler {
         this.surfaceLaunchHandler = surfaceLaunchHandler;
         this.kingdomSimulationSystem = kingdomSimulationSystem;
         this.kingdomClockSystem = kingdomClockSystem;
+        this.citizenControlSystem = citizenControlSystem;
     }
 
     public ControlCommandResult executeCommand(ControlCommand command, Instant startedAt) {
@@ -128,6 +132,18 @@ public final class ControlCommandExecutionHandler {
                      DEBUG_AGING_TICK, REFRESH_KINGDOM_CLOCK_PROJECTION,
                      REFRESH_KINGDOM_SCHEDULE_PROJECTION ->
                         kingdomClockSystem.handleControlCommand(command, startedAt);
+                case CREATE_CITIZEN, CREATE_CITIZENS, MIGRATE_CITIZEN_IN, LIST_CITIZENS,
+                     GET_CITIZEN, DEBUG_CITIZEN, DEBUG_CITIZEN_SUMMARY,
+                     UPDATE_CITIZEN_AGE_STAGE, DEBUG_SET_CITIZEN_AGE,
+                     DEBUG_AGE_ALL_CITIZENS, ASSIGN_CITIZEN_JOB, CLEAR_CITIZEN_JOB,
+                     START_CITIZEN_TRAINING, PROMOTE_CITIZEN_TO_TROOP,
+                     DEMOTE_TROOP_TO_CITIZEN, UPDATE_CITIZEN_HEALTH,
+                     UPDATE_CITIZEN_MORALE, UPDATE_CITIZEN_NUTRITION,
+                     UPDATE_CITIZEN_HOUSING, RUN_CITIZEN_MAINTENANCE,
+                     APPLY_CITIZEN_FOOD_EFFECTS, APPLY_CITIZEN_MORALE_EFFECTS,
+                     APPLY_CITIZEN_NIGHT_REST_EFFECTS, REFRESH_CITIZEN_SUMMARY_CACHE,
+                     REFRESH_CITIZEN_DISPLAY_PROJECTIONS ->
+                        citizenControlSystem.handleControlCommand(command, startedAt);
                 default -> rejected(command, startedAt, "Command type is registered but execution is not implemented yet: " + command.commandType() + ".");
             };
         } catch (RuntimeException exception) {

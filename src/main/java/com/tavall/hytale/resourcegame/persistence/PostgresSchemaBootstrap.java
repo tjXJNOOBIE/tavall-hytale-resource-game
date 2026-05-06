@@ -19,7 +19,8 @@ public class PostgresSchemaBootstrap {
             "schema/postgres/001_player_profile.sql",
             "schema/postgres/002_player_game_state.sql",
             "schema/postgres/003_player_game_state_evolution.sql",
-            "schema/postgres/004_cross_platform_middleware.sql"
+            "schema/postgres/004_cross_platform_middleware.sql",
+            "schema/postgres/005_citizen_control_plane.sql"
     );
 
     private final Logger logger;
