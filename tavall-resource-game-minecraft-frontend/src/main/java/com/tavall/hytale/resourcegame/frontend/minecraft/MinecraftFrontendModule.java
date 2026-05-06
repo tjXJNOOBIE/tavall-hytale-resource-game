@@ -8,7 +8,7 @@ public final class MinecraftFrontendModule {
     private static final ResourceGameFrontendModuleDescriptor DESCRIPTOR = new ResourceGameFrontendModuleDescriptor(
             "tavall-resource-game-minecraft-frontend",
             ResourceGameFrontendPlatform.MINECRAFT,
-            ResourceGameFrontendRuntime.MINECRAFT_JAVA_PLUGIN,
+            ResourceGameFrontendRuntime.MINECRAFT_VELOCITY_PROXY_PLUGIN,
             "FrontendCommandIngressHandler",
             false
     );

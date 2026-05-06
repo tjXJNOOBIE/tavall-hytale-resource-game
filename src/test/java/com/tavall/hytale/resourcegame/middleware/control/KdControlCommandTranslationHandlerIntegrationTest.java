@@ -12,6 +12,19 @@ final class KdControlCommandTranslationHandlerIntegrationTest {
 
         assertEquals("tick healing 2", translationHandler.translateKdCommand("kd tick run 2").orElseThrow());
         assertEquals(
+                "kingdom create --displayName First --worldId default --borderSize 1000",
+                translationHandler.translateKdCommand("kd kingdom create --displayName First --worldId default --borderSize 1000").orElseThrow()
+        );
+        assertEquals(
+                "coord convert minecraft default 10 64 20",
+                translationHandler.translateKdCommand("kd coord convert minecraft default 10 64 20").orElseThrow()
+        );
+        assertEquals(
+                "instance routing debug kingdom-1 minecraft",
+                translationHandler.translateKdCommand("kd instance routing debug kingdom-1 minecraft").orElseThrow()
+        );
+        assertEquals("params list", translationHandler.translateKdCommand("kd params list").orElseThrow());
+        assertEquals(
                 "resource give player-1 resource.food.rations 10",
                 translationHandler.translateKdCommand("kingdom resources give player-1 resource.food.rations 10").orElseThrow()
         );

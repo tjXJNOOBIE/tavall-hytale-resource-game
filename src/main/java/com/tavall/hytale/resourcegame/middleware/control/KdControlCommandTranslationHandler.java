@@ -32,6 +32,13 @@ public final class KdControlCommandTranslationHandler {
             "bootstrap",
             "scene",
             "tick",
+            "kingdom",
+            "coord",
+            "coordinate",
+            "instance",
+            "params",
+            "parameter",
+            "parameters",
             "clock",
             "schedule",
             "aging",
@@ -54,6 +61,10 @@ public final class KdControlCommandTranslationHandler {
         String category = tokens.get(1).toLowerCase(Locale.ROOT);
         return switch (category) {
             case "tick" -> translateTick(tokens);
+            case "kingdom" -> translatePrefixed(tokens, "kingdom");
+            case "coord", "coordinate" -> translatePrefixed(tokens, "coord");
+            case "instance" -> translatePrefixed(tokens, "instance");
+            case "params", "parameter", "parameters" -> translatePrefixed(tokens, "params");
             case "clock" -> translatePrefixed(tokens, "clock");
             case "schedule" -> translatePrefixed(tokens, "schedule");
             case "aging" -> translatePrefixed(tokens, "aging");

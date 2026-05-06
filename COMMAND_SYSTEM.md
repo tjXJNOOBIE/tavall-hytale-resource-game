@@ -25,6 +25,13 @@ Provide a development-first admin and debug surface that accelerates gameplay it
 - `scene`
 - `bootstrap`
 - `tick`
+- `kingdom`
+- `coord`
+- `instance`
+- `params`
+- `clock`
+- `schedule`
+- `aging`
 - `tutorial`
 
 ## Main classes
@@ -85,6 +92,7 @@ Provide a development-first admin and debug surface that accelerates gameplay it
 - Current command batch includes `DEBUG_PLAYER_STATE`, `REGISTER_GLOBAL_ASSET`, `REFRESH_FRONTEND_PROJECTIONS`, `ASSIGN_TROOP_WOUND`, `START_TROOP_HEALING`, `RUN_HEALING_TICK`, `GIVE_RESOURCE`, `BROADCAST_PLATFORM_MESSAGE`, `SYNC_PLATFORM_STATE`, `DEBUG_TROOP_HEALING_STATE`, the universal kingdom commands for kingdom creation/scaling, borders, coordinates, player locations, instance routing, editable parameters, and new-player routing, and canonical citizen commands for citizen creation, aging, job assignment, training, troop promotion, condition updates, cache refresh, and projection refresh.
 - Kingdom Clock commands are also plain Java control-plane commands. Spring web panel forms and frontend `/kd clock`, `/kd schedule`, and `/kd aging` inputs submit through the same parser/dispatcher instead of mutating clock state directly.
 - Citizen commands are plain Java control-plane commands. Hytale `/kd citizens spawn|summary|debug|setjob|train|promote|demote|maintenance|refresh-cache|refresh-displays` inputs are translated into canonical command text and then dispatched through `FrontendCommandIngressHandler`; Hytale's older aggregate `/kd citizens add|set` commands remain a live UI compatibility path until they are deliberately bridged to canonical records.
+- Minecraft commands now run from a first-party Velocity proxy plugin in `tavall-resource-game-minecraft-frontend`. The proxy registers `/kd` and `/kingdom`, resolves Velocity player/console permissions into shared control-plane permission subjects, builds `FrontendCommandEnvelope` instances, and posts them to the Java control ingress. The live proxy path covers `kingdom`, `coord`, `instance`, `params`, `clock`, and `citizens` control domains without making Minecraft own simulation state.
 - Useful CLI examples:
   - `dry-run troop wound <troopId> GENERAL_WOUND MODERATE`
   - `execute troop wound <troopId> GENERAL_WOUND MODERATE`
@@ -132,3 +140,4 @@ Provide a development-first admin and debug surface that accelerates gameplay it
 - Universal kingdom verification should start in the plain Java control runtime. Minecraft/Hytale/Roblox location updates are platform coordinates, the backend converts to canonical coordinates, border containment resolves the kingdom, and any cross-border transition creates an instance-switch request for the frontend adapter to execute.
 - Kingdom Clock verification should start in the same runtime: set `clock override kingdom-1 22:00`, refresh clock/schedule projections for Minecraft/Hytale/Roblox/Discord, and verify frontends render `NIGHT` without calculating canonical time locally.
 - Citizen verification should start with canonical control commands: spawn citizens for a universal player, assign an existing `CitizenJobType`, train/promote the same `citizenId`, refresh summaries/projections, then verify Minecraft/Hytale/Roblox/Discord consume `CitizenPopulationProjection` and `CitizenDisplayAnchorProjection` without owning citizen counts or lifecycle rules.
+- Live Minecraft proxy verification command: `powershell -ExecutionPolicy Bypass -File .\scripts\run-remote-minecraft-velocity-control-plane-flow.ps1 -CommandList "/kd kingdom create --displayName First --worldId default --borderSize 1000|/kd kingdom debug kingdom-1|/kd coord convert minecraft default 10 64 20|/kd instance routing debug kingdom-1 minecraft|/kd params list|/kd clock state kingdom-1|/kd citizens summary kingdom-1"`.
