@@ -9,6 +9,8 @@ import com.tavall.hytale.resourcegame.middleware.control.ControlCommandValidatio
 import com.tavall.hytale.resourcegame.middleware.control.CommandExecutionState;
 import com.tavall.hytale.resourcegame.middleware.event.DomainEventPublisher;
 import com.tavall.hytale.resourcegame.middleware.event.SimpleDomainEvent;
+import com.tavall.hytale.resourcegame.persistence.PostgresConnectionProvider;
+import com.tavall.hytale.resourcegame.persistence.PostgresUniversalKingdomRepository;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -43,6 +45,10 @@ public final class UniversalKingdomSimulationSystem {
 
     public static UniversalKingdomSimulationSystem inMemory(DomainEventPublisher eventPublisher) {
         return new UniversalKingdomSimulationSystem(new InMemoryUniversalKingdomRepository(), eventPublisher);
+    }
+
+    public static UniversalKingdomSimulationSystem postgres(PostgresConnectionProvider connectionProvider, DomainEventPublisher eventPublisher) {
+        return new UniversalKingdomSimulationSystem(new PostgresUniversalKingdomRepository(connectionProvider), eventPublisher);
     }
 
     public UniversalKingdomRepository repository() {

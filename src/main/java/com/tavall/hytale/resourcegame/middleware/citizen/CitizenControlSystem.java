@@ -1,5 +1,6 @@
 package com.tavall.hytale.resourcegame.middleware.citizen;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tavall.hytale.resourcegame.domain.CitizenJobType;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
 import com.tavall.hytale.resourcegame.middleware.control.CommandExecutionState;
@@ -7,6 +8,8 @@ import com.tavall.hytale.resourcegame.middleware.control.ControlCommand;
 import com.tavall.hytale.resourcegame.middleware.control.ControlCommandResult;
 import com.tavall.hytale.resourcegame.middleware.control.ControlCommandType;
 import com.tavall.hytale.resourcegame.middleware.identity.UniversalPlayerId;
+import com.tavall.hytale.resourcegame.persistence.PostgresCitizenRepository;
+import com.tavall.hytale.resourcegame.persistence.PostgresConnectionProvider;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -64,6 +67,20 @@ public final class CitizenControlSystem {
     public static CitizenControlSystem inMemory(KingdomClockControlSystem clockControlSystem) {
         CitizenRepository citizenRepository = new InMemoryCitizenRepository();
         CitizenSummaryCacheRepository cacheRepository = new InMemoryCitizenSummaryCacheRepository();
+        return withRepositories(citizenRepository, cacheRepository, clockControlSystem);
+    }
+
+    public static CitizenControlSystem postgres(PostgresConnectionProvider connectionProvider, KingdomClockControlSystem clockControlSystem) {
+        CitizenRepository citizenRepository = new PostgresCitizenRepository(connectionProvider, new ObjectMapper());
+        CitizenSummaryCacheRepository cacheRepository = new InMemoryCitizenSummaryCacheRepository();
+        return withRepositories(citizenRepository, cacheRepository, clockControlSystem);
+    }
+
+    public static CitizenControlSystem withRepositories(
+            CitizenRepository citizenRepository,
+            CitizenSummaryCacheRepository cacheRepository,
+            KingdomClockControlSystem clockControlSystem
+    ) {
         CitizenAgeStageMappingHandler ageStageMappingHandler = new CitizenAgeStageMappingHandler();
         CitizenAgingCalculationHandler agingCalculationHandler = new CitizenAgingCalculationHandler(ageStageMappingHandler);
         CitizenCacheInvalidationHandler cacheInvalidationHandler = new CitizenCacheInvalidationHandler(cacheRepository);

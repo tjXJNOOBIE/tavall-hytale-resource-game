@@ -22,6 +22,7 @@ public record ControlCommandRuntime(
         ControlPlatformFanoutRetryRepository fanoutRetryRepository,
         ScheduledControlCommandRepository scheduledCommandRepository,
         ControlCommandSchedulingHandler schedulingHandler,
+        ControlPlaneMaintenanceWorker maintenanceWorker,
         ControlCommandCompensationHandler compensationHandler,
         UniversalPlayerAccountRepository accountRepository,
         PlatformAccountBindingRepository platformAccountBindingRepository,

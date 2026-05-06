@@ -27,4 +27,19 @@ public final class ResourceGameFrontendActionCatalogTest {
         assertFalse(catalog.actionsFor(ResourceGameFrontendPlatform.ROBLOX, ResourceGameFrontendObjectKind.PETITION).isEmpty());
         assertFalse(catalog.actionsFor(ResourceGameFrontendPlatform.DISCORD, ResourceGameFrontendObjectKind.PETITION).isEmpty());
     }
+
+    @Test
+    void allLivePlatformsExposeClockAndScheduleActions() {
+        ResourceGameFrontendActionCatalog catalog = new ResourceGameFrontendActionCatalog();
+
+        assertEquals("hytale.clock.view", catalog.actionsFor(ResourceGameFrontendPlatform.HYTALE, ResourceGameFrontendObjectKind.KINGDOM_CLOCK).getFirst().actionId());
+        assertEquals("kingdom.clock.view", catalog.actionsFor(ResourceGameFrontendPlatform.MINECRAFT, ResourceGameFrontendObjectKind.KINGDOM_CLOCK).getFirst().actionId());
+        assertEquals("roblox.clock.gui", catalog.actionsFor(ResourceGameFrontendPlatform.ROBLOX, ResourceGameFrontendObjectKind.KINGDOM_CLOCK).getFirst().actionId());
+        assertEquals("discord.clock.view", catalog.actionsFor(ResourceGameFrontendPlatform.DISCORD, ResourceGameFrontendObjectKind.KINGDOM_CLOCK).getFirst().actionId());
+
+        assertEquals("hytale.schedule.view", catalog.actionsFor(ResourceGameFrontendPlatform.HYTALE, ResourceGameFrontendObjectKind.KINGDOM_SCHEDULE).getFirst().actionId());
+        assertEquals("kingdom.schedule.view", catalog.actionsFor(ResourceGameFrontendPlatform.MINECRAFT, ResourceGameFrontendObjectKind.KINGDOM_SCHEDULE).getFirst().actionId());
+        assertEquals("roblox.schedule.gui", catalog.actionsFor(ResourceGameFrontendPlatform.ROBLOX, ResourceGameFrontendObjectKind.KINGDOM_SCHEDULE).getFirst().actionId());
+        assertEquals("discord.schedule.view", catalog.actionsFor(ResourceGameFrontendPlatform.DISCORD, ResourceGameFrontendObjectKind.KINGDOM_SCHEDULE).getFirst().actionId());
+    }
 }

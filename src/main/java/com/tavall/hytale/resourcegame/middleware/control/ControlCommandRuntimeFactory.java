@@ -21,8 +21,10 @@ import com.tavall.hytale.resourcegame.middleware.healing.TroopWoundAssignmentHan
 import com.tavall.hytale.resourcegame.middleware.identity.InMemoryIdentityRepository;
 import com.tavall.hytale.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
 import com.tavall.hytale.resourcegame.middleware.troop.InMemoryTroopRepository;
+import com.tavall.hytale.resourcegame.persistence.PostgresConnectionProvider;
 
 import java.time.Instant;
+import java.time.Clock;
 import java.util.List;
 
 public final class ControlCommandRuntimeFactory {
@@ -109,6 +111,14 @@ public final class ControlCommandRuntimeFactory {
                 new KdControlCommandTranslationHandler(),
                 ControlOperator.system(now)
         );
+        ControlCommandSchedulingHandler schedulingHandler = new ControlCommandSchedulingHandler(scheduledCommandRepository, dispatchHandler);
+        ControlPlaneMaintenanceWorker maintenanceWorker = new ControlPlaneMaintenanceWorker(
+                schedulingHandler,
+                fanoutRetryHandler,
+                kingdomClockSystem,
+                kingdomSimulationSystem,
+                Clock.systemUTC()
+        );
 
         return new ControlCommandRuntime(
                 dispatchHandler,
@@ -121,7 +131,126 @@ public final class ControlCommandRuntimeFactory {
                 operatorRepository,
                 fanoutRetryRepository,
                 scheduledCommandRepository,
-                new ControlCommandSchedulingHandler(scheduledCommandRepository, dispatchHandler),
+                schedulingHandler,
+                maintenanceWorker,
+                new ControlCommandCompensationHandler(),
+                identityRepository,
+                identityRepository,
+                assetRepository,
+                kingdomSimulationSystem,
+                kingdomClockSystem,
+                citizenControlSystem,
+                troopRepository,
+                troopHealingRepository,
+                healingInventoryRepository
+        );
+    }
+
+    public static ControlCommandRuntime createPostgresRuntime(PostgresConnectionProvider connectionProvider) {
+        return createPostgresRuntime(connectionProvider, new RecordingControlSurfaceLaunchHandler());
+    }
+
+    public static ControlCommandRuntime createPostgresRuntime(
+            PostgresConnectionProvider connectionProvider,
+            ControlSurfaceLaunchHandler surfaceLaunchHandler
+    ) {
+        Instant now = Instant.now();
+        InMemoryIdentityRepository identityRepository = new InMemoryIdentityRepository();
+        InMemoryGlobalAssetRepository assetRepository = new InMemoryGlobalAssetRepository();
+        InMemoryTroopRepository troopRepository = new InMemoryTroopRepository();
+        TroopHealingRepository troopHealingRepository = new InMemoryTroopHealingRepository();
+        HealingInventoryRepository healingInventoryRepository = new InMemoryHealingInventoryRepository();
+        PostgresControlCommandAuditLogRepository auditLogRepository = new PostgresControlCommandAuditLogRepository(connectionProvider);
+        PostgresControlCommandResultRepository resultRepository = new PostgresControlCommandResultRepository(connectionProvider);
+        PostgresControlOperatorRepository operatorRepository = new PostgresControlOperatorRepository(connectionProvider);
+        PostgresControlPlatformFanoutRetryRepository fanoutRetryRepository = new PostgresControlPlatformFanoutRetryRepository(connectionProvider);
+        PostgresScheduledControlCommandRepository scheduledCommandRepository = new PostgresScheduledControlCommandRepository(connectionProvider);
+        operatorRepository.saveOperator(ControlOperator.localOwner(now));
+        operatorRepository.saveOperator(ControlOperator.system(now));
+
+        RecordingDomainEventPublisher eventPublisher = new RecordingDomainEventPublisher();
+        UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.postgres(connectionProvider, eventPublisher);
+        KingdomClockControlSystem kingdomClockSystem = KingdomClockControlSystem.postgres(connectionProvider, eventPublisher, Clock.systemUTC());
+        CitizenControlSystem citizenControlSystem = CitizenControlSystem.postgres(connectionProvider, kingdomClockSystem);
+        HealingFacilityDefinitionRegistry facilityDefinitionRegistry = new HealingFacilityDefinitionRegistry();
+        HealingFacilityModifierCalculationHandler modifierCalculationHandler = new HealingFacilityModifierCalculationHandler();
+        HealingResourceCostCalculationHandler costCalculationHandler = new HealingResourceCostCalculationHandler(modifierCalculationHandler);
+        TroopHealingRecipeSelectionHandler recipeSelectionHandler = new TroopHealingRecipeSelectionHandler();
+        TroopHealingRecipeValidationHandler recipeValidationHandler = new TroopHealingRecipeValidationHandler(costCalculationHandler, modifierCalculationHandler);
+        TroopWoundAssignmentHandler woundAssignmentHandler = new TroopWoundAssignmentHandler(troopRepository, troopHealingRepository, eventPublisher);
+        TroopHealingCompletionHandler completionHandler = new TroopHealingCompletionHandler(troopRepository, troopHealingRepository, eventPublisher);
+        TroopHealingStartHandler healingStartHandler = new TroopHealingStartHandler(troopRepository, troopHealingRepository, healingInventoryRepository, recipeValidationHandler, eventPublisher);
+        TroopHealingProgressTickHandler progressTickHandler = new TroopHealingProgressTickHandler(troopHealingRepository, completionHandler, eventPublisher);
+
+        ControlCommandRegistry commandRegistry = new ControlCommandRegistry();
+        ControlCommandValidationHandler validationHandler = new ControlCommandValidationHandler(commandRegistry);
+        ControlCommandExecutionHandler executionHandler = new ControlCommandExecutionHandler(
+                identityRepository,
+                identityRepository,
+                assetRepository,
+                troopRepository,
+                troopHealingRepository,
+                healingInventoryRepository,
+                facilityDefinitionRegistry,
+                woundAssignmentHandler,
+                recipeSelectionHandler,
+                recipeValidationHandler,
+                healingStartHandler,
+                progressTickHandler,
+                surfaceLaunchHandler,
+                kingdomSimulationSystem,
+                kingdomClockSystem,
+                citizenControlSystem
+        );
+        ControlPlatformFanoutRetryHandler fanoutRetryHandler = new ControlPlatformFanoutRetryHandler(fanoutRetryRepository);
+        PlatformCommandFanoutHandler fanoutHandler = new PlatformCommandFanoutHandler(List.of(
+                new InMemoryPlatformFrontendAdapter(GamePlatform.MINECRAFT, true),
+                new InMemoryPlatformFrontendAdapter(GamePlatform.HYTALE, true),
+                new InMemoryPlatformFrontendAdapter(GamePlatform.ROBLOX, true),
+                new InMemoryPlatformFrontendAdapter(GamePlatform.DISCORD, true),
+                new InMemoryPlatformFrontendAdapter(GamePlatform.ANDROID, true),
+                new InMemoryPlatformFrontendAdapter(GamePlatform.PC, true)
+        ), new PlatformFanoutTargetResolver(), fanoutRetryHandler);
+        ControlCommandResultHandler resultHandler = new ControlCommandResultHandler(resultRepository);
+        ControlCommandAuditLogHandler auditLogHandler = new ControlCommandAuditLogHandler(auditLogRepository, new ControlCommandSerializer());
+        ControlCommandParsingHandler parsingHandler = new ControlCommandParsingHandler();
+        ControlCommandDispatchHandler dispatchHandler = new ControlCommandDispatchHandler(
+                commandRegistry,
+                validationHandler,
+                executionHandler,
+                fanoutHandler,
+                new PlatformFanoutResultAggregator(),
+                resultHandler,
+                auditLogHandler
+        );
+        FrontendCommandIngressHandler frontendCommandIngressHandler = new FrontendCommandIngressHandler(
+                parsingHandler,
+                dispatchHandler,
+                new KdControlCommandTranslationHandler(),
+                ControlOperator.system(now)
+        );
+        ControlCommandSchedulingHandler schedulingHandler = new ControlCommandSchedulingHandler(scheduledCommandRepository, dispatchHandler);
+        ControlPlaneMaintenanceWorker maintenanceWorker = new ControlPlaneMaintenanceWorker(
+                schedulingHandler,
+                fanoutRetryHandler,
+                kingdomClockSystem,
+                kingdomSimulationSystem,
+                Clock.systemUTC()
+        );
+
+        return new ControlCommandRuntime(
+                dispatchHandler,
+                frontendCommandIngressHandler,
+                parsingHandler,
+                commandRegistry,
+                fanoutHandler,
+                auditLogRepository,
+                resultRepository,
+                operatorRepository,
+                fanoutRetryRepository,
+                scheduledCommandRepository,
+                schedulingHandler,
+                maintenanceWorker,
                 new ControlCommandCompensationHandler(),
                 identityRepository,
                 identityRepository,

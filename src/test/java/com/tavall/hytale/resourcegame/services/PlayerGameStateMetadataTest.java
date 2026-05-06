@@ -28,6 +28,48 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public final class PlayerGameStateMetadataTest {
     @Test
+    void loadOrCreateRehydratesTroopTierCountsFromMetadataJson() throws Exception {
+        JsonMapperProvider mapperProvider = new JsonMapperProvider();
+        InMemoryPlayerGameStateStore store = new InMemoryPlayerGameStateStore();
+        PlayerGameStateService service = new PlayerGameStateService(
+                store,
+                new SemanticCacheFactory(new CacheConfig("", 6379, "", false)).build("metadata-tier-counts"),
+                new JacksonCacheCodec<>(mapperProvider.mapper(), PlayerGameState.class, "metadata-tier-counts"),
+                mapperProvider.mapper()
+        );
+
+        Instant now = Instant.parse("2026-04-12T20:00:00Z");
+        CastleLocationData castleLocation = new CastleLocationData("overworld", 8.0, 70.0, 8.0);
+        PopulationSummary summary = new PopulationSummary(
+                18,
+                6,
+                new CitizenMetaData(0.82, 0.41, 0.77, Map.of(CitizenJobType.GATHERER, 5, CitizenJobType.BUILDER, 2)),
+                new TroopMetaData(0.74, 0.63, 0.58, Map.of(1, 2, 2, 1, 5, 1)),
+                new AgingState(now, Duration.ofHours(12))
+        );
+        GameStateMetadata metadata = GameStateMetadata.fromPopulation(summary, new OnboardingProgress(false, true, false));
+        PlayerGameState seeded = new PlayerGameState(
+                0L,
+                99L,
+                UUID.randomUUID(),
+                "stone_column_castle",
+                castleLocation,
+                summary,
+                new ResourceInventory(90, 45, 21),
+                null,
+                mapperProvider.mapper().writeValueAsString(metadata),
+                now,
+                now
+        );
+        store.upsert(seeded, now);
+
+        PlayerGameState loaded = service.loadOrCreate(99L, UUID.randomUUID(), castleLocation, now);
+
+        assertEquals(Map.of(1, 2, 2, 1, 5, 1), loaded.populationSummary().troopMetaData().tierCounts());
+        assertEquals(9, loaded.populationSummary().might());
+    }
+
+    @Test
     void loadOrCreateRehydratesMetadataAndOnboardingState() throws Exception {
         JsonMapperProvider mapperProvider = new JsonMapperProvider();
         InMemoryPlayerGameStateStore store = new InMemoryPlayerGameStateStore();

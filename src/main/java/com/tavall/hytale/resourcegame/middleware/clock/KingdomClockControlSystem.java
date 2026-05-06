@@ -8,6 +8,7 @@ import com.tavall.hytale.resourcegame.middleware.control.ControlCommandValidatio
 import com.tavall.hytale.resourcegame.middleware.event.DomainEvent;
 import com.tavall.hytale.resourcegame.middleware.event.DomainEventPublisher;
 import com.tavall.hytale.resourcegame.middleware.event.RecordingDomainEventPublisher;
+import com.tavall.hytale.resourcegame.persistence.PostgresConnectionProvider;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -54,6 +55,13 @@ public final class KingdomClockControlSystem {
 
     public static KingdomClockControlSystem inMemory(DomainEventPublisher eventPublisher, Clock clock) {
         InMemoryKingdomClockRepository repository = new InMemoryKingdomClockRepository();
+        KingdomClockControlSystem system = new KingdomClockControlSystem(repository, eventPublisher, clock);
+        system.seedDefaultScheduleRules(DEFAULT_KINGDOM_ID, clock.instant());
+        return system;
+    }
+
+    public static KingdomClockControlSystem postgres(PostgresConnectionProvider connectionProvider, DomainEventPublisher eventPublisher, Clock clock) {
+        PostgresKingdomClockRepository repository = new PostgresKingdomClockRepository(connectionProvider);
         KingdomClockControlSystem system = new KingdomClockControlSystem(repository, eventPublisher, clock);
         system.seedDefaultScheduleRules(DEFAULT_KINGDOM_ID, clock.instant());
         return system;

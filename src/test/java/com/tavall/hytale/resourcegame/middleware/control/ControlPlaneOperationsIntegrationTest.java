@@ -10,6 +10,7 @@ import com.tavall.hytale.resourcegame.middleware.troop.TroopRegistrationHandler;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -54,6 +55,43 @@ public final class ControlPlaneOperationsIntegrationTest {
         assertEquals(ScheduledControlCommandState.DISPATCHED, dispatched.state());
         assertTrue(dispatched.dispatchedAt().isPresent());
         assertEquals(1, runtime.troopHealingRepository().findActiveWoundsForTroop(troop.troopId()).size());
+    }
+
+    @Test
+    void maintenanceWorkerDispatchesDueCommandsTicksClocksAndMarksDueRetriesForReview() {
+        ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime();
+        ((InMemoryPlatformFrontendAdapter) runtime.fanoutHandler().adaptersByPlatform().get(GamePlatform.HYTALE)).setConnected(false);
+        Troop troop = registerTroop(runtime);
+        Instant now = Instant.parse("2026-04-30T18:30:00Z");
+        ControlCommand scheduled = woundCommand(troop, ControlOperator.localOwner(now), false);
+        runtime.schedulingHandler().scheduleCommand(scheduled, now.minusSeconds(1), now);
+        ControlCommand failedFanout = woundCommand(troop, ControlOperator.localOwner(now), false);
+        runtime.fanoutRetryRepository().saveRetryRecord(new ControlPlatformFanoutRetryRecord(
+                java.util.UUID.randomUUID(),
+                failedFanout.commandId(),
+                failedFanout.commandType(),
+                GamePlatform.HYTALE,
+                List.of("troop:" + troop.troopId()),
+                0,
+                5,
+                now.minusSeconds(1),
+                Optional.empty(),
+                ControlPlatformFanoutRetryState.PENDING,
+                "offline",
+                now.minusSeconds(60),
+                now.minusSeconds(60),
+                Map.of()
+        ));
+
+        ControlPlaneMaintenanceResult result = runtime.maintenanceWorker().runOnce(10);
+
+        assertEquals(1, result.scheduledCommandsDispatched());
+        assertTrue(result.kingdomClocksTicked() >= 1);
+        assertEquals(1, result.kingdomScalingEvaluations());
+        assertEquals(1, result.fanoutRetriesMarkedForReview());
+        ControlPlatformFanoutRetryRecord retryRecord = runtime.fanoutRetryRepository().findRetriesForCommand(failedFanout.commandId()).getFirst();
+        assertEquals(ControlPlatformFanoutRetryState.RETRYING, retryRecord.state());
+        assertTrue(retryRecord.message().contains("scheduler review"));
     }
 
     private Troop registerTroop(ControlCommandRuntime runtime) {

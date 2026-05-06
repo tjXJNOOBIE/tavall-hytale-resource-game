@@ -1,8 +1,10 @@
 package com.tavall.hytale.resourcegame.controlserver.web;
 
+import com.tavall.hytale.resourcegame.config.DatabaseConfig;
 import com.tavall.hytale.resourcegame.middleware.control.ControlCommandRuntime;
 import com.tavall.hytale.resourcegame.middleware.control.ControlCommandRuntimeFactory;
 import com.tavall.hytale.resourcegame.middleware.control.ControlOperator;
+import com.tavall.hytale.resourcegame.persistence.PostgresConnectionProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +14,10 @@ import java.time.Instant;
 public class ControlServerConfiguration {
     @Bean
     ControlCommandRuntime controlCommandRuntime() {
+        DatabaseConfig databaseConfig = DatabaseConfig.fromEnv();
+        if (databaseConfig.jdbcUrl() != null && !databaseConfig.jdbcUrl().isBlank()) {
+            return ControlCommandRuntimeFactory.createPostgresRuntime(new PostgresConnectionProvider(databaseConfig));
+        }
         return ControlCommandRuntimeFactory.createInMemoryRuntime();
     }
 
