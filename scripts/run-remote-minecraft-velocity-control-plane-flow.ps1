@@ -3,6 +3,8 @@ param(
     [string]$SshConfigPath = "C:\Users\TJ\.ssh\config",
     [string]$RemoteProxyDir = "/srv/proxy",
     [string]$RemoteBackendDir = "/srv/ffa",
+    [string]$RemoteSwitchBackendDir = "/srv/ffa-switch",
+    [int]$SwitchBackendPort = 25567,
     [string]$RemoteControlDir = "/srv/resource-game-control",
     [string]$RemoteHeadlessDir = "/srv/headless",
     [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/target/tavall-hytale-resource-game.jar",
@@ -12,6 +14,7 @@ param(
     [string]$ControlIngressUrl = "http://127.0.0.1:18080/api/frontend/commands",
     [string]$BotUsername = "ResourceProxyBot",
     [string]$MinecraftVersion = "1.8.9",
+    [string]$InstanceServerMap = "kingdom-1-minecraft-primary=lobby,kingdom-2-minecraft-primary=ffa",
     [string]$CommandList = "/kd clock state kingdom-1|/kd citizens summary kingdom-1",
     [string]$LogDir = "bot-logs"
 )
@@ -115,6 +118,18 @@ if [ -f '$remotePluginPath' ]; then
 fi
 mv '$remotePluginPath.new' '$remotePluginPath'
 chmod +x '$RemoteProxyDir/start.sh' || true
+python3 - <<'PY'
+from pathlib import Path
+path = Path('$RemoteProxyDir') / 'velocity.toml'
+text = path.read_text()
+lines = []
+for line in text.splitlines():
+    if line.strip().startswith('ffa ='):
+        lines.append('ffa = ' + chr(34) + '127.0.0.1:$SwitchBackendPort' + chr(34))
+    else:
+        lines.append(line)
+path.write_text('\n'.join(lines) + '\n')
+PY
 "@
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteDeploy) -FailureMessage "Failed to install remote Velocity plugin."
 
@@ -129,7 +144,7 @@ for i in `$(seq 1 30); do
   sleep 1
 done
 cd '$RemoteProxyDir'
-nohup env RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='$ControlIngressUrl' RESOURCE_GAME_MINECRAFT_OWNER_USERNAMES='$BotUsername' RESOURCE_GAME_MINECRAFT_SERVER_ID='velocity-proxy' bash ./start.sh > logs/resource-game-proxy.out.log 2> logs/resource-game-proxy.err.log < /dev/null &
+nohup env RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='$ControlIngressUrl' RESOURCE_GAME_MINECRAFT_OWNER_USERNAMES='$BotUsername' RESOURCE_GAME_MINECRAFT_SERVER_ID='velocity-proxy' RESOURCE_GAME_MINECRAFT_INSTANCE_SERVER_MAP='$InstanceServerMap' bash ./start.sh > logs/resource-game-proxy.out.log 2> logs/resource-game-proxy.err.log < /dev/null &
 for i in `$(seq 1 40); do
   if ss -ltn | grep -q ':25565 '; then
     sleep 2
@@ -174,6 +189,52 @@ tail -n 120 logs/resource-game-backend.out.log >&2 || true
 exit 1
 "@
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteBackend) -FailureMessage "Failed to ensure remote Minecraft backend."
+
+Write-LogLine "[$((Get-Date).ToString("o"))] Ensuring remote Minecraft switch backend is listening on $SwitchBackendPort."
+$remoteSwitchBackend = @"
+set -euo pipefail
+if ss -ltn | grep -q ':$SwitchBackendPort '; then
+  exit 0
+fi
+if [ ! -f '$RemoteBackendDir/spigot.jar' ]; then
+  echo 'Remote Minecraft source backend jar does not exist: $RemoteBackendDir/spigot.jar' >&2
+  exit 1
+fi
+mkdir -p '$RemoteSwitchBackendDir' '$RemoteSwitchBackendDir/logs'
+cp '$RemoteBackendDir/spigot.jar' '$RemoteSwitchBackendDir/spigot.jar'
+cp '$RemoteBackendDir/spigot.yml' '$RemoteSwitchBackendDir/spigot.yml' 2>/dev/null || true
+cp '$RemoteBackendDir/bukkit.yml' '$RemoteSwitchBackendDir/bukkit.yml' 2>/dev/null || true
+cat > '$RemoteSwitchBackendDir/eula.txt' <<'EOF'
+eula=true
+EOF
+cat > '$RemoteSwitchBackendDir/server.properties' <<'EOF'
+server-port=$SwitchBackendPort
+server-ip=127.0.0.1
+online-mode=false
+motd=Resource Game Switch Backend
+enable-command-block=true
+white-list=false
+spawn-protection=0
+EOF
+cd '$RemoteSwitchBackendDir'
+if [ -x /usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java ]; then
+  JAVA_BIN=/usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java
+else
+  JAVA_BIN=java
+fi
+nohup "`$JAVA_BIN" -Xss1650k -Xmx1024M -jar spigot.jar nogui > logs/resource-game-switch-backend.out.log 2> logs/resource-game-switch-backend.err.log < /dev/null &
+for i in `$(seq 1 60); do
+  if ss -ltn | grep -q ':$SwitchBackendPort '; then
+    exit 0
+  fi
+  sleep 1
+done
+echo 'Minecraft switch backend did not open port $SwitchBackendPort in time.' >&2
+tail -n 120 logs/resource-game-switch-backend.err.log >&2 || true
+tail -n 120 logs/resource-game-switch-backend.out.log >&2 || true
+exit 1
+"@
+Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteSwitchBackend) -FailureMessage "Failed to ensure remote Minecraft switch backend."
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Whitelisting bot if remote whitelist helper exists."
 $remoteWhitelist = "if [ -x '$RemoteProxyDir/ensure-proxy-whitelist-users.sh' ]; then '$RemoteProxyDir/ensure-proxy-whitelist-users.sh' '$BotUsername'; fi"

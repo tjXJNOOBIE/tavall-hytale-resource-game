@@ -48,7 +48,11 @@ public final class MinecraftVelocityProxyPlugin {
         MinecraftVelocityCommandExecutionHandler executionHandler = new MinecraftVelocityCommandExecutionHandler(
                 commandBridge,
                 permissionHandler,
-                config.serverId()
+                config.serverId(),
+                new MinecraftVelocityInstanceSwitchHandler(
+                        new ProxyServerSwitchGateway(proxyServer, config.instanceServerMappings()),
+                        commandBridge
+                )
         );
         MinecraftVelocitySimpleCommand command = new MinecraftVelocitySimpleCommand(executionHandler, permissionHandler);
         proxyServer.getCommandManager().register(

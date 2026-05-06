@@ -600,7 +600,10 @@ public final class UniversalKingdomSimulationSystem {
         PlayerLocationUpdateResult result = updatePlayerLocation(command.argument("universalPlayerId"), coordinate, Optional.ofNullable(command.arguments().get("platformInstanceId")), startedAt);
         ArrayList<String> changed = new ArrayList<>(List.of("player:" + result.location().universalPlayerId(), "kingdom:" + result.location().currentKingdomId().value()));
         result.transition().ifPresent(transition -> changed.add("transition:" + transition.transitionId()));
-        result.switchRequest().ifPresent(request -> changed.add("instance-switch:" + request.switchRequestId()));
+        result.switchRequest().ifPresent(request -> {
+            changed.add("instance-switch:" + request.switchRequestId());
+            changed.add("platform-instance:" + request.toInstanceId());
+        });
         return completed(command, startedAt, "player location updated kingdom=" + result.location().currentKingdomId().value() + " transition=" + result.transition().isPresent(), changed);
     }
 
@@ -620,7 +623,7 @@ public final class UniversalKingdomSimulationSystem {
         }
         PlayerKingdomTransition transition = createTransition(command.argument("universalPlayerId"), fromKingdomId, toKingdomId, platform, coordinate, Optional.empty(), startedAt);
         InstanceSwitchRequest request = requestInstanceSwitch(command.argument("universalPlayerId"), platform, fromKingdomId, toKingdomId, InstanceSwitchReason.CONTROL_COMMAND, startedAt);
-        return completed(command, startedAt, "forced transition created: " + transition.transitionId() + ".", List.of("transition:" + transition.transitionId(), "instance-switch:" + request.switchRequestId()));
+        return completed(command, startedAt, "forced transition created: " + transition.transitionId() + ".", List.of("transition:" + transition.transitionId(), "instance-switch:" + request.switchRequestId(), "platform-instance:" + request.toInstanceId()));
     }
 
     private ControlCommandResult handleRegisterInstance(ControlCommand command, Instant startedAt) {
@@ -652,7 +655,7 @@ public final class UniversalKingdomSimulationSystem {
             return dryRun(command, startedAt, "Instance switch can be requested to " + to.value() + ".", List.of("player:" + command.argument("universalPlayerId")));
         }
         InstanceSwitchRequest request = requestInstanceSwitch(command.argument("universalPlayerId"), platform, from, to, InstanceSwitchReason.CONTROL_COMMAND, startedAt);
-        return completed(command, startedAt, "instance switch requested: " + request.switchRequestId() + ".", List.of("instance-switch:" + request.switchRequestId()));
+        return completed(command, startedAt, "instance switch requested: " + request.switchRequestId() + ".", List.of("instance-switch:" + request.switchRequestId(), "platform-instance:" + request.toInstanceId()));
     }
 
     private ControlCommandResult handleConfirmSwitch(ControlCommand command, Instant startedAt) {

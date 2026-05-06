@@ -7,6 +7,8 @@ import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificatio
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
 
 import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -73,6 +75,17 @@ public final class FrontendCommandIngressHandler {
     ) {
         ControlCommand command = parsingHandler.parseConsoleCommand(controlConsoleInput, operator, issuedFrom, now);
         ControlCommandResult result = dispatchHandler.dispatchCommand(command);
+        Map<String, String> metadata = new LinkedHashMap<>();
+        metadata.put("controlConsoleInput", controlConsoleInput);
+        metadata.put("commandType", command.commandType().name());
+        metadata.put("changedObjectIds", String.join(",", result.changedObjectIds()));
+        instanceSwitchRequestId(result.changedObjectIds()).ifPresent(value -> metadata.put("instanceSwitchRequestId", value));
+        if (command.commandType() == ControlCommandType.REQUEST_INSTANCE_SWITCH) {
+            metadata.put("platform", command.arguments().getOrDefault("platform", ""));
+            metadata.put("fromKingdomId", command.arguments().getOrDefault("fromKingdomId", ""));
+            metadata.put("toKingdomId", command.arguments().getOrDefault("toKingdomId", ""));
+            metadata.put("universalPlayerId", command.arguments().getOrDefault("universalPlayerId", ""));
+        }
         return new FrontendCommandVerificationResult(
                 envelope,
                 FrontendCommandVerificationState.DISPATCHED,
@@ -80,8 +93,15 @@ public final class FrontendCommandIngressHandler {
                 result.message(),
                 result.commandId().toString(),
                 result.state().name(),
-                Map.of("controlConsoleInput", controlConsoleInput)
+                metadata
         );
+    }
+
+    private Optional<String> instanceSwitchRequestId(List<String> changedObjectIds) {
+        return changedObjectIds.stream()
+                .filter(value -> value.startsWith("instance-switch:"))
+                .map(value -> value.substring("instance-switch:".length()))
+                .findFirst();
     }
 
     private FrontendCommandVerificationResult verifyFrontendAction(

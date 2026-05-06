@@ -455,6 +455,19 @@ public final class ControlCommandParsingHandler {
                     "toKingdomId", tokens.get(5)
             ), dryRun, now);
         }
+        if (operation.equals("confirm")) {
+            requireSize(tokens, 3, "instance confirm <switchRequestId>");
+            return command(ControlCommandType.CONFIRM_INSTANCE_SWITCH, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), Map.of(
+                    "switchRequestId", tokens.get(2)
+            ), dryRun, now);
+        }
+        if (operation.equals("fail")) {
+            requireSize(tokens, 4, "instance fail <switchRequestId> <reason>");
+            return command(ControlCommandType.FAIL_INSTANCE_SWITCH, operator, issuedFrom, CommandTargetScope.PLAYER, Set.of(), Map.of(
+                    "switchRequestId", tokens.get(2),
+                    "reason", String.join("_", tokens.subList(3, tokens.size()))
+            ), dryRun, now);
+        }
         if (operation.equals("routing")) {
             requireSize(tokens, 5, "instance routing debug <kingdomId> <platform>");
             if (!tokens.get(2).equalsIgnoreCase("debug")) {

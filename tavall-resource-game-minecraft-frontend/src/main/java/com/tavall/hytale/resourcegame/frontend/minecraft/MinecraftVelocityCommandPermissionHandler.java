@@ -38,6 +38,8 @@ public final class MinecraftVelocityCommandPermissionHandler {
             "dry-run",
             "register",
             "switch",
+            "confirm",
+            "fail",
             "give",
             "heal",
             "wound"

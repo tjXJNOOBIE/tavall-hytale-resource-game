@@ -147,6 +147,118 @@ public final class MinecraftFrontendModuleTest {
     }
 
     @Test
+    void velocityInstanceSwitchExecutesProxyTransferAndConfirmsThroughControlPlane() {
+        AtomicReference<FrontendCommandEnvelope> completionEnvelope = new AtomicReference<>();
+        AtomicReference<String> targetInstance = new AtomicReference<>();
+        MinecraftControlPlaneCommandBridge bridge = new MinecraftControlPlaneCommandBridge(
+                new MinecraftKdCommandEnvelopeBridge(),
+                envelope -> {
+                    if (envelope.rawInput().startsWith("/kd instance confirm")) {
+                        completionEnvelope.set(envelope);
+                        return new FrontendCommandVerificationResult(
+                                envelope,
+                                FrontendCommandVerificationState.DISPATCHED,
+                                true,
+                                "confirmed",
+                                "cmd-confirm",
+                                "COMPLETED",
+                                Map.of("controlConsoleInput", envelope.rawInput())
+                        );
+                    }
+                    return new FrontendCommandVerificationResult(
+                            envelope,
+                            FrontendCommandVerificationState.DISPATCHED,
+                            true,
+                            "requested",
+                            "cmd-switch",
+                            "COMPLETED",
+                            Map.of(
+                                    "controlConsoleInput", envelope.rawInput(),
+                                    "commandType", "REQUEST_INSTANCE_SWITCH",
+                                    "instanceSwitchRequestId", "switch-1",
+                                    "changedObjectIds", "instance-switch:switch-1,platform-instance:kingdom-2-minecraft-primary"
+                            )
+                    );
+                }
+        );
+        MinecraftVelocityInstanceSwitchGateway gateway = (platformAccountId, targetInstanceId) -> {
+            targetInstance.set(targetInstanceId);
+            return java.util.concurrent.CompletableFuture.completedFuture(MinecraftVelocityInstanceSwitchGateway.MinecraftVelocityInstanceSwitchResult.success("ffa"));
+        };
+        MinecraftVelocityCommandExecutionHandler executionHandler = new MinecraftVelocityCommandExecutionHandler(
+                bridge,
+                new MinecraftVelocityCommandPermissionHandler("tavall.resourcegame.command", "tavall.resourcegame.admin"),
+                "velocity-test",
+                new MinecraftVelocityInstanceSwitchHandler(gateway, bridge)
+        );
+
+        MinecraftVelocityCommandResult result = executionHandler.execute(
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
+                "kd",
+                new String[]{"instance", "switch", "player-1", "minecraft", "kingdom-1", "kingdom-2"}
+        );
+
+        assertTrue(result.success());
+        assertEquals("kingdom-2-minecraft-primary", targetInstance.get());
+        assertEquals("/kd instance confirm switch-1", completionEnvelope.get().rawInput());
+        assertTrue(result.message().contains("Velocity switch connected to ffa."));
+    }
+
+    @Test
+    void velocityInstanceSwitchFailureReportsBackThroughControlPlane() {
+        AtomicReference<FrontendCommandEnvelope> failureEnvelope = new AtomicReference<>();
+        MinecraftControlPlaneCommandBridge bridge = new MinecraftControlPlaneCommandBridge(
+                new MinecraftKdCommandEnvelopeBridge(),
+                envelope -> {
+                    if (envelope.rawInput().startsWith("/kd instance fail")) {
+                        failureEnvelope.set(envelope);
+                        return new FrontendCommandVerificationResult(
+                                envelope,
+                                FrontendCommandVerificationState.DISPATCHED,
+                                true,
+                                "failed-recorded",
+                                "cmd-fail",
+                                "COMPLETED",
+                                Map.of("controlConsoleInput", envelope.rawInput())
+                        );
+                    }
+                    return new FrontendCommandVerificationResult(
+                            envelope,
+                            FrontendCommandVerificationState.DISPATCHED,
+                            true,
+                            "requested",
+                            "cmd-switch",
+                            "COMPLETED",
+                            Map.of(
+                                    "controlConsoleInput", envelope.rawInput(),
+                                    "commandType", "REQUEST_INSTANCE_SWITCH",
+                                    "instanceSwitchRequestId", "switch-2",
+                                    "changedObjectIds", "instance-switch:switch-2,platform-instance:missing-instance"
+                            )
+                    );
+                }
+        );
+        MinecraftVelocityInstanceSwitchGateway gateway = (platformAccountId, targetInstanceId) -> java.util.concurrent.CompletableFuture.completedFuture(
+                MinecraftVelocityInstanceSwitchGateway.MinecraftVelocityInstanceSwitchResult.failed(targetInstanceId, "Velocity server is not registered: missing-instance.")
+        );
+        MinecraftVelocityCommandExecutionHandler executionHandler = new MinecraftVelocityCommandExecutionHandler(
+                bridge,
+                new MinecraftVelocityCommandPermissionHandler("tavall.resourcegame.command", "tavall.resourcegame.admin"),
+                "velocity-test",
+                new MinecraftVelocityInstanceSwitchHandler(gateway, bridge)
+        );
+
+        MinecraftVelocityCommandResult result = executionHandler.execute(
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
+                "kd",
+                new String[]{"instance", "switch", "player-1", "minecraft", "kingdom-1", "kingdom-2"}
+        );
+
+        assertFalse(result.success());
+        assertEquals("/kd instance fail switch-2 Velocity_server_is_not_registered_missing-instance.", failureEnvelope.get().rawInput());
+    }
+
+    @Test
     void velocityPermissionResolverAllowsConfiguredOwnerUsernameForAdminCommands() {
         MinecraftVelocityCommandPermissionHandler permissionHandler = new MinecraftVelocityCommandPermissionHandler(
                 "tavall.resourcegame.command",

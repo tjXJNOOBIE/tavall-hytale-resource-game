@@ -11,15 +11,26 @@ public final class MinecraftVelocityCommandExecutionHandler {
     private final MinecraftControlPlaneCommandBridge commandBridge;
     private final MinecraftVelocityCommandPermissionHandler permissionHandler;
     private final String serverId;
+    private final MinecraftVelocityInstanceSwitchHandler instanceSwitchHandler;
 
     public MinecraftVelocityCommandExecutionHandler(
             MinecraftControlPlaneCommandBridge commandBridge,
             MinecraftVelocityCommandPermissionHandler permissionHandler,
             String serverId
     ) {
+        this(commandBridge, permissionHandler, serverId, MinecraftVelocityInstanceSwitchHandler.noop());
+    }
+
+    public MinecraftVelocityCommandExecutionHandler(
+            MinecraftControlPlaneCommandBridge commandBridge,
+            MinecraftVelocityCommandPermissionHandler permissionHandler,
+            String serverId,
+            MinecraftVelocityInstanceSwitchHandler instanceSwitchHandler
+    ) {
         this.commandBridge = commandBridge;
         this.permissionHandler = permissionHandler;
         this.serverId = serverId;
+        this.instanceSwitchHandler = instanceSwitchHandler;
     }
 
     public MinecraftVelocityCommandResult execute(
@@ -45,6 +56,9 @@ public final class MinecraftVelocityCommandExecutionHandler {
                 "minecraft-velocity-" + UUID.randomUUID(),
                 metadata
         );
+        if (result.success() && result.metadata().containsKey("instanceSwitchRequestId")) {
+            return instanceSwitchHandler.dispatchSwitchIfPresent(source, result);
+        }
         return MinecraftVelocityCommandResult.fromVerification(result);
     }
 

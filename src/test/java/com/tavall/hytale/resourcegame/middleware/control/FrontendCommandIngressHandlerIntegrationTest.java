@@ -57,6 +57,32 @@ class FrontendCommandIngressHandlerIntegrationTest {
     }
 
     @Test
+    void instanceSwitchCommandReturnsSwitchMetadataForFrontendDispatch() {
+        ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime();
+        Instant now = Instant.parse("2026-05-06T16:00:00Z");
+        runtime.kingdomSimulationSystem().createKingdom("First", "default", 1000, now);
+        runtime.kingdomSimulationSystem().createKingdom("Second", "default", 1000, now.plusSeconds(1));
+        FrontendCommandEnvelope envelope = FrontendCommandEnvelope.command(
+                ResourceGameFrontendPlatform.MINECRAFT,
+                "minecraft-player-1",
+                "ProxyAdmin",
+                "/kd instance switch player-1 minecraft kingdom-1 kingdom-2",
+                "corr-instance-switch",
+                Map.of("server", "lobby")
+        );
+
+        FrontendCommandVerificationResult result = runtime.frontendCommandIngressHandler().ingest(envelope, now.plusSeconds(2));
+
+        assertEquals(FrontendCommandVerificationState.DISPATCHED, result.state());
+        assertTrue(result.success());
+        assertEquals("REQUEST_INSTANCE_SWITCH", result.metadata().get("commandType"));
+        assertTrue(result.metadata().containsKey("instanceSwitchRequestId"));
+        assertEquals("minecraft", result.metadata().get("platform"));
+        assertEquals("kingdom-2", result.metadata().get("toKingdomId"));
+        assertTrue(result.metadata().get("changedObjectIds").contains("platform-instance:kingdom-2-minecraft-primary"));
+    }
+
+    @Test
     void androidAndPcFrontendsCanSubmitThroughControlIngress() {
         ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime();
         FrontendCommandEnvelope pcEnvelope = FrontendCommandEnvelope.command(

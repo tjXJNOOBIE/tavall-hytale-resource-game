@@ -8,7 +8,7 @@ Cover gameplay and infrastructure behavior with both in-memory Java tests and re
 - Remote QUIC bot flows: integration coverage against the running remote Hytale server.
 - Local deployment verification: rebuild plugin jar, deploy only the plugin jar, restart dev server, and verify server boot.
 - Remote Hytale bot flows now start from the exact local `C:\Users\TJ\Documents\HytaleDevServer` tree. `sync-remote-hytale-dev-server.ps1` archives that folder, copies it to `/srv/hytale/HytaleDevServer`, then adds remote-only Linux shims so existing runners can start it and resolve `Server/...` paths against the copied folder.
-- Remote Minecraft proxy flows deploy the resource-game control ingress to `/srv/resource-game-control` on port `18080`, deploy the shaded Velocity plugin to `/srv/proxy/plugins`, ensure the configured backend `/srv/ffa` is listening on `25566`, and run Mineflayer through the real remote Velocity proxy on `25565`.
+- Remote Minecraft proxy flows deploy the resource-game control ingress to `/srv/resource-game-control` on port `18080`, deploy the shaded Velocity plugin to `/srv/proxy/plugins`, ensure the configured backend `/srv/ffa` is listening on `25566`, bring up a second switch backend on `25567`, map `kingdom-2-minecraft-primary` to Velocity server `ffa`, and run Mineflayer through the real remote Velocity proxy on `25565`.
 
 ## Main Java coverage areas
 - Cache round-trip behavior
@@ -40,7 +40,7 @@ Cover gameplay and infrastructure behavior with both in-memory Java tests and re
 - `run-remote-full-suite.ps1` now retries each remote step once before failing the aggregate suite, because the QUIC harness still has intermittent disconnects that do not reflect plugin regressions.
 - `run-remote-full-suite.ps1` syncs the exact Documents Hytale dev server folder before installing HyUI, syncing the bot harness, or running scenarios. The remote bot harness still lives alongside the copied server at `/srv/hytale/_bot/hytale-sim`.
 - `run-remote-control-plane-clock-flow.ps1` also syncs `C:\Users\TJ\Documents\HytaleDevServer` by default before starting the remote server, then runs the player-like bot beside it and sends `/kd clock`, `/kd schedule`, and `/kd aging` chat commands that the server reads.
-- `run-remote-minecraft-velocity-control-plane-flow.ps1` packages the live path around the remote proxy. It restarts Velocity with `RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL`, marks the configured bot username as a Minecraft control-plane owner, and stores result/transcript artifacts in `bot-logs/`.
+- `run-remote-minecraft-velocity-control-plane-flow.ps1` packages the live path around the remote proxy. It restarts Velocity with `RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL`, `RESOURCE_GAME_MINECRAFT_INSTANCE_SERVER_MAP`, and the configured bot username as a Minecraft control-plane owner, then stores result/transcript artifacts in `bot-logs/`.
 
 ## Known limitations
 - Shared bot client support for native world-click packets is still incomplete for this repo's needs.

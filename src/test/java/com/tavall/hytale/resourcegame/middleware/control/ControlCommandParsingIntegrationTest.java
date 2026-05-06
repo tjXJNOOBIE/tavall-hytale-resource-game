@@ -77,6 +77,21 @@ public final class ControlCommandParsingIntegrationTest {
     }
 
     @Test
+    void consoleParserCreatesInstanceSwitchCompletionCommands() {
+        ControlCommandParsingHandler parser = new ControlCommandParsingHandler();
+        ControlOperator operator = ControlOperator.localOwner(Instant.parse("2026-05-06T16:00:00Z"));
+
+        ControlCommand confirm = parser.parseConsoleCommand("instance confirm switch-1", operator, CommandIssuedFrom.CLI, Instant.now());
+        ControlCommand fail = parser.parseConsoleCommand("instance fail switch-2 velocity-target-missing", operator, CommandIssuedFrom.CLI, Instant.now());
+
+        assertEquals(ControlCommandType.CONFIRM_INSTANCE_SWITCH, confirm.commandType());
+        assertEquals("switch-1", confirm.argument("switchRequestId"));
+        assertEquals(ControlCommandType.FAIL_INSTANCE_SWITCH, fail.commandType());
+        assertEquals("switch-2", fail.argument("switchRequestId"));
+        assertEquals("velocity-target-missing", fail.argument("reason"));
+    }
+
+    @Test
     void parserRejectsUnknownAndMalformedCommands() {
         ControlCommandParsingHandler parser = new ControlCommandParsingHandler();
         ControlOperator operator = ControlOperator.localOwner(Instant.now());
