@@ -1,5 +1,7 @@
 ﻿param(
     [string]$LogDir = "",
+    [string]$LocalDevServerDir = "",
+    [string]$RemoteServerRoot = "/srv/hytale/HytaleDevServer",
     [int]$MaxAttemptsPerStep = 2
 )
 
@@ -26,6 +28,19 @@ if ($LASTEXITCODE -ne 0) {
     throw "Custom UI asset-pack validation failed."
 }
 
+$syncArgs = @(
+    "-ExecutionPolicy", "Bypass",
+    "-File", ".\scripts\sync-remote-hytale-dev-server.ps1",
+    "-RemoteServerRoot", $RemoteServerRoot
+)
+if (-not [string]::IsNullOrWhiteSpace($LocalDevServerDir)) {
+    $syncArgs += @("-LocalDevServerDir", $LocalDevServerDir)
+}
+powershell @syncArgs
+if ($LASTEXITCODE -ne 0) {
+    throw "Remote HytaleDevServer sync failed."
+}
+
 powershell -ExecutionPolicy Bypass -File .\scripts\install-hyui-remote.ps1
 if ($LASTEXITCODE -ne 0) {
     throw "HyUI remote install failed."
@@ -41,6 +56,7 @@ $steps = @(
     @{ name = "castle"; script = ".\scripts\run-remote-castle-interaction-flow.ps1" },
     @{ name = "resource"; script = ".\scripts\run-remote-resource-game-flow.ps1" },
     @{ name = "command-alias"; script = ".\scripts\run-remote-command-alias-flow.ps1" },
+    @{ name = "control-plane-clock"; script = ".\scripts\run-remote-control-plane-clock-flow.ps1" },
     @{ name = "data-health"; script = ".\scripts\run-remote-data-health-flow.ps1" },
     @{ name = "onboarding"; script = ".\scripts\run-remote-onboarding-flow.ps1" },
     @{ name = "interior-tour"; script = ".\scripts\run-remote-interior-tour-flow.ps1" },

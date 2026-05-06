@@ -50,7 +50,7 @@ The `/kd clock`, `/kd schedule`, and `/kd aging` frontend command categories tra
 ## Verification Notes
 - Java control-plane tests cover phases, modes, windows, schedule hooks, aging, command parsing/dispatch, projections, and the optional Spring clock page.
 - Minecraft/Hytale/Roblox/Discord projection tests run in memory through shared `FrontendProjectionHandler` wrappers.
-- Hytale live bot testing should use the exact `C:\Users\TJ\Documents\HytaleDevServer` folder mirrored 1:1 to the remote `HytaleDevServer` path. The bot harness should run on the remote beside that server and verify `clock override kingdom-1 22:00` updates Hytale projection state to `NIGHT`.
+- Hytale live bot testing uses the exact `C:\Users\TJ\Documents\HytaleDevServer` folder mirrored 1:1 to the remote `HytaleDevServer` path. Run `scripts/run-remote-control-plane-clock-flow.ps1` to start the remote server, run the player-like bot beside it, and verify `/kd clock override kingdom-1 22:00`, `/kd clock projection kingdom-1 HYTALE`, `/kd schedule active kingdom-1`, and `/kd aging debug kingdom-1` all route through the Java control command pipeline.
 
 ## TODO
 - Add durable persistence/migrations for `KingdomClockState`, `KingdomClockConfig`, `KingdomScheduleRule`, `AgingTickPolicy`, and last aging tick state.

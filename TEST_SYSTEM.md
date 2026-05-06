@@ -7,6 +7,7 @@ Cover gameplay and infrastructure behavior with both in-memory Java tests and re
 - Java tests: fast, deterministic, in-memory coverage for planners, metadata, persistence behavior, and service orchestration.
 - Remote QUIC bot flows: integration coverage against the running remote Hytale server.
 - Local deployment verification: rebuild plugin jar, deploy only the plugin jar, restart dev server, and verify server boot.
+- Remote Hytale bot flows now start from the exact local `C:\Users\TJ\Documents\HytaleDevServer` tree. `sync-remote-hytale-dev-server.ps1` archives that folder, copies it to `/srv/hytale/HytaleDevServer`, then adds remote-only Linux shims so existing runners can start it and resolve `Server/...` paths against the copied folder.
 
 ## Main Java coverage areas
 - Cache round-trip behavior
@@ -24,6 +25,7 @@ Cover gameplay and infrastructure behavior with both in-memory Java tests and re
 - Resource-game UI flow
 - Interior cycle and tour
 - Persistence and rehydration
+- Control-plane clock/schedule/aging commands through the real Hytale player bot (`remote-control-plane-clock-flow.mjs`)
 - Placement flow
 - Node assignment flow
 - UI edge behavior
@@ -34,6 +36,8 @@ Cover gameplay and infrastructure behavior with both in-memory Java tests and re
 - Heavy transcripts are minimized unless explicitly requested.
 - `prune-bot-logs.ps1` removes stale artifacts so bot logs do not grow without bound.
 - `run-remote-full-suite.ps1` now retries each remote step once before failing the aggregate suite, because the QUIC harness still has intermittent disconnects that do not reflect plugin regressions.
+- `run-remote-full-suite.ps1` syncs the exact Documents Hytale dev server folder before installing HyUI, syncing the bot harness, or running scenarios. The remote bot harness still lives alongside the copied server at `/srv/hytale/_bot/hytale-sim`.
+- `run-remote-control-plane-clock-flow.ps1` also syncs `C:\Users\TJ\Documents\HytaleDevServer` by default before starting the remote server, then runs the player-like bot beside it and sends `/kd clock`, `/kd schedule`, and `/kd aging` chat commands that the server reads.
 
 ## Known limitations
 - Shared bot client support for native world-click packets is still incomplete for this repo's needs.
