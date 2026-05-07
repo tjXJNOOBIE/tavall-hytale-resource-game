@@ -44,6 +44,10 @@ async function waitForCommandResponse(messages, command, timeoutMs = 15000) {
       message.includes('FAILED:') ||
       message.includes('REJECTED:') ||
       message.includes('DISPATCHED:') ||
+      message.includes('Connected to') ||
+      message.includes('already connected') ||
+      message.includes('Tavall Resource Game server surface') ||
+      message.includes('Resource-game server snapshot') ||
       message.includes('Missing permission') ||
       message.includes('Unknown')
     )
@@ -109,7 +113,8 @@ try {
     result.response.includes('FAILED:') ||
     result.response.includes('REJECTED:') ||
     result.response.includes('Missing permission') ||
-    result.response.includes('Unknown')
+    result.response.includes('Unknown') ||
+    result.response.includes('submitted=false')
   )
   const summary = {
     success: failed.length === 0,

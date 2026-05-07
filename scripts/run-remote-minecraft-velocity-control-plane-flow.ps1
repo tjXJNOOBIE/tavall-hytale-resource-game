@@ -5,6 +5,10 @@ param(
     [string]$RemoteBackendDir = "/srv/ffa",
     [string]$RemoteSwitchBackendDir = "/srv/ffa-switch",
     [int]$SwitchBackendPort = 25567,
+    [string]$RemoteKingdomServersDir = "/srv/mc-kingdom-servers",
+    [string]$RemoteKingdomBackendName = "mc-kingdom-server-1",
+    [int]$KingdomBackendPort = 25568,
+    [string]$KingdomVelocityServerName = "kingdom",
     [string]$RemoteControlDir = "/srv/resource-game-control",
     [string]$RemoteHeadlessDir = "/srv/headless",
     [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/target/tavall-hytale-resource-game.jar",
@@ -15,8 +19,8 @@ param(
     [string]$ControlIngressUrl = "http://127.0.0.1:18080/api/frontend/commands",
     [string]$BotUsername = "ResourceProxyBot",
     [string]$MinecraftVersion = "1.8.9",
-    [string]$InstanceServerMap = "kingdom-1-minecraft-primary=lobby,kingdom-2-minecraft-primary=ffa",
-    [string]$CommandList = "/kd clock state kingdom-1|/kd citizens summary kingdom-1",
+    [string]$InstanceServerMap = "kingdom-1-minecraft-primary=kingdom,kingdom-2-minecraft-primary=ffa",
+    [string]$CommandList = "/server kingdom|/tavallserver snapshot|/kd clock state kingdom-1|/kingdom citizens summary kingdom-1",
     [string]$LogDir = "bot-logs"
 )
 
@@ -33,6 +37,8 @@ $transcriptPath = Join-Path $logRoot "$baseName-transcript.txt"
 $remotePluginPath = "$RemoteProxyDir/plugins/tavall-resource-game-minecraft-frontend.jar"
 $remoteBackendPluginPath = "$RemoteBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar"
 $remoteSwitchBackendPluginPath = "$RemoteSwitchBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar"
+$RemoteKingdomBackendDir = "$RemoteKingdomServersDir/$RemoteKingdomBackendName"
+$remoteKingdomBackendPluginPath = "$RemoteKingdomBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar"
 $remoteScriptPath = "$RemoteHeadlessDir/$baseName.mjs"
 $remoteOutputDir = "/tmp/$baseName"
 
@@ -113,10 +119,11 @@ exit 1
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteControl) -FailureMessage "Failed to start remote resource-game control ingress."
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Deploying Minecraft Velocity control-plane plugin."
-Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, "mkdir -p '$RemoteProxyDir/plugins' '$RemoteProxyDir/logs' '$RemoteBackendDir/plugins' '$RemoteBackendDir/logs' '$RemoteSwitchBackendDir/plugins' '$RemoteSwitchBackendDir/logs' '$RemoteHeadlessDir'") -FailureMessage "Failed to prepare remote Minecraft directories."
+Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, "mkdir -p '$RemoteProxyDir/plugins' '$RemoteProxyDir/logs' '$RemoteBackendDir/plugins' '$RemoteBackendDir/logs' '$RemoteSwitchBackendDir/plugins' '$RemoteSwitchBackendDir/logs' '$RemoteKingdomBackendDir/plugins' '$RemoteKingdomBackendDir/logs' '$RemoteHeadlessDir'") -FailureMessage "Failed to prepare remote Minecraft directories."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $PluginJarPath, "$SshAlias`:$remotePluginPath.new") -FailureMessage "Failed to copy Velocity plugin jar."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to backend."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteSwitchBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to switch backend."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteKingdomBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to kingdom backend."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ScenarioScriptPath, "$SshAlias`:$remoteScriptPath") -FailureMessage "Failed to copy Minecraft Velocity scenario script."
 
 $remoteDeploy = @"
@@ -133,17 +140,38 @@ if [ -f '$remoteSwitchBackendPluginPath' ]; then
   cp '$remoteSwitchBackendPluginPath' '$remoteSwitchBackendPluginPath.bak-$timestamp'
 fi
 mv '$remoteSwitchBackendPluginPath.new' '$remoteSwitchBackendPluginPath'
+if [ -f '$remoteKingdomBackendPluginPath' ]; then
+  cp '$remoteKingdomBackendPluginPath' '$remoteKingdomBackendPluginPath.bak-$timestamp'
+fi
+mv '$remoteKingdomBackendPluginPath.new' '$remoteKingdomBackendPluginPath'
 chmod +x '$RemoteProxyDir/start.sh' || true
 python3 - <<'PY'
 from pathlib import Path
 path = Path('$RemoteProxyDir') / 'velocity.toml'
 text = path.read_text()
 lines = []
+in_servers = False
+server_written = False
 for line in text.splitlines():
+    stripped = line.strip()
+    if stripped == '[servers]':
+        in_servers = True
+        lines.append(line)
+        continue
+    if in_servers and stripped.startswith('['):
+        if not server_written:
+            lines.append('$KingdomVelocityServerName = ' + chr(34) + '127.0.0.1:$KingdomBackendPort' + chr(34))
+            server_written = True
+        in_servers = False
     if line.strip().startswith('ffa ='):
         lines.append('ffa = ' + chr(34) + '127.0.0.1:$SwitchBackendPort' + chr(34))
+    elif line.strip().startswith('$KingdomVelocityServerName ='):
+        lines.append('$KingdomVelocityServerName = ' + chr(34) + '127.0.0.1:$KingdomBackendPort' + chr(34))
+        server_written = True
     else:
         lines.append(line)
+if in_servers and not server_written:
+    lines.append('$KingdomVelocityServerName = ' + chr(34) + '127.0.0.1:$KingdomBackendPort' + chr(34))
 path.write_text('\n'.join(lines) + '\n')
 PY
 "@
@@ -275,12 +303,83 @@ exit 1
 "@
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteSwitchBackend) -FailureMessage "Failed to ensure remote Minecraft switch backend."
 
+Write-LogLine "[$((Get-Date).ToString("o"))] Ensuring remote Minecraft kingdom backend is listening on $KingdomBackendPort."
+$remoteKingdomBackend = @"
+set -euo pipefail
+if [ ! -f '$RemoteBackendDir/spigot.jar' ]; then
+  echo 'Remote Minecraft source backend jar does not exist: $RemoteBackendDir/spigot.jar' >&2
+  exit 1
+fi
+mkdir -p '$RemoteKingdomServersDir' '$RemoteKingdomBackendDir' '$RemoteKingdomBackendDir/logs' '$RemoteKingdomBackendDir/plugins'
+cp '$RemoteBackendDir/spigot.jar' '$RemoteKingdomBackendDir/spigot.jar'
+cp '$RemoteBackendDir/spigot.yml' '$RemoteKingdomBackendDir/spigot.yml' 2>/dev/null || true
+cp '$RemoteBackendDir/bukkit.yml' '$RemoteKingdomBackendDir/bukkit.yml' 2>/dev/null || true
+cat > '$RemoteKingdomBackendDir/eula.txt' <<'EOF'
+eula=true
+EOF
+cat > '$RemoteKingdomBackendDir/server.properties' <<'EOF'
+server-port=$KingdomBackendPort
+server-ip=127.0.0.1
+online-mode=false
+motd=Resource Game Kingdom Server 1
+enable-command-block=true
+white-list=false
+spawn-protection=0
+EOF
+cd '$RemoteKingdomBackendDir'
+if command -v fuser >/dev/null 2>&1; then
+  fuser -k $KingdomBackendPort/tcp 2>/dev/null || true
+fi
+for i in `$(seq 1 30); do
+  if ! ss -ltn | grep -q ':$KingdomBackendPort '; then
+    break
+  fi
+  sleep 1
+done
+if ss -ltn | grep -q ':$KingdomBackendPort '; then
+  echo 'Minecraft kingdom backend port $KingdomBackendPort is still occupied after shutdown.' >&2
+  ss -ltnp | grep ':$KingdomBackendPort ' >&2 || true
+  exit 1
+fi
+if [ -x /usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java ]; then
+  JAVA_BIN=/usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java
+else
+  JAVA_BIN=java
+fi
+nohup env RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='$ControlIngressUrl' RESOURCE_GAME_MINECRAFT_CONTROL_SNAPSHOT_URL='http://127.0.0.1:$ControlPort/api/frontend/minecraft/server-snapshots' RESOURCE_GAME_MINECRAFT_SERVER_ID='$RemoteKingdomBackendName' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' "`$JAVA_BIN" -Xss1650k -Xmx1024M -jar spigot.jar nogui > logs/resource-game-kingdom-backend.out.log 2> logs/resource-game-kingdom-backend.err.log < /dev/null &
+for i in `$(seq 1 60); do
+  if ss -ltn | grep -q ':$KingdomBackendPort '; then
+    break
+  fi
+  sleep 1
+done
+if ! ss -ltn | grep -q ':$KingdomBackendPort '; then
+  echo 'Minecraft kingdom backend did not open port $KingdomBackendPort in time.' >&2
+  tail -n 120 logs/resource-game-kingdom-backend.err.log >&2 || true
+  tail -n 120 logs/resource-game-kingdom-backend.out.log >&2 || true
+  exit 1
+fi
+for i in `$(seq 1 30); do
+  if grep -h 'Tavall Resource Game Bukkit server frontend enabled' logs/latest.log logs/resource-game-kingdom-backend.out.log logs/resource-game-kingdom-backend.err.log 2>/dev/null; then
+    exit 0
+  fi
+  sleep 1
+done
+echo 'Minecraft kingdom backend started, but Tavall Bukkit server plugin did not report enabled.' >&2
+tail -n 160 logs/latest.log >&2 || true
+tail -n 120 logs/resource-game-kingdom-backend.err.log >&2 || true
+tail -n 120 logs/resource-game-kingdom-backend.out.log >&2 || true
+exit 1
+"@
+Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteKingdomBackend) -FailureMessage "Failed to ensure remote Minecraft kingdom backend."
+
 Write-LogLine "[$((Get-Date).ToString("o"))] Restarting remote Velocity proxy."
 $remoteRestart = @"
 set -euo pipefail
 test -f '$remotePluginPath'
 test -f '$remoteBackendPluginPath'
 test -f '$remoteSwitchBackendPluginPath'
+test -f '$remoteKingdomBackendPluginPath'
 pkill -f '[v]elocity.jar' || true
 for i in `$(seq 1 30); do
   if ! ss -ltn | grep -q ':25565 '; then
