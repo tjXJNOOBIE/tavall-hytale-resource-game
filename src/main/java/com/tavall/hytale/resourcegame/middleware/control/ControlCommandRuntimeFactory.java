@@ -1,6 +1,16 @@
 package com.tavall.hytale.resourcegame.middleware.control;
 
 import com.tavall.hytale.resourcegame.middleware.asset.InMemoryGlobalAssetRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.AuthorityRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.AuthorityScope;
+import com.tavall.hytale.resourcegame.middleware.authority.AuthorizationAuditRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthority;
+import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthorityLevel;
+import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthorizationHandler;
+import com.tavall.hytale.resourcegame.middleware.authority.InMemoryAuthorityRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.InMemoryAuthorizationAuditRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.InMemoryPermissionPolicyRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.PermissionPolicyRepository;
 import com.tavall.hytale.resourcegame.middleware.citizen.CitizenControlSystem;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
 import com.tavall.hytale.resourcegame.middleware.companion.CompanionService;
@@ -26,6 +36,7 @@ import com.tavall.hytale.resourcegame.persistence.PostgresConnectionProvider;
 
 import java.time.Instant;
 import java.time.Clock;
+import java.util.EnumSet;
 import java.util.List;
 
 public final class ControlCommandRuntimeFactory {
@@ -48,8 +59,13 @@ public final class ControlCommandRuntimeFactory {
         InMemoryControlOperatorRepository operatorRepository = new InMemoryControlOperatorRepository();
         InMemoryControlPlatformFanoutRetryRepository fanoutRetryRepository = new InMemoryControlPlatformFanoutRetryRepository();
         InMemoryScheduledControlCommandRepository scheduledCommandRepository = new InMemoryScheduledControlCommandRepository();
-        operatorRepository.saveOperator(ControlOperator.localOwner(now));
-        operatorRepository.saveOperator(ControlOperator.system(now));
+        InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
+        InMemoryPermissionPolicyRepository permissionPolicyRepository = new InMemoryPermissionPolicyRepository();
+        InMemoryAuthorizationAuditRepository authorizationAuditRepository = new InMemoryAuthorizationAuditRepository();
+        ControlOperator localOwner = ControlOperator.localOwner(now);
+        ControlOperator systemOperator = ControlOperator.system(now);
+        operatorRepository.saveOperator(localOwner);
+        operatorRepository.saveOperator(systemOperator);
 
         RecordingDomainEventPublisher eventPublisher = new RecordingDomainEventPublisher();
         UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.inMemory(eventPublisher);
@@ -99,6 +115,13 @@ public final class ControlCommandRuntimeFactory {
         ControlCommandResultHandler resultHandler = new ControlCommandResultHandler(resultRepository);
         ControlCommandAuditLogHandler auditLogHandler = new ControlCommandAuditLogHandler(auditLogRepository, new ControlCommandSerializer());
         ControlCommandParsingHandler parsingHandler = new ControlCommandParsingHandler();
+        seedDefaultAuthorities(authorityRepository, localOwner, systemOperator, now);
+        ControlAuthorizationHandler authorizationHandler = new ControlAuthorizationHandler(
+                authorityRepository,
+                permissionPolicyRepository,
+                authorizationAuditRepository,
+                commandRegistry
+        );
         ControlCommandDispatchHandler dispatchHandler = new ControlCommandDispatchHandler(
                 commandRegistry,
                 validationHandler,
@@ -106,13 +129,14 @@ public final class ControlCommandRuntimeFactory {
                 fanoutHandler,
                 new PlatformFanoutResultAggregator(),
                 resultHandler,
-                auditLogHandler
+                auditLogHandler,
+                authorizationHandler
         );
         FrontendCommandIngressHandler frontendCommandIngressHandler = new FrontendCommandIngressHandler(
                 parsingHandler,
                 dispatchHandler,
                 new KdControlCommandTranslationHandler(),
-                ControlOperator.system(now)
+                systemOperator
         );
         ControlCommandSchedulingHandler schedulingHandler = new ControlCommandSchedulingHandler(scheduledCommandRepository, dispatchHandler);
         ControlPlaneMaintenanceWorker maintenanceWorker = new ControlPlaneMaintenanceWorker(
@@ -137,6 +161,10 @@ public final class ControlCommandRuntimeFactory {
                 schedulingHandler,
                 maintenanceWorker,
                 new ControlCommandCompensationHandler(),
+                authorityRepository,
+                permissionPolicyRepository,
+                authorizationAuditRepository,
+                authorizationHandler,
                 identityRepository,
                 identityRepository,
                 assetRepository,
@@ -169,8 +197,13 @@ public final class ControlCommandRuntimeFactory {
         PostgresControlOperatorRepository operatorRepository = new PostgresControlOperatorRepository(connectionProvider);
         PostgresControlPlatformFanoutRetryRepository fanoutRetryRepository = new PostgresControlPlatformFanoutRetryRepository(connectionProvider);
         PostgresScheduledControlCommandRepository scheduledCommandRepository = new PostgresScheduledControlCommandRepository(connectionProvider);
-        operatorRepository.saveOperator(ControlOperator.localOwner(now));
-        operatorRepository.saveOperator(ControlOperator.system(now));
+        InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
+        InMemoryPermissionPolicyRepository permissionPolicyRepository = new InMemoryPermissionPolicyRepository();
+        InMemoryAuthorizationAuditRepository authorizationAuditRepository = new InMemoryAuthorizationAuditRepository();
+        ControlOperator localOwner = ControlOperator.localOwner(now);
+        ControlOperator systemOperator = ControlOperator.system(now);
+        operatorRepository.saveOperator(localOwner);
+        operatorRepository.saveOperator(systemOperator);
 
         RecordingDomainEventPublisher eventPublisher = new RecordingDomainEventPublisher();
         UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.postgres(connectionProvider, eventPublisher);
@@ -220,6 +253,13 @@ public final class ControlCommandRuntimeFactory {
         ControlCommandResultHandler resultHandler = new ControlCommandResultHandler(resultRepository);
         ControlCommandAuditLogHandler auditLogHandler = new ControlCommandAuditLogHandler(auditLogRepository, new ControlCommandSerializer());
         ControlCommandParsingHandler parsingHandler = new ControlCommandParsingHandler();
+        seedDefaultAuthorities(authorityRepository, localOwner, systemOperator, now);
+        ControlAuthorizationHandler authorizationHandler = new ControlAuthorizationHandler(
+                authorityRepository,
+                permissionPolicyRepository,
+                authorizationAuditRepository,
+                commandRegistry
+        );
         ControlCommandDispatchHandler dispatchHandler = new ControlCommandDispatchHandler(
                 commandRegistry,
                 validationHandler,
@@ -227,13 +267,14 @@ public final class ControlCommandRuntimeFactory {
                 fanoutHandler,
                 new PlatformFanoutResultAggregator(),
                 resultHandler,
-                auditLogHandler
+                auditLogHandler,
+                authorizationHandler
         );
         FrontendCommandIngressHandler frontendCommandIngressHandler = new FrontendCommandIngressHandler(
                 parsingHandler,
                 dispatchHandler,
                 new KdControlCommandTranslationHandler(),
-                ControlOperator.system(now)
+                systemOperator
         );
         ControlCommandSchedulingHandler schedulingHandler = new ControlCommandSchedulingHandler(scheduledCommandRepository, dispatchHandler);
         ControlPlaneMaintenanceWorker maintenanceWorker = new ControlPlaneMaintenanceWorker(
@@ -258,6 +299,10 @@ public final class ControlCommandRuntimeFactory {
                 schedulingHandler,
                 maintenanceWorker,
                 new ControlCommandCompensationHandler(),
+                authorityRepository,
+                permissionPolicyRepository,
+                authorizationAuditRepository,
+                authorizationHandler,
                 identityRepository,
                 identityRepository,
                 assetRepository,
@@ -269,5 +314,34 @@ public final class ControlCommandRuntimeFactory {
                 troopHealingRepository,
                 healingInventoryRepository
         );
+    }
+
+    private static void seedDefaultAuthorities(
+            AuthorityRepository authorityRepository,
+            ControlOperator localOwner,
+            ControlOperator systemOperator,
+            Instant now
+    ) {
+        long grantedAt = now.toEpochMilli();
+        authorityRepository.saveAuthority(ControlAuthority.enabled(
+                localOwner.operatorId(),
+                ControlAuthorityLevel.C5_GLOBAL_AUTHORITY,
+                AuthorityScope.global(),
+                EnumSet.allOf(ControlPermission.class),
+                localOwner.operatorId(),
+                grantedAt,
+                true,
+                true
+        ));
+        authorityRepository.saveAuthority(ControlAuthority.enabled(
+                systemOperator.operatorId(),
+                ControlAuthorityLevel.C5_GLOBAL_AUTHORITY,
+                AuthorityScope.global(),
+                EnumSet.allOf(ControlPermission.class),
+                localOwner.operatorId(),
+                grantedAt,
+                true,
+                false
+        ));
     }
 }

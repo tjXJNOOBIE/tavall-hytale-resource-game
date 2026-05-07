@@ -24,6 +24,12 @@ This repo is split into explicit gameplay and infrastructure systems. `SYSTEMS.m
 - [PERSISTENCE_SYSTEM.md](./PERSISTENCE_SYSTEM.md): Player profile/game-state persistence, metadata hydration, and async writes.
 - [CLOCK_SYSTEM.md](./CLOCK_SYSTEM.md): Kingdom clock, timezone ownership, and world day/night application.
 - [COMMAND_SYSTEM.md](./COMMAND_SYSTEM.md): Debug/admin command surface, aliases, placement helpers, and bot-friendly controls.
+- [AUTHORITY_SYSTEM.md](./AUTHORITY_SYSTEM.md): C1-C6 scoped command authority, approval, break-glass, and AI policy boundaries.
+- [TAVALL_CLOUD_SYSTEM.md](./TAVALL_CLOUD_SYSTEM.md): Plain Java owned-server cloud control plane, node agents, workloads, scheduler, and command bus.
+- [DISTRIBUTED_RUNTIME_SYSTEM.md](./DISTRIBUTED_RUNTIME_SYSTEM.md): Node registry, heartbeats, capabilities, remote bridge, and distributed runtime shape.
+- [EVENT_SYSTEM.md](./EVENT_SYSTEM.md): Backend game event categories, middleware pipeline, and frontend-interaction boundary.
+- [LIVEOPS_SYSTEM.md](./LIVEOPS_SYSTEM.md): Runtime config, feature flags, game rules, system toggles, and global GUI definitions.
+- [MINECRAFT_SURFACE_SYSTEM.md](./MINECRAFT_SURFACE_SYSTEM.md): Velocity/Bukkit surface split, kingdom backend, deployment paths, and verification commands.
 - [DI_CACHE_SYSTEM.md](./DI_CACHE_SYSTEM.md): Tavall DI usage style, repo-local DI composition root, and Tavall cache integration.
 - [TEST_SYSTEM.md](./TEST_SYSTEM.md): Java tests, remote bot suites, compact log handling, and deployment verification.
 

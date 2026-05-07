@@ -1,5 +1,9 @@
 package com.tavall.hytale.resourcegame.middleware.control;
 
+import com.tavall.hytale.resourcegame.middleware.authority.AuthorizationAuditRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.AuthorityRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthorizationHandler;
+import com.tavall.hytale.resourcegame.middleware.authority.PermissionPolicyRepository;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetRepository;
 import com.tavall.hytale.resourcegame.middleware.citizen.CitizenControlSystem;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
@@ -25,6 +29,10 @@ public record ControlCommandRuntime(
         ControlCommandSchedulingHandler schedulingHandler,
         ControlPlaneMaintenanceWorker maintenanceWorker,
         ControlCommandCompensationHandler compensationHandler,
+        AuthorityRepository authorityRepository,
+        PermissionPolicyRepository permissionPolicyRepository,
+        AuthorizationAuditRepository authorizationAuditRepository,
+        ControlAuthorizationHandler authorizationHandler,
         UniversalPlayerAccountRepository accountRepository,
         PlatformAccountBindingRepository platformAccountBindingRepository,
         GlobalAssetRepository globalAssetRepository,
