@@ -25,4 +25,9 @@ public class ControlServerConfiguration {
     ControlOperator webControlOperator() {
         return ControlOperator.localOwner(Instant.now());
     }
+
+    @Bean
+    MinecraftServerSnapshotIngressHandler minecraftServerSnapshotIngressHandler() {
+        return new MinecraftServerSnapshotIngressHandler();
+    }
 }

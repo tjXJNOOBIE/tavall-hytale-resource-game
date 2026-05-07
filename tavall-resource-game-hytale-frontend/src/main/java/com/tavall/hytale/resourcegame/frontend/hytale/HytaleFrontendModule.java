@@ -3,6 +3,7 @@ package com.tavall.hytale.resourcegame.frontend.hytale;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendModuleDescriptor;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendRuntime;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendSurfaceIdentity;
 
 public final class HytaleFrontendModule {
     private static final ResourceGameFrontendModuleDescriptor DESCRIPTOR = new ResourceGameFrontendModuleDescriptor(
@@ -35,5 +36,9 @@ public final class HytaleFrontendModule {
 
     public String commandPipelineEntryPoint() {
         return DESCRIPTOR.commandPipelineEntryPoint();
+    }
+
+    public ResourceGameFrontendSurfaceIdentity surfaceIdentity() {
+        return ResourceGameFrontendSurfaceIdentity.HYTALE_SINGLE_SERVER;
     }
 }

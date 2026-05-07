@@ -46,6 +46,8 @@ public final class MinecraftVelocityCommandExecutionHandler {
         }
         Map<String, String> metadata = new LinkedHashMap<>();
         metadata.put("proxy", serverId);
+        metadata.put("surfaceIdentity", "VELOCITY_PROXY");
+        metadata.put("serverDataSource", "bukkit-server-snapshot-ingress");
         metadata.put("alias", alias);
         metadata.put("sourceType", source.sourceType());
         metadata.putAll(source.metadata());

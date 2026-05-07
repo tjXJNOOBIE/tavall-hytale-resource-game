@@ -2,6 +2,7 @@ package com.tavall.hytale.resourcegame.frontend.hytale;
 
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
 import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendRuntime;
+import com.tavall.hytale.resourcegame.shared.frontend.ResourceGameFrontendSurfaceIdentity;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandEnvelope;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationResult;
 import com.tavall.hytale.resourcegame.shared.frontend.FrontendCommandVerificationState;
@@ -23,6 +24,7 @@ public final class HytaleFrontendModuleTest {
         assertEquals("HYTALE", module.platformKey());
         assertEquals(ResourceGameFrontendPlatform.HYTALE, module.descriptor().platform());
         assertEquals(ResourceGameFrontendRuntime.HYTALE_NATIVE_JAVA, module.descriptor().runtime());
+        assertEquals(ResourceGameFrontendSurfaceIdentity.HYTALE_SINGLE_SERVER, module.surfaceIdentity());
         assertEquals("FrontendCommandIngressHandler", module.commandPipelineEntryPoint());
         assertFalse(module.ownsCanonicalGameplayState());
     }

@@ -143,6 +143,8 @@ public final class MinecraftFrontendModuleTest {
         assertEquals("COMPLETED: dispatched", result.message());
         assertEquals("/kd clock override kingdom-1 22:00", submittedEnvelope.get().rawInput());
         assertEquals("velocity-test", submittedEnvelope.get().sourceMetadata().get("proxy"));
+        assertEquals("VELOCITY_PROXY", submittedEnvelope.get().sourceMetadata().get("surfaceIdentity"));
+        assertEquals("bukkit-server-snapshot-ingress", submittedEnvelope.get().sourceMetadata().get("serverDataSource"));
         assertEquals("test-player", submittedEnvelope.get().platformAccountId());
     }
 
