@@ -10,31 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class ControlAuthorizationHandler {
-    private final AuthorityRepository authorityRepository;
-    private final PermissionPolicyRepository policyRepository;
-    private final AuthorizationAuditRepository auditRepository;
-    private final ControlCommandRegistry commandRegistry;
-
-    public ControlAuthorizationHandler(
-            AuthorityRepository authorityRepository,
-            PermissionPolicyRepository policyRepository,
-            AuthorizationAuditRepository auditRepository,
-            ControlCommandRegistry commandRegistry
-    ) {
-        this.authorityRepository = authorityRepository;
-        this.policyRepository = policyRepository;
-        this.auditRepository = auditRepository;
-        this.commandRegistry = commandRegistry;
-    }
-
+public final class ControlAuthorizationHandler implements IControlAuthorizationHandler, IControlAuthorityDomain {
+    /**
+     * Authorization always evaluates a command policy before authority grants so C-level alone never means access.
+     */
     public AuthorizationResult authorize(ControlCommandRequest request) {
-        ControlPermissionPolicy policy = policyRepository.requiredPolicy(request.commandType());
+        ControlPermissionPolicy policy = getPermissionPolicyRepository().requiredPolicy(request.commandType());
         return authorizeAgainstPolicy(request, policy);
     }
 
     public AuthorizationResult authorizeControlCommand(ControlCommand command) {
-        ControlCommandDefinition definition = commandRegistry.definition(command.commandType());
+        ControlCommandDefinition definition = getControlCommandRegistry().definition(command.commandType());
         ControlPermission requiredPermission = definition.permissionRequirement().permission();
         ControlAuthorityLevel level = definition.permissionRequirement().highRisk()
                 ? ControlAuthorityLevel.C2_REGIONAL_OPERATOR
@@ -65,7 +51,7 @@ public final class ControlAuthorizationHandler {
     }
 
     public boolean hasPermission(UUID principalId, ControlPermission permission, ResourceTarget target) {
-        List<ControlAuthority> authorities = authorityRepository.findActiveByPrincipal(principalId, System.currentTimeMillis());
+        List<ControlAuthority> authorities = getAuthorityRepository().findActiveByPrincipal(principalId, System.currentTimeMillis());
         for (ControlAuthority authority : authorities) {
             if (!authority.hasPermission(permission)) {
                 continue;
@@ -97,7 +83,7 @@ public final class ControlAuthorizationHandler {
             return audit(request, AuthorizationResult.denied(request.principalId(), request.commandType(), "AI execution is not allowed for this command."));
         }
 
-        List<ControlAuthority> authorities = authorityRepository.findActiveByPrincipal(request.principalId(), now);
+        List<ControlAuthority> authorities = getAuthorityRepository().findActiveByPrincipal(request.principalId(), now);
         for (ControlAuthority authority : authorities) {
             if (!authority.authorityLevel().canSatisfyHumanOperationalLevel(policy.minimumAuthorityLevel())) {
                 continue;
@@ -122,7 +108,7 @@ public final class ControlAuthorizationHandler {
     }
 
     private AuthorizationResult audit(ControlCommandRequest request, AuthorizationResult result) {
-        auditRepository.record(new AuthorizationAuditEntry(
+        getAuthorizationAuditRepository().record(new AuthorizationAuditEntry(
                 UUID.randomUUID(),
                 request.requestId(),
                 request.principalId(),
@@ -167,7 +153,7 @@ public final class ControlAuthorizationHandler {
     }
 
     private CommandTargetScope firstScope(ControlCommand command) {
-        return commandRegistry.definition(command.commandType()).supportedTargetScopes().stream()
+        return getControlCommandRegistry().definition(command.commandType()).supportedTargetScopes().stream()
                 .findFirst()
                 .orElse(CommandTargetScope.GLOBAL);
     }

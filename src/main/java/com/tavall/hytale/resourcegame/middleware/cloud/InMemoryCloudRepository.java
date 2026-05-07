@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class InMemoryCloudRepository {
+public final class InMemoryCloudRepository implements CloudRepository {
     private final Map<UUID, JoinToken> joinTokens = new ConcurrentHashMap<>();
     private final Map<String, UUID> joinTokenIdsByHash = new ConcurrentHashMap<>();
     private final Map<UUID, CloudNode> nodes = new ConcurrentHashMap<>();

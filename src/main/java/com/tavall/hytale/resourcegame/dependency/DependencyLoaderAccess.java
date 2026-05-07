@@ -2,6 +2,7 @@ package com.tavall.hytale.resourcegame.dependency;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -30,5 +31,11 @@ public final class DependencyLoaderAccess {
             throw new IllegalStateException("No dependency registered for token: " + token.getName());
         }
         return token.cast(instance);
+    }
+
+    public static <T> Optional<T> findOptionalInstance(Class<T> token) {
+        Objects.requireNonNull(token, "token");
+        Object instance = INSTANCES.get(token);
+        return instance == null ? Optional.empty() : Optional.of(token.cast(instance));
     }
 }

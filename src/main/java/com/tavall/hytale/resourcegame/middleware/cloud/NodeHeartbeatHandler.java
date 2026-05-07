@@ -3,17 +3,11 @@ package com.tavall.hytale.resourcegame.middleware.cloud;
 import java.time.Instant;
 import java.util.UUID;
 
-public final class NodeHeartbeatHandler {
-    private final InMemoryCloudRepository repository;
-
-    public NodeHeartbeatHandler(InMemoryCloudRepository repository) {
-        this.repository = repository;
-    }
-
+public final class NodeHeartbeatHandler implements INodeHeartbeatHandler, ICloudControlDomain {
     public boolean heartbeat(UUID nodeId, Instant now) {
-        return repository.findNode(nodeId)
+        return getCloudRepository().findNode(nodeId)
                 .map(node -> {
-                    repository.saveNode(node.withStatus(CloudNodeStatus.ONLINE, now));
+                    getCloudRepository().saveNode(node.withStatus(CloudNodeStatus.ONLINE, now));
                     return true;
                 })
                 .orElse(false);

@@ -2,7 +2,7 @@ package com.tavall.hytale.resourcegame.middleware.control;
 
 import com.tavall.hytale.resourcegame.middleware.authority.AuthorizationAuditRepository;
 import com.tavall.hytale.resourcegame.middleware.authority.AuthorityRepository;
-import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthorizationHandler;
+import com.tavall.hytale.resourcegame.middleware.authority.IControlAuthorizationHandler;
 import com.tavall.hytale.resourcegame.middleware.authority.PermissionPolicyRepository;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetRepository;
 import com.tavall.hytale.resourcegame.middleware.citizen.CitizenControlSystem;
@@ -32,7 +32,7 @@ public record ControlCommandRuntime(
         AuthorityRepository authorityRepository,
         PermissionPolicyRepository permissionPolicyRepository,
         AuthorizationAuditRepository authorizationAuditRepository,
-        ControlAuthorizationHandler authorizationHandler,
+        IControlAuthorizationHandler authorizationHandler,
         UniversalPlayerAccountRepository accountRepository,
         PlatformAccountBindingRepository platformAccountBindingRepository,
         GlobalAssetRepository globalAssetRepository,

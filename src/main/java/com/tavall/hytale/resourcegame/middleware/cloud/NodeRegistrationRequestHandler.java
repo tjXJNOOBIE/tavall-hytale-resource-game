@@ -5,17 +5,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class NodeRegistrationRequestHandler {
-    private final InMemoryCloudRepository repository;
-    private final JoinTokenValidationHandler tokenValidationHandler;
-
-    public NodeRegistrationRequestHandler(InMemoryCloudRepository repository, JoinTokenValidationHandler tokenValidationHandler) {
-        this.repository = repository;
-        this.tokenValidationHandler = tokenValidationHandler;
-    }
-
+public final class NodeRegistrationRequestHandler implements INodeRegistrationRequestHandler, ICloudControlDomain {
     public NodeRegistrationResult register(NodeRegistrationRequest request, Instant now) {
-        Optional<JoinToken> joinToken = tokenValidationHandler.validate(request.joinToken(), now);
+        Optional<JoinToken> joinToken = getJoinTokenValidationHandler().validate(request.joinToken(), now);
         if (joinToken.isEmpty()) {
             return NodeRegistrationResult.failed("Join token is missing, expired, consumed, or unknown.");
         }
@@ -52,10 +44,10 @@ public final class NodeRegistrationRequestHandler {
                 "ACTIVE", now, Optional.empty(), Map.of("tokenHash", joinToken.get().tokenHash()));
         NodeAgentRuntime agent = new NodeAgentRuntime(agentId, nodeId, request.agentVersion(), now, now,
                 request.supportedRuntimes(), Map.of());
-        repository.saveNode(node);
-        repository.saveIdentity(identity);
-        repository.saveAgent(agent);
-        repository.saveJoinToken(joinToken.get().consumed(now));
+        getCloudRepository().saveNode(node);
+        getCloudRepository().saveIdentity(identity);
+        getCloudRepository().saveAgent(agent);
+        getCloudRepository().saveJoinToken(joinToken.get().consumed(now));
         return new NodeRegistrationResult(true, Optional.of(nodeId), Optional.of(agentId), Optional.of("issued:" + nodeId),
                 "Node registered and schedulable.", Map.of("status", "ONLINE"));
     }

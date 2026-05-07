@@ -8,15 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-public final class JoinTokenCreationHandler {
-    private final InMemoryCloudRepository repository;
-    private final CloudSecretHasher hasher;
+public final class JoinTokenCreationHandler implements IJoinTokenCreationHandler, ICloudControlDomain {
     private final SecureRandom random = new SecureRandom();
-
-    public JoinTokenCreationHandler(InMemoryCloudRepository repository, CloudSecretHasher hasher) {
-        this.repository = repository;
-        this.hasher = hasher;
-    }
 
     public String createJoinToken(UUID createdBy, Instant expiresAt, Optional<String> region, Set<CloudNodeCapability> allowedCapabilities) {
         byte[] tokenBytes = new byte[32];
@@ -24,7 +17,7 @@ public final class JoinTokenCreationHandler {
         String plaintextToken = Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
         JoinToken joinToken = new JoinToken(
                 UUID.randomUUID(),
-                hasher.sha256(plaintextToken),
+                getCloudSecretHasher().sha256(plaintextToken),
                 createdBy,
                 expiresAt,
                 Optional.empty(),
@@ -33,7 +26,7 @@ public final class JoinTokenCreationHandler {
                 allowedCapabilities,
                 Map.of()
         );
-        repository.saveJoinToken(joinToken);
+        getCloudRepository().saveJoinToken(joinToken);
         return plaintextToken;
     }
 }

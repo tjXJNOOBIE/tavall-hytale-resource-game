@@ -3,7 +3,7 @@ package com.tavall.hytale.resourcegame.middleware.cloud;
 import java.time.Instant;
 import java.util.Optional;
 
-public final class AgentCommandExecutionHandler {
+public final class AgentCommandExecutionHandler implements IAgentCommandExecutionHandler {
     public CloudCommandResult execute(CloudCommand command, Instant now) {
         if (command.expiresAt().isPresent() && now.isAfter(command.expiresAt().get())) {
             return new CloudCommandResult(command.commandId(), command.nodeId(), false, Optional.empty(), "Command expired.",

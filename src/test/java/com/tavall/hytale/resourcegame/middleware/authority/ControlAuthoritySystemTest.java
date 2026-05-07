@@ -1,5 +1,6 @@
 package com.tavall.hytale.resourcegame.middleware.authority;
 
+import com.tavall.hytale.resourcegame.dependency.DependencyLoaderAccess;
 import com.tavall.hytale.resourcegame.middleware.control.CommandExecutionState;
 import com.tavall.hytale.resourcegame.middleware.control.ControlCommandResult;
 import com.tavall.hytale.resourcegame.middleware.control.ControlCommandRuntime;
@@ -20,11 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public final class ControlAuthoritySystemTest {
+public final class ControlAuthoritySystemTest implements IControlAuthorityDomain {
     @Test
     void c1AuthorityCanRestartAssignedWorkloadOnScopedNode() {
         InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
-        ControlAuthorizationHandler handler = handler(authorityRepository);
+        registerAuthorityDependencies(authorityRepository);
         UUID principalId = UUID.randomUUID();
         authorityRepository.saveAuthority(ControlAuthority.enabled(
                 principalId,
@@ -37,7 +38,7 @@ public final class ControlAuthoritySystemTest {
                 false
         ));
 
-        AuthorizationResult result = handler.authorize(new ControlCommandRequest(
+        AuthorizationResult result = getControlAuthorizationHandler().authorize(new ControlCommandRequest(
                 UUID.randomUUID(),
                 principalId,
                 ControlPrincipalType.NODE_AGENT,
@@ -56,7 +57,7 @@ public final class ControlAuthoritySystemTest {
     @Test
     void c1AuthorityCannotTouchUnrelatedNode() {
         InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
-        ControlAuthorizationHandler handler = handler(authorityRepository);
+        registerAuthorityDependencies(authorityRepository);
         UUID principalId = UUID.randomUUID();
         authorityRepository.saveAuthority(ControlAuthority.enabled(
                 principalId,
@@ -69,7 +70,7 @@ public final class ControlAuthoritySystemTest {
                 false
         ));
 
-        AuthorizationResult result = handler.authorize(new ControlCommandRequest(
+        AuthorizationResult result = getControlAuthorizationHandler().authorize(new ControlCommandRequest(
                 UUID.randomUUID(),
                 principalId,
                 ControlPrincipalType.NODE_AGENT,
@@ -89,7 +90,7 @@ public final class ControlAuthoritySystemTest {
     @Test
     void c6AdvisoryDoesNotSatisfyDestructiveHumanPolicy() {
         InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
-        ControlAuthorizationHandler handler = handler(authorityRepository);
+        registerAuthorityDependencies(authorityRepository);
         UUID principalId = UUID.randomUUID();
         authorityRepository.saveAuthority(ControlAuthority.enabled(
                 principalId,
@@ -102,7 +103,7 @@ public final class ControlAuthoritySystemTest {
                 false
         ));
 
-        AuthorizationResult result = handler.authorize(new ControlCommandRequest(
+        AuthorizationResult result = getControlAuthorizationHandler().authorize(new ControlCommandRequest(
                 UUID.randomUUID(),
                 principalId,
                 ControlPrincipalType.AI_AGENT,
@@ -121,7 +122,7 @@ public final class ControlAuthoritySystemTest {
     @Test
     void c6AdvisoryCanRecommendAction() {
         InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
-        ControlAuthorizationHandler handler = handler(authorityRepository);
+        registerAuthorityDependencies(authorityRepository);
         UUID principalId = UUID.randomUUID();
         authorityRepository.saveAuthority(ControlAuthority.enabled(
                 principalId,
@@ -134,7 +135,7 @@ public final class ControlAuthoritySystemTest {
                 false
         ));
 
-        AuthorizationResult result = handler.authorize(new ControlCommandRequest(
+        AuthorizationResult result = getControlAuthorizationHandler().authorize(new ControlCommandRequest(
                 UUID.randomUUID(),
                 principalId,
                 ControlPrincipalType.AI_AGENT,
@@ -153,7 +154,7 @@ public final class ControlAuthoritySystemTest {
     @Test
     void deleteWorkloadRequiresApproval() {
         InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
-        ControlAuthorizationHandler handler = handler(authorityRepository);
+        registerAuthorityDependencies(authorityRepository);
         UUID principalId = UUID.randomUUID();
         authorityRepository.saveAuthority(ControlAuthority.enabled(
                 principalId,
@@ -166,7 +167,7 @@ public final class ControlAuthoritySystemTest {
                 false
         ));
 
-        AuthorizationResult missingApproval = handler.authorize(new ControlCommandRequest(
+        AuthorizationResult missingApproval = getControlAuthorizationHandler().authorize(new ControlCommandRequest(
                 UUID.randomUUID(),
                 principalId,
                 ControlPrincipalType.HUMAN_ADMIN,
@@ -178,7 +179,7 @@ public final class ControlAuthoritySystemTest {
                 false,
                 false
         ));
-        AuthorizationResult approved = handler.authorize(new ControlCommandRequest(
+        AuthorizationResult approved = getControlAuthorizationHandler().authorize(new ControlCommandRequest(
                 UUID.randomUUID(),
                 principalId,
                 ControlPrincipalType.HUMAN_ADMIN,
@@ -216,13 +217,14 @@ public final class ControlAuthoritySystemTest {
         assertFalse(runtime.authorizationAuditRepository().findRecent(10).isEmpty());
     }
 
-    private ControlAuthorizationHandler handler(InMemoryAuthorityRepository authorityRepository) {
-        return new ControlAuthorizationHandler(
-                authorityRepository,
-                new InMemoryPermissionPolicyRepository(),
-                new InMemoryAuthorizationAuditRepository(),
-                new com.tavall.hytale.resourcegame.middleware.control.ControlCommandRegistry()
-        );
+    private void registerAuthorityDependencies(InMemoryAuthorityRepository authorityRepository) {
+        DependencyLoaderAccess.clear();
+        DependencyLoaderAccess.registerInstance(AuthorityRepository.class, authorityRepository);
+        DependencyLoaderAccess.registerInstance(PermissionPolicyRepository.class, new InMemoryPermissionPolicyRepository());
+        DependencyLoaderAccess.registerInstance(AuthorizationAuditRepository.class, new InMemoryAuthorizationAuditRepository());
+        DependencyLoaderAccess.registerInstance(com.tavall.hytale.resourcegame.middleware.control.ControlCommandRegistry.class,
+                new com.tavall.hytale.resourcegame.middleware.control.ControlCommandRegistry());
+        new ControlAuthorityDependencyModule().registerDependencies();
     }
 
     private ResourceTarget workloadTarget(String workloadId, String nodeId, String region) {

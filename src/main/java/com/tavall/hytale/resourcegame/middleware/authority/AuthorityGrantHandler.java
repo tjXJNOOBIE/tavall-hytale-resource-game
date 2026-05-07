@@ -2,17 +2,12 @@ package com.tavall.hytale.resourcegame.middleware.authority;
 
 import java.util.UUID;
 
-public final class AuthorityGrantHandler {
-    private final AuthorityRepository authorityRepository;
-    private final ControlAuthorizationHandler authorizationHandler;
-
-    public AuthorityGrantHandler(AuthorityRepository authorityRepository, ControlAuthorizationHandler authorizationHandler) {
-        this.authorityRepository = authorityRepository;
-        this.authorizationHandler = authorizationHandler;
-    }
-
+public final class AuthorityGrantHandler implements IAuthorityGrantHandler, IControlAuthorityDomain {
+    /**
+     * Grants are routed through the same permission check as commands so delegation cannot bypass the authority kernel.
+     */
     public ControlAuthority grant(UUID grantedBy, AuthorityGrantRequest request, long nowEpochMillis) {
-        authorizationHandler.requirePermission(grantedBy, com.tavall.hytale.resourcegame.middleware.control.ControlPermission.AUTHORITY_GRANT, ResourceTarget.global());
+        getControlAuthorizationHandler().requirePermission(grantedBy, com.tavall.hytale.resourcegame.middleware.control.ControlPermission.AUTHORITY_GRANT, ResourceTarget.global());
         ControlAuthority authority = new ControlAuthority(
                 UUID.randomUUID(),
                 request.grantedToPrincipalId(),
@@ -27,7 +22,7 @@ public final class AuthorityGrantHandler {
                 false,
                 true
         );
-        authorityRepository.saveAuthority(authority);
+        getAuthorityRepository().saveAuthority(authority);
         return authority;
     }
 }

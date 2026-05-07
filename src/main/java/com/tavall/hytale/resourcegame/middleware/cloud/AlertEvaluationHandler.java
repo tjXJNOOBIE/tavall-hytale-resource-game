@@ -6,13 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class AlertEvaluationHandler {
-    private final InMemoryCloudRepository repository;
-
-    public AlertEvaluationHandler(InMemoryCloudRepository repository) {
-        this.repository = repository;
-    }
-
+public final class AlertEvaluationHandler implements IAlertEvaluationHandler, ICloudControlDomain {
     public Optional<CloudAlert> evaluateHeartbeat(CloudNode node, Instant now, Duration threshold) {
         if (node.lastHeartbeatAt().plus(threshold).isAfter(now)) {
             return Optional.empty();
@@ -20,8 +14,8 @@ public final class AlertEvaluationHandler {
         CloudAlert alert = new CloudAlert(UUID.randomUUID(), CloudAlertType.NODE_MISSED_HEARTBEAT,
                 CloudAlertSeverity.CRITICAL, "NODE", node.nodeId().toString(),
                 "Node missed heartbeat threshold.", CloudAlertState.ACTIVE, now, Optional.empty(), Map.of());
-        repository.saveAlert(alert);
-        repository.saveNode(node.withStatus(CloudNodeStatus.OFFLINE, node.lastHeartbeatAt()));
+        getCloudRepository().saveAlert(alert);
+        getCloudRepository().saveNode(node.withStatus(CloudNodeStatus.OFFLINE, node.lastHeartbeatAt()));
         return Optional.of(alert);
     }
 }

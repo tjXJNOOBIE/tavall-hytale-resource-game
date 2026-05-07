@@ -5,18 +5,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public final class NodeSchedulerHandler {
-    private final InMemoryCloudRepository repository;
-
-    public NodeSchedulerHandler(InMemoryCloudRepository repository) {
-        this.repository = repository;
-    }
-
+public final class NodeSchedulerHandler implements INodeSchedulerHandler, ICloudControlDomain {
+    /**
+     * Scores every node instead of returning the first match so dry-runs can explain both wins and rejections.
+     */
     public NodeSchedulingDecision plan(WorkloadRequest request) {
         SchedulingPolicy policy = request.schedulingPolicy() == null ? SchedulingPolicy.defaultFor(request) : request.schedulingPolicy();
         List<NodeSchedulingCandidate> candidates = new ArrayList<>();
         List<NodeSchedulingCandidate> rejected = new ArrayList<>();
-        for (CloudNode node : repository.findNodes()) {
+        for (CloudNode node : getCloudRepository().findNodes()) {
             NodeSchedulingCandidate candidate = evaluate(node, request, policy);
             if (candidate.eligible()) {
                 candidates.add(candidate);

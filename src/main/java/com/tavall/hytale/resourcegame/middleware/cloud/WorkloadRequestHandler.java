@@ -5,17 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class WorkloadRequestHandler {
-    private final InMemoryCloudRepository repository;
-    private final NodeSchedulerHandler schedulerHandler;
-
-    public WorkloadRequestHandler(InMemoryCloudRepository repository, NodeSchedulerHandler schedulerHandler) {
-        this.repository = repository;
-        this.schedulerHandler = schedulerHandler;
-    }
-
+public final class WorkloadRequestHandler implements IWorkloadRequestHandler, ICloudControlDomain {
     public CloudWorkload createDesiredWorkload(WorkloadRequest request, Instant now) {
-        NodeSchedulingDecision decision = schedulerHandler.plan(request);
+        NodeSchedulingDecision decision = getNodeSchedulerHandler().plan(request);
         if (!decision.success()) {
             throw new IllegalStateException(decision.message());
         }
@@ -38,7 +30,7 @@ public final class WorkloadRequestHandler {
                 now,
                 request.metadata()
         ).scheduledOn(decision.selectedNodeId().orElseThrow(), now);
-        repository.saveWorkload(workload);
+        getCloudRepository().saveWorkload(workload);
         return workload;
     }
 }

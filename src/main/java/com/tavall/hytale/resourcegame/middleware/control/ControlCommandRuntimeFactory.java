@@ -1,12 +1,14 @@
 package com.tavall.hytale.resourcegame.middleware.control;
 
+import com.tavall.hytale.resourcegame.dependency.DependencyLoaderAccess;
 import com.tavall.hytale.resourcegame.middleware.asset.InMemoryGlobalAssetRepository;
 import com.tavall.hytale.resourcegame.middleware.authority.AuthorityRepository;
 import com.tavall.hytale.resourcegame.middleware.authority.AuthorityScope;
 import com.tavall.hytale.resourcegame.middleware.authority.AuthorizationAuditRepository;
+import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthorityDependencyModule;
 import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthority;
 import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthorityLevel;
-import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthorizationHandler;
+import com.tavall.hytale.resourcegame.middleware.authority.IControlAuthorizationHandler;
 import com.tavall.hytale.resourcegame.middleware.authority.InMemoryAuthorityRepository;
 import com.tavall.hytale.resourcegame.middleware.authority.InMemoryAuthorizationAuditRepository;
 import com.tavall.hytale.resourcegame.middleware.authority.InMemoryPermissionPolicyRepository;
@@ -116,12 +118,8 @@ public final class ControlCommandRuntimeFactory {
         ControlCommandAuditLogHandler auditLogHandler = new ControlCommandAuditLogHandler(auditLogRepository, new ControlCommandSerializer());
         ControlCommandParsingHandler parsingHandler = new ControlCommandParsingHandler();
         seedDefaultAuthorities(authorityRepository, localOwner, systemOperator, now);
-        ControlAuthorizationHandler authorizationHandler = new ControlAuthorizationHandler(
-                authorityRepository,
-                permissionPolicyRepository,
-                authorizationAuditRepository,
-                commandRegistry
-        );
+        registerAuthorityDependencies(authorityRepository, permissionPolicyRepository, authorizationAuditRepository, commandRegistry);
+        IControlAuthorizationHandler authorizationHandler = DependencyLoaderAccess.findInstance(IControlAuthorizationHandler.class);
         ControlCommandDispatchHandler dispatchHandler = new ControlCommandDispatchHandler(
                 commandRegistry,
                 validationHandler,
@@ -254,12 +252,8 @@ public final class ControlCommandRuntimeFactory {
         ControlCommandAuditLogHandler auditLogHandler = new ControlCommandAuditLogHandler(auditLogRepository, new ControlCommandSerializer());
         ControlCommandParsingHandler parsingHandler = new ControlCommandParsingHandler();
         seedDefaultAuthorities(authorityRepository, localOwner, systemOperator, now);
-        ControlAuthorizationHandler authorizationHandler = new ControlAuthorizationHandler(
-                authorityRepository,
-                permissionPolicyRepository,
-                authorizationAuditRepository,
-                commandRegistry
-        );
+        registerAuthorityDependencies(authorityRepository, permissionPolicyRepository, authorizationAuditRepository, commandRegistry);
+        IControlAuthorizationHandler authorizationHandler = DependencyLoaderAccess.findInstance(IControlAuthorizationHandler.class);
         ControlCommandDispatchHandler dispatchHandler = new ControlCommandDispatchHandler(
                 commandRegistry,
                 validationHandler,
@@ -343,5 +337,18 @@ public final class ControlCommandRuntimeFactory {
                 true,
                 false
         ));
+    }
+
+    private static void registerAuthorityDependencies(
+            AuthorityRepository authorityRepository,
+            PermissionPolicyRepository permissionPolicyRepository,
+            AuthorizationAuditRepository authorizationAuditRepository,
+            ControlCommandRegistry commandRegistry
+    ) {
+        DependencyLoaderAccess.registerInstance(AuthorityRepository.class, authorityRepository);
+        DependencyLoaderAccess.registerInstance(PermissionPolicyRepository.class, permissionPolicyRepository);
+        DependencyLoaderAccess.registerInstance(AuthorizationAuditRepository.class, authorizationAuditRepository);
+        DependencyLoaderAccess.registerInstance(ControlCommandRegistry.class, commandRegistry);
+        new ControlAuthorityDependencyModule().registerDependencies();
     }
 }

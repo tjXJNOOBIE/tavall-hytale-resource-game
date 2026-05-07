@@ -1,7 +1,7 @@
 package com.tavall.hytale.resourcegame.middleware.control;
 
 import com.tavall.hytale.resourcegame.middleware.authority.AuthorizationResult;
-import com.tavall.hytale.resourcegame.middleware.authority.ControlAuthorizationHandler;
+import com.tavall.hytale.resourcegame.middleware.authority.IControlAuthorizationHandler;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,7 +15,7 @@ public final class ControlCommandDispatchHandler {
     private final PlatformFanoutResultAggregator fanoutResultAggregator;
     private final ControlCommandResultHandler resultHandler;
     private final ControlCommandAuditLogHandler auditLogHandler;
-    private final Optional<ControlAuthorizationHandler> authorizationHandler;
+    private final Optional<IControlAuthorizationHandler> authorizationHandler;
 
     public ControlCommandDispatchHandler(
             ControlCommandRegistry commandRegistry,
@@ -37,7 +37,7 @@ public final class ControlCommandDispatchHandler {
             PlatformFanoutResultAggregator fanoutResultAggregator,
             ControlCommandResultHandler resultHandler,
             ControlCommandAuditLogHandler auditLogHandler,
-            ControlAuthorizationHandler authorizationHandler
+            IControlAuthorizationHandler authorizationHandler
     ) {
         this.commandRegistry = commandRegistry;
         this.validationHandler = validationHandler;

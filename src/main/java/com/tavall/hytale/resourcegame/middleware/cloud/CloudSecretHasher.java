@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
-public final class CloudSecretHasher {
+public final class CloudSecretHasher implements ICloudSecretHasher {
     public String sha256(String value) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
