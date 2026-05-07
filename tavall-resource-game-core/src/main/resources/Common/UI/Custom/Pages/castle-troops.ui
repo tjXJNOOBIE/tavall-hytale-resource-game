@@ -1,0 +1,22 @@
+Group {
+  Anchor: (Width: 880, Height: 620);
+  Background: PatchStyle(TexturePath: "../Textures/ResourceGame/panels/ui_panel_castle_ledger_base.png");
+  Padding: (Full: 16);
+  LayoutMode: Top;
+
+  AssetImage #TroopsIcon { Anchor: (Width: 64, Height: 64, Bottom: 8); AssetPath: "../Textures/ResourceGame/icons/ui_icon_population_troop.png"; }
+
+  Label { Text: "Troops"; Style: (FontSize: 24, RenderBold: true); Anchor: (Bottom: 12); }
+
+  Label { Text: "Total Troops"; Style: (FontSize: 14, TextColor: #a7b0ba); }
+  Label #TroopCount { Style: (FontSize: 22); Anchor: (Bottom: 16); }
+
+  Label { Text: "Might"; Style: (FontSize: 14, TextColor: #a7b0ba); }
+  Label #MightCount { Style: (FontSize: 22); Anchor: (Bottom: 16); }
+
+  Label #FeedbackStatus { Text: "Right-click the soldier or troop anchor to inspect military status."; Style: (FontSize: 14, TextColor: #e2c168); Anchor: (Bottom: 12); }
+
+  Label { Text: "Future: tiered troops, formations, combat readiness, and equipment layers."; Style: (FontSize: 14, TextColor: #a7b0ba); Anchor: (Bottom: 16); }
+
+  Group { LayoutMode: Right; TextButton #BackButton { Text: "Back"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); } }
+}

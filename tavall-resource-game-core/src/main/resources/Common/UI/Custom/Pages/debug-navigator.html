@@ -1,0 +1,48 @@
+<style>
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_war_table_base.png'); }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .label { font-size: 14; color: #a7b0ba; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .secondary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
+</style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
+<div id="ResourceGamePageRoot" class="page-overlay">
+    <div class="hero">
+        <img id="DebugIcon" src="Textures/ResourceGame/icons/ui_icon_kingdom_castle.png" width="56" height="56">
+        <div class="hero-copy">
+            <p class="title">Kingdom Debug Command Center</p>
+            <p id="CommandFeedback" class="feedback">{{$CommandFeedback}}</p>
+        </div>
+    </div>
+    <div data-hyui-title="Infra" id="InfraPanel" class="container">
+        <div class="container-title"><p class="section">Infra</p></div>
+        <p id="CacheStatus" class="body">{{$CacheStatus}}</p>
+        <p id="PersistenceStatus" class="body">{{$PersistenceStatus}}</p>
+        <p id="InteriorTutorialStatus" class="label">{{$InteriorTutorialStatus}}</p>
+        <p id="InteriorTourStatus" class="label">{{$InteriorTourStatus}}</p>
+        <p id="UpgradeTutorialStatus" class="label">{{$UpgradeTutorialStatus}}</p>
+        <progress id="DebugProgress" value="0.5"></progress>
+    </div>
+    <div data-hyui-title="Game Pages" id="PagesPanel" class="container">
+        <div class="container-title"><p class="section">Game Pages</p></div>
+        <div class="action-row"><button id="CastleMainButton" class="primary-button">Castle</button><button id="CastleInfoButton" class="secondary-button">Info</button><button id="CitizensButton" class="secondary-button">Citizens</button><button id="TroopsButton" class="secondary-button">Troops</button></div>
+        <div class="action-row"><button id="ResourcesButton" class="secondary-button">Resources</button><button id="UpgradesButton" class="secondary-button">Upgrades</button><button id="InteriorButton" class="secondary-button">Enter Interior</button></div>
+    </div>
+    <div data-hyui-title="Command Groups" id="CommandGroupsPanel" class="container">
+        <div class="container-title"><p class="section">Command Groups</p></div>
+        <p class="body">Each group opens a smaller HyUI page so the live client does not reject large event-binding sets.</p>
+        <div class="action-row"><button id="DebugPlacementButton" class="secondary-button">Placement</button><button id="DebugInteriorButton" class="secondary-button">Interior</button><button id="DebugBuildingsButton" class="secondary-button">Buildings</button></div>
+        <div class="action-row"><button id="DebugWorldButton" class="secondary-button">World Tools</button><button id="CloseButton" class="nav-button">Close</button></div>
+    </div>
+</div>

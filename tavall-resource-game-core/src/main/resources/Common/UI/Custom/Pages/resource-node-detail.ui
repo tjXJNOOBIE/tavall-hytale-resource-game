@@ -1,0 +1,121 @@
+Group {
+  Anchor: (Width: 820, Height: 520);
+  Background: PatchStyle(TexturePath: "../Textures/ResourceGame/panels/ui_panel_node_detail_base.png");
+  Padding: (Full: 16);
+  LayoutMode: Top;
+
+  AssetImage #NodeIcon { Anchor: (Width: 64, Height: 64, Bottom: 8); AssetPath: "../Textures/ResourceGame/icons/ui_icon_node_marker.png"; }
+
+  Label #NodeTitle {
+    Text: "Resource Node";
+    Style: (FontSize: 24, RenderBold: true, RenderUppercase: true);
+    Anchor: (Bottom: 6);
+  }
+
+  Label #NodeSummary {
+    Text: "world | x, y, z";
+    Style: (FontSize: 14, TextColor: #9eb0bf);
+    Anchor: (Bottom: 16);
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 18);
+
+    Group {
+      Anchor: (Width: 180);
+      LayoutMode: Top;
+      Label { Text: "Assigned Troops"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #AssignedTroops { Style: (FontSize: 22); }
+    }
+
+    Group {
+      Anchor: (Width: 180);
+      LayoutMode: Top;
+      Label { Text: "Auto Workers"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #AssignedWorkers { Style: (FontSize: 22); }
+    }
+
+    Group {
+      Anchor: (Width: 180);
+      LayoutMode: Top;
+      Label { Text: "Reserve Troops"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #AvailableTroops { Style: (FontSize: 22); }
+    }
+
+    Group {
+      Anchor: (Width: 180);
+      LayoutMode: Top;
+      Label { Text: "Yield"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #GainPerTick { Style: (FontSize: 22); }
+    }
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 18);
+
+    Group {
+      Anchor: (Width: 240);
+      LayoutMode: Top;
+      Label { Text: "Node Stock"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #StockStatus { Style: (FontSize: 18); }
+    }
+
+    Group {
+      Anchor: (Width: 180);
+      LayoutMode: Top;
+      Label { Text: "Regeneration"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #RegenStatus { Style: (FontSize: 18); }
+    }
+
+    Group {
+      Anchor: (Width: 140);
+      LayoutMode: Top;
+      Label { Text: "Status"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #StatusText { Style: (FontSize: 18); }
+    }
+
+    Group {
+      Anchor: (Width: 220);
+      LayoutMode: Top;
+      Label { Text: "Supply Lane"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #RouteStatus { Style: (FontSize: 18); }
+    }
+
+    Group {
+      Anchor: (Width: 140);
+      LayoutMode: Top;
+      Label { Text: "Pillage"; Style: (FontSize: 14, TextColor: #9eb0bf); }
+      Label #PillageReward { Style: (FontSize: 18); }
+    }
+  }
+
+  Label #FeedbackStatus {
+    Text: "Select how many troops to send.";
+    Style: (FontSize: 14, TextColor: #cfd8e1);
+    Anchor: (Bottom: 20);
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 12);
+    TextButton #AssignOneButton { Text: "Send 1"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #AssignThreeButton { Text: "Send 3"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #AssignFiveButton { Text: "Send 5"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #AssignAllButton { Text: "Send All"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); }
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 20);
+    TextButton #RecallOneButton { Text: "Recall 1"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #RecallAllButton { Text: "Recall All"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 12); }
+    TextButton #PillageButton { Text: "Pillage Node"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_danger_normal.png"); Padding: (Full: 6); }
+  }
+
+  Group {
+    LayoutMode: Right;
+    TextButton #BackButton { Text: "Back"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); }
+  }
+}
