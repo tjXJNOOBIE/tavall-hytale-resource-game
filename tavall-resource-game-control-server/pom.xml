@@ -4,12 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.tavall</groupId>
-        <artifactId>tavall-java-hytale-games</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <groupId>com.tavall.hytale</groupId>
+        <artifactId>tavall-hytale-resource-game</artifactId>
+        <version>0.1.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>com.tavall</groupId>
     <artifactId>tavall-resource-game-control-server</artifactId>
     <packaging>jar</packaging>
 
@@ -25,8 +26,8 @@
     <dependencies>
         <dependency>
             <groupId>com.tavall.hytale</groupId>
-            <artifactId>tavall-hytale-resource-game</artifactId>
-            <version>0.1.1-SNAPSHOT</version>
+            <artifactId>tavall-resource-game-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tavall</groupId>
@@ -86,14 +87,32 @@
             <artifactId>abstract-cache-storage-memory</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>schema</directory>
+                <filtering>false</filtering>
+                <targetPath>schema</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

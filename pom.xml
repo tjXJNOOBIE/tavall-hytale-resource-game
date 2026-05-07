@@ -13,10 +13,10 @@
     <groupId>com.tavall.hytale</groupId>
     <artifactId>tavall-hytale-resource-game</artifactId>
     <version>0.1.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <name>Tavall Hytale Resource Game</name>
-    <description>First vertical slice of the Tavall Hytale resource game.</description>
+    <name>Tavall Hytale Resource Game Parent</name>
+    <description>Parent aggregator for Tavall Resource Game core, frontends, control plane, and app surfaces.</description>
 
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
@@ -30,6 +30,19 @@
         <hyui.curse.file>7820303</hyui.curse.file>
     </properties>
 
+    <modules>
+        <module>tavall-resource-game-shared-contracts</module>
+        <module>tavall-resource-game-hytale-frontend</module>
+        <module>tavall-resource-game-core</module>
+        <module>tavall-resource-game-control-server</module>
+        <module>tavall-resource-game-minecraft-frontend</module>
+        <module>tavall-resource-game-minecraft-server-frontend</module>
+        <module>tavall-resource-game-roblox-frontend</module>
+        <module>tavall-resource-game-discord-frontend</module>
+        <module>tavall-resource-game-android-app</module>
+        <module>tavall-resource-game-pc-app</module>
+    </modules>
+
     <repositories>
         <repository>
             <id>codemc-hytale</id>
@@ -39,190 +52,13 @@
             <id>cursemaven</id>
             <url>https://www.cursemaven.com</url>
         </repository>
+        <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>spigot-snapshots</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
     </repositories>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.tavall</groupId>
-            <artifactId>tavall-resource-game-shared-contracts</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tavall</groupId>
-            <artifactId>tavall-resource-game-hytale-frontend</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tjxjnoobie</groupId>
-            <artifactId>tavall-logging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tjxjnoobie</groupId>
-            <artifactId>tavall-di</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tjxjnoobie</groupId>
-            <artifactId>tavall-eventbus</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tjxjnoobie</groupId>
-            <artifactId>tavall-concurrency</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tjxjnoobie</groupId>
-            <artifactId>tavall-scheduler</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tjxjnoobie</groupId>
-            <artifactId>tavall-reflection</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.tavall</groupId>
-            <artifactId>abstract-cache-semantic</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.tavall</groupId>
-            <artifactId>abstract-cache-storage-memory</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.tavall</groupId>
-            <artifactId>abstract-cache-storage-postgres</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.tavall</groupId>
-            <artifactId>abstract-cache-storage-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hypixel.hytale</groupId>
-            <artifactId>Server</artifactId>
-            <version>${hytale.server.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>curse.maven</groupId>
-            <artifactId>hyui-1431415</artifactId>
-            <version>${hyui.curse.file}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-parameter-names</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgres.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>5.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring.boot.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>manifest.json</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>manifest.json</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>schema</directory>
-                <filtering>false</filtering>
-                <targetPath>schema</targetPath>
-            </resource>
-        </resources>
-
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.0</version>
-                <configuration>
-                    <release>${maven.compiler.release}</release>
-                    <parameters>true</parameters>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.2</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
-                <configuration>
-                    <argLine>-XX:TieredStopAtLevel=1</argLine>
-                    <systemPropertyVariables>
-                        <java.util.logging.manager>com.hypixel.hytale.logger.backend.HytaleLogManager</java.util.logging.manager>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <filters>
-                                <filter>
-                                    <artifact>com.hypixel.hytale:Server</artifact>
-                                    <excludes>
-                                        <exclude>**</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>
