@@ -57,11 +57,11 @@ import com.tavall.hytale.resourcegame.domain.PlayerGameState;
 import com.tavall.hytale.resourcegame.domain.PlayerProfile;
 import com.tavall.hytale.resourcegame.farmstead.npc.FarmsteadStewardSpawner;
 import com.tavall.hytale.resourcegame.farmstead.ui.FarmsteadMenuService;
+import com.tavall.hytale.resourcegame.frontend.hytale.HytaleFrontendConfig;
+import com.tavall.hytale.resourcegame.frontend.hytale.HytaleHttpControlCommandClient;
 import com.tavall.hytale.resourcegame.frontend.hytale.HytaleKdCommandEnvelopeBridge;
 import com.tavall.hytale.resourcegame.interior.InteriorLayoutService;
 import com.tavall.hytale.resourcegame.interior.InteriorStructureService;
-import com.tavall.hytale.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.hytale.resourcegame.middleware.control.ControlCommandRuntimeFactory;
 import com.tavall.hytale.resourcegame.persistence.InMemoryPlayerGameStateStore;
 import com.tavall.hytale.resourcegame.persistence.InMemoryPlayerProfileStore;
 import com.tavall.hytale.resourcegame.persistence.PersistenceStoreBootstrap;
@@ -422,10 +422,11 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         KingdomInteractionCommandSupport interactionCommandSupport = new KingdomInteractionCommandSupport(focusedWorldInteractionService);
         KingdomHologramCommandSupport hologramCommandSupport = new KingdomHologramCommandSupport(worldLabelService);
         KingdomEntityCommandSupport entityCommandSupport = new KingdomEntityCommandSupport(customEntitySpawnService);
-        ControlCommandRuntime controlCommandRuntime = ControlCommandRuntimeFactory.createInMemoryRuntime();
+        HytaleFrontendConfig hytaleFrontendConfig = HytaleFrontendConfig.fromEnvironment(System.getenv());
         FrontendCommandVerificationService frontendCommandVerificationService = new FrontendCommandVerificationService(
-                controlCommandRuntime,
-                new HytaleKdCommandEnvelopeBridge()
+                new HytaleKdCommandEnvelopeBridge(),
+                new HytaleHttpControlCommandClient(hytaleFrontendConfig.controlIngressUri()),
+                hytaleFrontendConfig.serverId()
         );
         DebugCommandService debugCommandService = new DebugCommandService(
                 sessionStore,
@@ -504,7 +505,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         registerSingleton(KingdomInteractionCommandSupport.class, interactionCommandSupport);
         registerSingleton(KingdomHologramCommandSupport.class, hologramCommandSupport);
         registerSingleton(KingdomEntityCommandSupport.class, entityCommandSupport);
-        registerSingleton(ControlCommandRuntime.class, controlCommandRuntime);
         registerSingleton(IFrontendCommandVerificationService.class, frontendCommandVerificationService);
         registerSingleton(IDebugCommandService.class, debugCommandService);
         registerSingleton(IInfrastructureHealthService.class, infrastructureHealthService);

@@ -1,9 +1,12 @@
-﻿param(
+param(
     [string]$SshAlias = "novus-remote",
     [string]$RemoteHarnessDir = "/srv/hytale/_bot/hytale-sim",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/remote-command-alias-flow.mjs",
-    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/target/tavall-hytale-resource-game.jar",
+    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-core/target/tavall-hytale-resource-game.jar",
     [string]$RemotePluginJarPath = "/srv/hytale/HytaleDevServer/Server/mods/tavall-hytale-resource-game.jar",
+    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-control-server/target/tavall-resource-game-control-server-0.1.1-SNAPSHOT.jar",
+    [string]$RemoteControlDir = "/srv/resource-game-control",
+    [int]$ControlPort = 8080,
     [string]$ServerRoot = "/srv/hytale/HytaleDevServer",
     [string]$Transport = "QUIC",
     [string]$ServerHost = "127.0.0.1",
@@ -123,6 +126,12 @@ Invoke-ProcessCapture -FilePath "scp.exe" -Arguments @(
 $remoteModsDir = $RemotePluginJarPath -replace "/[^/]+$", ""
 powershell -ExecutionPolicy Bypass -File .\scripts\install-hyui-remote.ps1 -SshAlias $SshAlias -RemoteModsDir $remoteModsDir | Out-Null
 
+Ensure-RemoteResourceGameControlServer `
+    -SshAlias $SshAlias `
+    -ControlServerJarPath $ControlServerJarPath `
+    -RemoteControlDir $RemoteControlDir `
+    -ControlPort $ControlPort `
+    -LogPath $logPath | Out-Null
 Restart-RemoteServer
 Ensure-RemoteQuicBridge `
     -SshAlias $SshAlias `

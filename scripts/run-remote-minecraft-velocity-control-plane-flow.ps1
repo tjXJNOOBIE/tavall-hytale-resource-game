@@ -14,9 +14,9 @@ param(
     [string]$KingdomServerJarLocalPath = "",
     [string]$RemoteControlDir = "/srv/resource-game-control",
     [string]$RemoteHeadlessDir = "/srv/headless",
-    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/target/tavall-hytale-resource-game.jar",
-    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-minecraft-frontend/target/tavall-resource-game-minecraft-frontend-0.1.0-SNAPSHOT.jar",
-    [string]$ServerPluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-minecraft-server-frontend/target/tavall-resource-game-minecraft-server-frontend-0.1.0-SNAPSHOT.jar",
+    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-control-server/target/tavall-resource-game-control-server-0.1.1-SNAPSHOT.jar",
+    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-minecraft-frontend/target/tavall-resource-game-minecraft-frontend-0.1.1-SNAPSHOT.jar",
+    [string]$ServerPluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-minecraft-server-frontend/target/tavall-resource-game-minecraft-server-frontend-0.1.1-SNAPSHOT.jar",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/minecraft-velocity-control-plane-flow.mjs",
     [int]$ControlPort = 18080,
     [string]$ControlIngressUrl = "http://127.0.0.1:18080/api/frontend/commands",
@@ -88,12 +88,12 @@ if (-not (Test-Path $KingdomServerJarLocalPath)) {
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Deploying resource-game control ingress."
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, "mkdir -p '$RemoteControlDir/logs'") -FailureMessage "Failed to prepare remote control directory."
-Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ControlServerJarPath, "$SshAlias`:$RemoteControlDir/tavall-hytale-resource-game.jar.new") -FailureMessage "Failed to copy control server jar."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ControlServerJarPath, "$SshAlias`:$RemoteControlDir/tavall-resource-game-control-server.jar.new") -FailureMessage "Failed to copy control server jar."
 $remoteControl = @"
 set -euo pipefail
 cd '$RemoteControlDir'
-mv tavall-hytale-resource-game.jar.new tavall-hytale-resource-game.jar
-CONTROL_PIDS=`$(pgrep -f '^java .*ControlServerApplication' || true)
+mv tavall-resource-game-control-server.jar.new tavall-resource-game-control-server.jar
+CONTROL_PIDS=`$(pgrep -f 'ControlServerApplication|tavall-resource-game-control-server.jar|tavall-hytale-resource-game.jar' || true)
 if [ -n "`$CONTROL_PIDS" ]; then
   echo "`$CONTROL_PIDS" | xargs -r kill || true
 fi
@@ -104,9 +104,13 @@ for i in `$(seq 1 30); do
   sleep 1
 done
 if ss -ltn | grep -q ':$ControlPort '; then
-  CONTROL_PIDS=`$(pgrep -f '^java .*ControlServerApplication' || true)
+  CONTROL_PIDS=`$(pgrep -f 'ControlServerApplication|tavall-resource-game-control-server.jar|tavall-hytale-resource-game.jar' || true)
   if [ -n "`$CONTROL_PIDS" ]; then
     echo "`$CONTROL_PIDS" | xargs -r kill -9 || true
+  fi
+  PORT_PIDS=`$(lsof -ti tcp:$ControlPort || true)
+  if [ -n "`$PORT_PIDS" ]; then
+    echo "`$PORT_PIDS" | xargs -r kill -9 || true
   fi
 fi
 for i in `$(seq 1 10); do
@@ -120,7 +124,7 @@ if ss -ltn | grep -q ':$ControlPort '; then
   ss -ltnp | grep ':$ControlPort ' >&2 || true
   exit 1
 fi
-nohup java --enable-preview -Dserver.port=$ControlPort -cp tavall-hytale-resource-game.jar com.tavall.hytale.resourcegame.controlserver.web.ControlServerApplication > logs/control-web.out.log 2> logs/control-web.err.log < /dev/null &
+nohup java --enable-preview -Dserver.port=$ControlPort -jar tavall-resource-game-control-server.jar > logs/control-web.out.log 2> logs/control-web.err.log < /dev/null &
 for i in `$(seq 1 60); do
   if ss -ltn | grep -q ':$ControlPort '; then
     sleep 2

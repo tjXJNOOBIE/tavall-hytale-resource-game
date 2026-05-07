@@ -12,7 +12,7 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $validatorScript = Join-Path $PSScriptRoot "validate-custom-ui-assets.ps1"
 if ([string]::IsNullOrWhiteSpace($JarPath)) {
-    $JarPath = Join-Path $repoRoot "target\tavall-hytale-resource-game.jar"
+    $JarPath = Join-Path $repoRoot "tavall-resource-game-core\target\tavall-hytale-resource-game.jar"
 }
 
 function Get-LatestSourceTimestamp {
@@ -79,5 +79,4 @@ if (-not $SkipHyUiInstall) {
     $installHyUiScript = Join-Path $PSScriptRoot "install-hyui-local.ps1"
     & $installHyUiScript -ServerRoot $ServerRoot -RepoRoot $repoRoot -HyUiJarPath $HyUiJarPath | Out-Null
 }
-
 Write-Host "Copied plugin jar to $destPath"

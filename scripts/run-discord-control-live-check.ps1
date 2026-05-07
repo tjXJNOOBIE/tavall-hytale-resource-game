@@ -7,7 +7,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $PSScriptRoot
-$jar = Join-Path $root "target\tavall-hytale-resource-game.jar"
+$jar = Join-Path $root "tavall-resource-game-control-server\target\tavall-resource-game-control-server-0.1.1-SNAPSHOT.jar"
 if (!(Test-Path $jar)) {
     throw "Control server jar not found: $jar"
 }
@@ -18,9 +18,8 @@ $outLog = Join-Path $logDirectory "discord-control-live-check.out.log"
 $errLog = Join-Path $logDirectory "discord-control-live-check.err.log"
 
 $process = Start-Process -FilePath "java" -ArgumentList @(
-    "-cp",
+    "-jar",
     $jar,
-    "com.tavall.hytale.resourcegame.controlserver.web.ControlServerApplication",
     "--server.port=$Port"
 ) -RedirectStandardOutput $outLog -RedirectStandardError $errLog -WindowStyle Hidden -PassThru
 

@@ -9,8 +9,8 @@ param(
 $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $PSScriptRoot
-$discordJar = Join-Path $root "tavall-resource-game-discord-frontend\target\tavall-resource-game-discord-frontend-0.1.0-SNAPSHOT.jar"
-$controlServerJar = Join-Path $root "target\tavall-hytale-resource-game.jar"
+$discordJar = Join-Path $root "tavall-resource-game-discord-frontend\target\tavall-resource-game-discord-frontend-0.1.1-SNAPSHOT.jar"
+$controlServerJar = Join-Path $root "tavall-resource-game-control-server\target\tavall-resource-game-control-server-0.1.1-SNAPSHOT.jar"
 
 if (!(Test-Path $discordJar)) {
     throw "Discord bot jar not found: $discordJar"
@@ -54,7 +54,7 @@ Wants=network-online.target
 [Service]
 User=ubuntu
 WorkingDirectory=$RemoteDirectory
-ExecStart=/usr/bin/java -cp $RemoteDirectory/resource-game-control-server.jar com.tavall.hytale.resourcegame.controlserver.web.ControlServerApplication --server.port=$ControlServerPort
+ExecStart=/usr/bin/java -jar $RemoteDirectory/resource-game-control-server.jar --server.port=$ControlServerPort
 Restart=on-failure
 RestartSec=5
 

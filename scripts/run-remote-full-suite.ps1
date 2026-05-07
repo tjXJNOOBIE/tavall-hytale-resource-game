@@ -1,11 +1,16 @@
 ﻿param(
+    [string]$SshAlias = "novus-remote",
     [string]$LogDir = "",
     [string]$LocalDevServerDir = "",
     [string]$RemoteServerRoot = "/srv/hytale/HytaleDevServer",
+    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-control-server/target/tavall-resource-game-control-server-0.1.1-SNAPSHOT.jar",
+    [string]$RemoteControlDir = "/srv/resource-game-control",
+    [int]$ControlPort = 8080,
     [int]$MaxAttemptsPerStep = 2
 )
 
 $ErrorActionPreference = "Stop"
+. (Join-Path $PSScriptRoot "remote-quic-harness.ps1")
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 if ([string]::IsNullOrWhiteSpace($LogDir)) {
@@ -31,6 +36,7 @@ if ($LASTEXITCODE -ne 0) {
 $syncArgs = @(
     "-ExecutionPolicy", "Bypass",
     "-File", ".\scripts\sync-remote-hytale-dev-server.ps1",
+    "-SshAlias", $SshAlias,
     "-RemoteServerRoot", $RemoteServerRoot
 )
 if (-not [string]::IsNullOrWhiteSpace($LocalDevServerDir)) {
@@ -50,6 +56,13 @@ powershell -ExecutionPolicy Bypass -File .\scripts\sync-remote-bot-harness.ps1
 if ($LASTEXITCODE -ne 0) {
     throw "Remote bot harness sync failed."
 }
+
+Ensure-RemoteResourceGameControlServer `
+    -SshAlias $SshAlias `
+    -ControlServerJarPath $ControlServerJarPath `
+    -RemoteControlDir $RemoteControlDir `
+    -ControlPort $ControlPort `
+    -LogPath $summaryPath | Out-Null
 
 $steps = @(
     @{ name = "persistence"; script = ".\scripts\run-remote-persistence-flow.ps1" },
@@ -72,7 +85,7 @@ foreach ($step in $steps) {
     $passed = $false
     $attempts = @()
     for ($attempt = 1; $attempt -le $MaxAttemptsPerStep; $attempt++) {
-        powershell -ExecutionPolicy Bypass -File $step.script
+        powershell -ExecutionPolicy Bypass -File $step.script -SshAlias $SshAlias
         if ($LASTEXITCODE -eq 0) {
             $passed = $true
             $attempts += [ordered]@{
