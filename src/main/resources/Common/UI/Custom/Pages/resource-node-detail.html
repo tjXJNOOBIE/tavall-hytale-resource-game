@@ -1,42 +1,63 @@
 <style>
-    .page-overlay { anchor-width: 820; anchor-height: 520; layout-mode: top; padding: 16; background-image: url('../Textures/ResourceGame/panels/ui_panel_node_detail_base.png'); }
-    .row { layout-mode: left; padding-bottom: 12; }
-    .stat { anchor-width: 155; layout-mode: top; padding-right: 10; }
-    .wide { anchor-width: 210; layout-mode: top; padding-right: 10; }
-    .title { font-size: 24; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
-    .label { font-size: 14; color: #9eb0bf; }
-    .value { font-size: 18; color: #fff1c2; }
-    .feedback { font-size: 14; color: #cfd8e1; padding-bottom: 12; }
-    button { padding: 6; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_node_detail_base.png'); }
+    .row { layout-mode: left; padding-bottom: 10; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .stat-card { anchor-width: 170; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .wide-card { anchor-width: 260; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
+    .label { font-size: 14; color: #a7b0ba; }
+    .value { font-size: 20; color: #fff1c2; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .secondary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .confirm-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_confirm_normal.png'); }
+    .danger-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_danger_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
 </style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
 <div id="ResourceGamePageRoot" class="page-overlay">
-    <img id="NodeIcon" src="Textures/ResourceGame/icons/ui_icon_node_marker.png" width="64" height="64">
-    <p id="NodeTitle" class="title">{{$NodeTitle}}</p>
-    <p id="NodeSummary" class="label">{{$NodeSummary}}</p>
-    <div class="row">
-        <div class="stat"><p class="label">Assigned Troops</p><p id="AssignedTroops" class="value">{{$AssignedTroops}}</p></div>
-        <div class="stat"><p class="label">Auto Workers</p><p id="AssignedWorkers" class="value">{{$AssignedWorkers}}</p></div>
-        <div class="stat"><p class="label">Reserve Troops</p><p id="AvailableTroops" class="value">{{$AvailableTroops}}</p></div>
-        <div class="wide"><p class="label">Yield</p><p id="GainPerTick" class="value">{{$GainPerTick}}</p></div>
+<div class="hero">
+        <img id="NodeIcon" src="Textures/ResourceGame/icons/ui_icon_node_marker.png" width="64" height="64">
+        <div class="hero-copy"><p id="NodeTitle" class="title">{{$NodeTitle}}</p><p id="NodeSummary" class="label">{{$NodeSummary}}</p></div>
     </div>
-    <div class="row">
-        <div class="wide"><p class="label">Node Stock</p><p id="StockStatus" class="value">{{$StockStatus}}</p></div>
-        <div class="stat"><p class="label">Regeneration</p><p id="RegenStatus" class="value">{{$RegenStatus}}</p></div>
-        <div class="stat"><p class="label">Status</p><p id="StatusText" class="value">{{$StatusText}}</p></div>
-        <div class="wide"><p class="label">Supply Lane</p><p id="RouteStatus" class="value">{{$RouteStatus}}</p></div>
-        <div class="stat"><p class="label">Pillage</p><p id="PillageReward" class="value">{{$PillageReward}}</p></div>
+    <div data-hyui-title="Node Output" id="NodeOutput" class="container">
+        <div class="container-title"><p class="section">Node Output</p></div>
+        <div class="row">
+            <div class="stat-card"><p class="label">Assigned Troops</p><p id="AssignedTroops" class="value">{{$AssignedTroops}}</p></div>
+            <div class="stat-card"><p class="label">Auto Workers</p><p id="AssignedWorkers" class="value">{{$AssignedWorkers}}</p></div>
+            <div class="stat-card"><p class="label">Reserve Troops</p><p id="AvailableTroops" class="value">{{$AvailableTroops}}</p></div>
+            <div class="wide-card"><p class="label">Yield</p><p id="GainPerTick" class="value">{{$GainPerTick}}</p></div>
+        </div>
+        <progress value="0.5" id="NodeStockBar"></progress>
+        <div class="row">
+            <div class="wide-card"><p class="label">Node Stock</p><p id="StockStatus" class="value">{{$StockStatus}}</p></div>
+            <div class="stat-card"><p class="label">Regeneration</p><p id="RegenStatus" class="value">{{$RegenStatus}}</p></div>
+            <div class="stat-card"><p class="label">Status</p><p id="StatusText" class="value">{{$StatusText}}</p></div>
+        </div>
+        <div class="row">
+            <div class="wide-card"><p class="label">Supply Lane</p><p id="RouteStatus" class="value">{{$RouteStatus}}</p></div>
+            <div class="stat-card"><p class="label">Pillage</p><p id="PillageReward" class="value">{{$PillageReward}}</p></div>
+        </div>
+        <p id="FeedbackStatus" class="feedback">{{$FeedbackStatus}}</p>
     </div>
-    <p id="FeedbackStatus" class="feedback">{{$FeedbackStatus}}</p>
-    <div class="row">
-        <button id="AssignOneButton">Send 1</button>
-        <button id="AssignThreeButton">Send 3</button>
-        <button id="AssignFiveButton">Send 5</button>
-        <button id="AssignAllButton">Send All</button>
+    <div class="action-row">
+        <button id="AssignOneButton" class="confirm-button">Send 1</button>
+        <button id="AssignThreeButton" class="confirm-button">Send 3</button>
+        <button id="AssignFiveButton" class="confirm-button">Send 5</button>
+        <button id="AssignAllButton" class="confirm-button">Send All</button>
     </div>
-    <div class="row">
+    <div class="action-row">
         <button id="RecallOneButton" class="secondary-button">Recall 1</button>
         <button id="RecallAllButton" class="secondary-button">Recall All</button>
-        <button id="PillageButton" class="secondary-button">Pillage Node</button>
-        <button id="BackButton" class="secondary-button">Back</button>
+        <button id="PillageButton" class="danger-button">Pillage Node</button>
+        <button id="BackButton" class="nav-button">Back</button>
     </div>
 </div>

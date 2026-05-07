@@ -65,7 +65,43 @@
       "symmetry": "horizontal+vertical"
     },
     {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_secondary_hover.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_secondary_pressed.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_secondary_disabled.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
       "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_confirm_normal.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_confirm_hover.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_confirm_pressed.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_confirm_disabled.png",
       "width": 256,
       "height": 64,
       "symmetry": "horizontal+vertical"
@@ -77,9 +113,51 @@
       "symmetry": "horizontal+vertical"
     },
     {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_danger_hover.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_danger_pressed.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_danger_disabled.png",
+      "width": 256,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
       "path": "Common/UI/Custom/Textures/ResourceGame/buttons/ui_button_icon_square_normal.png",
       "width": 256,
       "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/ornaments/ui_divider_section_gold.png",
+      "width": 512,
+      "height": 64,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/ornaments/ui_badge_status_available.png",
+      "width": 128,
+      "height": 128,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/ornaments/ui_badge_status_blocked.png",
+      "width": 128,
+      "height": 128,
+      "symmetry": "horizontal+vertical"
+    },
+    {
+      "path": "Common/UI/Custom/Textures/ResourceGame/ornaments/ui_badge_status_progress.png",
+      "width": 128,
+      "height": 128,
       "symmetry": "horizontal+vertical"
     },
     {

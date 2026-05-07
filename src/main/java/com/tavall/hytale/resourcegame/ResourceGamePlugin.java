@@ -11,6 +11,7 @@ import com.tavall.hytale.resourcegame.dependency.DependencyLoaderAccess;
 import com.tavall.hytale.resourcegame.dependency.injection.helpers.DependencyInjectorHelper;
 import com.tavall.hytale.resourcegame.dependency.injection.helpers.interfaces.IDependencyInjectorHelper;
 import com.tavall.hytale.resourcegame.dependency.modules.ResourceGameDependencyModule;
+import com.tavall.hytale.resourcegame.interactions.OpenFarmsteadInteraction;
 import com.tavall.hytale.resourcegame.services.VisualVerificationControlService;
 import com.tavall.hytale.resourcegame.tasks.AsyncTask;
 
@@ -27,6 +28,7 @@ public class ResourceGamePlugin extends JavaPlugin implements IResourceGameDomai
 
     @Override
     protected void setup() {
+        OpenFarmsteadInteraction.registerCodec();
         injectorHelper.setupDISystem(new ResourceGameDependencyModule(this));
         getLogger().atInfo().log("Kingdom clock initialized. Daytime: %s", getKingdomClockService().snapshot().isDay());
     }
@@ -41,6 +43,7 @@ public class ResourceGamePlugin extends JavaPlugin implements IResourceGameDomai
         getEventRegistry().registerGlobal(PlayerInteractEvent.class, getResourceNodeInteractionService()::handleInteract);
         getEventRegistry().registerGlobal(PlayerInteractEvent.class, getBuildingInteractionService()::handleInteract);
         getEventRegistry().registerGlobal(PlayerInteractEvent.class, getWorkerNpcInteractionService()::handleInteract);
+        getEventRegistry().registerGlobal(PlayerInteractEvent.class, getCustomEntitySpawnService()::handleInteract);
         getInteriorInstanceService().pruneTransientWorlds();
         getInteriorInstanceService().warmInteriorWorld().whenComplete((world, throwable) -> {
             if (throwable != null) {

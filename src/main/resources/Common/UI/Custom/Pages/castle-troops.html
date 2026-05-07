@@ -1,19 +1,41 @@
 <style>
-    .page-overlay { anchor-width: 880; anchor-height: 620; layout-mode: top; padding: 16; background-image: url('../Textures/ResourceGame/panels/ui_panel_castle_ledger_base.png'); }
-    .title { font-size: 24; font-weight: bold; color: #f4d27a; }
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_war_table_base.png'); }
+    .row { layout-mode: left; padding-bottom: 10; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .stat-card { anchor-width: 170; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .wide-card { anchor-width: 260; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
     .label { font-size: 14; color: #a7b0ba; }
-    .value { font-size: 22; color: #fff1c2; padding-bottom: 12; }
-    .feedback { font-size: 14; color: #e2c168; padding-bottom: 12; }
-    button { padding: 6; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .value { font-size: 20; color: #fff1c2; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .confirm-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_confirm_normal.png'); }
+    .danger-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_danger_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
 </style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
 <div id="ResourceGamePageRoot" class="page-overlay">
-    <img id="TroopsIcon" src="Textures/ResourceGame/icons/ui_icon_population_troop.png" width="64" height="64">
-    <p class="title">Troops</p>
-    <p class="label">Total Troops</p>
-    <p id="TroopCount" class="value">{{$TroopCount}}</p>
-    <p class="label">Might</p>
-    <p id="MightCount" class="value">{{$MightCount}}</p>
-    <p id="FeedbackStatus" class="feedback">{{$FeedbackStatus}}</p>
-    <p class="label">Future: tiered troops, formations, combat readiness, and equipment layers.</p>
-    <button id="BackButton" class="secondary-button">Back</button>
+<div class="hero">
+        <img id="TroopsIcon" src="Textures/ResourceGame/icons/ui_icon_population_troop.png" width="64" height="64">
+        <div class="hero-copy"><p class="title">Troops</p><p class="label">Army capacity, Might, and combat readiness.</p></div>
+    </div>
+    <div data-hyui-title="Warband" id="TroopContainer" class="container">
+        <div class="container-title"><p class="section">Warband</p></div>
+        <div class="row">
+            <div class="wide-card"><p class="label">Total Troops</p><p id="TroopCount" class="value">{{$TroopCount}}</p></div>
+            <div class="wide-card"><p class="label">Might</p><p id="MightCount" class="value">{{$MightCount}}</p></div>
+        </div>
+        <progress value="0.5" id="TroopReadinessBar"></progress>
+        <p id="FeedbackStatus" class="feedback">{{$FeedbackStatus}}</p>
+        <p class="body">Future: tiered troops, formations, combat readiness, and equipment layers.</p>
+    </div>
+    <button id="BackButton" class="nav-button">Back</button>
 </div>

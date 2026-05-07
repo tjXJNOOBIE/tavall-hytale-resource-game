@@ -3,7 +3,8 @@ param(
     [switch]$Build,
     [string]$JarPath = "",
     [string]$HyUiJarPath = "",
-    [switch]$SkipHyUiInstall
+    [switch]$SkipHyUiInstall,
+    [switch]$AllowLiveJarReplace
 )
 
 $ErrorActionPreference = "Stop"
@@ -58,6 +59,19 @@ if (-not (Test-Path $modsDir)) {
 }
 
 $destPath = Join-Path $modsDir "tavall-hytale-resource-game.jar"
+if (-not $AllowLiveJarReplace) {
+    $serverRootPattern = [Regex]::Escape($ServerRoot)
+    $liveServer = Get-CimInstance Win32_Process |
+        Where-Object {
+            $_.Name -match "^java(\.exe)?$" -and
+            $_.CommandLine -match "HytaleServer\.jar" -and
+            $_.CommandLine -match $serverRootPattern
+        } |
+        Select-Object -First 1
+    if ($liveServer) {
+        throw "Refusing to replace $destPath while the local Hytale server is running (PID $($liveServer.ProcessId)). Stop the server or use scripts\restart-local-dev-server.ps1 so the jar is copied while offline. Use scripts\sync-local-hot-assets.ps1 for hot-reloadable asset-only changes."
+    }
+}
 Copy-Item -Path $JarPath -Destination $destPath -Force
 & $validatorScript -RepoRoot $repoRoot -JarPath $JarPath -CompareJarPath $destPath | Out-Null
 

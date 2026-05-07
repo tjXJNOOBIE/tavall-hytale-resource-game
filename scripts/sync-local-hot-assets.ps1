@@ -123,7 +123,7 @@ $manifest = [ordered]@{
     LoadBefore = [ordered]@{}
     ServerVersion = "2026.03.26-89796e57b"
     DisabledByDefault = $false
-    IncludesAssetPack = $false
+    IncludesAssetPack = $true
     SubPlugins = @()
 }
 

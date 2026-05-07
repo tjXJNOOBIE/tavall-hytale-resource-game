@@ -51,7 +51,7 @@ async function dismissPage(bot) {
   await delay(350);
 }
 
-async function sendCommands(bot, commands, delayMs = 150) {
+async function sendCommands(bot, commands, delayMs = 350) {
   for (const command of commands) {
     bot.chat(command);
     await delay(delayMs);
@@ -87,6 +87,7 @@ async function forceUpgradeStateAndOpen(bot, commands, expected, timeoutMs, labe
   while ((Date.now() - startedAt) < timeoutMs) {
     await dismissPage(bot);
     await sendCommands(bot, commands);
+    await delay(250);
     bot.chat("/kd ui upgrades");
 
     const retryUntil = Date.now() + 1_750;

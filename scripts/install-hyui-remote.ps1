@@ -1,6 +1,6 @@
-param(
+﻿param(
     [string]$SshAlias = "novus-remote",
-    [string]$RemoteModsDir = "/srv/hytale-startup-patch-test/Server/mods",
+    [string]$RemoteModsDir = "/srv/hytale/HytaleDevServer/Server/mods",
     [string]$RepoRoot = "",
     [string]$HyUiJarPath = ""
 )

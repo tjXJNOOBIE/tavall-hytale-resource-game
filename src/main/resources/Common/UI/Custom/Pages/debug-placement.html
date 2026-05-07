@@ -1,0 +1,40 @@
+<style>
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_war_table_base.png'); }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .secondary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .confirm-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_confirm_normal.png'); }
+    .danger-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_danger_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
+</style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
+<div id="ResourceGamePageRoot" class="page-overlay">
+    <div class="hero">
+        <img id="PlacementIcon" src="Textures/ResourceGame/selectors/ui_selector_building_valid.png" width="56" height="56">
+        <div class="hero-copy">
+            <p class="title">Placement Tools</p>
+            <p id="CommandFeedback" class="feedback">{{$CommandFeedback}}</p>
+        </div>
+    </div>
+    <div data-hyui-title="Start Placement" id="PlacementStartPanel" class="container">
+        <div class="container-title"><p class="section">Start Placement</p></div>
+        <p class="body">Place castles and resource nodes through the selector flow.</p>
+        <div class="action-row"><button id="PlaceCastleButton" class="primary-button">Place Castle</button><button id="PlaceFoodNodeButton" class="secondary-button">Food Node</button><button id="PlaceWoodNodeButton" class="secondary-button">Wood Node</button><button id="PlaceIronNodeButton" class="secondary-button">Iron Node</button></div>
+        <progress id="PlacementProgress" value="0.35"></progress>
+    </div>
+    <div data-hyui-title="Adjust Placement" id="PlacementAdjustPanel" class="container">
+        <div class="container-title"><p class="section">Adjust Placement</p></div>
+        <div class="action-row"><button id="MoveNegXButton" class="secondary-button">Move -X</button><button id="MovePosXButton" class="secondary-button">Move +X</button><button id="MoveNegZButton" class="secondary-button">Move -Z</button><button id="MovePosZButton" class="secondary-button">Move +Z</button></div>
+        <div class="action-row"><button id="ConfirmPlacementButton" class="confirm-button">Confirm</button><button id="CancelPlacementButton" class="danger-button">Cancel</button><button id="BackButton" class="nav-button">Back</button></div>
+    </div>
+</div>

@@ -268,9 +268,14 @@ public final class VisualVerificationControlService implements IDependencyInject
             case "resources", "castle_resources" -> UiPageType.CASTLE_RESOURCES;
             case "upgrades", "castle_upgrades" -> UiPageType.CASTLE_UPGRADES;
             case "buildings", "building", "castle_buildings" -> UiPageType.CASTLE_BUILDINGS;
+            case "farmstead", "farmstead_menu" -> UiPageType.FARMSTEAD_MENU;
             case "building_detail", "buildingdetail" -> UiPageType.BUILDING_DETAIL;
             case "interior", "interior_main" -> UiPageType.INTERIOR_MAIN;
-            case "debug", "debug_navigator" -> UiPageType.DEBUG_NAVIGATOR;
+            case "debug", "debug_navigator", "navigator", "command_center" -> UiPageType.DEBUG_NAVIGATOR;
+            case "debug_placement", "placement_debug", "placement" -> UiPageType.DEBUG_PLACEMENT;
+            case "debug_interior", "interior_debug" -> UiPageType.DEBUG_INTERIOR;
+            case "debug_buildings", "buildings_debug" -> UiPageType.DEBUG_BUILDINGS;
+            case "debug_world", "world_debug", "world" -> UiPageType.DEBUG_WORLD;
             default -> null;
         };
     }

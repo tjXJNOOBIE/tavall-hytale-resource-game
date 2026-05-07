@@ -38,6 +38,7 @@ public final class UiNavigator implements IUiNavigator, IDependencyInjectableCon
             UiPageType.CASTLE_RESOURCES,
             UiPageType.CASTLE_UPGRADES,
             UiPageType.CASTLE_BUILDINGS,
+            UiPageType.FARMSTEAD_MENU,
             UiPageType.RESOURCE_NODE_DETAIL,
             UiPageType.BUILDING_DETAIL
     );

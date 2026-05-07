@@ -1,0 +1,39 @@
+<style>
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_node_detail_base.png'); }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .secondary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .danger-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_danger_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
+</style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
+<div id="ResourceGamePageRoot" class="page-overlay">
+    <div class="hero">
+        <img id="WorldIcon" src="Textures/ResourceGame/icons/ui_icon_node_marker.png" width="56" height="56">
+        <div class="hero-copy">
+            <p class="title">World Tools</p>
+            <p id="CommandFeedback" class="feedback">{{$CommandFeedback}}</p>
+        </div>
+    </div>
+    <div data-hyui-title="Nodes And Holograms" id="NodesPanel" class="container">
+        <div class="container-title"><p class="section">Nodes And Holograms</p></div>
+        <p class="body">Inspect world nodes and spawn a test hologram stack.</p>
+        <div class="action-row"><button id="NodesListButton" class="primary-button">List Nodes</button><button id="NodesClearButton" class="danger-button">Clear Nodes</button><button id="HologramTestButton" class="secondary-button">Hologram Test</button></div>
+        <progress id="WorldProgress" value="0.55"></progress>
+    </div>
+    <div data-hyui-title="Entities" id="EntitiesPanel" class="container">
+        <div class="container-title"><p class="section">Entities</p></div>
+        <div class="action-row"><button id="SpawnFarmerButton" class="secondary-button">Spawn Farmer</button><button id="SpawnMinerButton" class="secondary-button">Spawn Miner</button><button id="SpawnSoldierButton" class="secondary-button">Spawn Soldier</button></div>
+        <div class="action-row"><button id="ClearEntitiesButton" class="danger-button">Clear Entities</button><button id="BackButton" class="nav-button">Back</button></div>
+    </div>
+</div>

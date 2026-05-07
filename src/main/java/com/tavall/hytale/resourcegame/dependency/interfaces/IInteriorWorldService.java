@@ -8,7 +8,11 @@ public interface IInteriorWorldService extends IDependencyInjectableInterface {
 
     void exitInterior(Player player);
 
+    void generateInterior(Player player);
+
     void rebuildInterior(Player player);
+
+    void deleteInterior(Player player);
 
     void moveInterior(Player player);
 }

@@ -48,6 +48,7 @@ def ensure_dirs() -> None:
         TEXTURE_ROOT / "selectors",
         TEXTURE_ROOT / "fonts",
         TEXTURE_ROOT / "examples",
+        TEXTURE_ROOT / "ornaments",
         MODEL_ROOT / "textures",
         PREFAB_ROOT,
     ]:
@@ -154,6 +155,29 @@ def make_button(
     draw.rectangle((14, bottom - 12, width - 15, bottom - 8), fill=accent)
     draw.ellipse((14, height // 2 - 6, 26, height // 2 + 6), fill=accent)
     draw.ellipse((width // 2 - 5, top + 10, width // 2 + 5, top + 20), fill=accent)
+    return image
+
+
+def make_section_divider() -> Image.Image:
+    image = Image.new("RGBA", (512, 64), PALETTE["transparent"])
+    draw = ImageDraw.Draw(image)
+    draw.rounded_rectangle((8, 12, 503, 51), radius=12, fill=(45, 38, 31, 210))
+    draw.rounded_rectangle((18, 20, 493, 43), radius=8, fill=(77, 89, 96, 230))
+    draw.rectangle((42, 29, 469, 34), fill=PALETTE["gold"])
+    draw.rectangle((86, 24, 425, 27), fill=PALETTE["gold_light"])
+    draw.polygon([(256, 10), (276, 32), (256, 54), (236, 32)], fill=PALETTE["blue"])
+    draw.polygon([(256, 18), (266, 32), (256, 46), (246, 32)], fill=PALETTE["blue_light"])
+    return image
+
+
+def make_status_badge(fill: tuple[int, int, int, int], accent: tuple[int, int, int, int]) -> Image.Image:
+    image = Image.new("RGBA", (128, 128), PALETTE["transparent"])
+    draw = ImageDraw.Draw(image)
+    draw.ellipse((8, 8, 119, 119), fill=PALETTE["iron"])
+    draw.ellipse((18, 18, 109, 109), fill=fill)
+    draw.rectangle((34, 60, 93, 67), fill=accent)
+    draw.rectangle((60, 34, 67, 93), fill=accent)
+    draw.ellipse((46, 46, 81, 81), fill=PALETTE["gold_light"])
     return image
 
 
@@ -945,12 +969,30 @@ def generate_textures() -> list[dict[str, object]]:
         "ui_button_primary_pressed.png": (PALETTE["blue"], PALETTE["stone_dark"], PALETTE["gold"], True),
         "ui_button_primary_disabled.png": (PALETTE["stone_dark"], PALETTE["iron"], PALETTE["stone"], False),
         "ui_button_secondary_normal.png": (PALETTE["wood"], PALETTE["iron"], PALETTE["gold"], False),
+        "ui_button_secondary_hover.png": (PALETTE["wood_light"], PALETTE["iron_light"], PALETTE["gold_light"], False),
+        "ui_button_secondary_pressed.png": (PALETTE["wood_dark"], PALETTE["stone_dark"], PALETTE["gold"], True),
+        "ui_button_secondary_disabled.png": (PALETTE["stone_dark"], PALETTE["iron"], PALETTE["stone"], False),
         "ui_button_confirm_normal.png": (PALETTE["green"], PALETTE["iron"], PALETTE["gold_light"], False),
+        "ui_button_confirm_hover.png": (PALETTE["green"], PALETTE["iron_light"], PALETTE["gold_light"], False),
+        "ui_button_confirm_pressed.png": (PALETTE["green"], PALETTE["stone_dark"], PALETTE["gold"], True),
+        "ui_button_confirm_disabled.png": (PALETTE["stone_dark"], PALETTE["iron"], PALETTE["stone"], False),
         "ui_button_danger_normal.png": (PALETTE["red"], PALETTE["iron"], PALETTE["red_light"], False),
+        "ui_button_danger_hover.png": (PALETTE["red_light"], PALETTE["iron_light"], PALETTE["gold_light"], False),
+        "ui_button_danger_pressed.png": (PALETTE["red"], PALETTE["stone_dark"], PALETTE["gold"], True),
+        "ui_button_danger_disabled.png": (PALETTE["stone_dark"], PALETTE["iron"], PALETTE["stone"], False),
         "ui_button_icon_square_normal.png": (PALETTE["stone"], PALETTE["iron"], PALETTE["gold"], False),
     }
     for filename, spec in button_specs.items():
         generated.append(save_image(TEXTURE_ROOT / "buttons" / filename, make_button((256, 64), *spec)))
+
+    ornaments = {
+        "ui_divider_section_gold.png": make_section_divider(),
+        "ui_badge_status_available.png": make_status_badge(PALETTE["green"], PALETTE["gold_light"]),
+        "ui_badge_status_blocked.png": make_status_badge(PALETTE["red"], PALETTE["red_light"]),
+        "ui_badge_status_progress.png": make_status_badge(PALETTE["blue"], PALETTE["gold_light"]),
+    }
+    for filename, image in ornaments.items():
+        generated.append(save_image(TEXTURE_ROOT / "ornaments" / filename, image))
 
     icon_specs: dict[str, Callable[[ImageDraw.ImageDraw, int], None]] = {
         "ui_icon_kingdom_castle.png": icon_castle,

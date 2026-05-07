@@ -1,29 +1,50 @@
 <style>
-    .page-overlay { anchor-width: 880; anchor-height: 620; layout-mode: top; padding: 16; background-image: url('../Textures/ResourceGame/panels/ui_panel_castle_ledger_base.png'); }
-    .column { layout-mode: top; padding-bottom: 12; }
-    .row { layout-mode: left; padding-bottom: 12; }
-    .title { font-size: 24; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_castle_ledger_base.png'); }
+    .row { layout-mode: left; padding-bottom: 10; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .stat-card { anchor-width: 170; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .wide-card { anchor-width: 260; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
     .label { font-size: 14; color: #a7b0ba; }
-    .value { font-size: 16; color: #fff1c2; padding-bottom: 8; }
-    .feedback { font-size: 14; color: #e2c168; padding-bottom: 12; }
-    button { padding: 6; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .value { font-size: 20; color: #fff1c2; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .secondary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .confirm-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_confirm_normal.png'); }
+    .danger-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_danger_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
 </style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
 <div id="ResourceGamePageRoot" class="page-overlay">
-    <img id="CastleInfoIcon" src="Textures/ResourceGame/icons/ui_icon_kingdom_castle.png" width="64" height="64">
-    <p class="title">Castle Info</p>
-    <div class="column">
-        <p class="label">Owner</p><p id="OwnerName" class="value">{{$OwnerName}}</p>
-        <p class="label">Castle ID</p><p id="CastleId" class="value">{{$CastleId}}</p>
-        <p class="label">World</p><p id="WorldName" class="value">{{$WorldName}}</p>
-        <p class="label">Troops</p><p id="TroopCount" class="value">{{$TroopCount}}</p>
-        <p class="label">Might</p><p id="MightCount" class="value">{{$MightCount}}</p>
+<div class="hero">
+        <img id="CastleInfoIcon" src="Textures/ResourceGame/icons/ui_icon_kingdom_castle.png" width="64" height="64">
+        <div class="hero-copy"><p class="title">Castle Info</p><p class="label">Ownership, identity, and alliance controls.</p></div>
     </div>
-    <p id="FeedbackStatus" class="feedback">{{$FeedbackStatus}}</p>
-    <div class="row">
+    <div data-hyui-title="Castle Record" id="CastleRecord" class="container">
+        <div class="container-title"><p class="section">Castle Record</p></div>
+        <div class="row">
+            <div class="wide-card"><p class="label">Owner</p><p id="OwnerName" class="value">{{$OwnerName}}</p></div>
+            <div class="wide-card"><p class="label">Castle ID</p><p id="CastleId" class="value">{{$CastleId}}</p></div>
+            <div class="wide-card"><p class="label">World</p><p id="WorldName" class="value">{{$WorldName}}</p></div>
+        </div>
+        <div class="row">
+            <div class="stat-card"><p class="label">Troops</p><p id="TroopCount" class="value">{{$TroopCount}}</p></div>
+            <div class="stat-card"><p class="label">Might</p><p id="MightCount" class="value">{{$MightCount}}</p></div>
+        </div>
+        <p id="FeedbackStatus" class="feedback">{{$FeedbackStatus}}</p>
+    </div>
+    <div class="action-row">
         <button id="AttackButton" class="secondary-button">Attack (Future)</button>
         <button id="FriendButton" class="secondary-button">Add Friend (Future)</button>
         <button id="GuildButton" class="secondary-button">Guild Access (Future)</button>
+        <button id="BackButton" class="nav-button">Back</button>
     </div>
-    <p class="label">Future: defenses, scouting, friend trust, guild permissions, banners, and dedicated castle assets.</p>
-    <button id="BackButton" class="secondary-button">Back</button>
 </div>

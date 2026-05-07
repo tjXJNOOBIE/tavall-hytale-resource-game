@@ -3,8 +3,8 @@
     [string]$RemoteHarnessDir = "/srv/hytale/_bot/hytale-sim",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/remote-command-alias-flow.mjs",
     [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/target/tavall-hytale-resource-game.jar",
-    [string]$RemotePluginJarPath = "/srv/hytale-startup-patch-test/Server/mods/tavall-hytale-resource-game.jar",
-    [string]$ServerRoot = "/srv/hytale-startup-patch-test",
+    [string]$RemotePluginJarPath = "/srv/hytale/HytaleDevServer/Server/mods/tavall-hytale-resource-game.jar",
+    [string]$ServerRoot = "/srv/hytale/HytaleDevServer",
     [string]$Transport = "QUIC",
     [string]$ServerHost = "127.0.0.1",
     [int]$Port = 5522,
@@ -92,7 +92,7 @@ cd {1}
 rm -f {1}/Server/universe/players/{3}.json {1}/Server/universe/players/{3}.json.bak
 unset TAVALL_POSTGRES_URL TAVALL_POSTGRES_USER TAVALL_POSTGRES_PASSWORD
 unset TAVALL_REDIS_HOST TAVALL_REDIS_PORT TAVALL_REDIS_PASSWORD TAVALL_REDIS_TLS
-nohup ./start.sh --transport {2} --auth-mode OFFLINE --allow-op --bind 0.0.0.0:{0} > start.out 2>&1 < /dev/null &
+nohup ./start.sh --transport {2} --allow-op --bind 0.0.0.0:{0} > start.out 2>&1 < /dev/null &
 '@ -f $Port, $ServerRoot, $Transport, $StableUuid
     Invoke-RemoteLoggedBash -SshAlias $SshAlias -Script $script -LogPath $logPath | Out-Null
     Wait-RemoteServerReady -SshAlias $SshAlias -LogPath $logPath -Transport $Transport -Port $Port -StartOutPath "$ServerRoot/start.out"
@@ -143,7 +143,7 @@ if (-not [string]::IsNullOrWhiteSpace($botTraceMode)) {
 if (-not [string]::IsNullOrWhiteSpace($botOutputMode)) {
     $remoteEnvironment += " RESOURCE_GAME_BOT_OUTPUT=$botOutputMode"
 }
-$remoteCommand = "cd $RemoteHarnessDir && $remoteEnvironment && unset HYTALE_AUTH_DOMAIN HYTALE_IDENTITY_TOKEN HYTALE_SESSION_TOKEN HYTALE_AUTH_PASSWORD HYTALE_AUTH_SCOPES && mkdir -p $remoteOutputDir && node $remoteScriptPath $ServerHost $Port $Username $StableUuid $remoteOutputDir"
+$remoteCommand = "cd $RemoteHarnessDir && $remoteEnvironment && export HYTALE_AUTH_DOMAIN='auth.sanasol.ws' HYTALE_AUTH_SCOPES='hytale:client hytale:server' && unset HYTALE_IDENTITY_TOKEN HYTALE_SESSION_TOKEN HYTALE_AUTH_PASSWORD && mkdir -p $remoteOutputDir && node $remoteScriptPath $ServerHost $Port $Username $StableUuid $remoteOutputDir"
 $exitCode = Invoke-ProcessCapture -FilePath "ssh.exe" -Arguments @(
     "-F", "C:\Users\TJ\.ssh\config",
     $SshAlias,

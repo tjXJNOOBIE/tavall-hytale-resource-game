@@ -1,46 +1,68 @@
 <style>
-    .page-overlay { anchor-width: 880; anchor-height: 620; layout-mode: top; padding: 16; background-image: url('../Textures/ResourceGame/panels/ui_panel_castle_ledger_base.png'); }
-    .row { layout-mode: left; padding-bottom: 12; }
-    .column { layout-mode: top; padding-right: 18; }
-    .stat { anchor-width: 125; layout-mode: top; padding-right: 12; }
-    .wide-stat { anchor-width: 160; layout-mode: top; padding-right: 12; }
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_castle_ledger_base.png'); }
+    .row { layout-mode: left; padding-bottom: 10; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .stat-card { anchor-width: 170; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .wide-card { anchor-width: 260; layout-mode: top; padding-right: 10; padding-bottom: 8; }
     .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
-    .section { font-size: 18; font-weight: bold; text-transform: uppercase; color: #d6e1eb; }
-    .muted { font-size: 14; color: #a7b0ba; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
+    .label { font-size: 14; color: #a7b0ba; }
     .value { font-size: 20; color: #fff1c2; }
-    .button-row { layout-mode: left; padding-bottom: 12; }
-    button { padding: 6; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .secondary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .confirm-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_confirm_normal.png'); }
+    .danger-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_danger_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
 </style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
 <div id="ResourceGamePageRoot" class="page-overlay">
-    <img id="MenuCrest" src="Textures/ResourceGame/icons/ui_icon_kingdom_castle.png" width="64" height="64">
-    <div id="Header" class="column">
-        <p id="Title" class="title">Your Castle</p>
-        <p id="Subtitle" class="muted">{{$Subtitle}}</p>
+<div id="MainHero" class="hero">
+        <img id="MenuCrest" src="Textures/ResourceGame/icons/ui_icon_kingdom_castle.png" width="64" height="64">
+        <div id="Header" class="hero-copy">
+            <p id="Title" class="title">Your Castle</p>
+            <p id="Subtitle" class="label">{{$Subtitle}}</p>
+        </div>
     </div>
-    <div id="Stats" class="row">
-        <div class="stat"><p class="section">Citizens</p><p id="CitizenCount" class="value">{{$CitizenCount}}</p></div>
-        <div class="stat"><p class="section">Troops</p><p id="TroopCount" class="value">{{$TroopCount}}</p></div>
-        <div class="stat"><p class="section">Might</p><p id="MightCount" class="value">{{$MightCount}}</p></div>
-        <div class="wide-stat"><p class="section">Food</p><p id="FoodCount" class="value">{{$FoodCount}}</p></div>
-        <div class="stat"><p class="section">Wood</p><p id="WoodCount" class="value">{{$WoodCount}}</p></div>
-        <div class="stat"><p class="section">Iron</p><p id="IronCount" class="value">{{$IronCount}}</p></div>
+    <div data-hyui-title="Kingdom Snapshot" id="KingdomSnapshot" class="container">
+        <div class="container-title"><p class="section">Kingdom Snapshot</p></div>
+        <div id="Stats" class="row">
+            <div class="stat-card"><p class="label">Citizens</p><p id="CitizenCount" class="value">{{$CitizenCount}}</p></div>
+            <div class="stat-card"><p class="label">Troops</p><p id="TroopCount" class="value">{{$TroopCount}}</p></div>
+            <div class="stat-card"><p class="label">Might</p><p id="MightCount" class="value">{{$MightCount}}</p></div>
+        </div>
+        <div id="ResourceStats" class="row">
+            <div class="stat-card"><p class="label">Food</p><p id="FoodCount" class="value">{{$FoodCount}}</p></div>
+            <div class="stat-card"><p class="label">Wood</p><p id="WoodCount" class="value">{{$WoodCount}}</p></div>
+            <div class="stat-card"><p class="label">Iron</p><p id="IronCount" class="value">{{$IronCount}}</p></div>
+        </div>
+        <p class="body">Right-click focused castle, buildings, nodes, and NPCs to open the matching menu.</p>
     </div>
-    <p class="muted">Outside the menu: the castle is a stone marker with owner, troop, and Might text. Right-click while focused to interact.</p>
-    <div id="Actions" class="button-row">
-        <button id="EnterInteriorButton">Enter Interior</button>
-        <button id="CastleInfoButton" class="secondary-button">View Castle Info</button>
-        <button id="CitizensButton" class="secondary-button">Citizens</button>
-        <button id="TroopsButton" class="secondary-button">Troops</button>
-        <button id="ResourcesButton" class="secondary-button">Resources</button>
-        <button id="UpgradesButton" class="secondary-button">Upgrades</button>
-        <button id="BuildingsButton" class="secondary-button">Buildings</button>
-    </div>
-    <div id="WorldActions" class="button-row">
-        <button id="AttackButton" class="secondary-button">Attack Castle (Future)</button>
-        <button id="FriendButton" class="secondary-button">Add Friend (Future)</button>
-        <button id="GuildButton" class="secondary-button">Guild Access (Future)</button>
-    </div>
-    <div id="Footer" class="button-row">
-        <button id="CloseButton" class="secondary-button">Close</button>
+    <div data-hyui-title="Actions" id="ActionsContainer" class="container">
+        <div class="container-title"><p class="section">Actions</p></div>
+        <div id="Actions" class="action-row">
+            <button id="EnterInteriorButton" class="primary-button">Enter Interior</button>
+            <button id="CastleInfoButton" class="secondary-button">View Castle Info</button>
+            <button id="CitizensButton" class="secondary-button">Citizens</button>
+            <button id="TroopsButton" class="secondary-button">Troops</button>
+        </div>
+        <div id="ManagementActions" class="action-row">
+            <button id="ResourcesButton" class="secondary-button">Resources</button>
+            <button id="UpgradesButton" class="secondary-button">Upgrades</button>
+            <button id="BuildingsButton" class="secondary-button">Buildings</button>
+        </div>
+        <div id="WorldActions" class="action-row">
+            <button id="AttackButton" class="secondary-button">Attack Castle (Future)</button>
+            <button id="FriendButton" class="secondary-button">Add Friend (Future)</button>
+            <button id="GuildButton" class="secondary-button">Guild Access (Future)</button>
+            <button id="CloseButton" class="nav-button">Close</button>
+        </div>
     </div>
 </div>

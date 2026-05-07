@@ -4,6 +4,7 @@ param(
     [switch]$DeployPlugin = $true,
     [switch]$RequireLiveDatabases,
     [switch]$ResetProblemRegions,
+    [switch]$NoExitOnReady,
     [int]$Port = 5520,
     [int]$StartupTimeoutSeconds = 180
 )
@@ -26,11 +27,6 @@ if (Test-Path $prepareDbScript) {
         }
         Write-Warning ("Local database runtime is not fully reachable. The plugin will fall back to in-memory persistence if needed. {0}" -f $_.Exception.Message)
     }
-}
-
-if ($DeployPlugin) {
-    $deployScript = Join-Path $PSScriptRoot "deploy-local-plugin.ps1"
-    & $deployScript -ServerRoot $ServerRoot -Build:$BuildPlugin
 }
 
 $serverProcesses = Get-CimInstance Win32_Process |
@@ -95,7 +91,12 @@ if ($ResetProblemRegions) {
     }
 }
 
-$launchProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "`"$startScript`"" -WorkingDirectory $ServerRoot -PassThru
+if ($DeployPlugin) {
+    $deployScript = Join-Path $PSScriptRoot "deploy-local-plugin.ps1"
+    & $deployScript -ServerRoot $ServerRoot -Build:$BuildPlugin
+}
+
+$launchProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "`"$startScript`"" -WorkingDirectory $ServerRoot -WindowStyle Hidden -PassThru
 
 $startupDeadline = (Get-Date).AddSeconds($StartupTimeoutSeconds)
 do {
@@ -103,6 +104,9 @@ do {
     $activeListeners = @($listener | Select-Object -ExpandProperty OwningProcess -Unique)
     if ($activeListeners.Count -ge 1) {
         Write-Host "Local Hytale dev server is listening on UDP $Port (processes: $($activeListeners -join ', '))."
+        if ($NoExitOnReady) {
+            return
+        }
         exit 0
     }
     if ($launchProcess.HasExited) {

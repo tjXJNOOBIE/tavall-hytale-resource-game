@@ -9,11 +9,13 @@ import com.tavall.hytale.resourcegame.domain.CastleBuildingSummary;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
- * Builds block-only staged silhouettes for upgradeable buildings.
+ * Builds staged block silhouettes for upgradeable buildings that do not have native Hytale model assets yet.
  */
 public final class CastleBuildingStructureService {
+    private static final Logger LOGGER = Logger.getLogger(CastleBuildingStructureService.class.getName());
     private static final String STONE_BLOCK = "Rock_Stone";
     private static final String BRICK_BLOCK = "Rock_Stone_Brick";
     private static final String WOOD_BLOCK = "Rock_Shale";
@@ -26,6 +28,12 @@ public final class CastleBuildingStructureService {
         int originZ = floor(summary.worldZ());
         clearVolume(world, originX, originY, originZ);
         Set<Vector3i> placedBlocks = new LinkedHashSet<>();
+        if (summary.buildingData().buildingType() == BuildingType.FARMSTEAD) {
+            clearVolume(world, originX, originY, originZ, 10, 8, 8);
+            LOGGER.info(() -> "Cleared farmstead site for native Hytale model placement; no raw block fallback is used for "
+                    + summary.buildingData().buildingId() + ".");
+            return Set.copyOf(placedBlocks);
+        }
         paintPad(world, originX, originY, originZ, 2, foundationBlock(summary.buildingData().buildingType()), placedBlocks);
         if (summary.isUnderConstruction()) {
             applyConstructionShape(world, summary.buildingData().buildingType(), originX, originY, originZ, summary.constructionStage(), placedBlocks);
@@ -207,9 +215,13 @@ public final class CastleBuildingStructureService {
     }
 
     private void clearVolume(World world, int originX, int originY, int originZ) {
-        for (int dx = -4; dx <= 4; dx++) {
-            for (int dz = -4; dz <= 4; dz++) {
-                for (int dy = 0; dy <= 6; dy++) {
+        clearVolume(world, originX, originY, originZ, 4, 4, 6);
+    }
+
+    private void clearVolume(World world, int originX, int originY, int originZ, int radiusX, int radiusZ, int maxY) {
+        for (int dx = -radiusX; dx <= radiusX; dx++) {
+            for (int dz = -radiusZ; dz <= radiusZ; dz++) {
+                for (int dy = 0; dy <= maxY; dy++) {
                     clearBlock(world, originX + dx, originY + dy, originZ + dz);
                 }
             }

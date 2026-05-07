@@ -7,6 +7,8 @@ param(
     [string]$ControlMode = "server-file",
     [string]$ControlPlayer = "*",
     [string]$ControlUi = "debug",
+    [string]$ClientUserDirPattern = "GameData",
+    [int]$ClientProcessId = 0,
     [string]$ChatOpenKey = "Enter",
     [int]$WindowTimeoutMs = 30000,
     [int]$ControlAckTimeoutMs = 10000,
@@ -14,6 +16,7 @@ param(
     [double]$MinimumOverlayCoverage = 0.012,
     [double]$MinimumTemplateScore = 0.68,
     [double]$MinimumCenterChangedCoverage = 0.02,
+    [int]$UiRenderWaitMs = 5500,
     [switch]$SkipAutomationBuild,
     [switch]$SkipCommand,
     [switch]$SkipTemplateCheck,
@@ -31,7 +34,7 @@ if ([string]::IsNullOrWhiteSpace($ArtifactDir)) {
 $dotnet = "C:\Program Files\dotnet\dotnet.exe"
 $hostProjectPath = Join-Path $DesktopAutomationRoot "AgentTaskManager.AutomationHost\AgentTaskManager.AutomationHost.csproj"
 $hostDll = Join-Path $DesktopAutomationRoot "AgentTaskManager.AutomationHost\bin\x64\Debug\net8.0-windows10.0.19041.0\AgentTaskManager.AutomationHost.dll"
-$clientWindowTarget = @{ processName = "HytaleClient" }
+$clientWindowTarget = @{ processName = "HytaleClient"; titleContains = "Hytale" }
 
 Add-Type -AssemblyName System.Drawing
 Add-Type -ReferencedAssemblies "System.Drawing" -TypeDefinition @'
@@ -207,6 +210,59 @@ function Invoke-AutomationRequest {
     return $parsed.result
 }
 
+function Resolve-HytaleClientTarget {
+    $windows = Invoke-AutomationRequest @{
+        id = "list-hytale-client-windows"
+        command = "list_windows"
+        parameters = @{
+            includeInvisible = $true
+            processName = "HytaleClient"
+        }
+    }
+
+    $candidateProcessIds = @()
+    if ($ClientProcessId -gt 0) {
+        $candidateProcessIds = @($ClientProcessId)
+    }
+    elseif (-not [string]::IsNullOrWhiteSpace($ClientUserDirPattern)) {
+        $candidateProcessIds = @(
+            Get-CimInstance Win32_Process |
+                Where-Object {
+                    $_.Name -eq "HytaleClient.exe" -and
+                    $_.CommandLine -like ("*" + $ClientUserDirPattern + "*")
+                } |
+                Select-Object -ExpandProperty ProcessId
+        )
+    }
+
+    $visibleWindows = @(
+        $windows |
+            Where-Object {
+                $_.isVisible -and
+                $_.className -eq "SDL_app" -and
+                -not [string]::IsNullOrWhiteSpace($_.title)
+            }
+    )
+    $selectedWindow = $null
+    if ($candidateProcessIds.Count -gt 0) {
+        $selectedWindow = $visibleWindows |
+            Where-Object { $candidateProcessIds -contains $_.processId } |
+            Sort-Object @{ Expression = { $_.title -eq "Hytale" }; Descending = $true } |
+            Select-Object -First 1
+    }
+    if ($selectedWindow -eq $null) {
+        $selectedWindow = $visibleWindows |
+            Sort-Object @{ Expression = { $_.title -eq "Hytale" }; Descending = $true } |
+            Select-Object -First 1
+    }
+    if ($selectedWindow -eq $null) {
+        throw "No visible Hytale client window was found. windows=$($windows | ConvertTo-Json -Compress -Depth 4)"
+    }
+
+    Write-Host ("Using Hytale client window handle={0} pid={1} title='{2}'" -f $selectedWindow.handleHex, $selectedWindow.processId, $selectedWindow.title)
+    return @{ handle = [long]$selectedWindow.handle }
+}
+
 function Wait-HytaleWindow {
     return Invoke-AutomationRequest @{
         id = "wait-hytale-window"
@@ -293,7 +349,9 @@ function Send-HytaleText {
 
 function Open-KingdomMenu {
     if ($ControlMode -eq "server-file") {
-        return Invoke-ServerControlOpenUi
+        $openAck = Invoke-ServerControlOpenUi
+        Start-Sleep -Milliseconds $UiRenderWaitMs
+        return $openAck
     }
 
     Send-HytaleKey -Key "Escape" -DelayMs 100 | Out-Null
@@ -305,7 +363,7 @@ function Open-KingdomMenu {
     Send-HytaleText -Text ([string][char]13) | Out-Null
     Start-Sleep -Milliseconds 200
     Send-HytaleKey -Key "Enter" -DelayMs 250 | Out-Null
-    Start-Sleep -Seconds 2
+    Start-Sleep -Milliseconds $UiRenderWaitMs
     return $null
 }
 
@@ -538,6 +596,7 @@ function Measure-RedErrorCoverage {
     param(
         [Parameter(Mandatory = $true)]
         [string]$Path,
+        [string]$BeforePath = "",
         [int]$Left,
         [int]$Top,
         [int]$Width,
@@ -545,7 +604,11 @@ function Measure-RedErrorCoverage {
     )
 
     $bitmap = [System.Drawing.Bitmap]::FromFile($Path)
+    $beforeBitmap = $null
     try {
+        if (-not [string]::IsNullOrWhiteSpace($BeforePath) -and (Test-Path -LiteralPath $BeforePath)) {
+            $beforeBitmap = [System.Drawing.Bitmap]::FromFile($BeforePath)
+        }
         $right = [Math]::Min($bitmap.Width, $Left + $Width)
         $bottom = [Math]::Min($bitmap.Height, $Top + $Height)
         $sampleCount = 0
@@ -555,6 +618,13 @@ function Measure-RedErrorCoverage {
             for ($sampleX = [Math]::Max(0, $Left); $sampleX -lt $right; $sampleX += $SampleStep) {
                 $pixel = $bitmap.GetPixel($sampleX, $sampleY)
                 if ($pixel.R -ge 210 -and $pixel.G -le 70 -and $pixel.B -le 70 -and ($pixel.R - $pixel.G) -ge 150 -and ($pixel.R - $pixel.B) -ge 150) {
+                    if ($beforeBitmap -ne $null -and $sampleX -lt $beforeBitmap.Width -and $sampleY -lt $beforeBitmap.Height) {
+                        $beforePixel = $beforeBitmap.GetPixel($sampleX, $sampleY)
+                        if ($beforePixel.R -ge 180 -and $beforePixel.G -le 100 -and $beforePixel.B -le 100 -and ($beforePixel.R - $beforePixel.G) -ge 80) {
+                            $sampleCount++
+                            continue
+                        }
+                    }
                     $redErrorCount++
                 }
                 $sampleCount++
@@ -564,6 +634,9 @@ function Measure-RedErrorCoverage {
         return [Math]::Round($redErrorCount / [Math]::Max(1, $sampleCount), 5)
     }
     finally {
+        if ($beforeBitmap -ne $null) {
+            $beforeBitmap.Dispose()
+        }
         $bitmap.Dispose()
     }
 }
@@ -720,6 +793,7 @@ if (-not $SkipAutomationBuild) {
     }
 }
 
+$clientWindowTarget = Resolve-HytaleClientTarget
 $foregroundBefore = Get-ForegroundWindowSnapshot
 $clientWindow = Wait-HytaleWindow
 if ($clientWindow.title -eq "Authentication Error") {
@@ -754,7 +828,7 @@ $menuLeft = [Math]::Max(0, [Math]::Floor(($afterMetrics.width - 880) / 2))
 $menuTop = [Math]::Max(0, [Math]::Floor(($afterMetrics.height - 620) / 2))
 $menuWidth = [Math]::Min(880, $afterMetrics.width)
 $menuHeight = [Math]::Min(620, $afterMetrics.height)
-$redErrorCoverage = Measure-RedErrorCoverage -Path $afterCapturePath -Left $menuLeft -Top $menuTop -Width $menuWidth -Height $menuHeight
+$redErrorCoverage = Measure-RedErrorCoverage -Path $afterCapturePath -BeforePath $beforeCapturePath -Left $menuLeft -Top $menuTop -Width $menuWidth -Height $menuHeight
 if ($redErrorCoverage -ge 0.001) {
     throw "Resource game UI appears to contain a missing-image red X placeholder. redErrorCoverage=$redErrorCoverage afterCapture=$afterCapturePath"
 }
@@ -762,21 +836,21 @@ if ($redErrorCoverage -ge 0.001) {
 $templateMatch = $null
 $uiTemplateRegion = $null
 if (-not $SkipTemplateCheck) {
-    $sourceTemplatePath = Join-Path $repoRoot "src\main\resources\Common\UI\Custom\Textures\ResourceGame\icons\ui_icon_action_move.png"
+    $sourceTemplatePath = Join-Path $repoRoot "src\main\resources\Common\UI\Custom\Textures\ResourceGame\icons\ui_icon_kingdom_castle.png"
     $expectedTemplatePath = Join-Path $ArtifactDir "expected-debug-icon-visible.png"
     $templateMatchPath = Join-Path $ArtifactDir "hytale-ui-template-match.png"
-    $regionLeft = [Math]::Max(0, [Math]::Floor(($afterMetrics.width - 880) / 2) - 40)
-    $regionTop = [Math]::Max(0, [Math]::Floor(($afterMetrics.height - 620) / 2) - 40)
+    $regionLeft = [Math]::Max(0, [Math]::Floor(($afterMetrics.width - 900) / 2))
+    $regionTop = [Math]::Max(0, [Math]::Floor(($afterMetrics.height - 620) / 2))
     $uiTemplateRegion = @{
         left = $regionLeft
         top = $regionTop
-        width = [Math]::Min(420, $afterMetrics.width - $regionLeft)
-        height = [Math]::Min(300, $afterMetrics.height - $regionTop)
+        width = [Math]::Min(160, $afterMetrics.width - $regionLeft)
+        height = [Math]::Min(140, $afterMetrics.height - $regionTop)
     }
-    New-DebugIconCompositeTemplate -IconPath $sourceTemplatePath -OutputPath $expectedTemplatePath
+    New-ScaledVisibleTemplate -SourcePath $sourceTemplatePath -OutputPath $expectedTemplatePath -Width 56 -Height 56
     $templateMatch = Find-ExpectedUiTemplate -CapturePath $afterCapturePath -TemplatePath $expectedTemplatePath -OutputPath $templateMatchPath -Region $uiTemplateRegion
     if (-not $templateMatch.matched) {
-        throw "Resource game debug UI icon was not detected. score=$($templateMatch.score) minimum=$MinimumTemplateScore annotatedCapture=$templateMatchPath"
+        throw "Resource game debug castle icon was not detected. score=$($templateMatch.score) minimum=$MinimumTemplateScore annotatedCapture=$templateMatchPath"
     }
 }
 

@@ -21,7 +21,8 @@ public final class ResourceGameHyUiPageBuilder extends PageBuilder {
             BiConsumer<UiActionEventData, UIContext> actionHandler
     ) {
         ResourceGameHyUiPageBuilder builder = new ResourceGameHyUiPageBuilder();
-        builder.loadHtml(Objects.requireNonNull(resourcePath, "resourcePath"), templateVariables == null ? Map.of() : templateVariables);
+        String templateHtml = HyUiPageMarkupDecorator.loadDecorated(Objects.requireNonNull(resourcePath, "resourcePath"));
+        builder.fromTemplate(templateHtml, templateVariables == null ? Map.of() : templateVariables);
         for (HyUiActionBinding binding : actionBindings == null ? List.<HyUiActionBinding>of() : actionBindings) {
             builder.addEventListener(
                     binding.elementId(),

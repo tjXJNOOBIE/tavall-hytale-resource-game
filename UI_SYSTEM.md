@@ -44,3 +44,10 @@ Provide readable prototype UIs using Hytale CustomUI pages without pushing gamep
 - `/kd ui <page>` routes to the existing `UiPageType` registry and opens custom HyUI pages from the Java page builder layer.
 - HyUI calls must stay on the Hytale world thread. `UiNavigator` owns this by scheduling page opens with `WorldTasks.executeSafe`, matching HyUI's documented `.show()` threading rule.
 - The project depends on HyUI `0.9.5` through Cursemaven file `7820303`, with the required manifest dependency `Ellie:HyUI`.
+
+## Production Chrome
+- `HyUiPageMarkupDecorator` loads every HyUI page and promotes action buttons to raw image-backed Resource Game controls before event binding.
+- Buttons use generated Resource Game textures and `rg-button-label` text, avoiding default Hytale/HyUI button chrome in packaged menus.
+- Page source files keep stable IDs/selectors; the decorator owns repeated chrome such as button assets, label styling, and section-divider polish.
+- HyUI callbacks translate clicks into `UiActionEventData` and `UiActionService` routes them to internal gameplay/debug services instead of shelling through `/kd` commands.
+- HyUI does not provide browser-style CSS animations here. Use hover/pressed states, progress bars, state badges, and server-driven refreshes to make menus feel alive.

@@ -48,11 +48,11 @@ public final class CastleBuildingsPage extends BaseUiPage {
 
     private static List<HyUiActionBinding> bindings() {
         return List.of(
-                HyUiActionBinding.command("#StageFarmsteadButton", "/kd buildings stage farmstead"),
-                HyUiActionBinding.command("#StageLumberMillButton", "/kd buildings stage lumber_mill"),
-                HyUiActionBinding.command("#StageIronWorksButton", "/kd buildings stage iron_works"),
-                HyUiActionBinding.command("#StageBarracksButton", "/kd buildings stage barracks"),
-                HyUiActionBinding.command("#StageWorkshopButton", "/kd buildings stage workshop"),
+                HyUiActionBinding.action("#StageFarmsteadButton", UiActions.BUILDING_STAGE, BuildingType.FARMSTEAD.shortKey(), UiPageType.CASTLE_BUILDINGS),
+                HyUiActionBinding.action("#StageLumberMillButton", UiActions.BUILDING_STAGE, BuildingType.LUMBER_MILL.shortKey(), UiPageType.CASTLE_BUILDINGS),
+                HyUiActionBinding.action("#StageIronWorksButton", UiActions.BUILDING_STAGE, BuildingType.IRON_WORKS.shortKey(), UiPageType.CASTLE_BUILDINGS),
+                HyUiActionBinding.action("#StageBarracksButton", UiActions.BUILDING_STAGE, BuildingType.BARRACKS.shortKey(), UiPageType.CASTLE_BUILDINGS),
+                HyUiActionBinding.action("#StageWorkshopButton", UiActions.BUILDING_STAGE, BuildingType.WORKSHOP.shortKey(), UiPageType.CASTLE_BUILDINGS),
                 HyUiActionBinding.action("#BackButton", UiActions.OPEN_CASTLE_MAIN)
         );
     }

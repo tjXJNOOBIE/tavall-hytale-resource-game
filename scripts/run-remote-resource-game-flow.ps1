@@ -2,7 +2,7 @@
     [string]$SshAlias = "novus-remote",
     [string]$RemoteHarnessDir = "/srv/hytale/_bot/hytale-sim",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/remote-resource-game-flow.mjs",
-    [string]$ServerRoot = "/srv/hytale-startup-patch-test",
+    [string]$ServerRoot = "/srv/hytale/HytaleDevServer",
     [string]$ServerHost = "127.0.0.1",
     [int]$Port = 5522,
     [string]$Username = "ResourceGameBot",
@@ -104,7 +104,7 @@ Ensure-RemoteQuicBridge `
     -ServerPort $Port `
     -ServerRoot $ServerRoot
 
-$remoteCommand = "cd $RemoteHarnessDir && export HYTALE_SERVER_JAR=$ServerRoot/Server/HytaleServer.jar && unset HYTALE_AUTH_DOMAIN HYTALE_IDENTITY_TOKEN HYTALE_SESSION_TOKEN HYTALE_AUTH_PASSWORD HYTALE_AUTH_SCOPES && mkdir -p $remoteOutputDir && node $remoteScriptPath $ServerHost $Port $Username $StableUuid $remoteOutputDir"
+$remoteCommand = "cd $RemoteHarnessDir && export HYTALE_SERVER_JAR=$ServerRoot/Server/HytaleServer.jar && export HYTALE_AUTH_DOMAIN='auth.sanasol.ws' HYTALE_AUTH_SCOPES='hytale:client hytale:server' && unset HYTALE_IDENTITY_TOKEN HYTALE_SESSION_TOKEN HYTALE_AUTH_PASSWORD && mkdir -p $remoteOutputDir && node $remoteScriptPath $ServerHost $Port $Username $StableUuid $remoteOutputDir"
 $exitCode = Invoke-ProcessCapture -FilePath "ssh.exe" -Arguments @(
     "-F", "C:\Users\TJ\.ssh\config",
     $SshAlias,

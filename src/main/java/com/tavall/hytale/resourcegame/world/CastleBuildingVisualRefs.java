@@ -15,15 +15,18 @@ public final class CastleBuildingVisualRefs {
     private final String worldName;
     private final Vector3d worldPosition;
     private final List<Ref<EntityStore>> labelRefs;
+    private final List<Ref<EntityStore>> modelRefs;
 
     public CastleBuildingVisualRefs(
             String worldName,
             Vector3d worldPosition,
-            List<Ref<EntityStore>> labelRefs
+            List<Ref<EntityStore>> labelRefs,
+            List<Ref<EntityStore>> modelRefs
     ) {
         this.worldName = Objects.requireNonNull(worldName, "worldName");
         this.worldPosition = Objects.requireNonNull(worldPosition, "worldPosition");
         this.labelRefs = labelRefs == null ? List.of() : List.copyOf(labelRefs);
+        this.modelRefs = modelRefs == null ? List.of() : List.copyOf(modelRefs);
     }
 
     public String worldName() {
@@ -38,12 +41,14 @@ public final class CastleBuildingVisualRefs {
         if (targetRef == null) {
             return false;
         }
-        return labelRefs.stream().anyMatch(ref -> Objects.equals(ref, targetRef));
+        return labelRefs.stream().anyMatch(ref -> Objects.equals(ref, targetRef))
+                || modelRefs.stream().anyMatch(ref -> Objects.equals(ref, targetRef));
     }
 
     public List<Ref<EntityStore>> allRefs() {
         List<Ref<EntityStore>> refs = new ArrayList<>();
         refs.addAll(labelRefs);
+        refs.addAll(modelRefs);
         return List.copyOf(refs);
     }
 }

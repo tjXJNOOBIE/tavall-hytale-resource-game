@@ -184,7 +184,15 @@ export async function walkToApproxPosition(bot, targetPosition, options = {}) {
       z: current.z + (dz * ratio)
     };
     await aimAtPosition(bot, targetPosition, 0);
-    bot.move({ absolutePosition: nextPosition });
+    if (typeof bot.moveRelative === "function") {
+      bot.moveRelative({
+        x: nextPosition.x - current.x,
+        y: nextPosition.y - current.y,
+        z: nextPosition.z - current.z
+      });
+    } else {
+      bot.move({ absolutePosition: nextPosition });
+    }
     if (settleDelayMs > 0) {
       await delay(settleDelayMs);
     }

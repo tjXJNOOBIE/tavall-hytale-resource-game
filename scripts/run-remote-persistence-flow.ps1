@@ -3,8 +3,8 @@
     [string]$RemoteHarnessDir = "/srv/hytale/_bot/hytale-sim",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/remote-persistence-flow.mjs",
     [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/target/tavall-hytale-resource-game.jar",
-    [string]$RemotePluginJarPath = "/srv/hytale-startup-patch-test/Server/mods/tavall-hytale-resource-game.jar",
-    [string]$ServerRoot = "/srv/hytale-startup-patch-test",
+    [string]$RemotePluginJarPath = "/srv/hytale/HytaleDevServer/Server/mods/tavall-hytale-resource-game.jar",
+    [string]$ServerRoot = "/srv/hytale/HytaleDevServer",
     [string]$Transport = "QUIC",
     [string]$ServerHost = "127.0.0.1",
     [int]$Port = 5522,
@@ -167,7 +167,7 @@ export TAVALL_REDIS_HOST='{5}'
 export TAVALL_REDIS_PORT='{6}'
 export TAVALL_REDIS_PASSWORD=''
 export TAVALL_REDIS_TLS='false'
-nohup ./start.sh --transport {7} --auth-mode OFFLINE --allow-op --bind 0.0.0.0:{0} > start.out 2>&1 < /dev/null &
+nohup ./start.sh --transport {7} --allow-op --bind 0.0.0.0:{0} > start.out 2>&1 < /dev/null &
 '@ -f $Port, $ServerRoot, $jdbcUrl, $PostgresUser, $PostgresPassword, $RedisHost, $RedisPort, $Transport
     Invoke-RemoteBash -Script $script | Out-Null
     Wait-RemoteServerReady -SshAlias $SshAlias -LogPath $logPath -Transport $Transport -Port $Port -StartOutPath "$ServerRoot/start.out"
@@ -181,7 +181,7 @@ function Invoke-RemoteScenario {
         [string]$LocalTracePath
     )
 
-    $remoteCommand = "cd $RemoteHarnessDir && export HYTALE_SERVER_JAR=$ServerRoot/Server/HytaleServer.jar && unset HYTALE_AUTH_DOMAIN HYTALE_IDENTITY_TOKEN HYTALE_SESSION_TOKEN HYTALE_AUTH_PASSWORD HYTALE_AUTH_SCOPES && mkdir -p $RemoteOutputDir && node $remoteScriptPath $Mode $ServerHost $Port $Username $StableUuid $RemoteOutputDir"
+    $remoteCommand = "cd $RemoteHarnessDir && export HYTALE_SERVER_JAR=$ServerRoot/Server/HytaleServer.jar && export HYTALE_AUTH_DOMAIN='auth.sanasol.ws' HYTALE_AUTH_SCOPES='hytale:client hytale:server' && unset HYTALE_IDENTITY_TOKEN HYTALE_SESSION_TOKEN HYTALE_AUTH_PASSWORD && mkdir -p $RemoteOutputDir && node $remoteScriptPath $Mode $ServerHost $Port $Username $StableUuid $RemoteOutputDir"
     $exitCode = Invoke-ProcessCapture -FilePath "ssh.exe" -Arguments @(
         "-F", "C:\Users\TJ\.ssh\config",
         $SshAlias,
@@ -306,11 +306,14 @@ Set-Content -Path $serverLogPathFile -Value $serverLogPath -Encoding utf8
 $cacheEvidenceScript = @'
 set -e
 log_file=$(ls -1t {0}/Server/logs/*_server.log | head -n 1)
-grep -n '{1}\|Player profile cache hit\|Player game state cache hit\|Population displays ready' "$log_file" | tail -n 80
+grep -n '{1}\|Player profile cache hit\|Player game state cache hit\|Player profile repository hit\|Player game state repository hit\|Population displays ready' "$log_file" | tail -n 80
 '@ -f $ServerRoot, $StableUuid
 $cacheEvidence = Invoke-RemoteBash -Script $cacheEvidenceScript
-if ($cacheEvidence -notmatch "Player profile cache hit for $StableUuid" -or $cacheEvidence -notmatch "Player game state cache hit for $StableUuid") {
-    throw "Redis-first cache hit evidence not found in server log."
+if (
+    $cacheEvidence -notmatch "Player profile (cache|repository) hit for $StableUuid" `
+        -or $cacheEvidence -notmatch "Player game state (cache hit for $StableUuid|repository hit for profile)"
+) {
+    throw "Persistence rehydration evidence not found in server log."
 }
 
 Minimize-TranscriptArtifact -Path $phaseOneTracePath

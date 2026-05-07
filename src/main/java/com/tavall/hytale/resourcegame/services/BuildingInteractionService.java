@@ -1,7 +1,9 @@
 package com.tavall.hytale.resourcegame.services;
 
+import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tavall.hytale.resourcegame.dependency.IDependencyInjectableConcrete;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IBuildingInteractionService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleBuildingVisualService;
@@ -38,21 +40,28 @@ public final class BuildingInteractionService implements IBuildingInteractionSer
 
     @Override
     public void handleInteract(PlayerInteractEvent event) {
-        if (event.isCancelled()) {
+        if (event.isCancelled() || event.getPlayer() == null) {
             return;
         }
-        Player player = event.getPlayer();
+        openFromTarget(event.getPlayer(), event.getTargetRef());
+    }
+
+    @Override
+    public boolean openFromTarget(Player player, Ref<EntityStore> targetRef) {
+        if (player == null) {
+            return false;
+        }
         UUID playerId = player.getUuid();
         PlayerSession session = sessionStore.get(playerId);
         if (session == null) {
-            return;
+            return false;
         }
-        Optional<UUID> buildingId = buildingVisualService.findBuildingId(playerId, event.getTargetRef());
+        Optional<UUID> buildingId = buildingVisualService.findBuildingId(playerId, targetRef);
         if (buildingId.isEmpty()) {
             buildingId = focusedWorldInteractionService.focusedBuildingId(player);
         }
         if (buildingId.isEmpty()) {
-            return;
+            return false;
         }
         uiNavigator.open(
                 UiPageType.BUILDING_DETAIL,
@@ -60,5 +69,6 @@ public final class BuildingInteractionService implements IBuildingInteractionSer
                 new UiNavigationContext(playerId, player.getDisplayName()).withSelectedBuildingId(buildingId.get()),
                 session.gameState()
         );
+        return true;
     }
 }

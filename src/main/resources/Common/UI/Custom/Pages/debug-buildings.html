@@ -1,0 +1,40 @@
+<style>
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_castle_ledger_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .secondary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
+</style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
+<div id="ResourceGamePageRoot" class="page-overlay">
+    <div class="hero">
+        <img id="BuildingsIcon" src="Textures/ResourceGame/icons/ui_icon_action_upgrade.png" width="56" height="56">
+        <div class="hero-copy">
+            <p class="title">Building Tools</p>
+            <p id="CommandFeedback" class="feedback">{{$CommandFeedback}}</p>
+        </div>
+    </div>
+    <div data-hyui-title="Place Buildings" id="PlaceBuildingsPanel" class="container">
+        <div class="container-title"><p class="section">Place Buildings</p></div>
+        <p class="body">Place unlocked castle interior buildings at the active lot or selection.</p>
+        <div class="action-row"><button id="PlaceFarmsteadButton" class="primary-button">Place Farmstead</button><button id="PlaceLumberMillButton" class="secondary-button">Place Lumber</button><button id="PlaceIronWorksButton" class="secondary-button">Place Iron</button></div>
+        <div class="action-row"><button id="PlaceBarracksButton" class="secondary-button">Place Barracks</button><button id="PlaceWorkshopButton" class="secondary-button">Place Workshop</button></div>
+        <progress id="BuildingsProgress" value="0.45"></progress>
+    </div>
+    <div data-hyui-title="Stage And Interact" id="StageBuildingsPanel" class="container">
+        <div class="container-title"><p class="section">Stage And Interact</p></div>
+        <div class="action-row"><button id="StageFarmsteadButton" class="secondary-button">Stage Farmstead</button><button id="StageLumberMillButton" class="secondary-button">Stage Lumber</button><button id="StageIronWorksButton" class="secondary-button">Stage Iron</button></div>
+        <div class="action-row"><button id="StageBarracksButton" class="secondary-button">Stage Barracks</button><button id="StageWorkshopButton" class="secondary-button">Stage Workshop</button></div>
+        <div class="action-row"><button id="BuildingsListButton" class="secondary-button">List Buildings</button><button id="FocusButton" class="secondary-button">Focus</button><button id="InteractButton" class="secondary-button">Interact</button><button id="BackButton" class="nav-button">Back</button></div>
+    </div>
+</div>

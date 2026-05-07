@@ -21,9 +21,11 @@ import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleProximityProm
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastlePlacementService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleSiteVisualService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleSpawnService;
+import com.tavall.hytale.resourcegame.dependency.interfaces.ICustomEntitySpawnService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IDebugCommandService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IFocusedWorldInteractionService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IFocusedWorldOverrideService;
+import com.tavall.hytale.resourcegame.dependency.interfaces.IFarmsteadMenuService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IFrontendCommandVerificationService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInfrastructureHealthService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInteriorInstanceService;
@@ -52,6 +54,8 @@ import com.tavall.hytale.resourcegame.dependency.interfaces.IUiPageRegistry;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IWorkerNpcInteractionService;
 import com.tavall.hytale.resourcegame.domain.PlayerGameState;
 import com.tavall.hytale.resourcegame.domain.PlayerProfile;
+import com.tavall.hytale.resourcegame.farmstead.npc.FarmsteadStewardSpawner;
+import com.tavall.hytale.resourcegame.farmstead.ui.FarmsteadMenuService;
 import com.tavall.hytale.resourcegame.frontend.hytale.HytaleKdCommandEnvelopeBridge;
 import com.tavall.hytale.resourcegame.interior.InteriorLayoutService;
 import com.tavall.hytale.resourcegame.interior.InteriorStructureService;
@@ -80,6 +84,7 @@ import com.tavall.hytale.resourcegame.services.CastlePlacementService;
 import com.tavall.hytale.resourcegame.services.CastleSiteScenePlanner;
 import com.tavall.hytale.resourcegame.services.CastleSiteVisualService;
 import com.tavall.hytale.resourcegame.services.CastleSpawnService;
+import com.tavall.hytale.resourcegame.services.CustomEntitySpawnService;
 import com.tavall.hytale.resourcegame.services.DebugCommandService;
 import com.tavall.hytale.resourcegame.services.FocusedWorldInteractionService;
 import com.tavall.hytale.resourcegame.services.FocusedWorldOverrideService;
@@ -91,6 +96,8 @@ import com.tavall.hytale.resourcegame.services.InteriorWorldService;
 import com.tavall.hytale.resourcegame.services.IpHashService;
 import com.tavall.hytale.resourcegame.services.InfrastructureHealthService;
 import com.tavall.hytale.resourcegame.services.JsonMapperProvider;
+import com.tavall.hytale.resourcegame.services.NpcRoleResolver;
+import com.tavall.hytale.resourcegame.services.NpcVisualSpawner;
 import com.tavall.hytale.resourcegame.services.PlacementInteractionService;
 import com.tavall.hytale.resourcegame.services.PlacementModeService;
 import com.tavall.hytale.resourcegame.services.PlacementPreviewService;
@@ -122,7 +129,10 @@ import com.tavall.hytale.resourcegame.ui.CastleResourcesPage;
 import com.tavall.hytale.resourcegame.ui.CastleTroopsPage;
 import com.tavall.hytale.resourcegame.ui.CastleUpgradesPage;
 import com.tavall.hytale.resourcegame.ui.BuildingDetailPage;
+import com.tavall.hytale.resourcegame.ui.DebugCommandPage;
 import com.tavall.hytale.resourcegame.ui.DebugNavigatorPage;
+import com.tavall.hytale.resourcegame.ui.DebugUiCommandBindings;
+import com.tavall.hytale.resourcegame.ui.FarmsteadMenuPage;
 import com.tavall.hytale.resourcegame.ui.InteriorMainPage;
 import com.tavall.hytale.resourcegame.ui.ResourceNodePage;
 import com.tavall.hytale.resourcegame.ui.UiActionService;
@@ -144,6 +154,7 @@ import com.tavall.hytale.resourcegame.commands.KingdomBuildingCommandSupport;
 import com.tavall.hytale.resourcegame.commands.KingdomNodeCommandSupport;
 import com.tavall.hytale.resourcegame.commands.KingdomPlacementCommandSupport;
 import com.tavall.hytale.resourcegame.commands.KingdomHologramCommandSupport;
+import com.tavall.hytale.resourcegame.commands.KingdomEntityCommandSupport;
 import org.tavall.abstractcache.semantic.SemanticCache;
 
 import java.util.logging.Logger;
@@ -194,6 +205,9 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         InfrastructureHealthService infrastructureHealthService = new InfrastructureHealthService(cacheConfig, databaseConfig);
         CastleEconomyPlanner economyPlanner = new CastleEconomyPlanner();
         WorldLabelService worldLabelService = new WorldLabelService();
+        NpcVisualSpawner npcVisualSpawner = new NpcVisualSpawner();
+        NpcRoleResolver npcRoleResolver = new NpcRoleResolver();
+        FarmsteadStewardSpawner farmsteadStewardSpawner = new FarmsteadStewardSpawner(npcVisualSpawner, npcRoleResolver);
         StructureProtectionService structureProtectionService = new StructureProtectionService();
         ProtectedBlockSystemService protectedBlockSystemService = new ProtectedBlockSystemService(structureProtectionService);
         InteriorInstanceService interiorInstanceService = new InteriorInstanceService();
@@ -308,18 +322,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                 buildingVisualService,
                 uiNavigator
         );
-        UiActionService uiActionService = new UiActionService(
-                uiNavigator,
-                interiorWorldService,
-                populationService,
-                buildingService,
-                buildingVisualService,
-                sessionStore,
-                gameStateService,
-                resourceNodeService,
-                resourceNodeVisualService
-        );
-        registerUiPages(pageRegistry, uiActionService, infrastructureHealthService, gameStateService, economyPlanner, resourceNodeService, buildingService);
+        FarmsteadMenuService farmsteadMenuService = new FarmsteadMenuService(sessionStore, buildingService, uiNavigator);
 
         KingdomClockService clockService = new KingdomClockService(clockConfig);
         PlayerDataService playerDataService = new PlayerDataService(
@@ -365,6 +368,35 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                 uiNavigator
         );
         BuildingInteractionService buildingInteractionService = new BuildingInteractionService(sessionStore, buildingVisualService, focusedWorldInteractionService, uiNavigator);
+        CustomEntitySpawnService customEntitySpawnService = new CustomEntitySpawnService(
+                npcVisualSpawner,
+                farmsteadStewardSpawner,
+                npcRoleResolver,
+                sessionStore,
+                buildingService,
+                uiNavigator,
+                farmsteadMenuService
+        );
+        UiActionService uiActionService = new UiActionService(
+                uiNavigator,
+                interiorWorldService,
+                populationService,
+                buildingService,
+                buildingVisualService,
+                sessionStore,
+                gameStateService,
+                resourceNodeService,
+                resourceNodeVisualService,
+                castleSpawnService,
+                castleSiteVisualService,
+                placementModeService,
+                focusedWorldInteractionService,
+                customEntitySpawnService,
+                buildingPlacementPlanner,
+                buildingPlacementStageStructureService,
+                worldLabelService
+        );
+        registerUiPages(pageRegistry, uiActionService, infrastructureHealthService, gameStateService, economyPlanner, resourceNodeService, buildingService);
         KingdomPlacementCommandSupport placementCommandSupport = new KingdomPlacementCommandSupport(placementModeService);
         KingdomBuildingCommandSupport buildingCommandSupport = new KingdomBuildingCommandSupport(
                 buildingService,
@@ -388,6 +420,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         );
         KingdomInteractionCommandSupport interactionCommandSupport = new KingdomInteractionCommandSupport(focusedWorldInteractionService);
         KingdomHologramCommandSupport hologramCommandSupport = new KingdomHologramCommandSupport(worldLabelService);
+        KingdomEntityCommandSupport entityCommandSupport = new KingdomEntityCommandSupport(customEntitySpawnService);
         ControlCommandRuntime controlCommandRuntime = ControlCommandRuntimeFactory.createInMemoryRuntime();
         FrontendCommandVerificationService frontendCommandVerificationService = new FrontendCommandVerificationService(
                 controlCommandRuntime,
@@ -418,6 +451,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                 placementCommandSupport,
                 interactionCommandSupport,
                 hologramCommandSupport,
+                entityCommandSupport,
                 frontendCommandVerificationService
         );
 
@@ -446,6 +480,8 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         registerSingleton(IInteriorInstanceService.class, interiorInstanceService);
         registerSingleton(IInteriorWorldService.class, interiorWorldService);
         registerSingleton(IUiActionService.class, uiActionService);
+        registerSingleton(IFarmsteadMenuService.class, farmsteadMenuService);
+        registerSingleton(FarmsteadStewardSpawner.class, farmsteadStewardSpawner);
         registerSingleton(IIpHashService.class, ipHashService);
         registerSingleton(IKingdomClockService.class, clockService);
         registerSingleton(IPlayerDataService.class, playerDataService);
@@ -459,12 +495,14 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         registerSingleton(IPlacementInteractionService.class, placementInteractionService);
         registerSingleton(IResourceNodeInteractionService.class, resourceNodeInteractionService);
         registerSingleton(IBuildingInteractionService.class, buildingInteractionService);
+        registerSingleton(ICustomEntitySpawnService.class, customEntitySpawnService);
         registerSingleton(IWorkerNpcInteractionService.class, workerNpcInteractionService);
         registerSingleton(KingdomBuildingCommandSupport.class, buildingCommandSupport);
         registerSingleton(KingdomNodeCommandSupport.class, nodeCommandSupport);
         registerSingleton(KingdomPlacementCommandSupport.class, placementCommandSupport);
         registerSingleton(KingdomInteractionCommandSupport.class, interactionCommandSupport);
         registerSingleton(KingdomHologramCommandSupport.class, hologramCommandSupport);
+        registerSingleton(KingdomEntityCommandSupport.class, entityCommandSupport);
         registerSingleton(ControlCommandRuntime.class, controlCommandRuntime);
         registerSingleton(IFrontendCommandVerificationService.class, frontendCommandVerificationService);
         registerSingleton(IDebugCommandService.class, debugCommandService);
@@ -490,6 +528,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         registry.register(UiPageType.CASTLE_RESOURCES, (player, context, state) -> new CastleResourcesPage(player, context, state, actionService, economyPlanner));
         registry.register(UiPageType.CASTLE_UPGRADES, (player, context, state) -> new CastleUpgradesPage(player, context, state, actionService));
         registry.register(UiPageType.CASTLE_BUILDINGS, (player, context, state) -> new CastleBuildingsPage(player, context, state, actionService, buildingService));
+        registry.register(UiPageType.FARMSTEAD_MENU, (player, context, state) -> new FarmsteadMenuPage(player, context, state, actionService, buildingService));
         registry.register(UiPageType.RESOURCE_NODE_DETAIL, (player, context, state) -> new ResourceNodePage(player, context, state, actionService, resourceNodeService));
         registry.register(UiPageType.BUILDING_DETAIL, (player, context, state) -> new BuildingDetailPage(player, context, state, actionService, buildingService));
         registry.register(UiPageType.INTERIOR_MAIN, (player, context, state) -> new InteriorMainPage(player, context, state, actionService));
@@ -502,6 +541,58 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         actionService,
                         infrastructureHealthService,
                         gameStateService
+                )
+        );
+        registry.register(
+                UiPageType.DEBUG_PLACEMENT,
+                (player, context, state) -> new DebugCommandPage(
+                        player,
+                        context,
+                        state,
+                        actionService,
+                        infrastructureHealthService,
+                        gameStateService,
+                        "Pages/debug-placement.html",
+                        DebugUiCommandBindings.placement()
+                )
+        );
+        registry.register(
+                UiPageType.DEBUG_INTERIOR,
+                (player, context, state) -> new DebugCommandPage(
+                        player,
+                        context,
+                        state,
+                        actionService,
+                        infrastructureHealthService,
+                        gameStateService,
+                        "Pages/debug-interior.html",
+                        DebugUiCommandBindings.interior()
+                )
+        );
+        registry.register(
+                UiPageType.DEBUG_BUILDINGS,
+                (player, context, state) -> new DebugCommandPage(
+                        player,
+                        context,
+                        state,
+                        actionService,
+                        infrastructureHealthService,
+                        gameStateService,
+                        "Pages/debug-buildings.html",
+                        DebugUiCommandBindings.buildings()
+                )
+        );
+        registry.register(
+                UiPageType.DEBUG_WORLD,
+                (player, context, state) -> new DebugCommandPage(
+                        player,
+                        context,
+                        state,
+                        actionService,
+                        infrastructureHealthService,
+                        gameStateService,
+                        "Pages/debug-world.html",
+                        DebugUiCommandBindings.world()
                 )
         );
     }

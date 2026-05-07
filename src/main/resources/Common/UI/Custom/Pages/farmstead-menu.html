@@ -1,0 +1,45 @@
+<style>
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .row { layout-mode: left; padding-bottom: 10; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .stat-card { anchor-width: 170; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .wide-card { anchor-width: 260; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
+    .label { font-size: 14; color: #a7b0ba; }
+    .value { font-size: 20; color: #fff1c2; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .secondary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .confirm-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_confirm_normal.png'); }
+    .danger-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_danger_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
+</style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
+<div id="ResourceGamePageRoot" class="page-overlay">
+<div class="hero">
+        <img id="FarmsteadIcon" src="Textures/ResourceGame/icons/ui_icon_resource_food.png" width="64" height="64">
+        <div class="hero-copy"><p id="FarmsteadTitle" class="title">{{$FarmsteadTitle}}</p><p id="FarmsteadStatus" class="label">{{$FarmsteadStatus}}</p></div>
+    </div>
+    <div data-hyui-title="Farmstead Steward" id="FarmsteadStewardPanel" class="container">
+        <div class="container-title"><p class="section">Farmstead Steward</p></div>
+        <progress value="0.5" id="FarmsteadWorkBar"></progress>
+        <p id="FarmsteadFeedback" class="feedback">{{$FarmsteadFeedback}}</p>
+        <div class="action-row">
+            <button id="CropsButton" class="confirm-button">{{$CropsLabel}}</button>
+            <button id="StorageButton" class="secondary-button">{{$StorageLabel}}</button>
+            <button id="WorkersButton" class="secondary-button">{{$WorkersLabel}}</button>
+        </div>
+        <div class="action-row">
+            <button id="UpgradeButton" class="primary-button">{{$UpgradeLabel}}</button>
+            <button id="CloseButton" class="nav-button">{{$CloseLabel}}</button>
+        </div>
+    </div>
+</div>

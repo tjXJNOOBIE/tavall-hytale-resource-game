@@ -17,12 +17,17 @@ public final class HyUiActionBindingTest {
     }
 
     @Test
-    void preservesCommandPayloadForUiCommandButtons() {
-        HyUiActionBinding binding = HyUiActionBinding.command("#StageFarmsteadButton", "/kd buildings stage farmstead");
+    void preservesPayloadForInternalUiActions() {
+        HyUiActionBinding binding = HyUiActionBinding.action(
+                "#StageFarmsteadButton",
+                UiActions.BUILDING_STAGE,
+                "farmstead",
+                UiPageType.CASTLE_BUILDINGS
+        );
 
         assertEquals("StageFarmsteadButton", binding.elementId());
-        assertEquals(UiActions.RUN_COMMAND, binding.eventData().action());
-        assertEquals("/kd buildings stage farmstead", binding.eventData().payload());
+        assertEquals(UiActions.BUILDING_STAGE, binding.eventData().action());
+        assertEquals(UiPageType.CASTLE_BUILDINGS.name() + UiActionService.COMMAND_RETURN_SEPARATOR + "farmstead", binding.eventData().payload());
     }
 
     @Test

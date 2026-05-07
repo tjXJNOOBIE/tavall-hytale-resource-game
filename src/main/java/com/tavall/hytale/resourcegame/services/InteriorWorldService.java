@@ -239,6 +239,28 @@ public final class InteriorWorldService implements IInteriorWorldService, IDepen
     }
 
     @Override
+    public void generateInterior(Player player) {
+        if (player == null) {
+            return;
+        }
+        UUID playerId = player.getUuid();
+        PlayerSession session = sessionStore.get(playerId);
+        if (session == null) {
+            player.sendMessage(Message.raw("Interior generate skipped: player session missing.").color("red"));
+            return;
+        }
+        if (session.gameState().castleLocation() == null) {
+            player.sendMessage(Message.raw("Interior generate skipped: castle location missing.").color("red"));
+            return;
+        }
+        if (session.gameState().interiorSession() != null) {
+            rebuildInterior(player);
+            return;
+        }
+        enterInterior(player);
+    }
+
+    @Override
     public void rebuildInterior(Player player) {
         if (player == null) {
             return;
@@ -298,6 +320,58 @@ public final class InteriorWorldService implements IInteriorWorldService, IDepen
                 }
             });
         });
+    }
+
+    @Override
+    public void deleteInterior(Player player) {
+        if (player == null) {
+            return;
+        }
+        UUID playerId = player.getUuid();
+        PlayerSession session = sessionStore.get(playerId);
+        if (session == null) {
+            player.sendMessage(Message.raw("Interior delete skipped: player session missing.").color("red"));
+            return;
+        }
+        PlayerGameState state = session.gameState();
+        CastleLocationData castleLocation = state.castleLocation();
+        int previousIndex = gameStateService.interiorInstanceIndex(state);
+        InteriorLayout previousLayout = castleLocation == null
+                ? null
+                : layoutService.createLayoutForCastle(castleLocation, previousIndex);
+        InteriorSessionData previousInteriorSession = state.interiorSession();
+        Instant now = Instant.now();
+        PlayerGameState updatedState = gameStateService.bumpInteriorInstanceIndex(state.withInteriorSession(null, now), now);
+        session.updateGameState(updatedState);
+        gameStateService.cacheState(playerId, updatedState);
+        AsyncTask.runAsync(() -> gameStateService.persistState(updatedState, now));
+
+        interiorTourMarkerService.clearTourMarkers(playerId);
+        displayService.clearDisplays(playerId);
+        buildingVisualService.clearBuildings(playerId);
+        if (previousInteriorSession != null && previousLayout != null) {
+            World previousWorld = com.hypixel.hytale.server.core.universe.Universe.get().getWorld(previousInteriorSession.interiorWorldName());
+            if (previousWorld != null) {
+                WorldTasks.executeSafe(previousWorld, "InteriorWorldService.deleteInterior.clearStructure", () -> {
+                    try {
+                        structureService.clearStructure(previousWorld, previousLayout);
+                    } catch (Throwable throwable) {
+                        LOGGER.at(Level.WARNING).withCause(throwable).log("Interior delete structure cleanup failed for %s.", playerId);
+                    }
+                });
+            }
+        }
+        interiorInstanceService.releaseInteriorWorld(playerId);
+        if (previousInteriorSession != null && castleLocation != null && player.getWorld() != null
+                && previousInteriorSession.interiorWorldName().equals(player.getWorld().getName())) {
+            World returnWorld = com.hypixel.hytale.server.core.universe.Universe.get().getWorld(castleLocation.worldName());
+            if (returnWorld != null) {
+                Vector3d returnPosition = playerTeleportService.standingPosition(player, castleLocation.standingBaseVector());
+                WorldTasks.executeSafe(returnWorld, "InteriorWorldService.deleteInterior.returnPlayer", () ->
+                        playerTeleportService.teleport(player, returnWorld, returnPosition));
+            }
+        }
+        player.sendMessage(Message.raw("Interior deleted. Next entry will generate a fresh instance.").color("green"));
     }
 
     @Override

@@ -28,9 +28,28 @@ public final class ResourceGameAssetPipelineTest {
     private static final Path UI_TEXTURE_ROOT = RESOURCE_ROOT.resolve(Path.of("Common", "UI", "Custom", "Textures", "ResourceGame"));
     private static final Path MODEL_ROOT = RESOURCE_ROOT.resolve(Path.of("Common", "Models", "ResourceGame"));
     private static final Path PREFAB_ROOT = RESOURCE_ROOT.resolve(Path.of("Common", "Prefabs", "ResourceGame"));
+    private static final Path SERVER_PREFAB_ROOT = RESOURCE_ROOT.resolve(Path.of("Server", "Prefabs", "ResourceGame"));
     private static final Path MODEL_MANIFEST_PATH = MODEL_ROOT.resolve("resource-game-model-assets.json");
     private static final Pattern UI_IMAGE_ASSET_REFERENCE = Pattern.compile("src=\"(Textures/ResourceGame/[^\"]+)\"");
     private static final Pattern UI_BACKGROUND_ASSET_REFERENCE = Pattern.compile("url\\('(\\.\\./Textures/ResourceGame/[^']+)'\\)");
+    private static final Pattern RESERVED_HYUI_BUTTON_CLASS = Pattern.compile(
+            "<button[^>]*class=\"(?:[^\"]*\\s)?(?:back-button|custom-button|custom-textbutton|action-button|toggle-button|item-slot-button|native-tab-button)(?:\\s[^\"]*)?\"",
+            Pattern.CASE_INSENSITIVE
+    );
+    private static final Pattern RUNTIME_UNSAFE_HYUI_BUTTON_CLASS = Pattern.compile(
+            "<button[^>]*class=\"(?:[^\"]*\\s)?(?:secondary-button|primary-button|confirm-button|danger-button|nav-button|back-button|custom-button|custom-textbutton|action-button|toggle-button|item-slot-button|native-tab-button)(?:\\s[^\"]*)?\"",
+            Pattern.CASE_INSENSITIVE
+    );
+    private static final Pattern RUNTIME_RAW_BUTTON_CLASS = Pattern.compile(
+            "<button[^>]*class=\"(?:[^\"]*\\s)?raw-button(?:\\s[^\"]*)?\"",
+            Pattern.CASE_INSENSITIVE
+    );
+    private static final Pattern UNSTYLED_HYUI_BUTTON = Pattern.compile("<button\\b(?![^>]*\\bclass=)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern UI_ACTION_ROW_BLOCK = Pattern.compile(
+            "<div[^>]*class=\"[^\"]*action-row[^\"]*\"[^>]*>(.*?)</div>",
+            Pattern.CASE_INSENSITIVE | Pattern.DOTALL
+    );
+    private static final Pattern UI_BUTTON_TAG = Pattern.compile("<button\\b", Pattern.CASE_INSENSITIVE);
     private static final int LEGACY_MODEL_COUNT = 7;
     private static final int MAX_BUILDING_LEVEL = 30;
     private static final List<String> INTERIOR_PROP_KEYS = List.of(
@@ -95,6 +114,28 @@ public final class ResourceGameAssetPipelineTest {
                     content.contains("url('../Textures/ResourceGame/buttons/"),
                     () -> "Page is not using generated button assets: " + page
             );
+            assertFalse(
+                    RESERVED_HYUI_BUTTON_CLASS.matcher(content).find(),
+                    () -> "Page uses a reserved HyUI button class that changes the parsed control type: " + page
+            );
+            assertFalse(
+                    UNSTYLED_HYUI_BUTTON.matcher(content).find(),
+                    () -> "Page has an unclassified button that HyUI renders as a plain text button: " + page
+            );
+            assertTrue(
+                    content.contains(".page-overlay { anchor-width: 1080; anchor-height: 660;"),
+                    () -> "Page needs the full-screen-safe overlay contract: " + page
+            );
+            assertTrue(
+                    content.contains(".container { anchor-width: 880;"),
+                    () -> "Page needs the full-screen-safe content width: " + page
+            );
+            assertTrue(
+                    content.contains("button { anchor-width: 190; anchor-height: 38;"),
+                    () -> "Page buttons need a fixed reachable hitbox: " + page
+            );
+            assertActionRowsStayReachable(content, page);
+            assertDecoratedButtonsUseProductionChrome(content, page);
 
             int referenceCount = 0;
             Matcher imageMatcher = UI_IMAGE_ASSET_REFERENCE.matcher(content);
@@ -247,8 +288,100 @@ public final class ResourceGameAssetPipelineTest {
         }
     }
 
+    @Test
+    void farmsteadNativeHytaleModelVariantsArePackaged() throws IOException {
+        int previousVisibleNodes = 0;
+        for (int level = 1; level <= 5; level++) {
+            Path modelPath = RESOURCE_ROOT.resolve(Path.of("Common", "Items", "ResourceGame", "Farmstead", titleLevelKey(level), "Model.blockymodel"));
+            Path serverModelPath = RESOURCE_ROOT.resolve(Path.of("Server", "Models", "ResourceGame", "Farmstead", titleLevelKey(level) + ".json"));
+            JsonNode model = assertNativeFarmsteadModel(modelPath, titleLevelKey(level));
+            int visibleNodes = countVisibleBoxNodes(model);
+            assertTrue(visibleNodes > previousVisibleNodes, () -> "Farmstead level model should reveal more pieces than the previous level: " + modelPath);
+            previousVisibleNodes = visibleNodes;
+            assertNativeServerModel(serverModelPath, "Items/ResourceGame/Farmstead/" + titleLevelKey(level) + "/Model.blockymodel");
+        }
+
+        int previousConstructionNodes = 0;
+        for (String stageKey : List.of("Foundation", "Scaffolding", "Shell", "Complete")) {
+            Path modelPath = RESOURCE_ROOT.resolve(Path.of("Common", "Items", "ResourceGame", "Farmstead", "Construction", stageKey, "Model.blockymodel"));
+            Path serverModelPath = RESOURCE_ROOT.resolve(Path.of("Server", "Models", "ResourceGame", "Farmstead", "Construction", stageKey + ".json"));
+            JsonNode model = assertNativeFarmsteadModel(modelPath, stageKey);
+            int visibleNodes = countVisibleBoxNodes(model);
+            assertTrue(visibleNodes > previousConstructionNodes, () -> "Farmstead construction model should reveal more pieces than the previous stage: " + modelPath);
+            previousConstructionNodes = visibleNodes;
+            assertNativeServerModel(serverModelPath, "Items/ResourceGame/Farmstead/Construction/" + stageKey + "/Model.blockymodel");
+        }
+    }
+
+    @Test
+    void farmsteadNativeHytaleModelAssetsArePackaged() throws IOException {
+        Path modelPath = RESOURCE_ROOT.resolve(Path.of("Common", "Items", "ResourceGame", "Farmstead", "Model.blockymodel"));
+        Path texturePath = RESOURCE_ROOT.resolve(Path.of("Common", "Items", "ResourceGame", "Farmstead", "Texture.png"));
+        Path serverModelPath = RESOURCE_ROOT.resolve(Path.of("Server", "Models", "ResourceGame", "Farmstead.json"));
+
+        assertTrue(Files.isRegularFile(modelPath), () -> "Farmstead Hytale block model is missing: " + modelPath);
+        assertTrue(Files.isRegularFile(texturePath), () -> "Farmstead Hytale texture is missing: " + texturePath);
+        assertTrue(Files.isRegularFile(serverModelPath), () -> "Farmstead server model asset is missing: " + serverModelPath);
+
+        JsonNode serverModel = OBJECT_MAPPER.readTree(serverModelPath.toFile());
+        assertEquals("Items/ResourceGame/Farmstead/Model.blockymodel", serverModel.path("Model").asText());
+        assertEquals("Items/ResourceGame/Farmstead/Texture.png", serverModel.path("Texture").asText());
+        assertTrue(serverModel.path("HitBox").path("Max").path("Y").asDouble() >= 6.0D, "Farmstead hitbox should fit the prop height");
+    }
+
+    @Test
+    void farmsteadInteractionAssetsWireSecondaryClickToCustomInteraction() throws IOException {
+        Path rootInteractionPath = RESOURCE_ROOT.resolve(Path.of("Server", "Item", "RootInteractions", "Tavall_Open_Farmstead_Menu.json"));
+        Path interactionPath = RESOURCE_ROOT.resolve(Path.of("Server", "Item", "Interactions", "Tavall_Open_Farmstead_Menu_Interaction.json"));
+
+        assertTrue(Files.isRegularFile(rootInteractionPath), () -> "Farmstead root interaction is missing: " + rootInteractionPath);
+        assertTrue(Files.isRegularFile(interactionPath), () -> "Farmstead interaction asset is missing: " + interactionPath);
+
+        JsonNode rootInteraction = OBJECT_MAPPER.readTree(rootInteractionPath.toFile());
+        JsonNode interaction = OBJECT_MAPPER.readTree(interactionPath.toFile());
+        assertEquals("Tavall_Open_Farmstead_Menu_Interaction", rootInteraction.path("Interactions").get(0).asText());
+        assertEquals("tavall:open_farmstead_menu", interaction.path("Type").asText());
+    }
+
     private static void assertCategoryCount(JsonNode manifest, String category, int expectedCount) {
         assertEquals(expectedCount, manifest.path("categoryCounts").path(category).asInt(), () -> "Unexpected model manifest count for " + category);
+    }
+
+    private static void assertActionRowsStayReachable(String content, Path page) {
+        Matcher rowMatcher = UI_ACTION_ROW_BLOCK.matcher(content);
+        while (rowMatcher.find()) {
+            int buttonCount = 0;
+            Matcher buttonMatcher = UI_BUTTON_TAG.matcher(rowMatcher.group(1));
+            while (buttonMatcher.find()) {
+                buttonCount++;
+            }
+            assertTrue(buttonCount <= 4, () -> "Action row has too many buttons for reliable live-client reachability: " + page);
+        }
+    }
+
+    private static void assertDecoratedButtonsUseProductionChrome(String content, Path page) {
+        String decoratedContent = HyUiPageMarkupDecorator.decorate(content);
+        assertFalse(
+                RUNTIME_UNSAFE_HYUI_BUTTON_CLASS.matcher(decoratedContent).find(),
+                () -> "Decorated page uses a HyUI button class that rejects Resource Game action bindings: " + page
+        );
+        assertTrue(
+                RUNTIME_RAW_BUTTON_CLASS.matcher(decoratedContent).find(),
+                () -> "Decorated page should promote text buttons to raw image-backed Resource Game button chrome: " + page
+        );
+        assertTrue(
+                decoratedContent.contains("rg-button-label"),
+                () -> "Decorated page should render labels inside Resource Game image-backed button content: " + page
+        );
+        assertTrue(
+                decoratedContent.contains("background-image: url('../Textures/ResourceGame/buttons/"),
+                () -> "Decorated page should include generated button textures: " + page
+        );
+        Matcher backgroundMatcher = UI_BACKGROUND_ASSET_REFERENCE.matcher(decoratedContent);
+        while (backgroundMatcher.find()) {
+            Path referencedAsset = page.getParent().resolve(backgroundMatcher.group(1)).normalize();
+            assertTrue(Files.isRegularFile(referencedAsset), () -> "Decorated UI asset reference is missing: " + referencedAsset + " in " + page);
+        }
     }
 
     private static void assertModelAndRecipe(
@@ -274,6 +407,11 @@ public final class ResourceGameAssetPipelineTest {
         assertTrue(model.path("textures").size() >= 1, () -> "Model has no textures: " + modelPath);
         JsonNode textureNode = model.path("textures").get(0);
         String textureReference = textureNode.path("source").asText(textureNode.path("relative_path").asText(textureNode.path("path").asText()));
+        if (textureReference.startsWith("data:image/")) {
+            assertTrue(textureReference.contains(";base64,"), () -> "Embedded Blockbench texture is not base64 encoded: " + modelPath);
+            assertTrue(textureReference.length() > 128, () -> "Embedded Blockbench texture is too short: " + modelPath);
+            return;
+        }
         Path texturePath = modelPath.getParent().resolve(textureReference).normalize();
         assertTrue(Files.isRegularFile(texturePath), () -> "Blockbench texture is missing: " + texturePath);
         BufferedImage texture = ImageIO.read(texturePath.toFile());
@@ -283,6 +421,49 @@ public final class ResourceGameAssetPipelineTest {
 
     private static String levelKey(int level) {
         return String.format(Locale.ROOT, "level_%02d", level);
+    }
+
+    private static String titleLevelKey(int level) {
+        return String.format(Locale.ROOT, "Level_%02d", level);
+    }
+
+    private static JsonNode assertNativeFarmsteadModel(Path modelPath, String expectedVariant) throws IOException {
+        assertTrue(Files.isRegularFile(modelPath), () -> "Farmstead native Hytale model variant is missing: " + modelPath);
+        JsonNode model = OBJECT_MAPPER.readTree(modelPath.toFile());
+        assertEquals(expectedVariant, model.path("variant").path("name").asText(), () -> "Unexpected farmstead model variant marker for " + modelPath);
+        assertTrue(countVisibleBoxNodes(model) >= 1, () -> "Farmstead model variant has no visible boxes: " + modelPath);
+        return model;
+    }
+
+    private static void assertNativeServerModel(Path serverModelPath, String expectedModelPath) throws IOException {
+        assertTrue(Files.isRegularFile(serverModelPath), () -> "Farmstead native server model variant is missing: " + serverModelPath);
+        JsonNode serverModel = OBJECT_MAPPER.readTree(serverModelPath.toFile());
+        assertEquals(expectedModelPath, serverModel.path("Model").asText(), () -> "Unexpected farmstead model pointer for " + serverModelPath);
+        assertEquals("Items/ResourceGame/Farmstead/Texture.png", serverModel.path("Texture").asText());
+    }
+
+    private static int countVisibleBoxNodes(JsonNode node) {
+        int total = 0;
+        JsonNode shape = node.path("shape");
+        if ("box".equals(shape.path("type").asText()) && shape.path("visible").asBoolean(false)) {
+            total++;
+        }
+        for (JsonNode child : node.path("children")) {
+            total += countVisibleBoxNodes(child);
+        }
+        for (JsonNode root : node.path("nodes")) {
+            total += countVisibleBoxNodes(root);
+        }
+        return total;
+    }
+
+    private static boolean hasNegativeBlockCoordinate(JsonNode prefab, String coordinateName) {
+        for (JsonNode block : prefab.path("blocks")) {
+            if (block.path(coordinateName).asInt() < 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void assertMirrored(BufferedImage image, Path path) {

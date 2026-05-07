@@ -22,8 +22,26 @@ public record HyUiActionBinding(String elementId, String action, String payload)
         return new HyUiActionBinding(selectorOrElementId, action, "");
     }
 
+    public static HyUiActionBinding action(String selectorOrElementId, String action, String payload) {
+        return new HyUiActionBinding(selectorOrElementId, action, payload);
+    }
+
+    public static HyUiActionBinding action(String selectorOrElementId, String action, String payload, UiPageType returnPage) {
+        String returnPayload = returnPage == null || payload == null || payload.isBlank()
+                ? payload
+                : returnPage.name() + UiActionService.COMMAND_RETURN_SEPARATOR + payload;
+        return new HyUiActionBinding(selectorOrElementId, action, returnPayload);
+    }
+
     public static HyUiActionBinding command(String selectorOrElementId, String commandLine) {
         return new HyUiActionBinding(selectorOrElementId, UiActions.RUN_COMMAND, commandLine);
+    }
+
+    public static HyUiActionBinding command(String selectorOrElementId, String commandLine, UiPageType returnPage) {
+        String returnPayload = returnPage == null
+                ? commandLine
+                : returnPage.name() + UiActionService.COMMAND_RETURN_SEPARATOR + commandLine;
+        return new HyUiActionBinding(selectorOrElementId, UiActions.RUN_COMMAND, returnPayload);
     }
 
     public UiActionEventData eventData() {

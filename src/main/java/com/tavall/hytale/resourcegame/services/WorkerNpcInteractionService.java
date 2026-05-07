@@ -36,23 +36,26 @@ public final class WorkerNpcInteractionService implements IWorkerNpcInteractionS
 
     @Override
     public void handleInteract(PlayerInteractEvent event) {
-        if (event.isCancelled()) {
+        if (event.isCancelled() || event.getPlayer() == null) {
             return;
         }
-        Player player = event.getPlayer();
+        openFromTarget(event.getPlayer(), event.getTargetRef());
+    }
+
+    @Override
+    public boolean openFromTarget(Player player, Ref<EntityStore> targetRef) {
         if (player == null) {
-            return;
+            return false;
         }
         UUID playerId = player.getUuid();
         PlayerSession session = sessionStore.get(playerId);
         if (session == null) {
-            return;
+            return false;
         }
-        Ref<EntityStore> targetRef = event.getTargetRef();
         Optional<CitizenJobType> workerType = populationDisplayService.resolveWorkerType(playerId, targetRef);
         if (workerType.isPresent()) {
             openWorkerPage(player, session, workerType.get());
-            return;
+            return true;
         }
         if (populationDisplayService.isTroopAnchor(playerId, targetRef)) {
             uiNavigator.open(
@@ -61,7 +64,9 @@ public final class WorkerNpcInteractionService implements IWorkerNpcInteractionS
                     new UiNavigationContext(playerId, player.getDisplayName()).withFeedback("Troop anchor selected. Might is tier-weighted; current aggregate troops are tier 1."),
                     session.gameState()
             );
+            return true;
         }
+        return false;
     }
 
     private void openWorkerPage(Player player, PlayerSession session, CitizenJobType workerType) {

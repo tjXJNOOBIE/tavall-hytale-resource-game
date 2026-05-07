@@ -1,4 +1,4 @@
-function Write-SharedLogLine {
+﻿function Write-SharedLogLine {
     param(
         [string]$Path,
         [string]$Message
@@ -83,12 +83,12 @@ function Ensure-RemoteQuicBridge {
         [string]$SshAlias,
         [string]$BridgeSourcePath,
         [string]$LogPath,
-        [string]$RemoteBridgeDir = "/srv/hytale-startup-patch-test/_bot/quic-bridge",
+        [string]$RemoteBridgeDir = "/srv/hytale/HytaleDevServer/_bot/quic-bridge",
         [string]$BridgeHost = "127.0.0.1",
         [int]$BridgePort = 5520,
         [string]$ServerHost = "127.0.0.1",
         [int]$ServerPort = 5520,
-        [string]$ServerRoot = "/srv/hytale-startup-patch-test"
+        [string]$ServerRoot = "/srv/hytale/HytaleDevServer"
     )
 
     $serverJarPath = "{0}/Server/HytaleServer.jar" -f $ServerRoot

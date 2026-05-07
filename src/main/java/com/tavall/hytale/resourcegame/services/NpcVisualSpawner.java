@@ -9,18 +9,25 @@ import com.hypixel.hytale.server.core.entity.Frozen;
 import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
 import com.hypixel.hytale.server.core.modules.entity.component.DisplayNameComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.EntityScaleComponent;
+import com.hypixel.hytale.server.core.modules.interaction.Interactions;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.protocol.InteractionType;
+import com.tavall.hytale.resourcegame.interactions.OpenFarmsteadInteraction;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.tavall.hytale.resourcegame.dependency.IDependencyInjectableConcrete;
 import it.unimi.dsi.fastutil.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Shared NPC marker spawner for readable in-world prototype visuals.
  */
 public final class NpcVisualSpawner implements IDependencyInjectableConcrete {
+    private static final Logger LOGGER = Logger.getLogger(NpcVisualSpawner.class.getName());
+
     public Ref<EntityStore> spawnNamed(Store<EntityStore> store, int roleIndex, Vector3d position, String label, float scale) {
         Pair<Ref<EntityStore>, ?> pair = NPCPlugin.get().spawnEntity(store, roleIndex, position, Vector3f.ZERO, null, null);
         Ref<EntityStore> ref = pair.first();
@@ -28,6 +35,7 @@ public final class NpcVisualSpawner implements IDependencyInjectableConcrete {
             store.putComponent(ref, DisplayNameComponent.getComponentType(), new DisplayNameComponent(Message.raw(label)));
             store.putComponent(ref, Nameplate.getComponentType(), new Nameplate(label));
             store.ensureComponent(ref, Frozen.getComponentType());
+            attachResourceGameInteraction(store, ref);
             applyScale(store, ref, scale);
         }
         return ref;
@@ -40,6 +48,7 @@ public final class NpcVisualSpawner implements IDependencyInjectableConcrete {
             Ref<EntityStore> ref = pair.first();
             if (ref != null && ref.isValid()) {
                 store.ensureComponent(ref, Frozen.getComponentType());
+                attachResourceGameInteraction(store, ref);
                 applyScale(store, ref, scale);
                 refs.add(ref);
             }
@@ -53,5 +62,12 @@ public final class NpcVisualSpawner implements IDependencyInjectableConcrete {
         }
         float safeScale = Math.max(0.35F, scale);
         store.putComponent(ref, EntityScaleComponent.getComponentType(), new EntityScaleComponent(safeScale));
+    }
+
+    private void attachResourceGameInteraction(Store<EntityStore> store, Ref<EntityStore> ref) {
+        Interactions interactions = new Interactions(Map.of(InteractionType.Secondary, OpenFarmsteadInteraction.ROOT_INTERACTION_ID));
+        interactions.setInteractionHint("Right-click");
+        store.putComponent(ref, Interactions.getComponentType(), interactions);
+        LOGGER.info(() -> "Assigned Secondary interaction " + OpenFarmsteadInteraction.ROOT_INTERACTION_ID + " to NPC " + ref + ".");
     }
 }

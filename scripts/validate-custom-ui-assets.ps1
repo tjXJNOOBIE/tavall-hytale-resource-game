@@ -50,7 +50,7 @@ function Invoke-MavenBuild {
         $stderrPath = [System.IO.Path]::GetTempFileName()
         $process = Start-Process `
             -FilePath $mavenCommand `
-            -ArgumentList @("-q", "test", "package") `
+            -ArgumentList @("-q", "clean", "test", "package") `
             -Wait `
             -NoNewWindow `
             -PassThru `
@@ -104,8 +104,8 @@ function Read-ZipEntryText {
 }
 
 $latestSourceTimestamp = Get-LatestSourceTimestamp -Path $RepoRoot
-$shouldBuild = $Build -or -not (Test-Path $JarPath)
-if (-not $shouldBuild -and (Get-Item $JarPath).LastWriteTime -lt $latestSourceTimestamp) {
+$shouldBuild = [string]::IsNullOrWhiteSpace($CompareJarPath) -and ($Build -or -not (Test-Path $JarPath))
+if ([string]::IsNullOrWhiteSpace($CompareJarPath) -and -not $shouldBuild -and (Get-Item $JarPath).LastWriteTime -lt $latestSourceTimestamp) {
     $shouldBuild = $true
 }
 if ($shouldBuild) {
@@ -130,10 +130,15 @@ $requiredPages = @(
     "Common/UI/Custom/Pages/castle-resources.html",
     "Common/UI/Custom/Pages/castle-upgrades.html",
     "Common/UI/Custom/Pages/castle-buildings.html",
+    "Common/UI/Custom/Pages/farmstead-menu.html",
     "Common/UI/Custom/Pages/building-detail.html",
     "Common/UI/Custom/Pages/interior-main.html",
     "Common/UI/Custom/Pages/resource-node-detail.html",
-    "Common/UI/Custom/Pages/debug-navigator.html"
+    "Common/UI/Custom/Pages/debug-navigator.html",
+    "Common/UI/Custom/Pages/debug-placement.html",
+    "Common/UI/Custom/Pages/debug-interior.html",
+    "Common/UI/Custom/Pages/debug-buildings.html",
+    "Common/UI/Custom/Pages/debug-world.html"
 )
 
 $requiredGeneratedAssets = @(
@@ -158,6 +163,13 @@ $requiredGeneratedAssets = @(
     "Common/Models/ResourceGame/resource-game-model-assets.json",
     "Common/Models/ResourceGame/castle_keep.bbmodel",
     "Common/Models/ResourceGame/farmstead.bbmodel",
+    "Common/Items/ResourceGame/Farmstead/Model.blockymodel",
+    "Common/Items/ResourceGame/Farmstead/Texture.png",
+    "Server/Models/ResourceGame/Farmstead.json",
+    "Server/Item/RootInteractions/OpenFarmstead.json",
+    "Server/Item/Interactions/OpenFarmsteadInteraction.json",
+    "Server/Item/RootInteractions/Tavall_Open_Farmstead_Menu.json",
+    "Server/Item/Interactions/Tavall_Open_Farmstead_Menu_Interaction.json",
     "Common/Models/ResourceGame/lumber_mill.bbmodel",
     "Common/Models/ResourceGame/iron_works.bbmodel",
     "Common/Models/ResourceGame/barracks.bbmodel",
@@ -165,11 +177,18 @@ $requiredGeneratedAssets = @(
     "Common/Models/ResourceGame/resource_node.bbmodel",
     "Common/Prefabs/ResourceGame/castle_keep.resource-prefab.json",
     "Common/Prefabs/ResourceGame/farmstead.resource-prefab.json",
+    "Server/Prefabs/ResourceGame/farmstead.prefab.json",
+    "Server/Prefabs/ResourceGame/buildings/farmstead/level_01.prefab.json",
     "Common/Prefabs/ResourceGame/lumber_mill.resource-prefab.json",
     "Common/Prefabs/ResourceGame/iron_works.resource-prefab.json",
     "Common/Prefabs/ResourceGame/barracks.resource-prefab.json",
     "Common/Prefabs/ResourceGame/workshop.resource-prefab.json",
     "Common/Prefabs/ResourceGame/resource_node.resource-prefab.json"
+)
+
+$forbiddenAssets = @(
+    "Server/Item/RootInteractions/tavall_open_farmstead_menu.json",
+    "Server/Item/Interactions/tavall_open_farmstead_menu_interaction.json"
 )
 
 $zip = [System.IO.Compression.ZipFile]::OpenRead($JarPath)
@@ -196,6 +215,12 @@ try {
         }
     }
 
+    foreach ($asset in $forbiddenAssets) {
+        if ($zip.Entries.FullName -ccontains $asset) {
+            throw "Stale renamed asset is still packaged in the built jar: $asset"
+        }
+    }
+
     $pngAssetCount = @($zip.Entries | Where-Object { $_.FullName -like "Common/UI/Custom/Textures/ResourceGame/*.png" -or $_.FullName -like "Common/UI/Custom/Textures/ResourceGame/*/*.png" }).Count
     if ($pngAssetCount -lt 40) {
         throw "Generated UI asset count is too low: $pngAssetCount"
@@ -209,6 +234,11 @@ try {
     $prefabRecipeCount = @($zip.Entries | Where-Object { $_.FullName -match '^Common/Prefabs/ResourceGame/.+\.resource-prefab\.json$' }).Count
     if ($prefabRecipeCount -lt 222) {
         throw "Generated prefab recipe count is too low: $prefabRecipeCount"
+    }
+
+    $runtimePrefabCount = @($zip.Entries | Where-Object { $_.FullName -match '^Server/Prefabs/ResourceGame/.+\.prefab\.json$' }).Count
+    if ($runtimePrefabCount -lt 35) {
+        throw "Generated Hytale runtime prefab count is too low: $runtimePrefabCount"
     }
 
     $modelManifestText = Read-ZipEntryText -Zip $zip -EntryName "Common/Models/ResourceGame/resource-game-model-assets.json"
@@ -290,6 +320,7 @@ $result = [ordered]@{
     generatedUiPngCount = $pngAssetCount
     generatedModelCount = $modelAssetCount
     generatedPrefabRecipeCount = $prefabRecipeCount
+    runtimePrefabCount = $runtimePrefabCount
     requiredPages = $requiredPages
     requiredGeneratedAssets = $requiredGeneratedAssets
     compareJarPath = $null

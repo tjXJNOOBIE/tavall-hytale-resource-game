@@ -14,6 +14,7 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.Frozen;
 import com.hypixel.hytale.server.core.modules.entity.component.AudioComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.DisplayNameComponent;
+import com.hypixel.hytale.server.core.modules.entity.component.EntityScaleComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.Intangible;
 import com.hypixel.hytale.server.core.modules.entity.component.Invulnerable;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
@@ -34,12 +35,11 @@ import java.util.logging.Logger;
  */
 public final class WorldLabelService implements IDependencyInjectableConcrete {
     private static final Logger LOGGER = Logger.getLogger(WorldLabelService.class.getName());
-    private static final String DEFAULT_MARKER_MODEL_ID = "Objective_Location_Marker";
     private static final List<String> MARKER_MODEL_CANDIDATES = List.of(
-            "Objective_Location_Marker",
             "resource_game:props/hologram_pedestal",
             "resource_game:hologram_pedestal",
-            "resource_game:building_marker"
+            "resource_game:building_marker",
+            "Objective_Location_Marker"
     );
     private static final double DEFAULT_LINE_SPACING = 0.42D;
 
@@ -102,6 +102,7 @@ public final class WorldLabelService implements IDependencyInjectableConcrete {
             holder.ensureComponent(Intangible.getComponentType());
             holder.ensureComponent(Invulnerable.getComponentType());
             holder.ensureComponent(Frozen.getComponentType());
+            holder.addComponent(EntityScaleComponent.getComponentType(), new EntityScaleComponent(1.35F));
             holder.addComponent(DisplayNameComponent.getComponentType(), new DisplayNameComponent(Message.raw(text)));
             holder.addComponent(Nameplate.getComponentType(), new Nameplate(text));
             if (model != null) {
@@ -134,6 +135,7 @@ public final class WorldLabelService implements IDependencyInjectableConcrete {
             for (String candidateId : MARKER_MODEL_CANDIDATES) {
                 ModelAsset asset = (ModelAsset) ModelAsset.getAssetMap().getAsset(candidateId);
                 if (asset == null) {
+                    LOGGER.info(() -> "World-label marker model candidate missing: " + candidateId);
                     continue;
                 }
                 Model created = Model.createUnitScaleModel(asset);

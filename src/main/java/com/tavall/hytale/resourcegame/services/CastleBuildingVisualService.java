@@ -1,7 +1,24 @@
 package com.tavall.hytale.resourcegame.services;
 
+import com.hypixel.hytale.component.AddReason;
+import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
+import com.hypixel.hytale.math.vector.Vector3f;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.asset.type.model.config.Model;
+import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
+import com.hypixel.hytale.server.core.entity.UUIDComponent;
+import com.hypixel.hytale.server.core.entity.Frozen;
+import com.hypixel.hytale.server.core.entity.nameplate.Nameplate;
+import com.hypixel.hytale.server.core.modules.entity.component.DisplayNameComponent;
+import com.hypixel.hytale.server.core.modules.entity.component.Intangible;
+import com.hypixel.hytale.server.core.modules.entity.component.Invulnerable;
+import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
+import com.hypixel.hytale.server.core.modules.entity.component.PersistentModel;
+import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.interaction.Interactions;
+import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -12,6 +29,7 @@ import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleBuildingVisua
 import com.tavall.hytale.resourcegame.domain.CastleBuildingData;
 import com.tavall.hytale.resourcegame.domain.CastleBuildingSummary;
 import com.tavall.hytale.resourcegame.domain.PlayerGameState;
+import com.tavall.hytale.resourcegame.interactions.OpenFarmsteadInteraction;
 import com.tavall.hytale.resourcegame.population.PromotionCost;
 import com.tavall.hytale.resourcegame.world.CastleBuildingStructureService;
 import com.tavall.hytale.resourcegame.world.CastleBuildingVisualRefs;
@@ -24,11 +42,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Renders placed kingdom buildings as block-only staged structures.
+ * Renders placed kingdom buildings as labels, protected structures, and native Hytale model entities when available.
  */
 public final class CastleBuildingVisualService implements ICastleBuildingVisualService, IDependencyInjectableConcrete {
+    private static final Logger LOGGER = Logger.getLogger(CastleBuildingVisualService.class.getName());
     private final ICastleBuildingService buildingService;
     private final CastleBuildingStructureService structureService;
     private final WorldLabelService worldLabelService;
@@ -111,6 +132,7 @@ public final class CastleBuildingVisualService implements ICastleBuildingVisualS
             }
             WorldTasks.executeSafe(world, "CastleBuildingVisualService.rebuildBuilding(" + building.buildingId() + ")", () -> {
                 List<Ref<EntityStore>> labelRefs = spawnLabels(world, summary);
+                List<Ref<EntityStore>> modelRefs = spawnModel(world, summary);
                 protectionService.replaceStructure(
                         structureKey(building.buildingId()),
                         playerId,
@@ -124,7 +146,8 @@ public final class CastleBuildingVisualService implements ICastleBuildingVisualS
                         new CastleBuildingVisualRefs(
                                 summary.worldName(),
                                 new Vector3d(summary.worldX(), summary.worldY(), summary.worldZ()),
-                                labelRefs
+                                labelRefs,
+                                modelRefs
                         )
                 );
             });
@@ -170,6 +193,112 @@ public final class CastleBuildingVisualService implements ICastleBuildingVisualS
     private List<Ref<EntityStore>> spawnLabels(World world, CastleBuildingSummary summary) {
         Vector3d labelPosition = new Vector3d(summary.worldX(), summary.worldY() + 2.6D, summary.worldZ());
         return worldLabelService.spawnLabelStack(world, labelPosition, buildingLabelLines(summary));
+    }
+
+    private List<Ref<EntityStore>> spawnModel(World world, CastleBuildingSummary summary) {
+        Model model = resolveBuildingModel(summary);
+        if (model == null) {
+            return List.of();
+        }
+        try {
+            Holder<EntityStore> holder = EntityStore.REGISTRY.newHolder();
+            Vector3d position = new Vector3d(summary.worldX(), summary.worldY(), summary.worldZ());
+            holder.addComponent(TransformComponent.getComponentType(), new TransformComponent(position, Vector3f.ZERO));
+            holder.ensureComponent(UUIDComponent.getComponentType());
+            holder.ensureComponent(Intangible.getComponentType());
+            holder.ensureComponent(Invulnerable.getComponentType());
+            holder.ensureComponent(Frozen.getComponentType());
+            holder.addComponent(DisplayNameComponent.getComponentType(), new DisplayNameComponent(Message.raw(summary.buildingData().buildingType().displayName())));
+            holder.addComponent(Nameplate.getComponentType(), new Nameplate(summary.buildingData().buildingType().displayName()));
+            holder.addComponent(ModelComponent.getComponentType(), new ModelComponent(model));
+            holder.addComponent(PersistentModel.getComponentType(), new PersistentModel(model.toReference()));
+            Interactions interactions = new Interactions(Map.of(InteractionType.Secondary, OpenFarmsteadInteraction.ROOT_INTERACTION_ID));
+            interactions.setInteractionHint("Right-click");
+            holder.addComponent(Interactions.getComponentType(), interactions);
+            Ref<EntityStore> ref = world.getEntityStore().getStore().addEntity(holder, AddReason.SPAWN);
+            LOGGER.info(() -> "Spawned building model for " + summary.buildingData().buildingType().shortKey()
+                    + " level " + summary.displayLevel() + " in " + summary.worldName() + ".");
+            return ref == null ? List.of() : List.of(ref);
+        } catch (RuntimeException ex) {
+            LOGGER.log(Level.WARNING, "Failed to spawn building model for " + summary.buildingData().buildingType().shortKey() + ".", ex);
+            return List.of();
+        }
+    }
+
+    private Model resolveBuildingModel(CastleBuildingSummary summary) {
+        for (String candidateId : buildingModelCandidates(summary)) {
+            ModelAsset asset = (ModelAsset) ModelAsset.getAssetMap().getAsset(candidateId);
+            if (asset == null) {
+                continue;
+            }
+            LOGGER.info(() -> "Resolved building model asset '" + candidateId + "'.");
+            return Model.createUnitScaleModel(asset);
+        }
+        LOGGER.warning(() -> "No building model asset found for " + summary.buildingData().buildingType().shortKey()
+                + " from " + buildingModelCandidates(summary) + "; the building will retain labels and protected site bounds only.");
+        return null;
+    }
+
+    private List<String> buildingModelCandidates(CastleBuildingSummary summary) {
+        String buildingKey = summary.buildingData().buildingType().shortKey();
+        if (summary.buildingData().buildingType() == com.tavall.hytale.resourcegame.domain.BuildingType.FARMSTEAD) {
+            if (summary.isUnderConstruction()) {
+                String stageKey = summary.constructionStage().name().toLowerCase(java.util.Locale.ROOT);
+                return List.of(
+                        "ResourceGame/Farmstead/Construction/" + titleAssetKey(stageKey),
+                        "ResourceGame/Farmstead/Construction/" + stageKey,
+                        "ResourceGame/Farmstead",
+                        "Farmstead"
+                );
+            }
+            String nativeLevelKey = farmsteadNativeLevelKey(summary.displayLevel());
+            return List.of(
+                    "ResourceGame/Farmstead/" + nativeLevelKey,
+                    "Farmstead",
+                    "ResourceGame/Farmstead",
+                    "ResourceGame_Farmstead",
+                    "resource_game:farmstead"
+            );
+        }
+        if (summary.isUnderConstruction()) {
+            String stageKey = summary.constructionStage().name().toLowerCase(java.util.Locale.ROOT);
+            return List.of(
+                    "resource_game:buildings/" + buildingKey + "/construction/" + stageKey,
+                    "resource_game:" + buildingKey
+            );
+        }
+        int level = Math.max(1, Math.min(summary.buildingData().buildingType().maxLevel(), summary.displayLevel()));
+        String levelKey = String.format(java.util.Locale.ROOT, "level_%02d", level);
+        return List.of(
+                "resource_game:buildings/" + buildingKey + "/" + levelKey,
+                "resource_game:" + buildingKey
+        );
+    }
+
+    private String farmsteadNativeLevelKey(int displayLevel) {
+        int bucket = Math.max(1, Math.min(5, ((Math.max(1, displayLevel) - 1) / 6) + 1));
+        return String.format(java.util.Locale.ROOT, "Level_%02d", bucket);
+    }
+
+    private String titleAssetKey(String key) {
+        if (key == null || key.isBlank()) {
+            return "";
+        }
+        String[] tokens = key.split("_");
+        StringBuilder builder = new StringBuilder();
+        for (String token : tokens) {
+            if (token.isBlank()) {
+                continue;
+            }
+            if (!builder.isEmpty()) {
+                builder.append("_");
+            }
+            builder.append(token.substring(0, 1).toUpperCase(java.util.Locale.ROOT));
+            if (token.length() > 1) {
+                builder.append(token.substring(1).toLowerCase(java.util.Locale.ROOT));
+            }
+        }
+        return builder.toString();
     }
 
     private List<String> buildingLabelLines(CastleBuildingSummary summary) {

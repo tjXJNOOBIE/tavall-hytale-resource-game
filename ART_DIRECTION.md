@@ -139,6 +139,8 @@ Best for per-building upgrade screens, timers, production, cancel controls, and 
 - Every icon must work at small sizes first.
 - Do not bake text into image assets; CustomUI should own text.
 - Keep button states as separate assets or atlas regions.
+- Every interactive button needs normal, hover, pressed, and disabled state art so the UI feels responsive without CSS keyframe animation support.
+- Runtime button chrome is applied through `HyUiPageMarkupDecorator`; keep element IDs stable and avoid HyUI raw/back/custom button classes for action-bound controls.
 - Prefer square power-of-two source assets where practical: 32, 64, 128, 256.
 - Use transparent backgrounds for icons and button overlays.
 - Use consistent lighting: top-left highlight, bottom-right shadow.

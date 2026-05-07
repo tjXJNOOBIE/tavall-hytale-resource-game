@@ -5,6 +5,7 @@ import com.tavall.hytale.resourcegame.dependency.interfaces.IBuildingInteraction
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleInteractionService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleEconomySimulationService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.ICastleProximityPromptService;
+import com.tavall.hytale.resourcegame.dependency.interfaces.ICustomEntitySpawnService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IDebugCommandService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IInteriorInstanceService;
 import com.tavall.hytale.resourcegame.dependency.interfaces.IKingdomClockService;
@@ -41,6 +42,10 @@ public interface IResourceGameDomainGenerated {
 
     default IWorkerNpcInteractionService getWorkerNpcInteractionService() {
         return DependencyLoaderAccess.findInstance(IWorkerNpcInteractionService.class);
+    }
+
+    default ICustomEntitySpawnService getCustomEntitySpawnService() {
+        return DependencyLoaderAccess.findInstance(ICustomEntitySpawnService.class);
     }
 
     default IBuildingInteractionService getBuildingInteractionService() {
