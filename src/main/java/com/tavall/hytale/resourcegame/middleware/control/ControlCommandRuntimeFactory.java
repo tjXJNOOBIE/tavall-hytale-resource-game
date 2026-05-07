@@ -3,6 +3,7 @@ package com.tavall.hytale.resourcegame.middleware.control;
 import com.tavall.hytale.resourcegame.middleware.asset.InMemoryGlobalAssetRepository;
 import com.tavall.hytale.resourcegame.middleware.citizen.CitizenControlSystem;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionService;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
 import com.tavall.hytale.resourcegame.middleware.event.RecordingDomainEventPublisher;
 import com.tavall.hytale.resourcegame.middleware.healing.HealingFacilityDefinitionRegistry;
@@ -54,6 +55,7 @@ public final class ControlCommandRuntimeFactory {
         UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.inMemory(eventPublisher);
         KingdomClockControlSystem kingdomClockSystem = KingdomClockControlSystem.inMemory(eventPublisher);
         CitizenControlSystem citizenControlSystem = CitizenControlSystem.inMemory(kingdomClockSystem);
+        CompanionService companionService = CompanionService.inMemory();
         HealingFacilityDefinitionRegistry facilityDefinitionRegistry = new HealingFacilityDefinitionRegistry();
         HealingFacilityModifierCalculationHandler modifierCalculationHandler = new HealingFacilityModifierCalculationHandler();
         HealingResourceCostCalculationHandler costCalculationHandler = new HealingResourceCostCalculationHandler(modifierCalculationHandler);
@@ -82,7 +84,8 @@ public final class ControlCommandRuntimeFactory {
                 surfaceLaunchHandler,
                 kingdomSimulationSystem,
                 kingdomClockSystem,
-                citizenControlSystem
+                citizenControlSystem,
+                companionService
         );
         ControlPlatformFanoutRetryHandler fanoutRetryHandler = new ControlPlatformFanoutRetryHandler(fanoutRetryRepository);
         PlatformCommandFanoutHandler fanoutHandler = new PlatformCommandFanoutHandler(List.of(
@@ -140,6 +143,7 @@ public final class ControlCommandRuntimeFactory {
                 kingdomSimulationSystem,
                 kingdomClockSystem,
                 citizenControlSystem,
+                companionService,
                 troopRepository,
                 troopHealingRepository,
                 healingInventoryRepository
@@ -172,6 +176,7 @@ public final class ControlCommandRuntimeFactory {
         UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.postgres(connectionProvider, eventPublisher);
         KingdomClockControlSystem kingdomClockSystem = KingdomClockControlSystem.postgres(connectionProvider, eventPublisher, Clock.systemUTC());
         CitizenControlSystem citizenControlSystem = CitizenControlSystem.postgres(connectionProvider, kingdomClockSystem);
+        CompanionService companionService = CompanionService.postgres(connectionProvider);
         HealingFacilityDefinitionRegistry facilityDefinitionRegistry = new HealingFacilityDefinitionRegistry();
         HealingFacilityModifierCalculationHandler modifierCalculationHandler = new HealingFacilityModifierCalculationHandler();
         HealingResourceCostCalculationHandler costCalculationHandler = new HealingResourceCostCalculationHandler(modifierCalculationHandler);
@@ -200,7 +205,8 @@ public final class ControlCommandRuntimeFactory {
                 surfaceLaunchHandler,
                 kingdomSimulationSystem,
                 kingdomClockSystem,
-                citizenControlSystem
+                citizenControlSystem,
+                companionService
         );
         ControlPlatformFanoutRetryHandler fanoutRetryHandler = new ControlPlatformFanoutRetryHandler(fanoutRetryRepository);
         PlatformCommandFanoutHandler fanoutHandler = new PlatformCommandFanoutHandler(List.of(
@@ -258,6 +264,7 @@ public final class ControlCommandRuntimeFactory {
                 kingdomSimulationSystem,
                 kingdomClockSystem,
                 citizenControlSystem,
+                companionService,
                 troopRepository,
                 troopHealingRepository,
                 healingInventoryRepository

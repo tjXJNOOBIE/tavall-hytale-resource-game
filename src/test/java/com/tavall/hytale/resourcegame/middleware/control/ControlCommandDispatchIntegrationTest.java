@@ -189,6 +189,48 @@ public final class ControlCommandDispatchIntegrationTest {
         assertEquals(1, runtime.auditLogRepository().findAuditLogsForCommand(apply.commandId()).size());
     }
 
+    @Test
+    void companionCommandsRunThroughSharedCommandPipelineAndFanout() {
+        ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime();
+        ControlOperator operator = ControlOperator.localOwner(Instant.now());
+        java.util.UUID playerId = java.util.UUID.randomUUID();
+
+        ControlCommandResult create = runtime.dispatchHandler().dispatchCommand(command(
+                ControlCommandType.CREATE_COMPANION,
+                operator,
+                CommandTargetScope.COMPANION,
+                Map.of("ownerPlayerId", playerId.toString(), "type", "BRUTE"),
+                false
+        ));
+        String companionId = create.changedObjectIds().stream()
+                .filter(id -> id.startsWith("companion:"))
+                .map(id -> id.substring("companion:".length()))
+                .findFirst()
+                .orElseThrow();
+        ControlCommandResult xp = runtime.dispatchHandler().dispatchCommand(command(
+                ControlCommandType.ADD_COMPANION_XP,
+                operator,
+                CommandTargetScope.COMPANION,
+                Map.of("companionId", companionId, "xp", "10000"),
+                false
+        ));
+        ControlCommandResult wall = runtime.dispatchHandler().dispatchCommand(command(
+                ControlCommandType.ASSIGN_COMPANION_TO_WALL,
+                operator,
+                CommandTargetScope.COMPANION,
+                Map.of("ownerPlayerId", playerId.toString(), "companionId", companionId, "wallSectionId", "north"),
+                false
+        ));
+
+        assertEquals(CommandExecutionState.COMPLETED, create.state());
+        assertEquals(runtime.fanoutHandler().adaptersByPlatform().size(), create.platformResults().size());
+        assertEquals(CommandExecutionState.COMPLETED, xp.state());
+        assertTrue(xp.message().contains("level="));
+        assertEquals(CommandExecutionState.COMPLETED, wall.state());
+        assertTrue(wall.message().contains("north"));
+        assertTrue(runtime.companionService().getCompanions(playerId).getFirst().activeWallSectionId().isPresent());
+    }
+
     private Troop registerTroop(ControlCommandRuntime runtime, UniversalPlayerId playerId) {
         return new TroopRegistrationHandler(runtime.troopRepository())
                 .registerTroop(Optional.of(playerId), Optional.empty(), "infantry", 2, new CanonicalLocation("world", 0.0d, 64.0d, 0.0d));

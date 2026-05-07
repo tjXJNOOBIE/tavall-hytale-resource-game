@@ -26,6 +26,11 @@ public final class ResourceGameFrontendActionCatalog {
             case KINGDOM_SCHEDULE -> List.of(action("hytale.schedule.view", "Schedule", "HYTALE_UI_ACTION"));
             case CITIZEN_POPULATION -> List.of(action("hytale.citizens.summary", "Citizens", "HYTALE_UI_ACTION"));
             case CITIZEN_DISPLAY_ANCHOR -> List.of(action("hytale.citizens.anchor", "Anchor", "HYTALE_CUSTOM_ASSET_VISUAL"));
+            case COMPANION -> List.of(
+                    action("hytale.companion.overview", "Companion", "HYTALE_UI_ACTION"),
+                    action("hytale.companion.train", "Train", "HYTALE_UI_ACTION"),
+                    action("hytale.companion.wisdom", "Wisdom Well", "HYTALE_UI_ACTION")
+            );
         };
     }
 
@@ -40,6 +45,11 @@ public final class ResourceGameFrontendActionCatalog {
             case KINGDOM_SCHEDULE -> List.of(action("kingdom.schedule.view", "Schedule", "MINECRAFT_COMMAND"));
             case CITIZEN_POPULATION -> List.of(action("kingdom.citizens.summary", "Citizens", "MINECRAFT_COMMAND"));
             case CITIZEN_DISPLAY_ANCHOR -> List.of(action("kingdom.citizens.anchor", "Anchor", "MINECRAFT_RESOURCE_PACK_VISUAL"));
+            case COMPANION -> List.of(
+                    action("kingdom.companion.summary", "Companion", "MINECRAFT_COMMAND"),
+                    action("kingdom.companion.train", "Train", "MINECRAFT_COMMAND"),
+                    action("kingdom.companion.wall", "Wall", "MINECRAFT_COMMAND")
+            );
         };
     }
 
@@ -54,6 +64,10 @@ public final class ResourceGameFrontendActionCatalog {
             case KINGDOM_SCHEDULE -> List.of(action("roblox.schedule.gui", "Schedule", "ROBLOX_GUI_ACTION"));
             case CITIZEN_POPULATION -> List.of(action("roblox.citizens.summary", "Citizens", "ROBLOX_GUI_ACTION"));
             case CITIZEN_DISPLAY_ANCHOR -> List.of(action("roblox.citizens.anchor", "Anchor", "ROBLOX_ASSET_VISUAL"));
+            case COMPANION -> List.of(
+                    action("roblox.companion.gui", "Companion", "ROBLOX_GUI_ACTION"),
+                    action("roblox.companion.wisdom", "Wisdom Well", "ROBLOX_GUI_ACTION")
+            );
         };
     }
 
@@ -68,6 +82,10 @@ public final class ResourceGameFrontendActionCatalog {
             case KINGDOM_SCHEDULE -> List.of(action("discord.schedule.view", "Schedule", "DISCORD_SLASH_COMMAND"));
             case CITIZEN_POPULATION -> List.of(action("discord.citizens.summary", "Citizens", "DISCORD_SLASH_COMMAND"));
             case CITIZEN_DISPLAY_ANCHOR -> List.of(action("discord.citizens.anchor", "Anchor", "DISCORD_EMBED_ACTION"));
+            case COMPANION -> List.of(
+                    action("discord.companion.summary", "Companion", "DISCORD_SLASH_COMMAND"),
+                    action("discord.companion.wall", "Wall", "DISCORD_BUTTON")
+            );
         };
     }
 

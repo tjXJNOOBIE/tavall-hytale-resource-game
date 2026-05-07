@@ -13,6 +13,8 @@ public final class KdControlCommandTranslationHandler {
             "castle",
             "interior",
             "citizens",
+            "companion",
+            "companions",
             "troops",
             "resources",
             "buildings",
@@ -69,6 +71,7 @@ public final class KdControlCommandTranslationHandler {
             case "schedule" -> translatePrefixed(tokens, "schedule");
             case "aging" -> translatePrefixed(tokens, "aging");
             case "citizens" -> translateCitizens(tokens);
+            case "companion", "companions" -> translateCompanion(tokens);
             case "resources" -> translateResources(tokens);
             case "troops" -> translateTroops(tokens);
             case "account" -> translateAccount(tokens);
@@ -123,6 +126,13 @@ public final class KdControlCommandTranslationHandler {
     private Optional<String> translateCitizens(List<String> tokens) {
         if (tokens.size() >= 3 && Set.of("spawn", "create", "migrate", "list", "summary", "debug", "get", "age", "ageall", "setstage", "setjob", "clearjob", "train", "promote", "demote", "health", "morale", "nutrition", "housing", "maintenance", "refresh-cache", "refresh-displays", "food-effects", "morale-effects", "night-rest").contains(tokens.get(2).toLowerCase(Locale.ROOT))) {
             return Optional.of("citizens " + String.join(" ", tokens.subList(2, tokens.size())));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<String> translateCompanion(List<String> tokens) {
+        if (tokens.size() >= 3 && Set.of("list", "give", "create", "debug", "get", "setlevel", "xp", "morale", "behavior", "train", "claim", "cancel", "skill", "summon", "recall", "wall", "ui", "projection").contains(tokens.get(2).toLowerCase(Locale.ROOT))) {
+            return Optional.of("companion " + String.join(" ", tokens.subList(2, tokens.size())));
         }
         return Optional.empty();
     }

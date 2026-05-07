@@ -37,6 +37,7 @@ public final class ControlCommandParsingHandler {
             case "schedule" -> parseScheduleCommand(tokens, operator, issuedFrom, dryRun, now);
             case "aging" -> parseAgingCommand(tokens, operator, issuedFrom, dryRun, now);
             case "citizen", "citizens" -> parseCitizenCommand(tokens, operator, issuedFrom, dryRun, now);
+            case "companion", "companions" -> parseCompanionCommand(tokens, operator, issuedFrom, dryRun, now);
             case "coord", "coordinate" -> parseCoordinateCommand(tokens, operator, issuedFrom, dryRun, now);
             case "instance" -> parseInstanceCommand(tokens, operator, issuedFrom, dryRun, now);
             case "params", "parameter", "parameters" -> parseParameterCommand(tokens, operator, issuedFrom, dryRun, now);
@@ -365,6 +366,75 @@ public final class ControlCommandParsingHandler {
             return parseKingdomBorderCommand(tokens, operator, issuedFrom, dryRun, now);
         }
         throw new ControlCommandValidationException("Unknown kingdom command: " + operation + ".");
+    }
+
+    private ControlCommand parseCompanionCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {
+        requireSize(tokens, 2, "companion <list|give|debug|setlevel|xp|morale|behavior|train|claim|cancel|skill|summon|recall|wall|projection> ...");
+        String operation = tokens.get(1).toLowerCase();
+        if (operation.equals("list")) {
+            requireSize(tokens, 3, "companion list <ownerPlayerId>");
+            return command(ControlCommandType.LIST_COMPANIONS, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("ownerPlayerId", tokens.get(2)), dryRun, now);
+        }
+        if (operation.equals("give") || operation.equals("create")) {
+            requireSize(tokens, 4, "companion give <ownerPlayerId> <type>");
+            return command(ControlCommandType.CREATE_COMPANION, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("ownerPlayerId", tokens.get(2), "type", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("debug") || operation.equals("get")) {
+            requireSize(tokens, 3, "companion debug <companionId>");
+            return command(operation.equals("debug") ? ControlCommandType.DEBUG_COMPANION : ControlCommandType.GET_COMPANION, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("companionId", tokens.get(2)), dryRun, now);
+        }
+        if (operation.equals("setlevel")) {
+            requireSize(tokens, 4, "companion setlevel <companionId> <level>");
+            return command(ControlCommandType.SET_COMPANION_LEVEL, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("companionId", tokens.get(2), "level", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("xp")) {
+            requireSize(tokens, 4, "companion xp <companionId> <amount>");
+            return command(ControlCommandType.ADD_COMPANION_XP, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("companionId", tokens.get(2), "xp", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("morale")) {
+            requireSize(tokens, 4, "companion morale <companionId> <state>");
+            return command(ControlCommandType.UPDATE_COMPANION_MORALE, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("companionId", tokens.get(2), "moraleState", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("behavior")) {
+            requireSize(tokens, 4, "companion behavior <companionId> <state>");
+            return command(ControlCommandType.SET_COMPANION_BEHAVIOR, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("companionId", tokens.get(2), "behaviorState", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("train") || operation.equals("claim") || operation.equals("cancel") || operation.equals("summon") || operation.equals("recall")) {
+            requireSize(tokens, 4, "companion " + operation + " <ownerPlayerId> <companionId>");
+            ControlCommandType type = switch (operation) {
+                case "train" -> ControlCommandType.START_COMPANION_TRAINING;
+                case "claim" -> ControlCommandType.CLAIM_COMPANION_TRAINING;
+                case "cancel" -> ControlCommandType.CANCEL_COMPANION_TRAINING;
+                case "summon" -> ControlCommandType.SUMMON_COMPANION;
+                default -> ControlCommandType.RECALL_COMPANION;
+            };
+            return command(type, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("ownerPlayerId", tokens.get(2), "companionId", tokens.get(3)), dryRun, now);
+        }
+        if (operation.equals("skill")) {
+            requireSize(tokens, 6, "companion skill <unlock|upgrade> <ownerPlayerId> <companionId> <skillId>");
+            ControlCommandType type = tokens.get(2).equalsIgnoreCase("unlock") ? ControlCommandType.UNLOCK_COMPANION_SKILL : ControlCommandType.UPGRADE_COMPANION_SKILL;
+            return command(type, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("ownerPlayerId", tokens.get(3), "companionId", tokens.get(4), "skillId", tokens.get(5)), dryRun, now);
+        }
+        if (operation.equals("wall")) {
+            requireSize(tokens, 4, "companion wall <assign|remove|debug> ...");
+            if (tokens.get(2).equalsIgnoreCase("debug")) {
+                return command(ControlCommandType.DEBUG_COMPANION_WALL, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("ownerPlayerId", tokens.get(3)), dryRun, now);
+            }
+            if (tokens.get(2).equalsIgnoreCase("assign")) {
+                requireSize(tokens, 6, "companion wall assign <ownerPlayerId> <companionId> <section>");
+                return command(ControlCommandType.ASSIGN_COMPANION_TO_WALL, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("ownerPlayerId", tokens.get(3), "companionId", tokens.get(4), "wallSectionId", tokens.get(5)), dryRun, now);
+            }
+            if (tokens.get(2).equalsIgnoreCase("remove")) {
+                requireSize(tokens, 5, "companion wall remove <ownerPlayerId> <companionId>");
+                return command(ControlCommandType.REMOVE_COMPANION_FROM_WALL, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("ownerPlayerId", tokens.get(3), "companionId", tokens.get(4)), dryRun, now);
+            }
+            throw new ControlCommandValidationException("Unknown companion wall command: " + tokens.get(2) + ".");
+        }
+        if (operation.equals("ui") || operation.equals("projection")) {
+            requireSize(tokens, 3, "companion projection <companionId>");
+            return command(ControlCommandType.REFRESH_COMPANION_PROJECTION, operator, issuedFrom, CommandTargetScope.COMPANION, Set.of(), Map.of("companionId", tokens.get(2)), dryRun, now);
+        }
+        throw new ControlCommandValidationException("Unknown companion command: " + operation + ".");
     }
 
     private ControlCommand parseKingdomBorderCommand(ArrayList<String> tokens, ControlOperator operator, CommandIssuedFrom issuedFrom, boolean dryRun, Instant now) {

@@ -77,6 +77,27 @@ public final class ControlCommandParsingIntegrationTest {
     }
 
     @Test
+    void consoleParserCreatesCompanionCommands() {
+        ControlCommandParsingHandler parser = new ControlCommandParsingHandler();
+        ControlOperator operator = ControlOperator.localOwner(Instant.parse("2026-05-07T16:00:00Z"));
+        UUID playerId = UUID.randomUUID();
+        UUID companionId = UUID.randomUUID();
+
+        ControlCommand give = parser.parseConsoleCommand("companion give " + playerId + " ARCANE", operator, CommandIssuedFrom.CLI, Instant.now());
+        ControlCommand train = parser.parseConsoleCommand("companion train " + playerId + " " + companionId, operator, CommandIssuedFrom.CLI, Instant.now());
+        ControlCommand skill = parser.parseConsoleCommand("companion skill upgrade " + playerId + " " + companionId + " arcane-lance", operator, CommandIssuedFrom.CLI, Instant.now());
+        ControlCommand wall = parser.parseConsoleCommand("companion wall assign " + playerId + " " + companionId + " north", operator, CommandIssuedFrom.CLI, Instant.now());
+
+        assertEquals(ControlCommandType.CREATE_COMPANION, give.commandType());
+        assertEquals("ARCANE", give.argument("type"));
+        assertEquals(ControlCommandType.START_COMPANION_TRAINING, train.commandType());
+        assertEquals(ControlCommandType.UPGRADE_COMPANION_SKILL, skill.commandType());
+        assertEquals("arcane-lance", skill.argument("skillId"));
+        assertEquals(ControlCommandType.ASSIGN_COMPANION_TO_WALL, wall.commandType());
+        assertEquals("north", wall.argument("wallSectionId"));
+    }
+
+    @Test
     void consoleParserCreatesInstanceSwitchCompletionCommands() {
         ControlCommandParsingHandler parser = new ControlCommandParsingHandler();
         ControlOperator operator = ControlOperator.localOwner(Instant.parse("2026-05-06T16:00:00Z"));

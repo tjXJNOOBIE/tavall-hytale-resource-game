@@ -271,6 +271,61 @@ public final class ControlCommandRegistry {
         register(definitions, definition(ControlCommandType.REFRESH_CITIZEN_DISPLAY_PROJECTIONS, "Refresh Citizen Display Projections", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.KINGDOM, false, true,
                 arg("ownerPlayerId", false, "Owner universal player ID"),
                 arg("kingdomId", false, "Kingdom ID")));
+        register(definitions, definition(ControlCommandType.CREATE_COMPANION, "Create Companion", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("type", true, "HEALER, BRAWLER, BRUTE, or ARCANE")));
+        register(definitions, definition(ControlCommandType.LIST_COMPANIONS, "List Companions", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.COMPANION, false, false,
+                arg("ownerPlayerId", true, "Owner universal player ID")));
+        register(definitions, definition(ControlCommandType.GET_COMPANION, "Get Companion", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.COMPANION, false, false,
+                arg("companionId", true, "Companion ID")));
+        register(definitions, definition(ControlCommandType.DEBUG_COMPANION, "Debug Companion", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.COMPANION, false, false,
+                arg("companionId", true, "Companion ID")));
+        register(definitions, definition(ControlCommandType.SET_COMPANION_LEVEL, "Set Companion Level", ControlPermission.EXECUTE_DEBUG_COMMAND, true, CommandTargetScope.COMPANION, true, true,
+                arg("companionId", true, "Companion ID"),
+                arg("level", true, "Level 1-70")));
+        register(definitions, definition(ControlCommandType.ADD_COMPANION_XP, "Add Companion XP", ControlPermission.EXECUTE_DEBUG_COMMAND, true, CommandTargetScope.COMPANION, true, true,
+                arg("companionId", true, "Companion ID"),
+                arg("xp", true, "XP to add")));
+        register(definitions, definition(ControlCommandType.UPDATE_COMPANION_MORALE, "Update Companion Morale", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("companionId", true, "Companion ID"),
+                arg("moraleState", true, "HIGH, MEDIUM, LOW, or POOR")));
+        register(definitions, definition(ControlCommandType.SET_COMPANION_BEHAVIOR, "Set Companion Behavior", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("companionId", true, "Companion ID"),
+                arg("behaviorState", true, "IDLE, FOLLOWING, AGGRESSIVE, FLEEING, or DUELING")));
+        register(definitions, definition(ControlCommandType.START_COMPANION_TRAINING, "Start Companion Training", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID")));
+        register(definitions, definition(ControlCommandType.CLAIM_COMPANION_TRAINING, "Claim Companion Training", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID")));
+        register(definitions, definition(ControlCommandType.CANCEL_COMPANION_TRAINING, "Cancel Companion Training", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID")));
+        register(definitions, definition(ControlCommandType.UNLOCK_COMPANION_SKILL, "Unlock Companion Skill", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID"),
+                arg("skillId", true, "Skill ID or name")));
+        register(definitions, definition(ControlCommandType.UPGRADE_COMPANION_SKILL, "Upgrade Companion Skill", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID"),
+                arg("skillId", true, "Skill ID or name")));
+        register(definitions, definition(ControlCommandType.SUMMON_COMPANION, "Summon Companion", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID")));
+        register(definitions, definition(ControlCommandType.RECALL_COMPANION, "Recall Companion", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID")));
+        register(definitions, definition(ControlCommandType.ASSIGN_COMPANION_TO_WALL, "Assign Companion To Wall", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID"),
+                arg("wallSectionId", true, "Wall section ID")));
+        register(definitions, definition(ControlCommandType.REMOVE_COMPANION_FROM_WALL, "Remove Companion From Wall", ControlPermission.MANAGE_PLAYER_STATE, false, CommandTargetScope.COMPANION, true, true,
+                arg("ownerPlayerId", true, "Owner universal player ID"),
+                arg("companionId", true, "Companion ID")));
+        register(definitions, definition(ControlCommandType.DEBUG_COMPANION_WALL, "Debug Companion Wall", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.COMPANION, false, false,
+                arg("ownerPlayerId", true, "Owner universal player ID")));
+        register(definitions, definition(ControlCommandType.REFRESH_COMPANION_PROJECTION, "Refresh Companion Projection", ControlPermission.EXECUTE_DEBUG_COMMAND, false, CommandTargetScope.COMPANION, false, true,
+                arg("companionId", true, "Companion ID")));
         this.definitionsByType = Map.copyOf(definitions);
     }
 

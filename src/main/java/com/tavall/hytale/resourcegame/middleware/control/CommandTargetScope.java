@@ -12,5 +12,6 @@ public enum CommandTargetScope {
     RESOURCE_NODE,
     PLATFORM_INSTANCE,
     COORDINATE_CONVERSION,
-    PARAMETER
+    PARAMETER,
+    COMPANION
 }

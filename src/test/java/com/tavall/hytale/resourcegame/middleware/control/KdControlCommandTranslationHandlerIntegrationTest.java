@@ -30,6 +30,8 @@ final class KdControlCommandTranslationHandlerIntegrationTest {
         );
         assertEquals("troop debug troop-1", translationHandler.translateKdCommand("kd troops debug troop-1").orElseThrow());
         assertEquals("player debug player-1", translationHandler.translateKdCommand("kd account debug player-1").orElseThrow());
+        assertEquals("companion give player-1 ARCANE", translationHandler.translateKdCommand("kd companion give player-1 ARCANE").orElseThrow());
+        assertEquals("companion wall assign player-1 companion-1 north", translationHandler.translateKdCommand("kd companion wall assign player-1 companion-1 north").orElseThrow());
     }
 
     @Test
@@ -43,6 +45,7 @@ final class KdControlCommandTranslationHandlerIntegrationTest {
         assertEquals("recon", translationHandler.category("kd recon profile player-1"));
         assertEquals("intel", translationHandler.category("kd intel report report-1"));
         assertEquals("retaliation", translationHandler.category("kd retaliation debug rule-1"));
+        assertEquals("companion", translationHandler.category("kd companion list player-1"));
     }
 
     @Test

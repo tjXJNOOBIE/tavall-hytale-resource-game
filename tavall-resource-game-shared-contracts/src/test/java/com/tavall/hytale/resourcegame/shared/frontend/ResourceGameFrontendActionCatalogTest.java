@@ -42,4 +42,14 @@ public final class ResourceGameFrontendActionCatalogTest {
         assertEquals("roblox.schedule.gui", catalog.actionsFor(ResourceGameFrontendPlatform.ROBLOX, ResourceGameFrontendObjectKind.KINGDOM_SCHEDULE).getFirst().actionId());
         assertEquals("discord.schedule.view", catalog.actionsFor(ResourceGameFrontendPlatform.DISCORD, ResourceGameFrontendObjectKind.KINGDOM_SCHEDULE).getFirst().actionId());
     }
+
+    @Test
+    void allLivePlatformsExposeCompanionActions() {
+        ResourceGameFrontendActionCatalog catalog = new ResourceGameFrontendActionCatalog();
+
+        assertEquals("hytale.companion.overview", catalog.actionsFor(ResourceGameFrontendPlatform.HYTALE, ResourceGameFrontendObjectKind.COMPANION).getFirst().actionId());
+        assertEquals("kingdom.companion.summary", catalog.actionsFor(ResourceGameFrontendPlatform.MINECRAFT, ResourceGameFrontendObjectKind.COMPANION).getFirst().actionId());
+        assertEquals("roblox.companion.gui", catalog.actionsFor(ResourceGameFrontendPlatform.ROBLOX, ResourceGameFrontendObjectKind.COMPANION).getFirst().actionId());
+        assertEquals("discord.companion.summary", catalog.actionsFor(ResourceGameFrontendPlatform.DISCORD, ResourceGameFrontendObjectKind.COMPANION).getFirst().actionId());
+    }
 }

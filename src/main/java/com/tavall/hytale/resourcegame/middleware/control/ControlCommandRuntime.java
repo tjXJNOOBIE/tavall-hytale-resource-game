@@ -3,6 +3,7 @@ package com.tavall.hytale.resourcegame.middleware.control;
 import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetRepository;
 import com.tavall.hytale.resourcegame.middleware.citizen.CitizenControlSystem;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionService;
 import com.tavall.hytale.resourcegame.middleware.healing.HealingInventoryRepository;
 import com.tavall.hytale.resourcegame.middleware.healing.TroopHealingRepository;
 import com.tavall.hytale.resourcegame.middleware.identity.PlatformAccountBindingRepository;
@@ -30,6 +31,7 @@ public record ControlCommandRuntime(
         UniversalKingdomSimulationSystem kingdomSimulationSystem,
         KingdomClockControlSystem kingdomClockSystem,
         CitizenControlSystem citizenControlSystem,
+        CompanionService companionService,
         TroopRepository troopRepository,
         TroopHealingRepository troopHealingRepository,
         HealingInventoryRepository healingInventoryRepository

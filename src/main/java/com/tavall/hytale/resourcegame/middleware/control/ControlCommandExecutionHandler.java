@@ -7,6 +7,7 @@ import com.tavall.hytale.resourcegame.middleware.asset.GlobalAssetType;
 import com.tavall.hytale.resourcegame.middleware.citizen.CitizenControlSystem;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem;
 import com.tavall.hytale.resourcegame.middleware.common.GamePlatform;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionService;
 import com.tavall.hytale.resourcegame.middleware.healing.HealingFacilityDefinitionRegistry;
 import com.tavall.hytale.resourcegame.middleware.healing.HealingFacilityLevelDefinition;
 import com.tavall.hytale.resourcegame.middleware.healing.HealingInventory;
@@ -58,6 +59,7 @@ public final class ControlCommandExecutionHandler {
     private final UniversalKingdomSimulationSystem kingdomSimulationSystem;
     private final KingdomClockControlSystem kingdomClockSystem;
     private final CitizenControlSystem citizenControlSystem;
+    private final CompanionService companionService;
 
     public ControlCommandExecutionHandler(
             UniversalPlayerAccountRepository accountRepository,
@@ -75,7 +77,8 @@ public final class ControlCommandExecutionHandler {
             ControlSurfaceLaunchHandler surfaceLaunchHandler,
             UniversalKingdomSimulationSystem kingdomSimulationSystem,
             KingdomClockControlSystem kingdomClockSystem,
-            CitizenControlSystem citizenControlSystem
+            CitizenControlSystem citizenControlSystem,
+            CompanionService companionService
     ) {
         this.accountRepository = accountRepository;
         this.platformAccountBindingRepository = platformAccountBindingRepository;
@@ -93,6 +96,7 @@ public final class ControlCommandExecutionHandler {
         this.kingdomSimulationSystem = kingdomSimulationSystem;
         this.kingdomClockSystem = kingdomClockSystem;
         this.citizenControlSystem = citizenControlSystem;
+        this.companionService = companionService;
     }
 
     public ControlCommandResult executeCommand(ControlCommand command, Instant startedAt) {
@@ -144,6 +148,15 @@ public final class ControlCommandExecutionHandler {
                      APPLY_CITIZEN_NIGHT_REST_EFFECTS, REFRESH_CITIZEN_SUMMARY_CACHE,
                      REFRESH_CITIZEN_DISPLAY_PROJECTIONS ->
                         citizenControlSystem.handleControlCommand(command, startedAt);
+                case CREATE_COMPANION, LIST_COMPANIONS, GET_COMPANION, DEBUG_COMPANION,
+                     SET_COMPANION_LEVEL, ADD_COMPANION_XP, UPDATE_COMPANION_MORALE,
+                     SET_COMPANION_BEHAVIOR, START_COMPANION_TRAINING,
+                     CLAIM_COMPANION_TRAINING, CANCEL_COMPANION_TRAINING,
+                     UNLOCK_COMPANION_SKILL, UPGRADE_COMPANION_SKILL,
+                     SUMMON_COMPANION, RECALL_COMPANION, ASSIGN_COMPANION_TO_WALL,
+                     REMOVE_COMPANION_FROM_WALL, DEBUG_COMPANION_WALL,
+                     REFRESH_COMPANION_PROJECTION ->
+                        companionService.handleControlCommand(command, startedAt);
                 default -> rejected(command, startedAt, "Command type is registered but execution is not implemented yet: " + command.commandType() + ".");
             };
         } catch (RuntimeException exception) {

@@ -4,6 +4,14 @@ import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockMode;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockRealTimeSource;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomClockState;
 import com.tavall.hytale.resourcegame.middleware.clock.KingdomTimePhase;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionBaseAttributes;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionBehaviorState;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionData;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionMoraleState;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionSkillSlot;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionStats;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionStatus;
+import com.tavall.hytale.resourcegame.middleware.companion.CompanionType;
 import com.tavall.hytale.resourcegame.middleware.event.RecordingDomainEventPublisher;
 import com.tavall.hytale.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
 import org.junit.jupiter.api.Test;
@@ -12,6 +20,7 @@ import java.time.Instant;
 import java.time.LocalTime;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -57,5 +66,36 @@ public final class ControlPlaneSnapshotJsonCodecTest {
         assertEquals("kingdom-1", restored.kingdomId().value());
         assertEquals("kingdom-1", restored.folderName());
         assertNotNull(restored.editableParameters());
+    }
+
+    @Test
+    void companionSnapshotsRoundTripSkillSlotsStatsAndOptionalAssignments() {
+        ControlPlaneSnapshotJsonCodec codec = new ControlPlaneSnapshotJsonCodec();
+        UUID skillId = UUID.randomUUID();
+        CompanionData companion = new CompanionData(
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                CompanionType.BRUTE,
+                CompanionStatus.ASSIGNED_TO_WALL,
+                CompanionBehaviorState.IDLE,
+                CompanionMoraleState.HIGH,
+                30,
+                90_000,
+                1000,
+                2000,
+                new CompanionBaseAttributes(4, 14, 5),
+                new CompanionStats(200, 40, 35, 0.12, 12, 10, 0.02, 65),
+                java.util.List.of(new CompanionSkillSlot(1, Optional.of(skillId), true, 1)),
+                Optional.empty(),
+                Optional.of("north"),
+                Map.of("source", "test")
+        );
+
+        CompanionData restored = codec.read(codec.write(companion), CompanionData.class);
+
+        assertEquals(companion.companionId(), restored.companionId());
+        assertEquals(Optional.of("north"), restored.activeWallSectionId());
+        assertEquals(skillId, restored.skillSlots().getFirst().skillId().orElseThrow());
+        assertEquals(200, restored.calculatedStats().hp());
     }
 }

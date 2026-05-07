@@ -9,5 +9,6 @@ public enum ResourceGameFrontendObjectKind {
     KINGDOM_CLOCK,
     KINGDOM_SCHEDULE,
     CITIZEN_POPULATION,
-    CITIZEN_DISPLAY_ANCHOR
+    CITIZEN_DISPLAY_ANCHOR,
+    COMPANION
 }
