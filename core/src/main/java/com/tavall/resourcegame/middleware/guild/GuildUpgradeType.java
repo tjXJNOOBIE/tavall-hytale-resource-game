@@ -1,0 +1,17 @@
+package com.tavall.resourcegame.middleware.guild;
+
+public enum GuildUpgradeType {
+    RESOURCE_YIELD,
+    TROOP_TRAINING_SPEED,
+    BUILDING_UPGRADE_SPEED,
+    SCOUT_DETECTION,
+    ANTI_SCOUT_DEFENSE,
+    CASTLE_DEFENSE,
+    TRADE_ROUTE_SPEED,
+    TRADE_ROUTE_SECURITY,
+    SIEGE_DAMAGE,
+    TROOP_MARCH_SPEED,
+    VAULT_PROTECTION,
+    PROPAGANDA_REACH,
+    TAX_EFFICIENCY
+}

@@ -11,9 +11,9 @@ import {
   writeJson, printStructured,
 } from "./bot-flow-helpers.mjs";
 
-const BUILDING_DETAIL_PAGE = "com.tavall.hytale.resourcegame.ui.BuildingDetailPage";
-const BUILDINGS_OVERVIEW_PAGE = "com.tavall.hytale.resourcegame.ui.CastleBuildingsPage";
-const INTERIOR_MAIN_PAGE = "com.tavall.hytale.resourcegame.ui.InteriorMainPage";
+const BUILDING_DETAIL_PAGE = "com.tavall.resourcegame.ui.BuildingDetailPage";
+const BUILDINGS_OVERVIEW_PAGE = "com.tavall.resourcegame.ui.CastleBuildingsPage";
+const INTERIOR_MAIN_PAGE = "com.tavall.resourcegame.ui.InteriorMainPage";
 
 function readSelectorValue(snapshot, selector) {
   const command = snapshot?.commands?.slice().reverse().find((entry) => entry.type === "Set" && entry.selector === selector);

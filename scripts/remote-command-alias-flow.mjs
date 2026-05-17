@@ -152,7 +152,7 @@ async function main() {
     const debugSnapshot = await chatUntilSnapshot(
       bot,
       "/kd ui",
-      (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.DebugNavigatorPage",
+      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.DebugNavigatorPage",
       18_000,
       "debug page from /kd ui"
     );
@@ -162,7 +162,7 @@ async function main() {
     const castleSnapshot = await sendActionUntilSnapshot(
       bot,
       "OpenCastleMain",
-      (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleMainPage",
+      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleMainPage",
       12_000,
       "castle main from debug action"
     );
@@ -188,7 +188,7 @@ async function main() {
       bot,
       "/kd ui upgrades",
       (snapshot) =>
-        snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleUpgradesPage"
+        snapshot.key === "com.tavall.resourcegame.ui.CastleUpgradesPage"
         && readSelectorValue(snapshot, "#CitizenCount.Text") === "9"
         && readSelectorValue(snapshot, "#TroopCount.Text") === "4"
         && resourceAtLeast(snapshot, "#FoodCount.Text", 44)
@@ -204,7 +204,7 @@ async function main() {
     const returnedCastleSnapshot = await sendActionUntilSnapshot(
       bot,
       "OpenCastleMain",
-      (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleMainPage",
+      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleMainPage",
       12_000,
       "castle main from upgrades action"
     );
@@ -214,7 +214,7 @@ async function main() {
     const directCastleSnapshot = await chatUntilSnapshot(
       bot,
       "/kd castle",
-      (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleMainPage",
+      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleMainPage",
       12_000,
       "castle main from /kd castle"
     );

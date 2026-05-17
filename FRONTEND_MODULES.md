@@ -8,13 +8,13 @@ The existing `tavall-hytale-resource-game` module remains the current control-se
 
 | Module | Platform | Language/runtime | Purpose |
 | --- | --- | --- | --- |
-| `tavall-resource-game-shared-contracts` | Shared | Java | Shared frontend adapter descriptors and future projection/command DTO contracts. |
-| `tavall-resource-game-hytale-frontend` | Hytale | Java/Hytale-native | Hytale input, UI, entity rendering, bot-harness-facing hooks. |
-| `tavall-resource-game-minecraft-frontend` | Minecraft | Java plugin/native adapter | Minecraft commands, entity/inventory/rendering bridge. |
-| `tavall-resource-game-roblox-frontend` | Roblox | Luau | Roblox RemoteEvent, GUI, ProximityPrompt, and asset mapping adapter. |
-| `tavall-resource-game-discord-frontend` | Discord | Java bot/buttons | Discord slash commands, buttons, embeds, and account/guild summaries. |
-| `tavall-resource-game-android-app` | Android | Kotlin | Future mobile inspection/control shell. |
-| `tavall-resource-game-pc-app` | PC app | C# | Future desktop/gameplay shell. |
+| `shared-contracts` | Shared | Java | Shared frontend adapter descriptors and future projection/command DTO contracts. |
+| `hytale-frontend` | Hytale | Java/Hytale-native | Hytale input, UI, entity rendering, bot-harness-facing hooks. |
+| `minecraft-proxy` | Minecraft | Java plugin/native adapter | Minecraft commands, entity/inventory/rendering bridge. |
+| `roblox-frontend` | Roblox | Luau | Roblox RemoteEvent, GUI, ProximityPrompt, and asset mapping adapter. |
+| `discord-frontend` | Discord | Java bot/buttons | Discord slash commands, buttons, embeds, and account/guild summaries. |
+| `android-app` | Android | Kotlin | Future mobile inspection/control shell. |
+| `pc-app` | PC app | C# | Future desktop/gameplay shell. |
 
 ## Rules
 
@@ -23,14 +23,14 @@ The existing `tavall-hytale-resource-game` module remains the current control-se
 - Platform-specific IDs stay account bindings only.
 - Platform asset references map back to canonical global asset IDs.
 - Android and PC app modules are future shells, not canonical state owners.
-- Java frontend modules must depend on `tavall-resource-game-shared-contracts` for adapter descriptors instead of redefining platform ownership rules.
+- Java frontend modules must depend on `shared-contracts` for adapter descriptors instead of redefining platform ownership rules.
 - Platform action IDs and interaction-type names belong in the shared action catalog before canonical projection handlers consume them.
 
 ## Migration Path
 
 1. Keep current Hytale plugin code running in `tavall-hytale-resource-game`.
-2. Keep shared adapter contracts in `tavall-resource-game-shared-contracts`.
-3. Move additional platform action catalogs and projection DTO contracts into `tavall-resource-game-shared-contracts`.
-4. Move Hytale-only command/UI/rendering classes into `tavall-resource-game-hytale-frontend` once active UI work is clean.
+2. Keep shared adapter contracts in `shared-contracts`.
+3. Move additional platform action catalogs and projection DTO contracts into `shared-contracts`.
+4. Move Hytale-only command/UI/rendering classes into `hytale-frontend` once active UI work is clean.
 5. Extract middleware/control-server code into a dedicated control module when the frontend module boundaries are stable.
 6. Keep Minecraft, Roblox, Discord, Android, and PC app modules consuming shared DTOs/projections only.

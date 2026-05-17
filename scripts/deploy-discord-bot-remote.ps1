@@ -9,8 +9,8 @@ param(
 $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $PSScriptRoot
-$discordJar = Join-Path $root "tavall-resource-game-discord-frontend\target\tavall-resource-game-discord-frontend-0.1.1-SNAPSHOT.jar"
-$controlServerJar = Join-Path $root "tavall-resource-game-control-server\target\tavall-resource-game-control-server-0.1.1-SNAPSHOT.jar"
+$discordJar = Join-Path $root "discord-frontend\target\discord-frontend-0.1.1-SNAPSHOT.jar"
+$controlServerJar = Join-Path $root "control-server\target\control-server-0.1.1-SNAPSHOT.jar"
 
 if (!(Test-Path $discordJar)) {
     throw "Discord bot jar not found: $discordJar"
@@ -36,7 +36,7 @@ if [ ! -f '$RemoteDirectory/resource-game-discord.env' ]; then
   cat > '$RemoteDirectory/resource-game-discord.env' <<'ENVEOF'
 RESOURCE_GAME_DISCORD_BOT_TOKEN=
 RESOURCE_GAME_DISCORD_GUILD_ID=
-RESOURCE_GAME_CONTROL_INGRESS_URL=http://127.0.0.1:$ControlServerPort/api/frontend/commands
+RESOURCE_GAME_CONTROL_INGRESS_URL=tcp://127.0.0.1:18081
 RESOURCE_GAME_DISCORD_OWNER_USER_IDS=
 RESOURCE_GAME_DISCORD_ADMIN_ROLE_IDS=
 RESOURCE_GAME_DISCORD_ADMIN_ROLE_NAMES=

@@ -1,0 +1,42 @@
+package com.tavall.resourcegame.middleware.platform;
+
+import com.tavall.resourcegame.middleware.common.GamePlatform;
+import com.tavall.resourcegame.middleware.identity.InMemoryIdentityRepository;
+import com.tavall.resourcegame.middleware.identity.PlatformAccountBinding;
+import com.tavall.resourcegame.middleware.identity.PlatformAccountLinkHandler;
+import com.tavall.resourcegame.middleware.identity.PlatformLinkChallengeCreated;
+import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import com.tavall.resourcegame.middleware.security.Sha256TokenHasher;
+import org.junit.jupiter.api.Test;
+
+import java.security.SecureRandom;
+import java.time.Duration;
+import java.time.Instant;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public final class PlatformAccountBindingIntegrationTest {
+    @Test
+    void platformSpecificBindingHandlersUseCanonicalLinkFlow() {
+        InMemoryIdentityRepository repository = new InMemoryIdentityRepository();
+        PlatformAccountLinkHandler linkHandler = new PlatformAccountLinkHandler(repository, repository, new Sha256TokenHasher("platform-pepper"), new SecureRandom(new byte[]{2, 2, 2}));
+        UniversalPlayerId playerId = UniversalPlayerId.random();
+        Instant now = Instant.parse("2026-04-30T13:25:00Z");
+
+        PlatformLinkChallengeCreated robloxChallenge = new RobloxPlatformAccountBindingHandler(linkHandler).createRobloxLinkChallenge(playerId, Duration.ofMinutes(5), now);
+        PlatformAccountBinding robloxBinding = new RobloxPlatformAccountBindingHandler(linkHandler).bindRobloxAccount(robloxChallenge.challenge().challengeId(), robloxChallenge.shortCode(), "98765", "RobloxUser", now.plusSeconds(1));
+        assertEquals(GamePlatform.ROBLOX, robloxBinding.platform());
+
+        PlatformLinkChallengeCreated discordChallenge = new DiscordPlatformAccountBindingHandler(linkHandler).createDiscordLinkChallenge(playerId, Duration.ofMinutes(5), now.plusSeconds(2));
+        PlatformAccountBinding discordBinding = new DiscordPlatformAccountBindingHandler(linkHandler).bindDiscordAccount(discordChallenge.challenge().challengeId(), discordChallenge.shortCode(), "discord-98765", "DiscordUser", now.plusSeconds(3));
+        assertEquals(GamePlatform.DISCORD, discordBinding.platform());
+
+        PlatformLinkChallengeCreated minecraftChallenge = new MinecraftPlatformAccountBindingHandler(linkHandler).createMinecraftLinkChallenge(playerId, Duration.ofMinutes(5), now.plusSeconds(4));
+        PlatformAccountBinding minecraftBinding = new MinecraftPlatformAccountBindingHandler(linkHandler).bindMinecraftAccount(minecraftChallenge.challenge().challengeId(), minecraftChallenge.shortCode(), "minecraft-uuid", "MinecraftUser", now.plusSeconds(5));
+        assertEquals(GamePlatform.MINECRAFT, minecraftBinding.platform());
+
+        PlatformLinkChallengeCreated hytaleChallenge = new HytalePlatformAccountBindingHandler(linkHandler).createHytaleLinkChallenge(playerId, Duration.ofMinutes(5), now.plusSeconds(6));
+        PlatformAccountBinding hytaleBinding = new HytalePlatformAccountBindingHandler(linkHandler).bindHytaleAccount(hytaleChallenge.challenge().challengeId(), hytaleChallenge.shortCode(), "hytale-account", "HytaleUser", now.plusSeconds(7));
+        assertEquals(GamePlatform.HYTALE, hytaleBinding.platform());
+    }
+}

@@ -51,10 +51,10 @@ function parseLeadingNumber(rawText) {
 
 async function openNodePage(bot) {
   bot.chat("/kingdom nodes select 1");
-  await bot.waitForPage("com.tavall.hytale.resourcegame.ui.ResourceNodePage", 10_000);
+  await bot.waitForPage("com.tavall.resourcegame.ui.ResourceNodePage", 10_000);
   return waitForSnapshot(
     bot,
-    (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.ResourceNodePage",
+    (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.ResourceNodePage",
     5_000,
     "resource node page snapshot"
   );
@@ -153,7 +153,7 @@ async function main() {
     snapshot = await waitForSnapshot(
       bot,
       (candidate) => {
-        if (candidate.key !== "com.tavall.hytale.resourcegame.ui.ResourceNodePage") {
+        if (candidate.key !== "com.tavall.resourcegame.ui.ResourceNodePage") {
           return false;
         }
         const stock = parseStockValue(candidate);

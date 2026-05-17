@@ -3,7 +3,7 @@
 ## Architecture
 The canonical Kingdom Clock lives in the plain Java control plane, not in Spring Boot and not in any frontend adapter.
 
-- `com.tavall.hytale.resourcegame.middleware.clock.KingdomClockControlSystem` owns clock state, config, phase calculation, schedule rules, aging ticks, and projections.
+- `com.tavall.resourcegame.middleware.clock.KingdomClockControlSystem` owns clock state, config, phase calculation, schedule rules, aging ticks, and projections.
 - The optional Spring web panel calls the Java runtime and command dispatcher directly through `/control/clock`.
 - Hytale, Minecraft, Roblox, Discord, Android, and PC clients consume projected clock/schedule data and may render visuals from it, but they do not decide canonical time or schedule effects.
 - The older Hytale `KingdomClockService` remains an adapter-side world-time applier. It should be driven by control-plane projections/snapshots, not treated as the canonical cross-platform clock.

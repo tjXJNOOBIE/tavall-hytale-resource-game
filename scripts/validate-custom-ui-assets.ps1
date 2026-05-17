@@ -12,7 +12,7 @@ if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
     $RepoRoot = Split-Path -Parent $PSScriptRoot
 }
 if ([string]::IsNullOrWhiteSpace($JarPath)) {
-    $JarPath = Join-Path $RepoRoot "tavall-resource-game-core\target\tavall-hytale-resource-game.jar"
+    $JarPath = Join-Path $RepoRoot "core\target\tavall-hytale-resource-game.jar"
 }
 
 function Get-LatestSourceTimestamp {

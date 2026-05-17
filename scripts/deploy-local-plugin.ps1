@@ -12,7 +12,7 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $validatorScript = Join-Path $PSScriptRoot "validate-custom-ui-assets.ps1"
 if ([string]::IsNullOrWhiteSpace($JarPath)) {
-    $JarPath = Join-Path $repoRoot "tavall-resource-game-core\target\tavall-hytale-resource-game.jar"
+    $JarPath = Join-Path $repoRoot "core\target\tavall-hytale-resource-game.jar"
 }
 
 function Get-LatestSourceTimestamp {

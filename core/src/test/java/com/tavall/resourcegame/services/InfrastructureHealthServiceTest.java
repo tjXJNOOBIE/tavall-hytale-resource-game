@@ -1,0 +1,45 @@
+package com.tavall.resourcegame.services;
+
+import com.tavall.resourcegame.config.CacheConfig;
+import com.tavall.resourcegame.config.DatabaseConfig;
+import com.tavall.resourcegame.domain.InfrastructureHealthSnapshot;
+import com.tavall.resourcegame.domain.InfrastructureMetricsSnapshot;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+public final class InfrastructureHealthServiceTest {
+    @Test
+    void snapshotReportsLocalFallbackWhenExternalSystemsAreNotConfigured() {
+        InfrastructureHealthService service = new InfrastructureHealthService(
+                new CacheConfig("", 6379, "", false),
+                new DatabaseConfig("", "", "")
+        );
+
+        InfrastructureHealthSnapshot snapshot = service.snapshot();
+
+        assertFalse(snapshot.redisConfigured());
+        assertFalse(snapshot.postgresConfigured());
+        assertEquals("memory-only (Redis not configured)", snapshot.cacheSummary());
+        assertEquals("in-memory fallback (Postgres not configured)", snapshot.persistenceSummary());
+    }
+
+    @Test
+    void metricsSnapshotUsesSharedRecorder() {
+        InfrastructureMetricsRecorder metricsRecorder = InfrastructureMetricsRecorder.isolated();
+        metricsRecorder.recordProfileCacheRead(true, true, 1_000_000L);
+        metricsRecorder.recordProfileSave(true, 2_000_000L);
+        InfrastructureHealthService service = new InfrastructureHealthService(
+                new CacheConfig("", 6379, "", false),
+                new DatabaseConfig("", "", ""),
+                metricsRecorder
+        );
+
+        InfrastructureMetricsSnapshot snapshot = service.metricsSnapshot();
+
+        assertEquals(1L, snapshot.profileCacheHits());
+        assertEquals(1.0D, snapshot.cacheHitRate());
+        assertEquals(2.0D, snapshot.averageProfileSaveMillis());
+    }
+}

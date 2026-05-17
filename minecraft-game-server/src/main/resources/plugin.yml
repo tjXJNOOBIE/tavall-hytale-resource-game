@@ -1,0 +1,25 @@
+name: TavallResourceGameServer
+main: com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitServerPlugin
+version: 0.1.0-SNAPSHOT
+description: Bukkit server-surface adapter for Tavall Resource Game.
+author: Tavall
+api-version: '1.21'
+commands:
+  tavallserver:
+    description: Runs Tavall Resource Game Bukkit server-surface diagnostics.
+    usage: /tavallserver [snapshot|visual <chat|title> <message>|interact <message>]
+  kd:
+    description: Sends Tavall Resource Game kingdom commands from the Bukkit server surface to the control plane.
+    usage: /kd [help|ui|data|castle|citizens|troops|resources|account|buildings|building|npc|nodes|place|interior|hologram|entity|scene|bootstrap|tick|debug|companion...]
+    aliases:
+      - kingdom
+permissions:
+  tavall.resourcegame.server:
+    description: Allows use of Tavall Resource Game server-surface diagnostics.
+    default: op
+  tavall.resourcegame.command:
+    description: Allows use of Tavall Resource Game kingdom commands from the Bukkit server surface.
+    default: true
+  tavall.resourcegame.admin:
+    description: Allows use of Tavall Resource Game kingdom admin and debug surfaces from the Bukkit server surface.
+    default: op

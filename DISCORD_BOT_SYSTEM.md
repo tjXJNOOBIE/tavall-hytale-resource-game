@@ -8,14 +8,14 @@ Command flow:
 2. `/kingdom-admin <command>` runs as the admin command lane.
 3. The Discord bot resolves the Discord user, guild owner state, and configured role mappings into a shared universal permission subject.
 4. Allowed commands become a `FrontendCommandEnvelope`.
-5. The bot posts the envelope to `POST /api/frontend/commands`.
+5. The bot submits the envelope through the typed TCP control bridge.
 6. The control server runs `FrontendCommandIngressHandler`, command translation, audit logging, fanout, and projection refresh.
 
 Required environment variables:
 
 - `RESOURCE_GAME_DISCORD_BOT_TOKEN`: Discord bot token.
 - `RESOURCE_GAME_DISCORD_GUILD_ID`: Project Novus Discord guild id for guild-scoped command registration.
-- `RESOURCE_GAME_CONTROL_INGRESS_URL`: control server ingress URL. Default is `http://localhost:8080/api/frontend/commands`.
+- `RESOURCE_GAME_CONTROL_INGRESS_URL`: control bridge URL. Default is `tcp://127.0.0.1:18081`.
 
 Permission mapping variables:
 
@@ -33,7 +33,7 @@ Commands registered by the bot:
 
 Remote deployment:
 
-1. Package the bot with `mvn -f tavall-resource-game-discord-frontend/pom.xml -DskipTests package`.
+1. Package the bot with `mvn -f discord-frontend/pom.xml -DskipTests package`.
 2. Package the control server with `mvn -f pom.xml -DskipTests package`.
 3. Run `scripts/deploy-discord-bot-remote.ps1`.
 4. Fill `/opt/tavall-resource-game/resource-game-discord.env` on the remote server with the bot token, guild id, and role mappings.

@@ -22,7 +22,7 @@
         <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hytale.server.version>2026.03.26-89796e57b</hytale.server.version>
-        <plugin.main.class>com.tavall.hytale.resourcegame.ResourceGamePlugin</plugin.main.class>
+        <plugin.main.class>com.tavall.resourcegame.ResourceGamePlugin</plugin.main.class>
         <jackson.version>2.18.3</jackson.version>
         <postgres.version>42.7.10</postgres.version>
         <junit.version>5.11.4</junit.version>
@@ -31,16 +31,22 @@
     </properties>
 
     <modules>
-        <module>tavall-resource-game-shared-contracts</module>
-        <module>tavall-resource-game-hytale-frontend</module>
-        <module>tavall-resource-game-core</module>
-        <module>tavall-resource-game-control-server</module>
-        <module>tavall-resource-game-minecraft-frontend</module>
-        <module>tavall-resource-game-minecraft-server-frontend</module>
-        <module>tavall-resource-game-roblox-frontend</module>
-        <module>tavall-resource-game-discord-frontend</module>
-        <module>tavall-resource-game-android-app</module>
-        <module>tavall-resource-game-pc-app</module>
+        <module>shared-contracts</module>
+        <module>hytale-frontend</module>
+        <module>core</module>
+        <module>events</module>
+        <module>liveops</module>
+        <module>distribution</module>
+        <module>cloud-core</module>
+        <module>cloud-agent</module>
+        <module>cloud-control-plane</module>
+        <module>control-server</module>
+        <module>minecraft-proxy</module>
+        <module>minecraft-game-server</module>
+        <module>roblox-frontend</module>
+        <module>discord-frontend</module>
+        <module>android-app</module>
+        <module>pc-app</module>
     </modules>
 
     <repositories>

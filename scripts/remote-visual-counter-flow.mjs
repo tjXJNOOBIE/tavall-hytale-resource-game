@@ -48,7 +48,7 @@ async function main() {
     bot.chat("/kingdom interior");
     await bot.waitForWorldActivity(10_000);
     assertions.push("interior-entered");
-    const interiorPage = await waitForPageOrNull(bot, "com.tavall.hytale.resourcegame.ui.InteriorMainPage", 10_000);
+    const interiorPage = await waitForPageOrNull(bot, "com.tavall.resourcegame.ui.InteriorMainPage", 10_000);
     if (interiorPage) {
       pages.push({ key: interiorPage.key, title: interiorPage.title ?? null, snapshot: bot.snapshotPage() });
       assertions.push("interior-ui-opened");

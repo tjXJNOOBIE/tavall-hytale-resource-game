@@ -148,7 +148,7 @@ function Ensure-RemoteResourceGameControlServer {
     }
 
     Invoke-RemoteLoggedBash -SshAlias $SshAlias -Script ("mkdir -p {0}/logs" -f $RemoteControlDir) -LogPath $LogPath | Out-Null
-    $remoteJarPath = "$RemoteControlDir/tavall-resource-game-control-server.jar"
+    $remoteJarPath = "$RemoteControlDir/control-server.jar"
     $copyExitCode = & scp.exe -F C:\Users\TJ\.ssh\config $ControlServerJarPath "${SshAlias}:$remoteJarPath.new" 2>&1 | Tee-Object -Variable scpOutput
     foreach ($line in $scpOutput) {
         if ($line -ne "") {
@@ -163,8 +163,8 @@ function Ensure-RemoteResourceGameControlServer {
     $script = @'
 set -e
 cd {0}
-mv tavall-resource-game-control-server.jar.new tavall-resource-game-control-server.jar
-CONTROL_PIDS=$(pgrep -f 'tavall-resource-game-control-server.jar' || true)
+mv control-server.jar.new control-server.jar
+CONTROL_PIDS=$(pgrep -f 'control-server.jar' || true)
 if [ -n "$CONTROL_PIDS" ]; then
   echo "$CONTROL_PIDS" | xargs -r kill || true
   sleep 2
@@ -174,7 +174,7 @@ if [ -n "$PORT_PIDS" ]; then
   echo "$PORT_PIDS" | xargs -r kill || true
   sleep 2
 fi
-nohup java --enable-preview -Dserver.port={1} -jar tavall-resource-game-control-server.jar > logs/control-server.out.log 2> logs/control-server.err.log < /dev/null &
+nohup java --enable-preview -Dserver.port={1} -jar control-server.jar > logs/control-server.out.log 2> logs/control-server.err.log < /dev/null &
 for i in $(seq 1 60); do
   if lsof -ti tcp:{1} >/dev/null 2>&1; then
     echo CONTROL_SERVER_READY
@@ -192,7 +192,7 @@ exit 1
     if ($result -notmatch "CONTROL_SERVER_READY") {
         throw "Remote control server did not report readiness."
     }
-    return "http://127.0.0.1:$ControlPort/api/frontend/commands"
+    return "tcp://127.0.0.1:18081"
 }
 
 function ConvertTo-TextSummaryLines {

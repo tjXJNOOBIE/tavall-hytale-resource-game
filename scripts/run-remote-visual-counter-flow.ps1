@@ -2,7 +2,7 @@ param(
     [string]$SshAlias = "novus-remote",
     [string]$RemoteHarnessDir = "/srv/hytale/_bot/hytale-sim",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/remote-visual-counter-flow.mjs",
-    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-core/target/tavall-hytale-resource-game.jar",
+    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/core/target/tavall-hytale-resource-game.jar",
     [string]$RemotePluginJarPath = "/srv/hytale/HytaleDevServer/Server/mods/tavall-hytale-resource-game.jar",
     [string]$ServerRoot = "/srv/hytale/HytaleDevServer",
     [string]$Transport = "QUIC",

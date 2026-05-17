@@ -38,7 +38,7 @@ async function main() {
     assertions.push("castle-ui-not-auto-opened");
 
     bot.chat("/kingdom castle open");
-    const castlePage = await bot.waitForPage("com.tavall.hytale.resourcegame.ui.CastleMainPage", 8_000);
+    const castlePage = await bot.waitForPage("com.tavall.resourcegame.ui.CastleMainPage", 8_000);
     pages.push({ key: castlePage.key, title: castlePage.title ?? null, snapshot: bot.snapshotPage() });
     assertions.push("castle-ui-opened-by-command");
 

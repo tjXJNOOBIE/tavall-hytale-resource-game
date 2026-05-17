@@ -37,6 +37,32 @@ The control plane uses scoped authority instead of server-name authority. A prin
 | GLOBAL_FAILOVER | C5 | GLOBAL_DISASTER_RECOVERY_EXECUTE | Yes | Yes | Not allowed |
 | AI_RECOMMEND_ACTION | C6 | AI_RECOMMEND | No | No | Allowed |
 
+## Permission matrix
+
+| Permission family | C1 | C2 | C3 | C4 | C5 | C6 |
+|---|---|---|---|---|---|---|
+| Workload read | Own node/workload | Regional workloads | Cross-region read | Cluster read | Global read | Global advisory read |
+| Workload start/stop/restart | Own node/workload | Regional workloads | Failover preparation | Cluster maintenance | Global emergency ops | Recommend only |
+| Workload delete | No | Scoped with approval | Scoped with approval | Cluster scoped approval | Global approval | No |
+| Port/firewall/proxy apply | Own node only | Regional routing | Cross-region routing approval | Cluster routing policy | Global routing policy | Recommend only |
+| Node registration | Own node join | Regional join approval | Region policy | Cluster admission policy | Global admission policy | No |
+| Backup/restore | Own workload backup | Regional backup/restore | Cross-region restore approval | Cluster restore policy | Global restore approval | Recommend restore plan |
+| LiveOps flags/rules | No | Region/dev scoped | Cross-region rollout review | Cluster/ecosystem rollout | Global rollout | Simulate/recommend only |
+| Control commands | Local debug only | Regional ops commands | Failover/routing commands | Cluster lifecycle commands | Owner/global commands | Advisory commands |
+| Secret rotation | No | No | No | No | Global approval | No |
+| Destructive global ops | No | No | No | No | Explicit approval/break-glass policy | No |
+
+## Scope examples
+
+| Scope | Example target | Valid authority shape |
+|---|---|---|
+| Node | `node:oracle-arm-1` | C1 node agent or expiring break-glass human |
+| Workload | `workload:minecraft-kingdom-1` | C1 owning node or C2 regional operator |
+| Region | `region:us-west` | C2 regional operator or higher |
+| Cluster | `cluster:resource-game-prod` | C4 cluster governor or C5 owner |
+| Global | `global:tavall-cloud` | C5 owner, C6 read/recommend only |
+| AI simulation | `simulation:failover-plan` | C6 advisory grant with no execution authority |
+
 ## Authorization flow
 
 | Step | Check |
@@ -48,4 +74,4 @@ The control plane uses scoped authority instead of server-name authority. A prin
 | 5 | Record an authorization audit entry for allow or deny. |
 | 6 | Only dispatch the command after validation and authorization pass. |
 
-Implementation lives under `com.tavall.hytale.resourcegame.middleware.authority`. Control commands are wired through `ControlAuthorizationHandler` from the runtime factory.
+Implementation lives under `com.tavall.resourcegame.middleware.authority`. Control commands are wired through `ControlAuthorizationHandler` from the runtime factory.

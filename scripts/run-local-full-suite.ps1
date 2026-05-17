@@ -32,7 +32,7 @@ $nodeAssignmentUuid = [guid]::NewGuid().ToString()
 $uiEdgeUuid = [guid]::NewGuid().ToString()
 $visualCounterUuid = [guid]::NewGuid().ToString()
 
-$jarPath = Join-Path $repoRoot "tavall-resource-game-core\target\tavall-hytale-resource-game.jar"
+$jarPath = Join-Path $repoRoot "core\target\tavall-hytale-resource-game.jar"
 if (Test-Path $jarPath) {
     powershell -ExecutionPolicy Bypass -File .\scripts\validate-custom-ui-assets.ps1 -RepoRoot $repoRoot -JarPath $jarPath | Out-Null
 }

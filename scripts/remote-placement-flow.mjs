@@ -35,7 +35,7 @@ async function openWoodNodeDetail(bot, timeoutMs = 15_000) {
     try {
       return await waitForSnapshot(
         bot,
-        (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.ResourceNodePage"
+        (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.ResourceNodePage"
           && `${readSelectorValue(snapshot, "#NodeTitle.Text")}`.toLowerCase().includes("wood"),
         Math.min(4_000, Math.max(1_000, timeoutMs - (Date.now() - startedAt))),
         `wood node detail attempt ${attempt}`

@@ -8,7 +8,7 @@ Cover gameplay and infrastructure behavior with both in-memory Java tests and re
 - Remote QUIC bot flows: integration coverage against the running remote Hytale server.
 - Local deployment verification: rebuild plugin jar, deploy only the plugin jar, restart dev server, and verify server boot.
 - Remote Hytale bot flows now start from the exact local `C:\Users\TJ\Documents\HytaleDevServer` tree. `sync-remote-hytale-dev-server.ps1` archives that folder, copies it to `/srv/hytale/HytaleDevServer`, then adds remote-only Linux shims so existing runners can start it and resolve `Server/...` paths against the copied folder.
-- Remote Minecraft proxy flows deploy the resource-game control ingress to `/srv/resource-game-control` on port `18080`, deploy the shaded Velocity plugin to `/srv/proxy/plugins`, ensure the configured backend `/srv/ffa` is listening on `25566`, bring up a second switch backend on `25567`, map `kingdom-2-minecraft-primary` to Velocity server `ffa`, and run Mineflayer through the real remote Velocity proxy on `25565`.
+- Remote Minecraft proxy flows deploy the resource-game control bridge to `/srv/resource-game-control` on port `18081`, deploy the shaded Velocity plugin to `/srv/proxy/plugins`, ensure the configured backend `/srv/ffa` is listening on `25566`, bring up a second switch backend on `25567`, map `kingdom-2-minecraft-primary` to Velocity server `ffa`, and run Mineflayer through the real remote Velocity proxy on `25565`.
 
 ## Main Java coverage areas
 - Cache round-trip behavior

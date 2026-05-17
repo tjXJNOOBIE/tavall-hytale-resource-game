@@ -2,9 +2,9 @@
 import { delay, ensureBotBaseline, resolveBotClientModuleUrl, waitForPageOrNull, writeJson, printStructured, captureWorldSnapshot, createTraceSession } from "./bot-flow-helpers.mjs";
 
 const PAGE_KEYS = {
-  upgrades: "com.tavall.hytale.resourcegame.ui.CastleUpgradesPage",
-  debug: "com.tavall.hytale.resourcegame.ui.DebugNavigatorPage",
-  interior: "com.tavall.hytale.resourcegame.ui.InteriorMainPage"
+  upgrades: "com.tavall.resourcegame.ui.CastleUpgradesPage",
+  debug: "com.tavall.resourcegame.ui.DebugNavigatorPage",
+  interior: "com.tavall.resourcegame.ui.InteriorMainPage"
 };
 
 async function main() {

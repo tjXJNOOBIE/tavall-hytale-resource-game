@@ -1,0 +1,57 @@
+package com.tavall.resourcegame.frontend.minecraft.server;
+
+import com.tavall.resourcegame.shared.frontend.InteractionRequest;
+import com.tavall.resourcegame.shared.frontend.InteractionResult;
+import com.tavall.resourcegame.shared.frontend.InteractionTargetType;
+import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+public final class KingdomNpcGui implements IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+    public boolean open(Player player) {
+        Optional<MinecraftBukkitInteractionTarget> target = getMinecraftBukkitInteractionSessionTracker().current(player.getUniqueId());
+        if (target.isEmpty()) {
+            player.sendMessage(ChatColor.YELLOW + "Look at an NPC first, then reopen the menu.");
+            return true;
+        }
+
+        return open(player, target.get());
+    }
+
+    private boolean open(Player player, MinecraftBukkitInteractionTarget target) {
+        Map<String, String> context = new LinkedHashMap<String, String>(target.metadata());
+        context.put("sourceCommand", "kd ui npc");
+        context.put("menuHint", "npc");
+        context.put("targetType", target.targetType().name());
+        context.put("targetId", target.targetId());
+        try {
+            InteractionResult result = getMinecraftBukkitCommandClientHandler().submitInteraction(new InteractionRequest(
+                    "minecraft-npc-ui-" + UUID.randomUUID(),
+                    player.getUniqueId().toString(),
+                    target.targetType(),
+                    target.targetId(),
+                    "open_npc_menu",
+                    getMinecraftBukkitServerConfig().serverId(),
+                    player.getWorld().getName(),
+                    context,
+                    Instant.now().toEpochMilli()
+            ));
+            if (result.menu() != null) {
+                getMinecraftBukkitInteractionMenuHandler().open(player, result.menu(), result.message());
+                return true;
+            }
+            player.sendMessage((result.success() ? ChatColor.GREEN : ChatColor.RED) + result.message());
+        } catch (IOException exception) {
+            getMinecraftBukkitLogger().warning("Failed to open NPC menu via control plane: " + exception.getMessage());
+            player.sendMessage(ChatColor.RED + "NPC menu unavailable: " + exception.getMessage());
+        }
+        return true;
+    }
+}

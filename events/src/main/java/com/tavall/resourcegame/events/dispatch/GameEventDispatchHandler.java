@@ -1,0 +1,37 @@
+package com.tavall.resourcegame.events.dispatch;
+
+import com.tavall.resourcegame.events.IGameEventDomain;
+import com.tavall.resourcegame.events.core.GameEvent;
+import com.tavall.resourcegame.events.core.GameEventContext;
+import com.tavall.resourcegame.events.core.GameEventResult;
+import com.tavall.resourcegame.events.middleware.GameEventMiddlewareChain;
+
+import java.time.Instant;
+import java.util.Objects;
+
+public final class GameEventDispatchHandler implements IGameEventDomain {
+    public GameEventResult dispatch(GameEvent event) {
+        Objects.requireNonNull(event, "event");
+        GameEventContext context = new GameEventContext(event, Instant.now());
+        try {
+            GameEventMiddlewareChain chain = GameEventMiddlewareChain.start(getEventMiddlewareCatalog().middlewares(), this::dispatchToListeners);
+            return chain.proceed(context);
+        } catch (RuntimeException ex) {
+            context.cancel(ex.getMessage() == null ? ex.getClass().getSimpleName() : ex.getMessage());
+            context.putMetadata("exceptionType", ex.getClass().getSimpleName());
+            return context.result(false);
+        }
+    }
+
+    private GameEventResult dispatchToListeners(GameEventContext context) {
+        for (GameEventListener listener : getGameEventListenerRegistry().listenersFor(context.event().getEventType())) {
+            if (context.cancelled()) {
+                return context.result(false);
+            }
+            if (listener.supports(context.event().getEventType())) {
+                listener.handle(context);
+            }
+        }
+        return context.result(true);
+    }
+}

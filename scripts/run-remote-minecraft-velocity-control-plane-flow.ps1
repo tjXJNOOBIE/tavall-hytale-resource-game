@@ -14,16 +14,16 @@ param(
     [string]$KingdomServerJarLocalPath = "",
     [string]$RemoteControlDir = "/srv/resource-game-control",
     [string]$RemoteHeadlessDir = "/srv/headless",
-    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-control-server/target/tavall-resource-game-control-server-0.1.1-SNAPSHOT.jar",
-    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-minecraft-frontend/target/tavall-resource-game-minecraft-frontend-0.1.1-SNAPSHOT.jar",
-    [string]$ServerPluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/tavall-resource-game-minecraft-server-frontend/target/tavall-resource-game-minecraft-server-frontend-0.1.1-SNAPSHOT.jar",
+    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/control-server/target/control-server-0.1.1-SNAPSHOT.jar",
+    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/minecraft-proxy/target/minecraft-proxy-0.1.1-SNAPSHOT.jar",
+    [string]$ServerPluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/minecraft-game-server/target/minecraft-game-server-0.1.1-SNAPSHOT.jar",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/minecraft-velocity-control-plane-flow.mjs",
-    [int]$ControlPort = 18080,
-    [string]$ControlIngressUrl = "http://127.0.0.1:18080/api/frontend/commands",
+    [int]$ControlPort = 18081,
     [string]$BotUsername = "ResourceProxyBot",
     [string]$MinecraftVersion = "1.21.4",
     [string]$InstanceServerMap = "kingdom-1-minecraft-primary=kingdom,kingdom-2-minecraft-primary=ffa",
-    [string]$CommandList = "/server kingdom|/tavallserver snapshot|/kd clock state kingdom-1|/kingdom citizens summary kingdom-1",
+    [string]$CommandList = "/server kingdom|/kd help|/kd ui|/kd place castle|/kd place confirm|/kd buildings stage farmstead|/kd hologram spawn kingdom-debug|/kd entity spawn farmer|/kd resources add food 3|/kd companion give ARCANE|/kd scene refresh",
+    [string]$ServerCommandList = "/kd help|/kd ui|/kd place castle|/kd place confirm|/kd buildings stage farmstead|/kd hologram spawn kingdom-debug|/kd entity spawn farmer|/kd interior add|/kd resources add food 3|/kd companion give ARCANE|/kd scene refresh",
     [string]$LogDir = "bot-logs"
 )
 
@@ -37,11 +37,13 @@ $baseName = "remote-minecraft-velocity-control-plane-$timestamp"
 $runLogPath = Join-Path $logRoot "$baseName-run.txt"
 $resultPath = Join-Path $logRoot "$baseName-result.json"
 $transcriptPath = Join-Path $logRoot "$baseName-transcript.txt"
-$remotePluginPath = "$RemoteProxyDir/plugins/tavall-resource-game-minecraft-frontend.jar"
-$remoteBackendPluginPath = "$RemoteBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar"
-$remoteSwitchBackendPluginPath = "$RemoteSwitchBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar"
+$serverResultPath = Join-Path $logRoot "$baseName-server-result.json"
+$serverTranscriptPath = Join-Path $logRoot "$baseName-server-transcript.txt"
+$remotePluginPath = "$RemoteProxyDir/plugins/minecraft-proxy.jar"
+$remoteBackendPluginPath = "$RemoteBackendDir/plugins/minecraft-game-server.jar"
+$remoteSwitchBackendPluginPath = "$RemoteSwitchBackendDir/plugins/minecraft-game-server.jar"
 $RemoteKingdomBackendDir = "$RemoteKingdomServersDir/$RemoteKingdomBackendName"
-$remoteKingdomBackendPluginPath = "$RemoteKingdomBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar"
+$remoteKingdomBackendPluginPath = "$RemoteKingdomBackendDir/plugins/minecraft-game-server.jar"
 $remoteKingdomServerJarPath = "$RemoteKingdomBackendDir/$KingdomServerJarName"
 $remoteScriptPath = "$RemoteHeadlessDir/$baseName.mjs"
 $remoteOutputDir = "/tmp/$baseName"
@@ -54,7 +56,14 @@ function Write-LogLine {
 
 function Invoke-Checked {
     param([string]$FilePath, [string[]]$Arguments, [string]$FailureMessage)
-    & $FilePath @Arguments 2>&1 | Tee-Object -FilePath $runLogPath -Append
+    $normalizedArguments = $Arguments | ForEach-Object {
+        if ($_ -is [string]) {
+            $_ -replace "`r`n", "`n"
+        } else {
+            $_
+        }
+    }
+    & $FilePath @normalizedArguments 2>&1 | Tee-Object -FilePath $runLogPath -Append
     if ($LASTEXITCODE -ne 0) {
         throw $FailureMessage
     }
@@ -86,16 +95,15 @@ if (-not (Test-Path $KingdomServerJarLocalPath)) {
     Move-Item -Force -Path "$KingdomServerJarLocalPath.new" -Destination $KingdomServerJarLocalPath
 }
 
-Write-LogLine "[$((Get-Date).ToString("o"))] Deploying resource-game control ingress."
+Write-LogLine "[$((Get-Date).ToString("o"))] Deploying resource-game control bridge."
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, "mkdir -p '$RemoteControlDir/logs'") -FailureMessage "Failed to prepare remote control directory."
-Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ControlServerJarPath, "$SshAlias`:$RemoteControlDir/tavall-resource-game-control-server.jar.new") -FailureMessage "Failed to copy control server jar."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ControlServerJarPath, "$SshAlias`:$RemoteControlDir/control-server.jar.new") -FailureMessage "Failed to copy control server jar."
 $remoteControl = @"
 set -euo pipefail
 cd '$RemoteControlDir'
-mv tavall-resource-game-control-server.jar.new tavall-resource-game-control-server.jar
-CONTROL_PIDS=`$(pgrep -f 'ControlServerApplication|tavall-resource-game-control-server.jar|tavall-hytale-resource-game.jar' || true)
-if [ -n "`$CONTROL_PIDS" ]; then
-  echo "`$CONTROL_PIDS" | xargs -r kill || true
+mv control-server.jar.new control-server.jar
+if command -v fuser >/dev/null 2>&1; then
+  fuser -k $ControlPort/tcp 2>/dev/null || true
 fi
 for i in `$(seq 1 30); do
   if ! ss -ltn | grep -q ':$ControlPort '; then
@@ -104,14 +112,7 @@ for i in `$(seq 1 30); do
   sleep 1
 done
 if ss -ltn | grep -q ':$ControlPort '; then
-  CONTROL_PIDS=`$(pgrep -f 'ControlServerApplication|tavall-resource-game-control-server.jar|tavall-hytale-resource-game.jar' || true)
-  if [ -n "`$CONTROL_PIDS" ]; then
-    echo "`$CONTROL_PIDS" | xargs -r kill -9 || true
-  fi
-  PORT_PIDS=`$(lsof -ti tcp:$ControlPort || true)
-  if [ -n "`$PORT_PIDS" ]; then
-    echo "`$PORT_PIDS" | xargs -r kill -9 || true
-  fi
+  lsof -ti tcp:$ControlPort | xargs -r kill -9 || true
 fi
 for i in `$(seq 1 10); do
   if ! ss -ltn | grep -q ':$ControlPort '; then
@@ -120,11 +121,12 @@ for i in `$(seq 1 10); do
   sleep 1
 done
 if ss -ltn | grep -q ':$ControlPort '; then
-  echo 'Resource-game control ingress port is still occupied after shutdown.' >&2
+  echo 'Resource-game control bridge port is still occupied after shutdown.' >&2
   ss -ltnp | grep ':$ControlPort ' >&2 || true
   exit 1
 fi
-nohup java --enable-preview -Dserver.port=$ControlPort -jar tavall-resource-game-control-server.jar > logs/control-web.out.log 2> logs/control-web.err.log < /dev/null &
+tmux kill-session -t control 2>/dev/null || true
+tmux new-session -d -s control -c '$RemoteControlDir' "env TAVALL_CONTROL_BRIDGE_HOST=127.0.0.1 TAVALL_CONTROL_BRIDGE_PORT=$ControlPort java --enable-preview -jar control-server.jar 2>&1 | tee -a logs/control-bridge.out.log"
 for i in `$(seq 1 60); do
   if ss -ltn | grep -q ':$ControlPort '; then
     sleep 2
@@ -132,12 +134,12 @@ for i in `$(seq 1 60); do
   fi
   sleep 1
 done
-echo 'Resource-game control ingress did not become reachable.' >&2
-tail -n 120 logs/control-web.err.log >&2 || true
-tail -n 120 logs/control-web.out.log >&2 || true
+echo 'Resource-game control bridge did not become reachable.' >&2
+tail -n 120 logs/control-bridge.err.log >&2 || true
+tail -n 120 logs/control-bridge.out.log >&2 || true
 exit 1
 "@
-Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteControl) -FailureMessage "Failed to start remote resource-game control ingress."
+Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteControl) -FailureMessage "Failed to start remote resource-game control bridge."
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Deploying Minecraft Velocity control-plane plugin."
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, "mkdir -p '$RemoteProxyDir/plugins' '$RemoteProxyDir/logs' '$RemoteBackendDir/plugins' '$RemoteBackendDir/logs' '$RemoteSwitchBackendDir/plugins' '$RemoteSwitchBackendDir/logs' '$RemoteKingdomBackendDir/plugins' '$RemoteKingdomBackendDir/logs' '$RemoteHeadlessDir'") -FailureMessage "Failed to prepare remote Minecraft directories."
@@ -175,6 +177,11 @@ python3 - <<'PY'
 from pathlib import Path
 path = Path('$RemoteProxyDir') / 'velocity.toml'
 text = path.read_text()
+quote = chr(34)
+text = '\n'.join(
+    'player-info-forwarding-mode = ' + quote + 'none' + quote if line.strip().startswith('player-info-forwarding-mode') else line
+    for line in text.splitlines()
+) + '\n'
 lines = []
 in_servers = False
 server_written = False
@@ -228,6 +235,12 @@ if [ ! -d '$RemoteBackendDir' ]; then
 fi
 cd '$RemoteBackendDir'
 mkdir -p logs plugins
+python3 - <<'PY'
+from pathlib import Path
+path = Path('spigot.yml')
+if path.exists():
+    path.write_text(path.read_text().replace('  bungeecord: true', '  bungeecord: false'))
+PY
 if command -v fuser >/dev/null 2>&1; then
   fuser -k 25566/tcp 2>/dev/null || true
 fi
@@ -242,12 +255,9 @@ if ss -ltn | grep -q ':25566 '; then
   ss -ltnp | grep ':25566 ' >&2 || true
   exit 1
 fi
-if [ -x /usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java ]; then
-  JAVA_BIN=/usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java
-else
-  JAVA_BIN=java
-fi
-nohup env RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='$ControlIngressUrl' RESOURCE_GAME_MINECRAFT_CONTROL_SNAPSHOT_URL='http://127.0.0.1:$ControlPort/api/frontend/minecraft/server-snapshots' RESOURCE_GAME_MINECRAFT_SERVER_ID='minecraft-backend-ffa' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' "`$JAVA_BIN" -Xss1650k -Xmx1536M -jar spigot.jar nogui > logs/resource-game-backend.out.log 2> logs/resource-game-backend.err.log < /dev/null &
+JAVA_BIN=java
+tmux kill-session -t minecraft-ffa 2>/dev/null || true
+tmux new-session -d -s minecraft-ffa -c '$RemoteBackendDir' "env RESOURCE_GAME_MINECRAFT_SERVER_ID='minecraft-backend-ffa' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' RESOURCE_GAME_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' java -Xss1650k -Xmx1536M -jar spigot.jar nogui 2>&1 | tee -a logs/resource-game-backend.out.log"
 for i in `$(seq 1 60); do
   if ss -ltn | grep -q ':25566 '; then
     break
@@ -261,7 +271,7 @@ if ! ss -ltn | grep -q ':25566 '; then
   exit 1
 fi
 for i in `$(seq 1 30); do
-  if grep -h 'Tavall Resource Game Bukkit server frontend enabled' logs/latest.log logs/resource-game-backend.out.log logs/resource-game-backend.err.log 2>/dev/null; then
+  if grep -h 'Tavall Resource Game Bukkit server frontend enabled. serverId=minecraft-backend-ffa proxyId=velocity-proxy' logs/latest.log logs/resource-game-backend.out.log logs/resource-game-backend.err.log 2>/dev/null; then
     exit 0
   fi
   sleep 1
@@ -299,6 +309,12 @@ spawn-protection=0
 EOF
 cd '$RemoteSwitchBackendDir'
 mkdir -p plugins logs
+python3 - <<'PY'
+from pathlib import Path
+path = Path('spigot.yml')
+if path.exists():
+    path.write_text(path.read_text().replace('  bungeecord: true', '  bungeecord: false'))
+PY
 if command -v fuser >/dev/null 2>&1; then
   fuser -k $SwitchBackendPort/tcp 2>/dev/null || true
 fi
@@ -313,12 +329,9 @@ if ss -ltn | grep -q ':$SwitchBackendPort '; then
   ss -ltnp | grep ':$SwitchBackendPort ' >&2 || true
   exit 1
 fi
-if [ -x /usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java ]; then
-  JAVA_BIN=/usr/lib/jvm/java-1.8.0-openjdk-arm64/bin/java
-else
-  JAVA_BIN=java
-fi
-nohup env RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='$ControlIngressUrl' RESOURCE_GAME_MINECRAFT_CONTROL_SNAPSHOT_URL='http://127.0.0.1:$ControlPort/api/frontend/minecraft/server-snapshots' RESOURCE_GAME_MINECRAFT_SERVER_ID='minecraft-backend-switch' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' "`$JAVA_BIN" -Xss1650k -Xmx1024M -jar spigot.jar nogui > logs/resource-game-switch-backend.out.log 2> logs/resource-game-switch-backend.err.log < /dev/null &
+JAVA_BIN=java
+tmux kill-session -t minecraft-switch 2>/dev/null || true
+tmux new-session -d -s minecraft-switch -c '$RemoteSwitchBackendDir' "env RESOURCE_GAME_MINECRAFT_SERVER_ID='minecraft-backend-switch' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' RESOURCE_GAME_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' java -Xss1650k -Xmx1024M -jar spigot.jar nogui 2>&1 | tee -a logs/resource-game-switch-backend.out.log"
 for i in `$(seq 1 60); do
   if ss -ltn | grep -q ':$SwitchBackendPort '; then
     break
@@ -332,7 +345,7 @@ if ! ss -ltn | grep -q ':$SwitchBackendPort '; then
   exit 1
 fi
 for i in `$(seq 1 30); do
-  if grep -h 'Tavall Resource Game Bukkit server frontend enabled' logs/latest.log logs/resource-game-switch-backend.out.log logs/resource-game-switch-backend.err.log 2>/dev/null; then
+  if grep -h 'Tavall Resource Game Bukkit server frontend enabled. serverId=minecraft-backend-switch proxyId=velocity-proxy' logs/latest.log logs/resource-game-switch-backend.out.log logs/resource-game-switch-backend.err.log 2>/dev/null; then
     exit 0
   fi
   sleep 1
@@ -370,6 +383,12 @@ white-list=false
 spawn-protection=0
 EOF
 cd '$RemoteKingdomBackendDir'
+python3 - <<'PY'
+from pathlib import Path
+path = Path('spigot.yml')
+if path.exists():
+    path.write_text(path.read_text().replace('  bungeecord: true', '  bungeecord: false'))
+PY
 if command -v fuser >/dev/null 2>&1; then
   fuser -k $KingdomBackendPort/tcp 2>/dev/null || true
 fi
@@ -385,7 +404,8 @@ if ss -ltn | grep -q ':$KingdomBackendPort '; then
   exit 1
 fi
 JAVA_BIN=java
-nohup env RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='$ControlIngressUrl' RESOURCE_GAME_MINECRAFT_CONTROL_SNAPSHOT_URL='http://127.0.0.1:$ControlPort/api/frontend/minecraft/server-snapshots' RESOURCE_GAME_MINECRAFT_SERVER_ID='$RemoteKingdomBackendName' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' "`$JAVA_BIN" -Xmx1536M -jar server.jar nogui > logs/resource-game-kingdom-backend.out.log 2> logs/resource-game-kingdom-backend.err.log < /dev/null &
+tmux kill-session -t minecraft-kingdom 2>/dev/null || true
+tmux new-session -d -s minecraft-kingdom -c '$RemoteKingdomBackendDir' "env RESOURCE_GAME_MINECRAFT_SERVER_ID='$RemoteKingdomBackendName' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' RESOURCE_GAME_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' java -Xmx1536M -jar server.jar nogui 2>&1 | tee -a logs/resource-game-kingdom-backend.out.log"
 for i in `$(seq 1 60); do
   if ss -ltn | grep -q ':$KingdomBackendPort '; then
     break
@@ -399,7 +419,7 @@ if ! ss -ltn | grep -q ':$KingdomBackendPort '; then
   exit 1
 fi
 for i in `$(seq 1 120); do
-  if grep -h 'Tavall Resource Game Bukkit server frontend enabled' logs/latest.log logs/resource-game-kingdom-backend.out.log logs/resource-game-kingdom-backend.err.log 2>/dev/null; then
+  if grep -h 'Tavall Resource Game Bukkit server frontend enabled. serverId=$RemoteKingdomBackendName proxyId=velocity-proxy' logs/latest.log logs/resource-game-kingdom-backend.out.log logs/resource-game-kingdom-backend.err.log 2>/dev/null; then
     if grep -h 'Minecraft server version: $KingdomMinecraftVersion' logs/latest.log logs/resource-game-kingdom-backend.out.log logs/resource-game-kingdom-backend.err.log 2>/dev/null || grep -h 'Starting minecraft server version $KingdomMinecraftVersion' logs/latest.log logs/resource-game-kingdom-backend.out.log logs/resource-game-kingdom-backend.err.log 2>/dev/null; then
       exit 0
     fi
@@ -429,15 +449,28 @@ for i in `$(seq 1 30); do
   sleep 1
 done
 cd '$RemoteProxyDir'
-nohup env RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='$ControlIngressUrl' RESOURCE_GAME_MINECRAFT_OWNER_USERNAMES='$BotUsername' RESOURCE_GAME_MINECRAFT_SERVER_ID='velocity-proxy' RESOURCE_GAME_MINECRAFT_INSTANCE_SERVER_MAP='$InstanceServerMap' bash ./start.sh > logs/resource-game-proxy.out.log 2> logs/resource-game-proxy.err.log < /dev/null &
+tmux kill-session -t minecraft-proxy 2>/dev/null || true
+tmux new-session -d -s minecraft-proxy -c '$RemoteProxyDir' "env RESOURCE_GAME_MINECRAFT_OWNER_USERNAMES='$BotUsername' RESOURCE_GAME_MINECRAFT_SERVER_ID='velocity-proxy' RESOURCE_GAME_MINECRAFT_INSTANCE_SERVER_MAP='$InstanceServerMap' RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' RESOURCE_GAME_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' bash ./start.sh 2>&1 | tee -a logs/resource-game-proxy.out.log"
 for i in `$(seq 1 40); do
   if ss -ltn | grep -q ':25565 '; then
-    sleep 2
+    break
+  fi
+  sleep 1
+done
+if ! ss -ltn | grep -q ':25565 '; then
+  echo 'Velocity proxy did not open port 25565 in time.' >&2
+  tail -n 80 logs/resource-game-proxy.err.log >&2 || true
+  tail -n 80 logs/resource-game-proxy.out.log >&2 || true
+  exit 1
+fi
+for i in `$(seq 1 30); do
+  if grep -h 'Registered Tavall Resource Game Velocity routing adapter. serverId=velocity-proxy' logs/latest.log logs/resource-game-proxy.out.log logs/resource-game-proxy.err.log 2>/dev/null; then
     exit 0
   fi
   sleep 1
 done
-echo 'Velocity proxy did not open port 25565 in time.' >&2
+echo 'Velocity proxy opened 25565, but updated Tavall proxy plugin did not report registered.' >&2
+tail -n 120 logs/latest.log >&2 || true
 tail -n 80 logs/resource-game-proxy.err.log >&2 || true
 tail -n 80 logs/resource-game-proxy.out.log >&2 || true
 exit 1
@@ -449,11 +482,21 @@ $remoteWhitelist = "if [ -x '$RemoteProxyDir/ensure-proxy-whitelist-users.sh' ];
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteWhitelist) -FailureMessage "Failed to whitelist Minecraft verification bot."
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Running Minecraft Velocity command flow through the remote proxy."
-$remoteRun = "cd '$RemoteHeadlessDir' && mkdir -p '$remoteOutputDir' && MINECRAFT_PROXY_COMMANDS='$CommandList' node '$remoteScriptPath' 127.0.0.1 25565 '$BotUsername' '$MinecraftVersion' '$remoteOutputDir'"
+$remoteRun = "cd '$RemoteHeadlessDir' && mkdir -p '$remoteOutputDir' && MINECRAFT_PROXY_COMMANDS='$CommandList' MINECRAFT_PROXY_COMMAND_DELAY_MS=1000 node '$remoteScriptPath' 127.0.0.1 25565 '$BotUsername' '$MinecraftVersion' '$remoteOutputDir'"
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteRun) -FailureMessage "Remote Minecraft Velocity command flow failed."
 
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, "$SshAlias`:$remoteOutputDir/scenario-result.json", $resultPath) -FailureMessage "Failed to copy remote Minecraft Velocity result."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, "$SshAlias`:$remoteOutputDir/transcript.txt", $transcriptPath) -FailureMessage "Failed to copy remote Minecraft Velocity transcript."
 
+Write-LogLine "[$((Get-Date).ToString("o"))] Running Minecraft server command flow directly against kingdom backend."
+$remoteServerOutputDir = "$remoteOutputDir-server"
+$remoteServerRun = "cd '$RemoteHeadlessDir' && mkdir -p '$remoteServerOutputDir' && MINECRAFT_PROXY_COMMANDS='$ServerCommandList' MINECRAFT_PROXY_COMMAND_DELAY_MS=1000 node '$remoteScriptPath' 127.0.0.1 $KingdomBackendPort 'DirectKingdomBot' '$MinecraftVersion' '$remoteServerOutputDir'"
+Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteServerRun) -FailureMessage "Remote Minecraft server command flow failed."
+
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, "$SshAlias`:$remoteServerOutputDir/scenario-result.json", $serverResultPath) -FailureMessage "Failed to copy remote Minecraft server result."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, "$SshAlias`:$remoteServerOutputDir/transcript.txt", $serverTranscriptPath) -FailureMessage "Failed to copy remote Minecraft server transcript."
+
 Write-LogLine "[$((Get-Date).ToString("o"))] ResultFile=$resultPath"
 Write-LogLine "[$((Get-Date).ToString("o"))] TranscriptFile=$transcriptPath"
+Write-LogLine "[$((Get-Date).ToString("o"))] ServerResultFile=$serverResultPath"
+Write-LogLine "[$((Get-Date).ToString("o"))] ServerTranscriptFile=$serverTranscriptPath"

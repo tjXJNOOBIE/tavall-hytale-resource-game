@@ -39,7 +39,7 @@
 - Game-domain behavior uses `Handler` classes; platform adapters remain thin render/input translators.
 
 ## Control Plane
-- The canonical resource/kingdom simulation is owned by the plain Java control runtime, not by Spring Boot. `tavall-resource-game-control-server` exposes the plain Java runtime entrypoint, while the Spring MVC package is an optional admin UI that can be disabled without stopping simulation.
+- The canonical resource/kingdom simulation is owned by the plain Java control runtime, not by Spring Boot. `control-server` exposes the plain Java runtime entrypoint, while the Spring MVC package is an optional admin UI that can be disabled without stopping simulation.
 - The middleware/control server now has a shared `ControlCommandDispatchHandler` pipeline for CLI and Spring MVC control-panel inputs.
 - CLI commands, web-panel forms, and future API inputs parse once into `ControlCommand`, validate permissions/dry-run policy, mutate only canonical middleware state, and then fan out projection refresh/control events to Minecraft, Hytale, Roblox, and Discord adapters.
 - Control operators use explicit roles and permissions; high-risk commands require ADMIN, OWNER, or SYSTEM policy hooks, and all accepted/rejected/dry-run commands are audit logged with sensitive arguments redacted.
@@ -49,7 +49,7 @@
 - Compensation handling currently produces explicit decisions for partial/failed commands so operators can distinguish platform retry work from gameplay compensation.
 
 ## Universal Kingdom Simulation
-- Universal kingdom world partitions live under `com.tavall.hytale.resourcegame.middleware.kingdom` and are backend-owned canonical state.
+- Universal kingdom world partitions live under `com.tavall.resourcegame.middleware.kingdom` and are backend-owned canonical state.
 - The backend coordinate model is a 1:1 canonical world coordinate system with `worldId`, `x`, `y`, `z`, optional yaw/pitch, optional kingdom/region IDs, and metadata. Minecraft, Hytale, Roblox, Android, and PC coordinates convert through explicit platform conversion parameters; Discord displays summaries only.
 - Kingdoms receive deterministic storage namespaces and folder names such as `kingdom-1`, `kingdom-2`, and `kingdom-3`. The namespace is repository-backed and can later map to Postgres, folders, snapshots, exports, or config partitions without filesystem writes in gameplay handlers.
 - Rectangular kingdom borders are implemented first. Backend containment resolves the current kingdom from canonical coordinates, detects old kingdom to new kingdom transitions, records the transition, and creates a backend instance-switch request.
