@@ -2,6 +2,8 @@ package com.tavall.resourcegame.middleware.citizen.cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tavall.resourcegame.cache.JacksonCacheCodec;
+import com.tavall.resourcegame.cache.SemanticCacheFactory;
+import com.tavall.resourcegame.config.CacheConfig;
 import com.tavall.resourcegame.middleware.citizen.CitizenSummaryBundle;
 import com.tavall.resourcegame.middleware.citizen.CitizenSummaryScope;
 import org.tavall.abstractcache.cache.enums.CacheDomain;
@@ -36,6 +38,22 @@ public final class CitizenSummaryCache {
         this.hotMemorySummaries = new ConcurrentHashMap<>();
     }
 
+    public static CitizenSummaryCache open(CacheConfig cacheConfig, ObjectMapper objectMapper) {
+        return new CitizenSummaryCache(
+                new SemanticCacheFactory(cacheConfig).build("citizen-summary-memory"),
+                new SemanticCacheFactory(cacheConfig).build("citizen-summary-shared"),
+                objectMapper
+        );
+    }
+
+    public static CitizenSummaryCache openInMemory(String cacheSuffix, ObjectMapper objectMapper) {
+        return new CitizenSummaryCache(
+                new SemanticCacheFactory(new CacheConfig("", 6379, "", false)).build("citizen-summary-memory-" + cacheSuffix),
+                new SemanticCacheFactory(new CacheConfig("", 6379, "", false)).build("citizen-summary-shared-" + cacheSuffix),
+                objectMapper
+        );
+    }
+
     public Optional<CitizenSummaryBundle> readMemory(CitizenSummaryScope scope) {
         CitizenSummaryBundle hotValue = hotMemorySummaries.get(scope.cacheKey());
         if (hotValue != null) {
@@ -58,9 +76,17 @@ public final class CitizenSummaryCache {
         memoryCache.put(key(scope), summary, MEMORY_TTL, codec);
     }
 
+    public void primeMemory(CitizenSummaryScope scope, CitizenSummaryBundle summary) {
+        writeMemory(scope, summary);
+    }
+
     public void writeShared(CitizenSummaryScope scope, CitizenSummaryBundle summary) {
         sharedCache.put(key(scope), summary, SHARED_TTL, codec);
         clearSharedDirty(scope);
+    }
+
+    public void primeShared(CitizenSummaryScope scope, CitizenSummaryBundle summary) {
+        writeShared(scope, summary);
     }
 
     public void invalidateMemory(CitizenSummaryScope scope) {

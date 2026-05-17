@@ -1,7 +1,10 @@
 package com.tavall.resourcegame.player.cache;
 
 import com.tavall.resourcegame.cache.JacksonCacheCodec;
+import com.tavall.resourcegame.cache.SemanticCacheFactory;
+import com.tavall.resourcegame.config.CacheConfig;
 import com.tavall.resourcegame.domain.PlayerProfile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.abstractcache.cache.enums.CacheDomain;
 import org.tavall.abstractcache.cache.enums.CacheSource;
 import org.tavall.abstractcache.cache.enums.CacheVersion;
@@ -26,12 +29,23 @@ public final class PlayerProfileCache {
         this.codec = codec;
     }
 
+    public static PlayerProfileCache open(CacheConfig cacheConfig, ObjectMapper objectMapper) {
+        return new PlayerProfileCache(
+                new SemanticCacheFactory(cacheConfig).build("resource-game-profile"),
+                new JacksonCacheCodec<>(objectMapper, PlayerProfile.class, "player-profile")
+        );
+    }
+
     public Optional<PlayerProfile> read(UUID playerId) {
         return cache.get(key(playerId), codec).map(ICacheValue::getValue);
     }
 
     public void write(UUID playerId, PlayerProfile profile) {
         cache.put(key(playerId), profile, PROFILE_TTL, codec);
+    }
+
+    public void prime(UUID playerId, PlayerProfile profile) {
+        write(playerId, profile);
     }
 
     public boolean invalidate(UUID playerId) {

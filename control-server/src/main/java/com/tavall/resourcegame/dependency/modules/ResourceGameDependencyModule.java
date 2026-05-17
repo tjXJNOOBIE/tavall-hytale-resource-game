@@ -1,8 +1,6 @@
 package com.tavall.resourcegame.dependency.modules;
 
 import com.tavall.resourcegame.ResourceGamePlugin;
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
 import com.tavall.resourcegame.clock.KingdomClockService;
 import com.tavall.resourcegame.config.CacheConfig;
 import com.tavall.resourcegame.config.CastleAssetConfig;
@@ -70,8 +68,8 @@ import com.tavall.resourcegame.persistence.PlayerProfileRepository;
 import com.tavall.resourcegame.persistence.PlayerProfileStore;
 import com.tavall.resourcegame.persistence.PostgresConnectionProvider;
 import com.tavall.resourcegame.persistence.ResolvedPersistenceStores;
-import com.tavall.resourcegame.player.cache.PlayerGameStateCache;
 import com.tavall.resourcegame.player.cache.PlayerProfileCache;
+import com.tavall.resourcegame.player.cache.PlayerGameStateCache;
 import com.tavall.resourcegame.population.PromotionCost;
 import com.tavall.resourcegame.services.CastleInteractionService;
 import com.tavall.resourcegame.services.BuildingInteractionService;
@@ -179,15 +177,8 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         KingdomClockConfig clockConfig = KingdomClockConfig.fromEnv();
 
         JsonMapperProvider mapperProvider = new JsonMapperProvider();
-        SemanticCacheFactory cacheFactory = new SemanticCacheFactory(cacheConfig);
-        PlayerProfileCache profileCache = new PlayerProfileCache(
-                cacheFactory.build("resource-game-profile"),
-                new JacksonCacheCodec<>(mapperProvider.mapper(), PlayerProfile.class, "player-profile")
-        );
-        PlayerGameStateCache gameStateCache = new PlayerGameStateCache(
-                cacheFactory.build("resource-game-game-state"),
-                new JacksonCacheCodec<>(mapperProvider.mapper(), PlayerGameState.class, "player-game-state")
-        );
+        PlayerProfileCache profileCache = PlayerProfileCache.open(cacheConfig, mapperProvider.mapper());
+        PlayerGameStateCache gameStateCache = PlayerGameStateCache.open(cacheConfig, mapperProvider.mapper());
 
         PersistenceStoreBootstrap persistenceBootstrap = new PersistenceStoreBootstrap(Logger.getLogger(ResourceGameDependencyModule.class.getName()));
         ResolvedPersistenceStores persistenceStores = persistenceBootstrap.resolve(databaseConfig);

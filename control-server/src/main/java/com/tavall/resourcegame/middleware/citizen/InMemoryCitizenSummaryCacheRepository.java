@@ -3,7 +3,6 @@ package com.tavall.resourcegame.middleware.citizen;
 import com.tavall.resourcegame.middleware.citizen.cache.CitizenSummaryCache;
 import com.tavall.resourcegame.services.JsonMapperProvider;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.abstractcache.semantic.SemanticCacheBuilder;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,11 +20,7 @@ public final class InMemoryCitizenSummaryCacheRepository implements CitizenSumma
 
     private static CitizenSummaryCache createDefaultCache() {
         String cacheSuffix = UUID.randomUUID().toString();
-        return new CitizenSummaryCache(
-                new SemanticCacheBuilder().cacheName("citizen-summary-memory-" + cacheSuffix).withHotMemoryTier().build(),
-                new SemanticCacheBuilder().cacheName("citizen-summary-shared-" + cacheSuffix).withHotMemoryTier().build(),
-                new JsonMapperProvider().mapper()
-        );
+        return CitizenSummaryCache.openInMemory(cacheSuffix, new JsonMapperProvider().mapper());
     }
 
     @Override

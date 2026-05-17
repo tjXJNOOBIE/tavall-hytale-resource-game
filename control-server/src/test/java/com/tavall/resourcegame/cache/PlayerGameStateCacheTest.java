@@ -8,10 +8,10 @@ import com.tavall.resourcegame.domain.PlayerGameState;
 import com.tavall.resourcegame.domain.PopulationSummary;
 import com.tavall.resourcegame.domain.ResourceInventory;
 import com.tavall.resourcegame.domain.TroopMetaData;
+import com.tavall.resourcegame.config.CacheConfig;
 import com.tavall.resourcegame.player.cache.PlayerGameStateCache;
 import com.tavall.resourcegame.services.JsonMapperProvider;
 import org.junit.jupiter.api.Test;
-import org.tavall.abstractcache.semantic.SemanticCacheBuilder;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -26,10 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class PlayerGameStateCacheTest {
     @Test
     void readsWritesAndInvalidatesGameStateByPlayerId() {
-        PlayerGameStateCache cache = new PlayerGameStateCache(
-                new SemanticCacheBuilder().cacheName("player-game-state-test").withHotMemoryTier().build(),
-                new JacksonCacheCodec<>(new JsonMapperProvider().mapper(), PlayerGameState.class, "player-game-state-test")
-        );
+        PlayerGameStateCache cache = PlayerGameStateCache.open(new CacheConfig("", 6379, "", false), new JsonMapperProvider().mapper());
         UUID playerId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         Instant now = Instant.parse("2026-05-16T12:00:00Z");
         PlayerGameState state = new PlayerGameState(
@@ -52,7 +49,7 @@ final class PlayerGameStateCacheTest {
                 now
         );
 
-        cache.write(playerId, state);
+        cache.prime(playerId, state);
 
         Optional<PlayerGameState> cached = cache.read(playerId);
         assertTrue(cached.isPresent());
