@@ -6,21 +6,21 @@ import com.tavall.resourcegame.services.ControlPlaneTcpBridgeRequest;
 import com.tavall.resourcegame.services.FrontendTcpControlBridgeResponse;
 import com.tavall.resourcegame.services.JsonMapperProvider;
 import com.tavall.resourcegame.middleware.control.KdControlCommandTranslationHandler;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationState;
-import com.tavall.resourcegame.shared.frontend.InteractionMenuElement;
-import com.tavall.resourcegame.shared.frontend.InteractionMenuModel;
-import com.tavall.resourcegame.shared.frontend.InteractionRequest;
-import com.tavall.resourcegame.shared.frontend.InteractionResult;
-import com.tavall.resourcegame.shared.frontend.InteractionResultType;
-import com.tavall.resourcegame.shared.frontend.InteractionTargetType;
-import com.tavall.resourcegame.shared.frontend.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.shared.frontend.MinecraftVisualRenderRequest;
-import com.tavall.resourcegame.shared.frontend.PlayerDataRequest;
-import com.tavall.resourcegame.shared.frontend.PlayerDataResponse;
-import com.tavall.resourcegame.shared.frontend.PlayerPlatformBindingView;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendSurfaceIdentity;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
+import com.tavall.resourcegame.api.internal.interaction.InteractionMenuElement;
+import com.tavall.resourcegame.api.internal.interaction.InteractionMenuModel;
+import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
+import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
+import com.tavall.resourcegame.api.internal.interaction.InteractionResultType;
+import com.tavall.resourcegame.api.internal.interaction.InteractionTargetType;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftVisualRenderRequest;
+import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
+import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
+import com.tavall.resourcegame.api.internal.player.PlayerPlatformBindingView;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
 import com.tjxjnoobie.api.dependency.DependencyLoader;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.Test;
@@ -244,7 +244,7 @@ final class MinecraftBukkitServerFrontendTest {
     @Test
     void jsonHandlerSerializesVisualRenderRequestForServerSurface() throws IOException {
         DependencyLoader.getDependencyLoader().clear();
-        com.tavall.resourcegame.dependency.DependencyLoaderAccess.clear();
+        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.clear();
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitJsonMapper.class, new MinecraftBukkitJsonMapper());
         MinecraftVisualRenderRequest request = new MinecraftVisualRenderRequest(
                 ResourceGameFrontendSurfaceIdentity.BUKKIT_SERVER,
@@ -267,10 +267,10 @@ final class MinecraftBukkitServerFrontendTest {
 
     private void registerBukkitFrontendDependencies(MinecraftBukkitServerConfig config, long startedAtEpochMillis, URI controlIngressUri) {
         DependencyLoader.getDependencyLoader().clear();
-        com.tavall.resourcegame.dependency.DependencyLoaderAccess.clear();
+        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.clear();
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class, config);
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitRuntimeState.class, new MinecraftBukkitRuntimeState(startedAtEpochMillis));
-        com.tavall.resourcegame.dependency.DependencyLoaderAccess.registerInstance(com.tavall.resourcegame.dependency.interfaces.IFrontendControlConfig.class,
+        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig.class,
                 new com.tavall.resourcegame.services.FrontendControlConfig(controlIngressUri, "minecraft-bukkit-server"));
         new MinecraftBukkitServerDependencyModule().registerDependencies();
     }

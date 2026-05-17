@@ -2,7 +2,7 @@ param(
     [string]$SshAlias = "novus-remote",
     [string]$SshConfigPath = "C:\Users\TJ\.ssh\config",
     [string]$RemoteCloudControlPlaneDir = "/srv/control-plane",
-    [string]$CloudControlPlaneJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/cloud-control-plane/target/cloud-control-plane-0.1.1-SNAPSHOT.jar",
+    [string]$CloudControlPlaneJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/control-server/target/control-server-0.1.1-SNAPSHOT-exec.jar",
     [string]$CloudControlPlaneSessionName = "cloud-control-plane"
 )
 

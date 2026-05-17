@@ -1,16 +1,16 @@
 package com.tavall.resourcegame.controlserver.api;
 
 import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.dependency.IDependencyInjectableConcrete;
+import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import com.tavall.resourcegame.middleware.control.ControlOperator;
 import com.tavall.resourcegame.middleware.control.ControlOperatorRepository;
 import com.tavall.resourcegame.middleware.control.ControlOperatorRole;
 import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.shared.frontend.RankOperationType;
-import com.tavall.resourcegame.shared.frontend.RankRequest;
-import com.tavall.resourcegame.shared.frontend.RankResponse;
-import com.tavall.resourcegame.shared.permissions.UniversalPermissionRole;
-import com.tavall.resourcegame.shared.permissions.UniversalPermissionSubject;
+import com.tavall.resourcegame.api.internal.permissions.RankOperationType;
+import com.tavall.resourcegame.api.internal.permissions.RankRequest;
+import com.tavall.resourcegame.api.internal.permissions.RankResponse;
+import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionRole;
+import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -194,7 +194,7 @@ public final class RankApi implements IControlServerDomain, IDependencyInjectabl
                 .map(UUID::toString)
                 .orElse(operator.operatorId().toString());
         return new UniversalPermissionSubject(
-                com.tavall.resourcegame.shared.frontend.ResourceGameFrontendPlatform.MINECRAFT,
+                com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform.MINECRAFT,
                 platformAccountId,
                 operator.displayName(),
                 toUniversalRole(operator.role()),

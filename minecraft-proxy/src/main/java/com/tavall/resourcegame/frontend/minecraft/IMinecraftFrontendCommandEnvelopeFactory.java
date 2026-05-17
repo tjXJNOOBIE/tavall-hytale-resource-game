@@ -1,7 +1,7 @@
 package com.tavall.resourcegame.frontend.minecraft;
 
-import com.tavall.resourcegame.shared.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandSurface;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandSurface;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 
 import java.util.Map;

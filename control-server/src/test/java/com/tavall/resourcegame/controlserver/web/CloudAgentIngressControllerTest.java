@@ -1,7 +1,7 @@
 package com.tavall.resourcegame.controlserver.web;
 
 import com.tavall.resourcegame.controlserver.ControlServerDependencyModule;
-import com.tavall.resourcegame.dependency.DependencyLoaderAccess;
+import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tavall.resourcegame.middleware.cloud.CloudAgentHeartbeatPayload;
 import com.tavall.resourcegame.middleware.cloud.CloudCommand;
 import com.tavall.resourcegame.middleware.cloud.CloudCommandResult;

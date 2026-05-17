@@ -1,7 +1,7 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
 import com.tavall.resourcegame.config.DatabaseConfig;
-import com.tavall.resourcegame.dependency.DependencyLoaderAccess;
+import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
 import com.tavall.resourcegame.middleware.control.ControlCommandRuntimeFactory;
 import com.tavall.resourcegame.persistence.PostgresConnectionProvider;

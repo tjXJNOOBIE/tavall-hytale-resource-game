@@ -1,12 +1,12 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.shared.frontend.InteractionRequest;
-import com.tavall.resourcegame.shared.frontend.InteractionResult;
-import com.tavall.resourcegame.shared.frontend.InteractionTargetType;
-import com.tavall.resourcegame.shared.frontend.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.shared.frontend.MinecraftVisualRenderRequest;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendSurfaceIdentity;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
+import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
+import com.tavall.resourcegame.api.internal.interaction.InteractionTargetType;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftVisualRenderRequest;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

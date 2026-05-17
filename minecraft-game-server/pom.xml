@@ -41,17 +41,12 @@
         </dependency>
         <dependency>
             <groupId>com.tavall</groupId>
-            <artifactId>shared-contracts</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tavall.hytale</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>game-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tavall</groupId>
-            <artifactId>cloud-control-plane</artifactId>
+            <artifactId>control-server</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

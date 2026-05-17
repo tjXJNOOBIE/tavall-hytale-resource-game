@@ -1,6 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.shared.frontend.InteractionTargetType;
+import com.tavall.resourcegame.api.internal.interaction.InteractionTargetType;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;

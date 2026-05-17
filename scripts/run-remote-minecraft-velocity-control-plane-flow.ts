@@ -62,7 +62,7 @@ const defaults: Options = {
     repoRoot,
     "control-server",
     "target",
-    "control-server-0.1.1-SNAPSHOT.jar"
+    "control-server-0.1.1-SNAPSHOT-exec.jar"
   ),
   pluginJarPath: path.join(
     repoRoot,
@@ -77,7 +77,7 @@ const defaults: Options = {
     "minecraft-game-server-0.1.1-SNAPSHOT.jar"
   ),
   scenarioScriptPath: path.join(repoRoot, "scripts", "minecraft-velocity-control-plane-flow.mjs"),
-  controlPort: 18081,
+  controlPort: 19081,
   botUsername: "ResourceProxyBot",
   minecraftVersion: "1.21.4",
   instanceServerMap: "kingdom-1-minecraft-primary=kingdom,kingdom-2-minecraft-primary=ffa",

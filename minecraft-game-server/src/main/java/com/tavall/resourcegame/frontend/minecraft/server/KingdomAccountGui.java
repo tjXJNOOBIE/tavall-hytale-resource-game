@@ -1,11 +1,11 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.shared.frontend.InteractionMenuElement;
-import com.tavall.resourcegame.shared.frontend.InteractionMenuModel;
-import com.tavall.resourcegame.shared.frontend.InteractionTargetType;
-import com.tavall.resourcegame.shared.frontend.PlayerDataRequest;
-import com.tavall.resourcegame.shared.frontend.PlayerDataResponse;
-import com.tavall.resourcegame.shared.frontend.PlayerPlatformBindingView;
+import com.tavall.resourcegame.api.internal.interaction.InteractionMenuElement;
+import com.tavall.resourcegame.api.internal.interaction.InteractionMenuModel;
+import com.tavall.resourcegame.api.internal.interaction.InteractionTargetType;
+import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
+import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
+import com.tavall.resourcegame.api.internal.player.PlayerPlatformBindingView;
 import com.tavall.resourcegame.ui.UiActions;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;

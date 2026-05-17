@@ -20,14 +20,12 @@ These modules live under the current `tavall-hytale-resource-game` folder and ar
 
 | Module | Platform | Runtime | State ownership |
 | --- | --- | --- | --- |
-| `shared-contracts` | Shared | Java | Adapter/projection contracts only |
-| `hytale-frontend` | Hytale | Java/Hytale-native | Adapter only |
+| `game-api` | Shared | Java | Adapter/projection contracts only |
+| `control-server` | Backend/control plane | Java | Canonical gameplay, cloud/control console, panel, persistence, and transport |
 | `minecraft-proxy` | Minecraft | Java plugin/native adapter | Adapter only |
-| `roblox-frontend` | Roblox | Luau | Adapter only |
 | `discord-frontend` | Discord | Java bot/buttons | Adapter only |
 | `android-app` | Android future | Kotlin | Adapter/app shell only |
-| `pc-app` | PC app future | C# | Adapter/app shell only |
 
-The existing root `tavall-hytale-resource-game` module remains the current middleware/control-server and Hytale plugin home until Hytale-specific runtime code can be moved safely. Canonical gameplay state stays in the Java control server; frontend modules consume projections and dispatch command/input events back to middleware.
+On `minecraft-main`, non-Minecraft platform modules are intentionally omitted from the branch tree. Canonical gameplay state stays in the Java control server; frontend modules consume projections and dispatch command/input events back to middleware.
 
-The `shared-contracts` module is the first extraction boundary. Java platform modules depend on it for frontend adapter descriptors, platform action descriptors, and shared action catalogs. Future projection/command DTOs should move there before platform-specific adapters consume them.
+The `game-api` module is the first extraction boundary. Java platform modules depend on it for frontend adapter descriptors, platform action descriptors, and shared action catalogs. Future projection/command DTOs should move there before platform-specific adapters consume them.

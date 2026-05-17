@@ -4,22 +4,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tavall.resourcegame.services.FrontendControlConfig;
 import com.tavall.resourcegame.services.FrontendTcpControlBridgeResponse;
 import com.tavall.resourcegame.services.FrontendTcpControlCommandClient;
-import com.tavall.resourcegame.dependency.interfaces.IFrontendControlConfig;
-import com.tavall.resourcegame.dependency.interfaces.IFrontendControlCommandClient;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationState;
-import com.tavall.resourcegame.shared.frontend.RankOperationType;
-import com.tavall.resourcegame.shared.frontend.PunishOperationType;
-import com.tavall.resourcegame.shared.frontend.PunishRequest;
-import com.tavall.resourcegame.shared.frontend.PunishResponse;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendRuntime;
-import com.tavall.resourcegame.shared.frontend.RankRequest;
-import com.tavall.resourcegame.shared.frontend.RankResponse;
-import com.tavall.resourcegame.shared.permissions.UniversalPermissionRole;
+import com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig;
+import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
+import com.tavall.resourcegame.frontend.minecraft.commands.Ban;
+import com.tavall.resourcegame.frontend.minecraft.commands.Kick;
+import com.tavall.resourcegame.frontend.minecraft.commands.MinecraftVelocityRankCommand;
+import com.tavall.resourcegame.frontend.minecraft.commands.Mute;
+import com.tavall.resourcegame.frontend.minecraft.commands.Sim;
+import com.tavall.resourcegame.frontend.minecraft.commands.Unban;
+import com.tavall.resourcegame.frontend.minecraft.commands.Unmute;
+import com.tavall.resourcegame.frontend.minecraft.commands.Unwarn;
+import com.tavall.resourcegame.frontend.minecraft.commands.Warn;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
+import com.tavall.resourcegame.api.internal.permissions.RankOperationType;
+import com.tavall.resourcegame.api.internal.permissions.PunishOperationType;
+import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
+import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendRuntime;
+import com.tavall.resourcegame.api.internal.permissions.RankRequest;
+import com.tavall.resourcegame.api.internal.permissions.RankResponse;
+import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionRole;
 import com.tjxjnoobie.api.dependency.DependencyLoader;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import com.velocitypowered.api.event.player.PlayerChatEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +64,7 @@ public final class MinecraftFrontendModuleTest {
     @AfterEach
     void clearDependencies() {
         DependencyLoader.getDependencyLoader().clear();
-        com.tavall.resourcegame.dependency.DependencyLoaderAccess.clear();
+        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.clear();
     }
 
     @Test
@@ -125,7 +135,7 @@ public final class MinecraftFrontendModuleTest {
     @Test
     void minecraftControlPlaneBridgeHandlesOfflineControlIngressGracefully() throws IOException {
         int offlinePort = availablePort();
-        com.tavall.resourcegame.dependency.DependencyLoaderAccess.registerInstance(
+        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(
                 IFrontendControlConfig.class,
                 new FrontendControlConfig(URI.create("tcp://127.0.0.1:" + offlinePort), "velocity-test")
         );
@@ -147,13 +157,13 @@ public final class MinecraftFrontendModuleTest {
 
     @Test
     void minecraftFrontendDependencyModuleSelectsTcpClientForTcpUris() {
-        com.tavall.resourcegame.dependency.DependencyLoaderAccess.registerInstance(
+        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(
                 IFrontendControlConfig.class,
                 new FrontendControlConfig(URI.create("tcp://127.0.0.1:18081"), "velocity-test")
         );
         new MinecraftFrontendDependencyModule().registerDependencies(defaultConfig(), MinecraftVelocityInstanceSwitchGateway.noop());
 
-        IFrontendControlCommandClient client = com.tavall.resourcegame.dependency.DependencyLoaderAccess.findInstance(IFrontendControlCommandClient.class);
+        IFrontendControlCommandClient client = com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findInstance(IFrontendControlCommandClient.class);
         assertTrue(client instanceof FrontendTcpControlCommandClient);
     }
 
@@ -161,7 +171,7 @@ public final class MinecraftFrontendModuleTest {
     void minecraftControlPlaneBridgeSerializesAndDeserializesThroughLocalBridge() throws Exception {
         try (ControlIngressFixture fixture = startControlIngressServer(envelope ->
                 FrontendTcpControlBridgeResponse.success(dispatched(envelope, "dispatched-over-tcp")))) {
-            com.tavall.resourcegame.dependency.DependencyLoaderAccess.registerInstance(
+            com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(
                     IFrontendControlConfig.class,
                     new FrontendControlConfig(fixture.ingressUri(), "velocity-test")
             );
@@ -236,7 +246,7 @@ public final class MinecraftFrontendModuleTest {
                 envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
                 request -> {
                     submittedRankRequest.set(request);
-                    if (request.operation() == com.tavall.resourcegame.shared.frontend.RankOperationType.LIST) {
+                    if (request.operation() == com.tavall.resourcegame.api.internal.permissions.RankOperationType.LIST) {
                         return RankResponse.listed(
                                 request.requestId(),
                                 "Loaded 1 rank subject.",
@@ -247,7 +257,7 @@ public final class MinecraftFrontendModuleTest {
                     return RankResponse.updated(
                             request.requestId(),
                             "Updated " + request.targetDisplayName() + " to " + request.requestedRole().name() + ".",
-                            new com.tavall.resourcegame.shared.permissions.UniversalPermissionSubject(
+                            new com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject(
                                     ResourceGameFrontendPlatform.MINECRAFT,
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
@@ -265,7 +275,7 @@ public final class MinecraftFrontendModuleTest {
                         "tavall.resourcegame.admin",
                         "velocity-test",
                         Map.of(),
-                        Set.of("test player"),
+                        Set.of(),
                         Set.of(),
                         true
                 ),
@@ -294,7 +304,7 @@ public final class MinecraftFrontendModuleTest {
     }
 
     @Test
-    void velocityRankBaseCommandListsSubjectsWithoutAdminPermission() {
+    void velocityRankBaseCommandShowsMemberHelpWithoutDispatching() {
         AtomicReference<RankRequest> submittedRankRequest = new AtomicReference<>();
         DependencyLoaderAccess.registerInstance(IMinecraftControlCommandClient.class, new RecordingMinecraftControlCommandClient(
                 envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
@@ -314,7 +324,7 @@ public final class MinecraftFrontendModuleTest {
                         "tavall.resourcegame.admin",
                         "velocity-test",
                         Map.of(),
-                        Set.of("test player"),
+                        Set.of(),
                         Set.of(),
                         true
                 ),
@@ -329,8 +339,57 @@ public final class MinecraftFrontendModuleTest {
         );
 
         assertTrue(result.success());
-        assertEquals(RankOperationType.LIST, submittedRankRequest.get().operation());
-        assertTrue(result.message().contains("Loaded 2 rank subjects."));
+        assertNull(submittedRankRequest.get());
+        assertEquals(String.join("\n",
+                "Rank commands:",
+                "/rank inspect <target>  View a player's current rank"
+        ), result.message());
+    }
+
+    @Test
+    void velocityRankBaseCommandShowsAdminHelpWithoutDispatching() {
+        AtomicReference<RankRequest> submittedRankRequest = new AtomicReference<>();
+        DependencyLoaderAccess.registerInstance(IMinecraftControlCommandClient.class, new RecordingMinecraftControlCommandClient(
+                envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
+                request -> {
+                    submittedRankRequest.set(request);
+                    return RankResponse.listed(
+                            request.requestId(),
+                            "Loaded 2 rank subjects.",
+                            List.of(),
+                            Map.of("operation", request.operation().name())
+                    );
+                }
+        ));
+        new MinecraftFrontendDependencyModule().registerDependencies(
+                new MinecraftProxyConfig(
+                        "tavall.resourcegame.command",
+                        "tavall.resourcegame.admin",
+                        "velocity-test",
+                        Map.of(),
+                        Set.of(),
+                        Set.of(),
+                        true
+                ),
+                MinecraftVelocityInstanceSwitchGateway.noop()
+        );
+        MinecraftVelocityRankCommand rankCommand = new MinecraftVelocityRankCommand();
+
+        MinecraftVelocityCommandResult result = rankCommand.execute(
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
+                "rank",
+                new String[0]
+        );
+
+        assertTrue(result.success());
+        assertNull(submittedRankRequest.get());
+        assertEquals(String.join("\n",
+                "Rank commands:",
+                "/rank inspect <target>  View a player's current rank",
+                "/rank list  List known rank subjects",
+                "/rank set <target> <role>  Update a player's rank",
+                "/rank remove <target> [fallback_role]  Reset a player's rank"
+        ), result.message());
     }
 
     @Test
@@ -343,7 +402,7 @@ public final class MinecraftFrontendModuleTest {
                     return RankResponse.updated(
                             request.requestId(),
                             "Updated " + request.targetDisplayName() + " to " + request.requestedRole().name() + ".",
-                            new com.tavall.resourcegame.shared.permissions.UniversalPermissionSubject(
+                            new com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject(
                                     ResourceGameFrontendPlatform.MINECRAFT,
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
@@ -359,7 +418,7 @@ public final class MinecraftFrontendModuleTest {
         MinecraftVelocityRankCommand rankCommand = new MinecraftVelocityRankCommand();
 
         MinecraftVelocityCommandResult result = rankCommand.execute(
-                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command")),
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
                 "rank",
                 new String[]{"set", "miner-1", "ADMIN"}
         );
@@ -381,7 +440,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have banned " + request.targetDisplayName() + " for " + request.durationText() + ".",
-                            new com.tavall.resourcegame.shared.frontend.PunishRecord(
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.BAN,
@@ -425,7 +484,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "unexpected",
-                            new com.tavall.resourcegame.shared.frontend.PunishRecord(
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.BAN,
@@ -467,7 +526,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have warned " + request.targetDisplayName() + ". Total warns: 1",
-                            new com.tavall.resourcegame.shared.frontend.PunishRecord(
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.WARN,
@@ -509,7 +568,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have warned " + request.targetDisplayName() + ". Total warns: 1",
-                            new com.tavall.resourcegame.shared.frontend.PunishRecord(
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.WARN,
@@ -552,7 +611,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have unbanned " + request.targetDisplayName() + ".",
-                            new com.tavall.resourcegame.shared.frontend.PunishRecord(
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.UNBAN,
@@ -585,6 +644,192 @@ public final class MinecraftFrontendModuleTest {
     }
 
     @Test
+    void velocityKickCommandSubmitsPunishRequestsThroughControlPlane() {
+        AtomicReference<PunishRequest> submittedPunishRequest = new AtomicReference<>();
+        DependencyLoaderAccess.registerInstance(IMinecraftControlCommandClient.class, new RecordingMinecraftControlCommandClient(
+                envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
+                request -> RankResponse.unavailable(request.requestId(), "Rank request not mocked."),
+                request -> {
+                    submittedPunishRequest.set(request);
+                    return PunishResponse.updated(
+                            request.requestId(),
+                            "You have kicked " + request.targetDisplayName() + " for " + request.reason() + ".",
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                                    request.targetPlatformAccountId(),
+                                    request.targetDisplayName(),
+                                    PunishOperationType.KICK,
+                                    false,
+                                    request.reason(),
+                                    request.actorDisplayName(),
+                                    "",
+                                    request.createdAtEpochMillis(),
+                                    null,
+                                    Map.of("operation", request.operation().name())
+                            ),
+                            List.of(),
+                            Map.of("operation", request.operation().name())
+                    );
+                }
+        ));
+        new MinecraftFrontendDependencyModule().registerDependencies(defaultConfig(), MinecraftVelocityInstanceSwitchGateway.noop());
+        registerOnlineVelocityPlayer("miner-1");
+        Kick kickCommand = new Kick();
+
+        MinecraftVelocityCommandResult result = kickCommand.execute(
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
+                "kick",
+                new String[]{"miner-1", "Testing"}
+        );
+
+        assertTrue(result.success());
+        assertEquals(PunishOperationType.KICK, submittedPunishRequest.get().operation());
+        assertEquals("miner-1", submittedPunishRequest.get().targetDisplayName());
+        assertTrue(result.message().contains("You have kicked miner-1"));
+    }
+
+    @Test
+    void velocityMuteCommandSubmitsPunishRequestsThroughControlPlane() {
+        AtomicReference<PunishRequest> submittedPunishRequest = new AtomicReference<>();
+        DependencyLoaderAccess.registerInstance(IMinecraftControlCommandClient.class, new RecordingMinecraftControlCommandClient(
+                envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
+                request -> RankResponse.unavailable(request.requestId(), "Rank request not mocked."),
+                request -> {
+                    submittedPunishRequest.set(request);
+                    return PunishResponse.updated(
+                            request.requestId(),
+                            "You have muted " + request.targetDisplayName() + " for " + request.durationText() + " for " + request.reason() + ".",
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                                    request.targetPlatformAccountId(),
+                                    request.targetDisplayName(),
+                                    PunishOperationType.MUTE,
+                                    true,
+                                    request.reason(),
+                                    request.actorDisplayName(),
+                                    request.durationText(),
+                                    request.createdAtEpochMillis(),
+                                    null,
+                                    Map.of("operation", request.operation().name())
+                            ),
+                            List.of(),
+                            Map.of("operation", request.operation().name())
+                    );
+                }
+        ));
+        new MinecraftFrontendDependencyModule().registerDependencies(defaultConfig(), MinecraftVelocityInstanceSwitchGateway.noop());
+        Mute muteCommand = new Mute();
+
+        MinecraftVelocityCommandResult result = muteCommand.execute(
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
+                "mute",
+                new String[]{"miner-1", "1h", "Testing"}
+        );
+
+        assertTrue(result.success());
+        assertEquals(PunishOperationType.MUTE, submittedPunishRequest.get().operation());
+        assertEquals("1h", submittedPunishRequest.get().durationText());
+        assertTrue(result.message().contains("You have muted miner-1"));
+    }
+
+    @Test
+    void velocityUnmuteCommandSubmitsPunishRequestsThroughControlPlane() {
+        AtomicReference<PunishRequest> submittedPunishRequest = new AtomicReference<>();
+        DependencyLoaderAccess.registerInstance(IMinecraftControlCommandClient.class, new RecordingMinecraftControlCommandClient(
+                envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
+                request -> RankResponse.unavailable(request.requestId(), "Rank request not mocked."),
+                request -> {
+                    submittedPunishRequest.set(request);
+                    return PunishResponse.updated(
+                            request.requestId(),
+                            "You have unmuted " + request.targetDisplayName() + ".",
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                                    request.targetPlatformAccountId(),
+                                    request.targetDisplayName(),
+                                    PunishOperationType.UNMUTE,
+                                    false,
+                                    "Unmuted",
+                                    request.actorDisplayName(),
+                                    "",
+                                    request.createdAtEpochMillis(),
+                                    null,
+                                    Map.of("operation", request.operation().name())
+                            ),
+                            List.of(),
+                            Map.of("operation", request.operation().name())
+                    );
+                }
+        ));
+        new MinecraftFrontendDependencyModule().registerDependencies(defaultConfig(), MinecraftVelocityInstanceSwitchGateway.noop());
+        Unmute unmuteCommand = new Unmute();
+
+        MinecraftVelocityCommandResult result = unmuteCommand.execute(
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
+                "unmute",
+                new String[]{"miner-1"}
+        );
+
+        assertTrue(result.success());
+        assertEquals(PunishOperationType.UNMUTE, submittedPunishRequest.get().operation());
+        assertTrue(result.message().contains("You have unmuted miner-1"));
+    }
+
+    @Test
+    void velocityUnwarnCommandSubmitsPunishRequestsThroughControlPlane() {
+        AtomicReference<PunishRequest> submittedPunishRequest = new AtomicReference<>();
+        DependencyLoaderAccess.registerInstance(IMinecraftControlCommandClient.class, new RecordingMinecraftControlCommandClient(
+                envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
+                request -> RankResponse.unavailable(request.requestId(), "Rank request not mocked."),
+                request -> {
+                    submittedPunishRequest.set(request);
+                    return PunishResponse.updated(
+                            request.requestId(),
+                            "Removed one warning from " + request.targetDisplayName() + ".",
+                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                                    request.targetPlatformAccountId(),
+                                    request.targetDisplayName(),
+                                    PunishOperationType.UNWARN,
+                                    false,
+                                    "Warning removed",
+                                    request.actorDisplayName(),
+                                    "",
+                                    request.createdAtEpochMillis(),
+                                    null,
+                                    Map.of("operation", request.operation().name())
+                            ),
+                            List.of(),
+                            Map.of("operation", request.operation().name())
+                    );
+                }
+        ));
+        new MinecraftFrontendDependencyModule().registerDependencies(defaultConfig(), MinecraftVelocityInstanceSwitchGateway.noop());
+        Unwarn unwarnCommand = new Unwarn();
+
+        MinecraftVelocityCommandResult result = unwarnCommand.execute(
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
+                "unwarn",
+                new String[]{"miner-1"}
+        );
+
+        assertTrue(result.success());
+        assertEquals(PunishOperationType.UNWARN, submittedPunishRequest.get().operation());
+        assertTrue(result.message().contains("Removed one warning from miner-1"));
+    }
+
+    @Test
+    void velocitySimCommandReturnsVisibleFeedback() {
+        new MinecraftFrontendDependencyModule().registerDependencies(defaultConfig(), MinecraftVelocityInstanceSwitchGateway.noop());
+        Sim simCommand = new Sim();
+
+        MinecraftVelocityCommandResult result = simCommand.execute(
+                new TestVelocityCommandSource(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin")),
+                "sim",
+                new String[0]
+        );
+
+        assertTrue(result.success());
+        assertEquals("Simulation tooling is not enabled on this proxy.", result.message());
+    }
+
+    @Test
     void velocityLoginEventDisconnectsBannedPlayer() {
         AtomicBoolean disconnected = new AtomicBoolean(false);
         DependencyLoaderAccess.registerInstance(IMinecraftControlCommandClient.class, new RecordingMinecraftControlCommandClient(
@@ -593,7 +838,7 @@ public final class MinecraftFrontendModuleTest {
                 request -> PunishResponse.updated(
                         request.requestId(),
                         "Loaded active punishment for ResourceProxyBot.",
-                        new com.tavall.resourcegame.shared.frontend.PunishRecord(
+                        new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
                                 request.targetPlatformAccountId(),
                                 request.targetDisplayName(),
                                 PunishOperationType.BAN,
@@ -615,6 +860,40 @@ public final class MinecraftFrontendModuleTest {
         loginEvent.handleLogin(testVelocityPlayer("ResourceProxyBot", disconnected));
 
         assertTrue(disconnected.get());
+    }
+
+    @Test
+    void velocityMuteChatEventSuppressesMutedChat() {
+        DependencyLoaderAccess.registerInstance(IMinecraftControlCommandClient.class, new RecordingMinecraftControlCommandClient(
+                envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
+                request -> RankResponse.unavailable(request.requestId(), "Rank request not mocked."),
+                request -> PunishResponse.updated(
+                        request.requestId(),
+                        "Loaded active punishment for ResourceProxyBot.",
+                        new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                                request.targetPlatformAccountId(),
+                                request.targetDisplayName(),
+                                PunishOperationType.MUTE,
+                                true,
+                                "Testing",
+                                "Console",
+                                "1h",
+                                request.createdAtEpochMillis(),
+                                null,
+                                Map.of("operation", request.operation().name())
+                        ),
+                        List.of(),
+                        Map.of("operation", request.operation().name())
+                )
+        ));
+        new MinecraftFrontendDependencyModule().registerDependencies(defaultConfig(), MinecraftVelocityInstanceSwitchGateway.noop());
+        MinecraftVelocityMuteChatEvent muteChatEvent = new MinecraftVelocityMuteChatEvent();
+        PlayerChatEvent event = new PlayerChatEvent(testVelocityPlayer("ResourceProxyBot", new AtomicBoolean(false)), "hello");
+
+        muteChatEvent.handleChat(event);
+
+        assertTrue(event.getResult().getMessage().isPresent());
+        assertEquals("", event.getResult().getMessage().orElseThrow());
     }
 
     @Test
@@ -718,6 +997,9 @@ public final class MinecraftFrontendModuleTest {
 
         assertTrue(source.contains("IMinecraftVelocityProxyServer.class"));
         assertTrue(source.contains("new MinecraftVelocityProxyServerAdapter(proxyServer)"));
+        assertTrue(source.contains("metaBuilder(\"kick\")"));
+        assertTrue(source.contains("metaBuilder(\"mute\")"));
+        assertTrue(source.contains("metaBuilder(\"sim\")"));
         assertFalse(source.contains("metaBuilder(\"kd\")"));
         assertFalse(source.contains(".aliases(\"kingdom\")"));
         assertFalse(source.contains("registerInstance(ProxyServer.class"));
@@ -804,6 +1086,26 @@ public final class MinecraftFrontendModuleTest {
                 new Class<?>[]{com.velocitypowered.api.proxy.Player.class},
                 handler
         );
+    }
+
+    private void registerOnlineVelocityPlayer(String username) {
+        com.velocitypowered.api.proxy.Player player = testVelocityPlayer(username, new AtomicBoolean(false));
+        DependencyLoaderAccess.registerInstance(IMinecraftVelocityProxyServer.class, new IMinecraftVelocityProxyServer() {
+            @Override
+            public java.util.Optional<com.velocitypowered.api.proxy.server.RegisteredServer> getServer(String serverName) {
+                return java.util.Optional.empty();
+            }
+
+            @Override
+            public java.util.Optional<com.velocitypowered.api.proxy.Player> getPlayer(java.util.UUID playerId) {
+                return player.getUniqueId().equals(playerId) ? java.util.Optional.of(player) : java.util.Optional.empty();
+            }
+
+            @Override
+            public java.util.Optional<com.velocitypowered.api.proxy.Player> getPlayer(String requestedUsername) {
+                return username.equalsIgnoreCase(requestedUsername) ? java.util.Optional.of(player) : java.util.Optional.empty();
+            }
+        });
     }
 
     private int availablePort() throws IOException {

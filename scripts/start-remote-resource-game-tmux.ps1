@@ -85,8 +85,8 @@ wait_for_port 25565
 if [ -d '$RemoteHytaleDir' ]; then
   restart_tmux hytale '$RemoteHytaleDir' 'RESOURCE_GAME_HYTALE_CONTROL_INGRESS_URL=tcp://127.0.0.1:18081 RESOURCE_GAME_CONTROL_INGRESS_URL=tcp://127.0.0.1:18081 RESOURCE_GAME_HYTALE_SERVER_ID=hytale-single-server ./start.sh'
 fi
-if [ -f '$RemoteCloudAgentDir/cloud-agent.jar' ]; then
-  restart_tmux cloud-agent '$RemoteCloudAgentDir' 'TAVALL_CLOUD_CONTROL_PLANE_URL=http://127.0.0.1:$ControlPort TAVALL_CLOUD_AGENT_VERSION=0.1.1-SNAPSHOT java --enable-preview -cp cloud-agent.jar com.tavall.resourcegame.middleware.cloud.CloudAgentApplication'
+if [ -f '$RemoteControlDir/control-server.jar' ]; then
+  restart_tmux cloud-agent '$RemoteCloudAgentDir' 'TAVALL_CLOUD_CONTROL_PLANE_URL=http://127.0.0.1:$ControlPort TAVALL_CLOUD_AGENT_VERSION=0.1.1-SNAPSHOT java --enable-preview -cp '"'"'$RemoteControlDir/control-server.jar'"'"' com.tavall.resourcegame.middleware.cloud.CloudAgentApplication'
 fi
 
 sleep 2

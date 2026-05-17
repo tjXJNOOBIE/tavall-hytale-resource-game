@@ -2,14 +2,15 @@
 
 Tavall Cloud is the owned-server/private-cloud control plane for raw machines. The core control plane is plain Java. Spring can expose an optional web panel, but Spring controllers must stay thin and call Java command/query handlers directly.
 
-## Module Ownership
+## Package Ownership
 
-| Module | Owns | Must not own |
+On `minecraft-main`, cloud/runtime code lives inside the single `control-server` backend module and is separated by package concern instead of sibling Maven modules.
+
+| Package area | Owns | Must not own |
 |---|---|---|
-| `cloud-core` | Cloud domain models, command types, repository ports, in-memory repository | Spring controllers, node-agent runtime |
-| `cloud-control-plane` | Plain Java runtime, node import, scheduler, reconciliation, command dispatch, backup, alerts | Raw SSH as normal execution |
-| `cloud-agent` | Typed command validation/execution, signing policy, runtime adapters | Global scheduling, durable desired state |
-| `control-server` | Optional Spring/web/CLI adapter into Java handlers | Canonical cloud state |
+| `com.tavall.resourcegame.middleware.cloud` | Cloud domain models, command types, repository ports, in-memory repository, reconciliation, alerts, agent/runtime entrypoints | Minecraft adapter state |
+| `com.tavall.resourcegame.controlserver.cli` | Plain Java control-plane console and command entrypoint | Canonical cloud state |
+| `com.tavall.resourcegame.controlserver.web` | Optional Spring/web adapter into Java handlers | Canonical cloud state |
 
 ## Runtime Layers
 
@@ -26,7 +27,7 @@ The standalone control-plane runtime is deployed under `/srv/control-plane` on r
 
 | Path | Purpose |
 |---|---|
-| `/srv/control-plane/cloud-control-plane.jar` | Deployable control-plane jar |
+| `/srv/control-plane/cloud-control-plane.jar` | Deployable control-plane jar (sourced from the consolidated `control-server` build) |
 | `/srv/control-plane/start.sh` | Remote launch script used by tmux |
 | `/srv/control-plane/logs` | Control-plane logs |
 | `/srv/control-plane/workloads` | Workload metadata and runtime state |
@@ -64,7 +65,7 @@ The standalone control-plane runtime is deployed under `/srv/control-plane` on r
 | `/api/cloud/agent/{nodeId}/commands` | `GET` | `AgentCommandPollHandler` | Returns pending typed commands and marks them `SENT` to avoid repeated delivery |
 | `/api/cloud/agent/{nodeId}/results` | `POST` | `AgentCommandResultReportHandler` -> `CloudCommandResultHandler` | Records success/failure, redacts command output summaries, rejects node-id mismatches |
 
-`CloudAgentHeartbeatPayload` lives in `cloud-core` so the agent and optional Spring adapter share the same transport contract without making the control server depend on agent runtime code.
+`CloudAgentHeartbeatPayload` now lives in the consolidated backend package tree so the agent and optional Spring adapter share the same transport contract without reviving separate cloud Maven modules on `minecraft-main`.
 
 ## Workload Matrix
 
@@ -134,7 +135,7 @@ The CLI handler uses built-in workload profiles for first-pass creation. Durable
 
 | Area | Status |
 |---|---|
-| Durable cloud repository adapters | TODO: Postgres/Redis adapters for cloud-core ports |
+| Durable cloud repository adapters | TODO: Postgres/Redis adapters for the consolidated cloud repository ports |
 | Agent process lifecycle | `CloudAgentApplication` boots a plain Java heartbeat/poll/execute/report loop; production daemon packaging is TODO |
 | DNS provider integration | TODO port/interface |
 | Object storage integration | TODO MinIO/S3 adapter |

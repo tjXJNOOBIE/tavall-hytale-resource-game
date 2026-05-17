@@ -1,19 +1,19 @@
 package com.tavall.resourcegame.controlserver.transport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.dependency.interfaces.IFrontendControlCommandClient;
+import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
 import com.tavall.resourcegame.services.ControlPlaneTcpBridgeRequest;
 import com.tavall.resourcegame.services.JsonMapperProvider;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.shared.frontend.InteractionRequest;
-import com.tavall.resourcegame.shared.frontend.InteractionResult;
-import com.tavall.resourcegame.shared.frontend.PlayerDataRequest;
-import com.tavall.resourcegame.shared.frontend.PlayerDataResponse;
-import com.tavall.resourcegame.shared.frontend.PunishRequest;
-import com.tavall.resourcegame.shared.frontend.PunishResponse;
-import com.tavall.resourcegame.shared.frontend.RankRequest;
-import com.tavall.resourcegame.shared.frontend.RankResponse;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
+import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
+import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
+import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
+import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
+import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
+import com.tavall.resourcegame.api.internal.permissions.RankRequest;
+import com.tavall.resourcegame.api.internal.permissions.RankResponse;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -190,7 +190,7 @@ public final class ControlPlaneTcpBridgeClient implements IFrontendControlComman
     private InteractionResult backendUnavailable(InteractionRequest request, String message) {
         return new InteractionResult(
                 request.requestId(),
-                com.tavall.resourcegame.shared.frontend.InteractionResultType.BACKEND_UNAVAILABLE,
+                com.tavall.resourcegame.api.internal.interaction.InteractionResultType.BACKEND_UNAVAILABLE,
                 false,
                 message,
                 null,

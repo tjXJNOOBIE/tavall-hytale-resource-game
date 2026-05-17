@@ -2,11 +2,11 @@ package com.tavall.resourcegame.controlserver.transport;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.shared.frontend.InteractionResult;
-import com.tavall.resourcegame.shared.frontend.PlayerDataResponse;
-import com.tavall.resourcegame.shared.frontend.PunishResponse;
-import com.tavall.resourcegame.shared.frontend.RankResponse;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
+import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
+import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
+import com.tavall.resourcegame.api.internal.permissions.RankResponse;
 
 import java.util.Objects;
 

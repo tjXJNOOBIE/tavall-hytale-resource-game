@@ -1,9 +1,9 @@
 package com.tavall.resourcegame.frontend.minecraft;
 
-import com.tavall.resourcegame.shared.frontend.PunishOperationType;
-import com.tavall.resourcegame.shared.frontend.PunishRequest;
-import com.tavall.resourcegame.shared.frontend.PunishResponse;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
+import com.tavall.resourcegame.api.internal.permissions.PunishOperationType;
+import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
+import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.proxy.Player;

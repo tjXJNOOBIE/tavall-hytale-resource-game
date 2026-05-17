@@ -1,9 +1,9 @@
-﻿param(
+param(
     [string]$SshAlias = "novus-remote",
     [string]$LogDir = "",
     [string]$LocalDevServerDir = "",
     [string]$RemoteServerRoot = "/srv/hytale/HytaleDevServer",
-    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/control-server/target/control-server-0.1.1-SNAPSHOT.jar",
+    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/control-server/target/control-server-0.1.1-SNAPSHOT-exec.jar",
     [string]$RemoteControlDir = "/srv/resource-game-control",
     [int]$ControlPort = 8080,
     [int]$MaxAttemptsPerStep = 2

@@ -10,7 +10,7 @@ $ErrorActionPreference = "Stop"
 
 $root = Split-Path -Parent $PSScriptRoot
 $discordJar = Join-Path $root "discord-frontend\target\discord-frontend-0.1.1-SNAPSHOT.jar"
-$controlServerJar = Join-Path $root "control-server\target\control-server-0.1.1-SNAPSHOT.jar"
+$controlServerJar = Join-Path $root "control-server\target\control-server-0.1.1-SNAPSHOT-exec.jar"
 
 if (!(Test-Path $discordJar)) {
     throw "Discord bot jar not found: $discordJar"

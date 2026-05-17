@@ -1,6 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft;
 
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
 
 public record MinecraftVelocityCommandResult(boolean success, String message) {
     public static MinecraftVelocityCommandResult denied(String message) {

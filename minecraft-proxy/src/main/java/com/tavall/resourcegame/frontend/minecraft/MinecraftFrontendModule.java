@@ -1,8 +1,8 @@
 package com.tavall.resourcegame.frontend.minecraft;
 
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendModuleDescriptor;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendRuntime;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendModuleDescriptor;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendRuntime;
 
 public final class MinecraftFrontendModule implements IMinecraftFrontendModule, com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete {
     private static final ResourceGameFrontendModuleDescriptor DESCRIPTOR = new ResourceGameFrontendModuleDescriptor(

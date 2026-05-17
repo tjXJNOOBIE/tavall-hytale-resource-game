@@ -1,6 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
 import com.tavall.resourcegame.ui.UiActions;
 import com.tavall.resourcegame.ui.UiPageType;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
@@ -227,7 +227,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
 
     private String actionCommand(Player player, String command, String payload) {
         Optional<MinecraftBukkitInteractionTarget> target = getMinecraftBukkitInteractionSessionTracker().current(player.getUniqueId());
-        if (target.isPresent() && target.get().targetType() == com.tavall.resourcegame.shared.frontend.InteractionTargetType.BUILDING && command.contains("focus")) {
+        if (target.isPresent() && target.get().targetType() == com.tavall.resourcegame.api.internal.interaction.InteractionTargetType.BUILDING && command.contains("focus")) {
             return command.replace("focus", target.get().targetId());
         }
         return joinCommand(command, payload);

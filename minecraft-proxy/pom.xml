@@ -35,12 +35,12 @@
     <dependencies>
         <dependency>
             <groupId>com.tavall</groupId>
-            <artifactId>shared-contracts</artifactId>
+            <artifactId>game-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.tavall.hytale</groupId>
-            <artifactId>core</artifactId>
+            <groupId>com.tavall</groupId>
+            <artifactId>control-server</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

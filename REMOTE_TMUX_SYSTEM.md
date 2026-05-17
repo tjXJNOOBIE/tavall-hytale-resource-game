@@ -10,7 +10,7 @@ Use `scripts/start-remote-resource-game-tmux.ps1` to restart the live remote run
 | `minecraft-ffa` | FFA backend on port `25566` | `tmux attach -t minecraft-ffa` |
 | `minecraft-switch` | Switch backend on port `25567` | `tmux attach -t minecraft-switch` |
 | `minecraft-kingdom` | Paper `1.21.4` kingdom backend on port `25568` | `tmux attach -t minecraft-kingdom` |
-| `cloud-agent` | Optional Tavall Cloud node agent heartbeat/poll/execute loop | `tmux attach -t cloud-agent` |
+| `cloud-agent` | Optional Tavall Cloud node agent heartbeat/poll/execute loop, started from the consolidated `control-server` jar | `tmux attach -t cloud-agent` |
 | `cloud-control-plane` | Standalone plain-Java control plane under `/srv/control-plane` | `tmux attach -t cloud-control-plane` |
 | `hytale` | Hytale single-surface runtime using the `minecraft-control` ingress URL for backend command verification | `tmux attach -t hytale` |
 
@@ -67,7 +67,7 @@ Latest verified runtime:
 | `minecraft-ffa` | Port `25566` open |
 | `minecraft-switch` | Port `25567` open |
 | `minecraft-kingdom` | Port `25568` open |
-| `cloud-agent` | Optional session exists when `/srv/tavall-cloud-agent/cloud-agent.jar` is deployed |
+| `cloud-agent` | Optional session exists when the remote control runtime can launch `com.tavall.resourcegame.middleware.cloud.CloudAgentApplication` from the consolidated `control-server` jar |
 | Minecraft command flow | `/server kingdom`, `/tavallserver snapshot`, `/tavallserver visual title ...`, `/tavallserver interact ...`, `/kd clock state kingdom-1`, and `/kingdom citizens summary kingdom-1` completed |
 | Hytale ingress flow | `HYTALE` `/kd clock state kingdom-1` envelope completed through `minecraft-control` |
 | Updated Hytale plugin | Rebuilt `tavall-hytale-resource-game.jar` deployed to `/srv/hytale/HytaleDevServer/Server/mods` and verified after tmux restart |

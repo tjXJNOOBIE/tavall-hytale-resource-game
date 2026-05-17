@@ -1,6 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -219,7 +219,7 @@ public final class MinecraftBukkitStructureWorldActionHandler implements IMinecr
         getMinecraftBukkitStructureProtectionHandler().registerBuilding(player.getUniqueId(), anchor.clone(), building);
         player.getWorld().spawnParticle(Particle.BLOCK, anchor.clone().add(0.5D, 2.0D, 0.5D), 24, 0.8D, 0.8D, 0.8D, 0.06D, Material.CRAFTING_TABLE.createBlockData());
         player.playSound(anchor, Sound.BLOCK_NOTE_BLOCK_CHIME, 0.8f, 1.0f);
-        return "Building " + action + "ed: " + building + ".";
+        return "Building " + pastTense(action) + ": " + building + ".";
     }
 
     private String confirmPlacement(Player player) {
@@ -281,6 +281,17 @@ public final class MinecraftBukkitStructureWorldActionHandler implements IMinecr
         player.getWorld().spawnParticle(Particle.END_ROD, anchor.clone().add(0.5D, 2.5D, 0.5D), 12, 0.4D, 0.6D, 0.4D, 0.02D);
         player.playSound(anchor, Sound.ENTITY_ENDERMAN_TELEPORT, 0.75f, 1.15f);
         return "Building " + action + " complete.";
+    }
+
+    private String pastTense(String action) {
+        if (action == null || action.isBlank()) {
+            return "updated";
+        }
+        String normalized = action.trim().toLowerCase(java.util.Locale.ROOT);
+        if (normalized.endsWith("e")) {
+            return normalized + "d";
+        }
+        return normalized + "ed";
     }
 
     private String buildInteriorRoom(Player player, String reason) {

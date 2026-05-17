@@ -1,8 +1,8 @@
 package com.tavall.resourcegame.controlserver.web;
 
 import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.shared.frontend.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.shared.frontend.MinecraftServerRuntimeSnapshotResult;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshotResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

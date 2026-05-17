@@ -1,7 +1,7 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.dependency.interfaces.IFrontendControlCommandClient;
-import com.tavall.resourcegame.dependency.interfaces.IFrontendControlConfig;
+import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
+import com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig;
 import com.tavall.resourcegame.services.FrontendControlConfig;
 import com.tavall.resourcegame.services.FrontendTcpControlCommandClient;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
@@ -51,8 +51,8 @@ public final class MinecraftBukkitServerDependencyModule {
     }
 
     private <T> void registerCoreIfMissing(Class<T> token, T instance) {
-        if (!com.tavall.resourcegame.dependency.DependencyLoaderAccess.findOptionalInstance(token).isPresent()) {
-            com.tavall.resourcegame.dependency.DependencyLoaderAccess.registerInstance(token, instance);
+        if (!com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findOptionalInstance(token).isPresent()) {
+            com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(token, instance);
         }
     }
 }

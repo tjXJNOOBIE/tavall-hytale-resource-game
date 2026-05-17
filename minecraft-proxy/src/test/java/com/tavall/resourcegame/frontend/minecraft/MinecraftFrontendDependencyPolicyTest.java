@@ -22,6 +22,9 @@ public final class MinecraftFrontendDependencyPolicyTest {
         assertTrue(source.contains("new MinecraftFrontendDependencyModule().registerDependencies(config, new ProxyServerSwitchGateway())"));
         assertTrue(source.contains("metaBuilder(\"rank\")"));
         assertTrue(source.contains("new MinecraftVelocityRankCommand()"));
+        assertTrue(source.contains("new Kick()"));
+        assertTrue(source.contains("new Mute()"));
+        assertTrue(source.contains("new Sim()"));
         assertFalse(source.contains("registerInstance(ProxyServer.class"));
         assertFalse(source.contains("registerInstance(Logger.class"));
     }
@@ -39,9 +42,13 @@ public final class MinecraftFrontendDependencyPolicyTest {
         assertFalse(pluginSource.contains("new MinecraftVelocitySimpleCommand()"));
         assertTrue(pluginSource.contains("new MinecraftVelocityRankCommand()"));
         assertTrue(pluginSource.contains("new Ban()"));
+        assertTrue(pluginSource.contains("new Kick()"));
+        assertTrue(pluginSource.contains("new Mute()"));
+        assertTrue(pluginSource.contains("new Sim()"));
         assertTrue(pluginSource.contains("new Warn()"));
         assertTrue(pluginSource.contains("new Unban()"));
         assertTrue(pluginSource.contains("new MinecraftVelocityLoginEvent()"));
+        assertTrue(pluginSource.contains("new MinecraftVelocityMuteChatEvent()"));
         assertTrue(commandSource.contains("getMinecraftVelocityCommandExecutionHandler().execute("));
         assertTrue(commandSource.contains("getMinecraftVelocityCommandPermissionHandler().canExecute("));
         assertFalse(pluginSource.contains("new MinecraftVelocityCommandExecutionHandler()"));
@@ -52,7 +59,7 @@ public final class MinecraftFrontendDependencyPolicyTest {
         List<Path> files = List.of(
                 Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/MinecraftControlPlaneCommandBridge.java"),
                 Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/MinecraftDirectControlCommandClient.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/MinecraftVelocityRankCommand.java"),
+                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/commands/MinecraftVelocityRankCommand.java"),
                 Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/MinecraftKdCommandEnvelopeBridge.java"),
                 Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/MinecraftVelocityCommandExecutionHandler.java"),
                 Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/MinecraftVelocityCommandPermissionHandler.java"),

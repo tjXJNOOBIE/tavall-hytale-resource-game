@@ -2,9 +2,9 @@ package com.tavall.resourcegame.controlserver.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tavall.resourcegame.controlserver.ControlServerDependencyModule;
-import com.tavall.resourcegame.shared.frontend.MinecraftPlayerRuntimeSnapshot;
-import com.tavall.resourcegame.shared.frontend.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendSurfaceIdentity;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftPlayerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;

@@ -1,6 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.shared.frontend.MinecraftServerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;

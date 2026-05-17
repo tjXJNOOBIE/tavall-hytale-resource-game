@@ -1,8 +1,8 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.shared.frontend.MinecraftPlayerRuntimeSnapshot;
-import com.tavall.resourcegame.shared.frontend.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendSurfaceIdentity;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftPlayerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.ArrayList;

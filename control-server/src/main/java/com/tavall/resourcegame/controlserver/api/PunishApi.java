@@ -1,10 +1,10 @@
 package com.tavall.resourcegame.controlserver.api;
 
 import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.dependency.IDependencyInjectableConcrete;
+import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import com.tavall.resourcegame.middleware.punishment.PunishmentRepository;
-import com.tavall.resourcegame.shared.frontend.PunishRequest;
-import com.tavall.resourcegame.shared.frontend.PunishResponse;
+import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
+import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
 
 import java.time.Instant;
 
@@ -21,7 +21,7 @@ public final class PunishApi implements IControlServerDomain, IDependencyInjecta
     }
 
     private PunishmentRepository repository() {
-        return com.tavall.resourcegame.dependency.DependencyLoaderAccess.findInstance(PunishmentRepository.class);
+        return com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findInstance(PunishmentRepository.class);
     }
 
     private String safeMessage(Exception exception) {

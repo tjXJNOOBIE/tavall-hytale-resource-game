@@ -1,10 +1,10 @@
 package com.tavall.resourcegame.controlserver.interaction;
 
-import com.tavall.resourcegame.shared.frontend.InteractionMenuModel;
-import com.tavall.resourcegame.shared.frontend.InteractionRequest;
-import com.tavall.resourcegame.shared.frontend.InteractionResult;
-import com.tavall.resourcegame.shared.frontend.InteractionResultType;
-import com.tavall.resourcegame.shared.frontend.InteractionTargetType;
+import com.tavall.resourcegame.api.internal.interaction.InteractionMenuModel;
+import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
+import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
+import com.tavall.resourcegame.api.internal.interaction.InteractionResultType;
+import com.tavall.resourcegame.api.internal.interaction.InteractionTargetType;
 import com.tavall.resourcegame.ui.UiActions;
 import org.junit.jupiter.api.Test;
 

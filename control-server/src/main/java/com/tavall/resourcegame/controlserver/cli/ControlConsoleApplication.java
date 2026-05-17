@@ -3,7 +3,7 @@ package com.tavall.resourcegame.controlserver.cli;
 import com.tavall.resourcegame.controlserver.ResourceGameControlServerModule;
 import com.tavall.resourcegame.controlserver.transport.ControlPlaneTcpBridgeConfiguration;
 import com.tavall.resourcegame.controlserver.transport.ControlPlaneTcpBridgeServer;
-import com.tavall.resourcegame.dependency.DependencyLoaderAccess;
+import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
 import com.tjxjnoobie.api.platform.global.console.Log;
 

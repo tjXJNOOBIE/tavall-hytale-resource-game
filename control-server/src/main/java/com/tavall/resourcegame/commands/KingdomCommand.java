@@ -1,0 +1,674 @@
+package com.tavall.resourcegame.commands;
+
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.command.system.CommandContext;
+import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.protocol.GameMode;
+import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.universe.Universe;
+import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
+import com.tavall.resourcegame.domain.AccountProgression;
+import com.tavall.resourcegame.domain.DebugModeState;
+import com.tavall.resourcegame.domain.InfrastructureHealthSnapshot;
+import com.tavall.resourcegame.domain.PlayerGameState;
+import com.tavall.resourcegame.domain.UiNavigationContext;
+import com.tavall.resourcegame.resources.ResourceType;
+import com.tavall.resourcegame.services.CastleEconomySimulationService;
+import com.tavall.resourcegame.services.PlayerSession;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
+import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
+import com.tavall.resourcegame.ui.UiPageType;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.logging.Level;
+
+/**
+ * Debug command entry for the kingdom prototype.
+ */
+public final class KingdomCommand extends AbstractAsyncCommand implements IResourceGameDomain {
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+
+    public KingdomCommand(String name) {
+        super(name, "Kingdom debug command");
+        addAliases("kd");
+        setPermissionGroup(GameMode.Adventure);
+        setAllowsExtraArguments(true);
+    }
+
+    @Override
+    protected CompletableFuture<Void> executeAsync(CommandContext context) {
+        if (!(context.sender() instanceof Player player)) {
+            context.sendMessage(Message.raw("Player-only command.").color("red"));
+            return CompletableFuture.completedFuture(null);
+        }
+
+        List<String> tokens = CommandTokens.tokens(context);
+        Executor executor = resolveCommandExecutor(player);
+        return getPlayerDataService().ensureSession(player)
+                .thenCompose(ignored -> CompletableFuture.runAsync(() -> {
+                    PlayerSession session = getPlayerSessionStore().get(player.getUuid());
+                    if (session == null) {
+                        LOGGER.at(Level.WARNING).log("Command %s rejected for %s because the session is not ready after bootstrap.", tokens, player.getDisplayName());
+                        context.sendMessage(Message.raw("Player session not ready.").color("red"));
+                        return;
+                    }
+
+                    if (!verifyWithControlPlane(context, player, tokens)) {
+                        return;
+                    }
+                    if (tokens.isEmpty()) {
+                        sendHelp(context);
+                        return;
+                    }
+
+                    String root = tokens.getFirst().toLowerCase(Locale.ROOT);
+                    switch (root) {
+                        case "ui" -> handleUi(context, player, tokens, session);
+                        case "data" -> handleData(context, player, session);
+                        case "castle" -> handleCastle(context, player, tokens, session);
+                        case "interior" -> handleInterior(player, tokens);
+                        case "citizens" -> handleCitizens(context, tokens, player.getUuid());
+                        case "troops" -> handleTroops(context, tokens, player.getUuid());
+                        case "resources" -> handleResources(context, tokens, player.getUuid());
+                        case "account" -> handleAccount(context, player, tokens, session);
+                        case "buildings" -> getKingdomBuildingCommandSupport().handle(context, player, tokens, session);
+                        case "nodes" -> getKingdomNodeCommandSupport().handle(context, player, tokens, session);
+                        case "place" -> getKingdomPlacementCommandSupport().handle(context, player, tokens);
+                        case "focus" -> getKingdomInteractionCommandSupport().handleFocus(context, player);
+                        case "interact" -> getKingdomInteractionCommandSupport().handleInteract(context, player);
+                        case "scan" -> handleScan(context, player);
+                        case "hologram", "holo" -> getKingdomHologramCommandSupport().handle(context, player, tokens);
+                        case "entity", "entities" -> getKingdomEntityCommandSupport().handle(context, player, tokens);
+                        case "scene" -> handleScene(context, player, tokens, session);
+                        case "bootstrap" -> handleBootstrap(context, player, session);
+                        case "tick" -> handleTick(context, tokens);
+                        case "tutorial" -> handleTutorial(context, tokens, session);
+                        case "debug" -> sendHelp(context);
+                        default -> sendHelp(context);
+                    }
+                }, executor))
+                .exceptionally(throwable -> {
+                    Throwable rootCause = rootCause(throwable);
+                    LOGGER.at(Level.SEVERE).withCause(rootCause).log(
+                            "Failed to execute /%s for %s (%s).",
+                            getName(),
+                            player.getDisplayName(),
+                            player.getUuid()
+                    );
+                    executor.execute(() -> context.sendMessage(
+                            Message.raw("Kingdom data failed to load: " + safeMessage(rootCause)).color("red")
+                    ));
+                    return null;
+                });
+    }
+
+    @Override
+    protected boolean canGeneratePermission() {
+        return false;
+    }
+
+    private boolean verifyWithControlPlane(CommandContext context, Player player, List<String> tokens) {
+        FrontendCommandVerificationResult verificationResult = getFrontendCommandVerificationService().verifyHytaleKdCommand(
+                player.getUuid().toString(),
+                player.getDisplayName(),
+                tokens,
+                Map.of(
+                        "commandName", getName(),
+                        "surface", "command"
+                )
+        );
+        if (!verificationResult.success()) {
+            context.sendMessage(Message.raw("Control verification rejected command: " + verificationResult.message()).color("red"));
+            return false;
+        }
+        if (verificationResult.state() == FrontendCommandVerificationState.DISPATCHED) {
+            context.sendMessage(Message.raw("Control command dispatched: " + verificationResult.message()).color("green"));
+            return false;
+        }
+        return true;
+    }
+
+    private void handleUi(CommandContext context, Player player, List<String> tokens, PlayerSession session) {
+        UiNavigationContext navContext = new UiNavigationContext(player.getUuid(), player.getDisplayName());
+        PlayerGameState state = session.gameState();
+        if (tokens.size() == 1) {
+            getUiNavigator().open(UiPageType.DEBUG_NAVIGATOR, player, navContext, state);
+            return;
+        }
+        UiPageType type = parseUiType(tokens.get(1));
+        if (type == null) {
+            context.sendMessage(Message.raw("Unknown UI type.").color("red"));
+            return;
+        }
+        getUiNavigator().open(type, player, navContext, state);
+    }
+
+    private void handleData(CommandContext context, Player player, PlayerSession session) {
+        PlayerGameState state = session.gameState();
+        InfrastructureHealthSnapshot healthSnapshot = getInfrastructureHealthService().snapshot();
+        if (state.castleLocation() != null) {
+            context.sendMessage(Message.raw(
+                    "Castle: "
+                            + state.castleLocation().worldName()
+                            + " "
+                            + state.castleLocation().x()
+                            + " "
+                            + state.castleLocation().y()
+                            + " "
+                            + state.castleLocation().z()
+            ).color("yellow"));
+        }
+        context.sendMessage(Message.raw("Citizens: " + state.populationSummary().citizenCount()).color("yellow"));
+        context.sendMessage(Message.raw("Troops: " + state.populationSummary().troopCount()).color("yellow"));
+        context.sendMessage(Message.raw("Might: " + state.populationSummary().might()).color("yellow"));
+        context.sendMessage(Message.raw("Food: " + state.resources().food()).color("yellow"));
+        context.sendMessage(Message.raw("Wood: " + state.resources().wood()).color("yellow"));
+        context.sendMessage(Message.raw("Iron: " + state.resources().iron()).color("yellow"));
+        context.sendMessage(Message.raw("Buildings: " + getCastleBuildingService().listBuildings(state).size()).color("yellow"));
+        context.sendMessage(Message.raw("Cache: " + healthSnapshot.cacheSummary()).color("yellow"));
+        context.sendMessage(Message.raw("Persistence: " + healthSnapshot.persistenceSummary()).color("yellow"));
+        context.sendMessage(Message.raw("Interior tutorial: " + tutorialStatus(getPlayerGameStateService().isInteriorTutorialPending(state))).color("yellow"));
+        context.sendMessage(Message.raw("Interior tour: " + tutorialStatus(getPlayerGameStateService().isInteriorTourPending(state))).color("yellow"));
+        context.sendMessage(Message.raw("Upgrade tutorial: " + tutorialStatus(getPlayerGameStateService().isUpgradeTutorialPending(state))).color("yellow"));
+        getKingdomPlacementCommandSupport().handle(context, player, List.of("place", "status"));
+    }
+
+    private void handleCastle(CommandContext context, Player player, List<String> tokens, PlayerSession session) {
+        PlayerGameState state = session.gameState();
+        if (tokens.size() == 1) {
+            if (state.castleLocation() == null) {
+                context.sendMessage(Message.raw("Castle data not available yet.").color("red"));
+                return;
+            }
+            context.sendMessage(Message.raw(
+                    "Castle | "
+                            + state.castleLocation().worldName()
+                            + " "
+                            + (int) state.castleLocation().x()
+                            + ", "
+                            + (int) state.castleLocation().y()
+                            + ", "
+                            + (int) state.castleLocation().z()
+                            + " | asset "
+                            + state.castleAssetType()
+                            + " | troops "
+                            + state.populationSummary().troopCount()
+                            + " | might "
+                            + state.populationSummary().might()
+            ).color("yellow"));
+            context.sendMessage(Message.raw("Usage: /kd castle [align|move|open|goto|refresh]").color("yellow"));
+            return;
+        }
+        String action = tokens.get(1).toLowerCase(Locale.ROOT);
+        switch (action) {
+            case "align" -> {
+                if (state.castleLocation() == null) {
+                    context.sendMessage(Message.raw("Castle data not available.").color("red"));
+                    return;
+                }
+                getCastlePromptLaneService().alignPlayer(player, state.castleLocation());
+                getFocusedWorldOverrideService().markCastle(player.getUuid());
+                context.sendMessage(Message.raw("Aligned player with castle prompt lane.").color("green"));
+            }
+            case "move" -> getKingdomPlacementCommandSupport().handle(context, player, List.of("place", "castle"));
+            case "open" -> {
+                getUiNavigator().open(UiPageType.CASTLE_MAIN, player, new UiNavigationContext(player.getUuid(), player.getDisplayName()), state);
+                context.sendMessage(Message.raw("Opened castle UI.").color("green"));
+            }
+            case "goto" -> {
+                if (state.castleLocation() == null) {
+                    context.sendMessage(Message.raw("Castle data not available.").color("red"));
+                    return;
+                }
+                getPlayerTeleportService().teleport(player, getPlayerTeleportService().standingPosition(player, state.castleLocation().standingBaseVector()));
+                context.sendMessage(Message.raw("Teleported to castle.").color("green"));
+            }
+            case "refresh" -> {
+                getCastleSpawnService().ensureCastleSpawned(player, state.castleLocation());
+                getCastleSiteVisualService().refreshSite(session.playerId(), state);
+                context.sendMessage(Message.raw("Castle visuals refreshed.").color("green"));
+            }
+            default -> context.sendMessage(Message.raw("Usage: /kd castle [align|move|open|goto|refresh]").color("yellow"));
+        }
+    }
+
+    private void handleAccount(CommandContext context, Player sender, List<String> tokens, PlayerSession session) {
+        if (tokens.size() < 2 || "status".equalsIgnoreCase(tokens.get(1))) {
+            PlayerSession targetSession = resolveAccountTarget(context, sender, tokens, 2, session);
+            if (targetSession == null) {
+                return;
+            }
+            context.sendMessage(Message.raw(accountStatusLine(targetSession)).color("yellow"));
+            return;
+        }
+        String action = tokens.get(1).toLowerCase(Locale.ROOT);
+        if ("debug".equals(action) || "debugmode".equals(action)) {
+            handleAccountDebug(context, sender, tokens, session);
+            return;
+        }
+        if (tokens.size() < 3) {
+            context.sendMessage(Message.raw(accountUsage()).color("yellow"));
+            return;
+        }
+        OptionalInt parsedValue = parseAmount(tokens.get(2));
+        if (parsedValue.isEmpty()) {
+            context.sendMessage(Message.raw("Account value must be a whole number.").color("red"));
+            return;
+        }
+        PlayerSession targetSession = resolveAccountTarget(context, sender, tokens, 3, session);
+        if (targetSession == null) {
+            return;
+        }
+        Instant now = Instant.now();
+        PlayerGameState updatedState = switch (action) {
+            case "addxp", "xp" -> getPlayerGameStateService().addAccountExperience(targetSession.gameState(), parsedValue.getAsInt(), now);
+            case "setlevel", "level" -> getPlayerGameStateService().setAccountLevel(targetSession.gameState(), parsedValue.getAsInt(), now);
+            default -> null;
+        };
+        if (updatedState == null) {
+            context.sendMessage(Message.raw(accountUsage()).color("yellow"));
+            return;
+        }
+        persistAccountState(targetSession, updatedState, now);
+        context.sendMessage(Message.raw(accountStatusLine(targetSession)).color("green"));
+    }
+
+    private void handleAccountDebug(CommandContext context, Player sender, List<String> tokens, PlayerSession fallbackSession) {
+        if (tokens.size() < 3 || "status".equalsIgnoreCase(tokens.get(2))) {
+            PlayerSession targetSession = resolveAccountTarget(context, sender, tokens, 3, fallbackSession);
+            if (targetSession == null) {
+                return;
+            }
+            context.sendMessage(Message.raw(debugStatusLine(targetSession)).color("yellow"));
+            return;
+        }
+        Boolean enabled = parseToggle(tokens.get(2));
+        if (enabled == null) {
+            context.sendMessage(Message.raw("Usage: /kd account debug on|off|status [player_name|uuid_prefix]").color("yellow"));
+            return;
+        }
+        PlayerSession targetSession = resolveAccountTarget(context, sender, tokens, 3, fallbackSession);
+        if (targetSession == null) {
+            return;
+        }
+        Instant now = Instant.now();
+        PlayerGameState updatedState = getPlayerGameStateService().setDebugMode(targetSession.gameState(), new DebugModeState(enabled), now);
+        persistAccountState(targetSession, updatedState, now);
+        context.sendMessage(Message.raw(debugStatusLine(targetSession)).color("green"));
+    }
+
+    private PlayerSession resolveAccountTarget(CommandContext context, Player sender, List<String> tokens, int targetIndex, PlayerSession fallbackSession) {
+        if (tokens.size() <= targetIndex) {
+            return fallbackSession;
+        }
+        Player target = resolveOnlinePlayer(tokens.get(targetIndex));
+        if (target == null) {
+            context.sendMessage(Message.raw("Player not found. Target players must be online for account debug commands.").color("red"));
+            return null;
+        }
+        PlayerSession targetSession = getPlayerSessionStore().get(target.getUuid());
+        if (targetSession == null) {
+            context.sendMessage(Message.raw("Target player session is not ready.").color("red"));
+            return null;
+        }
+        if (!target.getUuid().equals(sender.getUuid())) {
+            LOGGER.at(Level.INFO).log("Account debug command for %s executed by %s.", target.getDisplayName(), sender.getDisplayName());
+        }
+        return targetSession;
+    }
+
+    private void persistAccountState(PlayerSession session, PlayerGameState updatedState, Instant now) {
+        session.updateGameState(updatedState);
+        getPlayerGameStateService().cacheState(session.playerId(), updatedState);
+        AsyncTask.runAsync(() -> getPlayerGameStateService().persistState(updatedState, now));
+    }
+
+    private String accountStatusLine(PlayerSession session) {
+        AccountProgression progression = getPlayerGameStateService().accountProgression(session.gameState());
+        return session.profile().name() + " | " + accountStatusLine(progression) + " | " + debugStatusSummary(session.gameState());
+    }
+
+    private String accountStatusLine(AccountProgression progression) {
+        return "Account level " + progression.level()
+                + " | XP " + progression.experience() + "/" + progression.requiredExperienceForNextLevel()
+                + " | total " + progression.totalExperience();
+    }
+
+    private String debugStatusLine(PlayerSession session) {
+        return session.profile().name() + " debug mode: " + debugStatusSummary(session.gameState());
+    }
+
+    private String debugStatusSummary(PlayerGameState state) {
+        return getPlayerGameStateService().debugModeState(state).levelRestrictionsIgnored()
+                ? "level restrictions ignored"
+                : "level restrictions enforced";
+    }
+
+    private Boolean parseToggle(String token) {
+        return switch (token.toLowerCase(Locale.ROOT)) {
+            case "on", "true", "enable", "enabled", "yes" -> Boolean.TRUE;
+            case "off", "false", "disable", "disabled", "no" -> Boolean.FALSE;
+            default -> null;
+        };
+    }
+
+    private String accountUsage() {
+        return "Usage: /kd account status [player]|addxp <amount> [player]|setlevel <level> [player]|debug on|off|status [player]";
+    }
+
+    private void handleInterior(Player player, List<String> tokens) {
+        if (tokens.size() == 1) {
+            getInteriorWorldService().enterInterior(player);
+            return;
+        }
+        String action = tokens.get(1).toLowerCase(Locale.ROOT);
+        switch (action) {
+            case "exit" -> getInteriorWorldService().exitInterior(player);
+            case "add", "generate", "gen" -> handleInteriorTarget(player, tokens, "generate", getInteriorWorldService()::generateInterior);
+            case "rebuild" -> handleInteriorTarget(player, tokens, "rebuild", getInteriorWorldService()::rebuildInterior);
+            case "regen", "regenerate" -> handleInteriorTarget(player, tokens, "regenerate", getInteriorWorldService()::moveInterior);
+            case "delete", "del", "remove" -> handleInteriorTarget(player, tokens, "delete", getInteriorWorldService()::deleteInterior);
+            case "move" -> {
+                Player target = player;
+                if (tokens.size() > 2) {
+                    target = resolveOnlinePlayer(tokens.get(2));
+                    if (target == null) {
+                        player.sendMessage(Message.raw("Player not found for interior move.").color("red"));
+                        return;
+                    }
+                }
+                getInteriorWorldService().moveInterior(target);
+                if (!target.getUuid().equals(player.getUuid())) {
+                    player.sendMessage(Message.raw("Interior move queued for " + target.getDisplayName() + ".").color("green"));
+                }
+            }
+            default -> getInteriorWorldService().enterInterior(player);
+        }
+    }
+
+    private void handleInteriorTarget(Player sender, List<String> tokens, String actionLabel, java.util.function.Consumer<Player> action) {
+        Player target = sender;
+        if (tokens.size() > 2) {
+            target = resolveOnlinePlayer(tokens.get(2));
+            if (target == null) {
+                sender.sendMessage(Message.raw("Player not found for interior " + actionLabel + ".").color("red"));
+                return;
+            }
+        }
+        action.accept(target);
+        if (!target.getUuid().equals(sender.getUuid())) {
+            sender.sendMessage(Message.raw("Interior " + actionLabel + " queued for " + target.getDisplayName() + ".").color("green"));
+        }
+    }
+
+    private Player resolveOnlinePlayer(String token) {
+        if (token == null || token.isBlank()) {
+            return null;
+        }
+        String normalized = token.trim();
+        for (var playerRef : Universe.get().getPlayers()) {
+            var ref = playerRef.getReference();
+            if (ref == null || !ref.isValid()) {
+                continue;
+            }
+            var store = ref.getStore();
+            Player candidate = store.getComponent(ref, Player.getComponentType());
+            if (candidate == null) {
+                continue;
+            }
+            if (candidate.getDisplayName() != null && candidate.getDisplayName().equalsIgnoreCase(normalized)) {
+                return candidate;
+            }
+            if (candidate.getUuid() != null && candidate.getUuid().toString().startsWith(normalized)) {
+                return candidate;
+            }
+        }
+        return null;
+    }
+
+    private void handleCitizens(CommandContext context, List<String> tokens, UUID playerId) {
+        if (tokens.size() < 3) {
+            context.sendMessage(Message.raw("Usage: /kd citizens add|set <amount>").color("yellow"));
+            return;
+        }
+        String action = tokens.get(1);
+        OptionalInt amount = parseAmount(tokens.get(2));
+        if (amount.isEmpty()) {
+            context.sendMessage(Message.raw("Amount must be a whole number.").color("red"));
+            return;
+        }
+        if ("add".equalsIgnoreCase(action)) {
+            getPopulationService().addCitizens(playerId, amount.getAsInt());
+            context.sendMessage(Message.raw("Citizens added: " + amount.getAsInt()).color("green"));
+        } else if ("set".equalsIgnoreCase(action)) {
+            getPopulationService().setCitizens(playerId, amount.getAsInt());
+            context.sendMessage(Message.raw("Citizens set: " + amount.getAsInt()).color("green"));
+        } else {
+            context.sendMessage(Message.raw("Unknown action.").color("red"));
+        }
+    }
+
+    private void handleTroops(CommandContext context, List<String> tokens, UUID playerId) {
+        if (tokens.size() < 3) {
+            context.sendMessage(Message.raw("Usage: /kd troops add|set <amount>").color("yellow"));
+            return;
+        }
+        String action = tokens.get(1);
+        OptionalInt amount = parseAmount(tokens.get(2));
+        if (amount.isEmpty()) {
+            context.sendMessage(Message.raw("Amount must be a whole number.").color("red"));
+            return;
+        }
+        if ("add".equalsIgnoreCase(action)) {
+            getPopulationService().addTroops(playerId, amount.getAsInt());
+            context.sendMessage(Message.raw("Troops added: " + amount.getAsInt()).color("green"));
+        } else if ("set".equalsIgnoreCase(action)) {
+            getPopulationService().setTroops(playerId, amount.getAsInt());
+            context.sendMessage(Message.raw("Troops set: " + amount.getAsInt()).color("green"));
+        } else {
+            context.sendMessage(Message.raw("Unknown action.").color("red"));
+        }
+    }
+
+    private void handleResources(CommandContext context, List<String> tokens, UUID playerId) {
+        if (tokens.size() < 4) {
+            context.sendMessage(Message.raw("Usage: /kd resources add|set <type> <amount>").color("yellow"));
+            return;
+        }
+        String action = tokens.get(1);
+        ResourceType type = parseResource(tokens.get(2));
+        if (type == null) {
+            context.sendMessage(Message.raw("Unknown resource type.").color("red"));
+            return;
+        }
+        OptionalInt amount = parseAmount(tokens.get(3));
+        if (amount.isEmpty()) {
+            context.sendMessage(Message.raw("Amount must be a whole number.").color("red"));
+            return;
+        }
+        if ("add".equalsIgnoreCase(action)) {
+            getResourceService().addResource(playerId, type, amount.getAsInt());
+            context.sendMessage(Message.raw(type + " added: " + amount.getAsInt()).color("green"));
+        } else if ("set".equalsIgnoreCase(action)) {
+            getResourceService().setResource(playerId, type, amount.getAsInt());
+            context.sendMessage(Message.raw(type + " set: " + amount.getAsInt()).color("green"));
+        } else {
+            context.sendMessage(Message.raw("Unknown action.").color("red"));
+        }
+    }
+
+    private void handleScene(CommandContext context, Player player, List<String> tokens, PlayerSession session) {
+        if (tokens.size() > 1 && !"refresh".equalsIgnoreCase(tokens.get(1))) {
+            context.sendMessage(Message.raw("Usage: /kd scene refresh").color("yellow"));
+            return;
+        }
+        PlayerGameState state = session.gameState();
+        getCastleSpawnService().ensureCastleSpawned(player, state.castleLocation());
+        getCastleSiteVisualService().refreshSite(session.playerId(), state);
+        getCastleBuildingVisualService().refreshBuildings(session.playerId(), state);
+        getResourceNodeVisualService().refreshNodes(session.playerId(), state);
+        context.sendMessage(Message.raw("Scene refreshed.").color("green"));
+    }
+
+    private void handleScan(CommandContext context, Player player) {
+        getKingdomInteractionCommandSupport().handleScan(context, player);
+        getKingdomPlacementCommandSupport().handle(context, player, List.of("place", "status"));
+    }
+
+    private void handleBootstrap(CommandContext context, Player player, PlayerSession session) {
+        PlayerGameState state = session.gameState();
+        getCastleSpawnService().ensureCastleSpawned(player, state.castleLocation());
+        getCastleSiteVisualService().refreshSite(session.playerId(), state);
+        getCastleBuildingVisualService().refreshBuildings(session.playerId(), state);
+        getResourceNodeVisualService().refreshNodes(session.playerId(), state);
+        context.sendMessage(Message.raw("Bootstrap refresh complete.").color("green"));
+    }
+
+    private void handleTick(CommandContext context, List<String> tokens) {
+        if (tokens.size() > 1 && !"run".equalsIgnoreCase(tokens.get(1))) {
+            context.sendMessage(Message.raw("Usage: /kd tick run [count]").color("yellow"));
+            return;
+        }
+        int tickCount = 1;
+        if (tokens.size() > 2) {
+            OptionalInt parsed = parseAmount(tokens.get(2));
+            if (parsed.isEmpty() || parsed.getAsInt() <= 0) {
+                context.sendMessage(Message.raw("Tick count must be a positive whole number.").color("red"));
+                return;
+            }
+            tickCount = Math.min(parsed.getAsInt(), 16);
+        }
+        Instant start = Instant.now();
+        for (int index = 0; index < tickCount; index++) {
+            getCastleEconomySimulationService().runTick(start.plusSeconds(index * CastleEconomySimulationService.TICK_INTERVAL_SECONDS));
+        }
+        context.sendMessage(Message.raw("Ran " + tickCount + " economy tick(s).").color("green"));
+    }
+
+    private void handleTutorial(CommandContext context, List<String> tokens, PlayerSession session) {
+        if (tokens.size() > 1 && !"reset".equalsIgnoreCase(tokens.get(1))) {
+            context.sendMessage(Message.raw("Usage: /kd tutorial reset").color("yellow"));
+            return;
+        }
+        Instant now = Instant.now();
+        PlayerGameState updatedState = getPlayerGameStateService().resetOnboardingProgress(session.gameState(), now);
+        session.updateGameState(updatedState);
+        getPlayerGameStateService().cacheState(session.playerId(), updatedState);
+        AsyncTask.runAsync(() -> getPlayerGameStateService().persistState(updatedState, now));
+        context.sendMessage(Message.raw("Tutorial onboarding reset.").color("green"));
+    }
+
+    private void sendHelp(CommandContext context) {
+        context.sendMessage(Message.raw("/kingdom, /kd help:").color("yellow"));
+        context.sendMessage(Message.raw("/kd ui [ui_type]").color("yellow"));
+        context.sendMessage(Message.raw("/kd data").color("yellow"));
+        context.sendMessage(Message.raw("/kd castle [align|move|open|goto]").color("yellow"));
+        context.sendMessage(Message.raw("/kd interior [exit|add|generate|rebuild|regen|move|del|delete] [player_name|uuid_prefix]").color("yellow"));
+        context.sendMessage(Message.raw("/kd citizens add|set <amount>").color("yellow"));
+        context.sendMessage(Message.raw("/kd troops add|set <amount>").color("yellow"));
+        context.sendMessage(Message.raw("/kd resources add|set <type> <amount>").color("yellow"));
+        context.sendMessage(Message.raw("/kd buildings place|stage|list|status|select|align|goto|upgrade|finish|clear").color("yellow"));
+        context.sendMessage(Message.raw("/kd nodes place|list|status|select|align|assign|add|pillage|stock|recall|goto|remove|clear").color("yellow"));
+        context.sendMessage(Message.raw("/kd place castle|node <type>|confirm [here]|cancel|status|preview").color("yellow"));
+        context.sendMessage(Message.raw("/kd focus").color("yellow"));
+        context.sendMessage(Message.raw("/kd interact").color("yellow"));
+        context.sendMessage(Message.raw("/kd scan").color("yellow"));
+        context.sendMessage(Message.raw("/kd account status|addxp <amount>|setlevel <level>|debug on|off|status [player]").color("yellow"));
+        context.sendMessage(Message.raw("/kd hologram spawn <text>|stack <line1|line2|...>|status|clear").color("yellow"));
+        context.sendMessage(Message.raw("/kd entity spawn <role>|clear|list").color("yellow"));
+        context.sendMessage(Message.raw("/kd bootstrap").color("yellow"));
+        context.sendMessage(Message.raw("/kd scene refresh").color("yellow"));
+        context.sendMessage(Message.raw("/kd tick run [count]").color("yellow"));
+        context.sendMessage(Message.raw("/kd tutorial reset").color("yellow"));
+    }
+
+    private Executor resolveCommandExecutor(Player player) {
+        if (player.getWorld() != null) {
+            return player.getWorld();
+        }
+        if (player.getPlayerRef() != null) {
+            var ref = player.getPlayerRef().getReference();
+            if (ref != null && ref.isValid()) {
+                Store<EntityStore> store = ref.getStore();
+                if (store.getExternalData() instanceof EntityStore entityStore) {
+                    World world = entityStore.getWorld();
+                    if (world != null) {
+                        return world;
+                    }
+                }
+            }
+        }
+        return Runnable::run;
+    }
+
+    private UiPageType parseUiType(String token) {
+        String normalized = token.toLowerCase(Locale.ROOT);
+        return switch (normalized) {
+            case "castle", "main" -> UiPageType.CASTLE_MAIN;
+            case "info" -> UiPageType.CASTLE_INFO;
+            case "citizens" -> UiPageType.CASTLE_CITIZENS;
+            case "troops" -> UiPageType.CASTLE_TROOPS;
+            case "resources" -> UiPageType.CASTLE_RESOURCES;
+            case "upgrades" -> UiPageType.CASTLE_UPGRADES;
+            case "buildings", "building" -> UiPageType.CASTLE_BUILDINGS;
+            case "farmstead", "farmstead_menu" -> UiPageType.FARMSTEAD_MENU;
+            case "buildingdetail", "building_detail" -> UiPageType.BUILDING_DETAIL;
+            case "interior" -> UiPageType.INTERIOR_MAIN;
+            case "debug", "navigator", "command_center" -> UiPageType.DEBUG_NAVIGATOR;
+            case "debug_placement", "placement_debug", "placement" -> UiPageType.DEBUG_PLACEMENT;
+            case "debug_interior", "interior_debug" -> UiPageType.DEBUG_INTERIOR;
+            case "debug_buildings", "buildings_debug" -> UiPageType.DEBUG_BUILDINGS;
+            case "debug_world", "world_debug", "world" -> UiPageType.DEBUG_WORLD;
+            default -> null;
+        };
+    }
+
+    private ResourceType parseResource(String token) {
+        return switch (token.toLowerCase(Locale.ROOT)) {
+            case "food" -> ResourceType.FOOD;
+            case "wood" -> ResourceType.WOOD;
+            case "iron" -> ResourceType.IRON;
+            default -> null;
+        };
+    }
+
+    private OptionalInt parseAmount(String token) {
+        try {
+            return OptionalInt.of(Integer.parseInt(token));
+        } catch (NumberFormatException ex) {
+            return OptionalInt.empty();
+        }
+    }
+
+    private String tutorialStatus(boolean pending) {
+        return pending ? "pending" : "complete";
+    }
+
+    private Throwable rootCause(Throwable throwable) {
+        Throwable current = throwable;
+        while (current.getCause() != null && current.getCause() != current) {
+            current = current.getCause();
+        }
+        return current;
+    }
+
+    private String safeMessage(Throwable throwable) {
+        if (throwable == null || throwable.getMessage() == null || throwable.getMessage().isBlank()) {
+            return "unexpected error";
+        }
+        return throwable.getMessage();
+    }
+}

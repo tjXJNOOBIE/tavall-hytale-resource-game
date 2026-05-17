@@ -31,22 +31,10 @@
     </properties>
 
     <modules>
-        <module>shared-contracts</module>
-        <module>hytale-frontend</module>
-        <module>core</module>
-        <module>events</module>
-        <module>liveops</module>
-        <module>distribution</module>
-        <module>cloud-core</module>
-        <module>cloud-agent</module>
-        <module>cloud-control-plane</module>
+        <module>game-api</module>
         <module>control-server</module>
         <module>minecraft-proxy</module>
         <module>minecraft-game-server</module>
-        <module>roblox-frontend</module>
-        <module>discord-frontend</module>
-        <module>android-app</module>
-        <module>pc-app</module>
     </modules>
 
     <repositories>

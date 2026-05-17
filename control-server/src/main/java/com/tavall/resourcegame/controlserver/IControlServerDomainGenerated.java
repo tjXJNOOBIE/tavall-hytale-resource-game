@@ -16,7 +16,7 @@ import com.tavall.resourcegame.controlserver.web.IWebControlPanelCommandHandler;
 import com.tavall.resourcegame.controlserver.web.IWebControlPlayerViewHandler;
 import com.tavall.resourcegame.controlserver.web.IWebControlPlatformStatusViewHandler;
 import com.tavall.resourcegame.controlserver.web.IWebControlTroopHealingViewHandler;
-import com.tavall.resourcegame.dependency.DependencyLoaderAccess;
+import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tavall.resourcegame.middleware.cloud.ICloudControlPanelViewHandler;
 import com.tavall.resourcegame.middleware.cloud.ICloudControlCliHandler;
 import com.tavall.resourcegame.middleware.cloud.IMinecraftServerSnapshotIngressHandler;

@@ -1,7 +1,7 @@
 package com.tavall.resourcegame.frontend.minecraft;
 
-import com.tavall.resourcegame.shared.permissions.UniversalPermissionPolicy;
-import com.tavall.resourcegame.shared.permissions.UniversalPermissionSubject;
+import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionPolicy;
+import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Locale;

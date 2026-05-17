@@ -1,10 +1,10 @@
 package com.tavall.resourcegame.controlserver;
 
 import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationState;
-import com.tavall.resourcegame.shared.frontend.ResourceGameFrontendPlatform;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
+import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

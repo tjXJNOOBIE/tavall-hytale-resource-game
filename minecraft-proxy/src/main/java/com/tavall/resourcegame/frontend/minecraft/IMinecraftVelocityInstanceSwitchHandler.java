@@ -1,6 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft;
 
-import com.tavall.resourcegame.shared.frontend.FrontendCommandVerificationResult;
+import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 
 public interface IMinecraftVelocityInstanceSwitchHandler extends IDependencyInjectableInterface {

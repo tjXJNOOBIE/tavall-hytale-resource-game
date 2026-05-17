@@ -15,7 +15,7 @@ final class MinecraftBukkitInventoryUiHandlerTest {
     @Test
     void castleAndBuildingPagesAdvertiseResourcePackRoots() throws IOException {
         DependencyLoader.getDependencyLoader().clear();
-        com.tavall.resourcegame.dependency.DependencyLoaderAccess.clear();
+        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.clear();
         Path root = Files.createTempDirectory("tavall-resource-pack-ui");
         Files.createDirectories(root.resolve("castles"));
         Files.createDirectories(root.resolve("buildings"));

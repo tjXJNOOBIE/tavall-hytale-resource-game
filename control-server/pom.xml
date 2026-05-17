@@ -18,50 +18,16 @@
     <description>Canonical middleware/control-server runtime entrypoint for resource game frontends.</description>
 
     <properties>
-        <maven.compiler.release>25</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.11.4</junit.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.tavall.hytale</groupId>
-            <artifactId>core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.tavall</groupId>
-            <artifactId>cloud-control-plane</artifactId>
+            <artifactId>game-api</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tavall</groupId>
-            <artifactId>shared-contracts</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tavall</groupId>
-            <artifactId>hytale-frontend</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tavall</groupId>
-            <artifactId>minecraft-proxy</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tavall</groupId>
-            <artifactId>roblox-frontend</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tavall</groupId>
-            <artifactId>discord-frontend</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.tjxjnoobie</groupId>
@@ -84,12 +50,61 @@
             <artifactId>tavall-scheduler</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.tjxjnoobie</groupId>
+            <artifactId>tavall-reflection</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.github.tavall</groupId>
             <artifactId>abstract-cache-semantic</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.tavall</groupId>
             <artifactId>abstract-cache-storage-memory</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tavall</groupId>
+            <artifactId>abstract-cache-storage-postgres</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.tavall</groupId>
+            <artifactId>abstract-cache-storage-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hypixel.hytale</groupId>
+            <artifactId>Server</artifactId>
+            <version>${hytale.server.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>curse.maven</groupId>
+            <artifactId>hyui-1431415</artifactId>
+            <version>${hyui.curse.file}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-parameter-names</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>5.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -112,6 +127,10 @@
 
     <build>
         <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
             <resource>
                 <directory>schema</directory>
                 <filtering>false</filtering>
@@ -136,6 +155,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
                 <configuration>
+                    <classifier>exec</classifier>
                     <mainClass>com.tavall.resourcegame.controlserver.cli.ControlConsoleApplication</mainClass>
                 </configuration>
                 <executions>

@@ -99,12 +99,16 @@ async function waitForCommandResponse(messages, command, timeoutMs = 15000) {
       message.includes('FAILED:') ||
       message.includes('REJECTED:') ||
       message.includes('DISPATCHED:') ||
+      message.includes('Rank commands:') ||
         message.includes('Loaded ') ||
         message.includes('Updated ') ||
         message.includes('You have banned ') ||
         message.includes('You have warned ') ||
+        message.includes('You have muted ') ||
         message.includes('You have unbanned ') ||
+        message.includes('You have kicked ') ||
         message.includes('You were banned by ') ||
+        message.includes('Simulation tooling is not enabled on this proxy.') ||
         message.includes('Rank command failed') ||
         message.includes('Connected to') ||
         message.includes('already connected') ||
@@ -120,6 +124,7 @@ async function waitForCommandResponse(messages, command, timeoutMs = 15000) {
       message.includes('Building interaction') ||
       message.includes('Companion') ||
       message.includes('Missing permission') ||
+      message.includes('No permission.') ||
       message.includes('Unknown')
     )
     if (resultMessage) {

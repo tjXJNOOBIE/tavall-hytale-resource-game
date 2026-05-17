@@ -1,9 +1,9 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.dependency.DependencyLoaderAccess;
+import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tavall.resourcegame.middleware.cloud.IMinecraftServerSnapshotIngressHandler;
 import com.tavall.resourcegame.middleware.cloud.MinecraftServerSnapshotIngressHandler;
-import com.tavall.resourcegame.shared.frontend.MinecraftServerRuntimeSnapshot;
+import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
