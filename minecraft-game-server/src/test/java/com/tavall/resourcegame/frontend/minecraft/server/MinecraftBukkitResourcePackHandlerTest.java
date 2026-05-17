@@ -1,5 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
+import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ final class MinecraftBukkitResourcePackHandlerTest {
     void ensureLayoutCreatesCastleAndBuildingFolders() throws IOException {
         Path root = Files.createTempDirectory("tavall-resource-pack");
         Path configuredRoot = root.resolve("resource-pack");
-        MinecraftBukkitResourcePackHandler handler = new MinecraftBukkitResourcePackHandler(configuredRoot);
+        MinecraftBukkitResourcePackHandler handler = MinecraftBukkitResourcePackHandler.forRoot(configuredRoot);
 
         handler.ensureLayout();
 

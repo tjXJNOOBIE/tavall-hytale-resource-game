@@ -6,6 +6,7 @@ import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
 import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
 import com.tavall.resourcegame.api.internal.permissions.RankRequest;
 import com.tavall.resourcegame.api.internal.permissions.RankResponse;
+import com.tavall.resourcegame.frontend.minecraft.bridge.IMinecraftControlCommandClient;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Objects;

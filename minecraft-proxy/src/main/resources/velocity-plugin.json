@@ -6,5 +6,5 @@
   "authors": [
     "Tavall"
   ],
-  "main": "com.tavall.resourcegame.frontend.minecraft.MinecraftVelocityProxyPlugin"
+  "main": "com.tavall.resourcegame.frontend.minecraft.runtime.MinecraftVelocityProxyPlugin"
 }

@@ -3,6 +3,8 @@ package com.tavall.resourcegame.frontend.minecraft.server;
 import com.tjxjnoobie.api.dependency.DependencyLoader;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tavall.resourcegame.api.internal.ui.UiPageType;
+import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,7 +24,7 @@ final class MinecraftBukkitInventoryUiHandlerTest {
         Files.writeString(root.resolve("castles").resolve("castle_keep.png"), "");
         Files.writeString(root.resolve("buildings").resolve("farmstead.png"), "");
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class, new MinecraftBukkitServerConfig("kingdom", "proxy", 200L, root.toString()));
-        DependencyLoaderAccess.registerInstance(IMinecraftBukkitResourcePackHandler.class, new MinecraftBukkitResourcePackHandler(root));
+        DependencyLoaderAccess.registerInstance(IMinecraftBukkitResourcePackHandler.class, MinecraftBukkitResourcePackHandler.forRoot(root));
 
         MinecraftBukkitInventoryUiHandler handler = new MinecraftBukkitInventoryUiHandler();
 

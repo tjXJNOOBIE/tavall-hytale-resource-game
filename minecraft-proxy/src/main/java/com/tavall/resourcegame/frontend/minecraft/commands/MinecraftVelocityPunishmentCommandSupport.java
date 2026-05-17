@@ -2,7 +2,7 @@ package com.tavall.resourcegame.frontend.minecraft.commands;
 
 import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
 import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
-import com.tavall.resourcegame.frontend.minecraft.MinecraftVelocityCommandSource;
+import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
 
 import java.time.Duration;
 import java.time.Instant;

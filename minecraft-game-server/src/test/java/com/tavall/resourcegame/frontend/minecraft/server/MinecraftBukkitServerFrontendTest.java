@@ -21,6 +21,7 @@ import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
 import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
 import com.tavall.resourcegame.api.internal.player.PlayerPlatformBindingView;
 import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.MinecraftBukkitSnapshotHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoader;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.Test;

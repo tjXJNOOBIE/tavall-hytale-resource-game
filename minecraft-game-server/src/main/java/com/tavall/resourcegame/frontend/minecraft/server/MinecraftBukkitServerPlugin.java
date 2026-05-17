@@ -1,6 +1,8 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import com.tavall.resourcegame.frontend.minecraft.server.view.BukkitServerViewAdapter;
+import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitServerView;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;

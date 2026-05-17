@@ -15,6 +15,11 @@ import com.tavall.resourcegame.frontend.minecraft.commands.Unban;
 import com.tavall.resourcegame.frontend.minecraft.commands.Unmute;
 import com.tavall.resourcegame.frontend.minecraft.commands.Unwarn;
 import com.tavall.resourcegame.frontend.minecraft.commands.Warn;
+import com.tavall.resourcegame.frontend.minecraft.bridge.*;
+import com.tavall.resourcegame.frontend.minecraft.permissions.*;
+import com.tavall.resourcegame.frontend.minecraft.routing.*;
+import com.tavall.resourcegame.frontend.minecraft.runtime.*;
+import com.tavall.resourcegame.frontend.minecraft.switching.*;
 import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
 import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
 import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
@@ -993,7 +998,7 @@ public final class MinecraftFrontendModuleTest {
 
     @Test
     void velocityPluginRegistersProxyRuntimeBehindMinecraftInterface() throws Exception {
-        String source = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/MinecraftVelocityProxyPlugin.java"));
+        String source = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
 
         assertTrue(source.contains("IMinecraftVelocityProxyServer.class"));
         assertTrue(source.contains("new MinecraftVelocityProxyServerAdapter(proxyServer)"));

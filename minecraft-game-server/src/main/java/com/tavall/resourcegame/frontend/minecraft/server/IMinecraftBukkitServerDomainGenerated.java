@@ -1,5 +1,12 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
+import com.tavall.resourcegame.frontend.minecraft.server.protection.IMinecraftBukkitStructureProtectionHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotClientHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotSubmitHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitServerView;
+import com.tavall.resourcegame.frontend.minecraft.server.visual.IMinecraftBukkitVisualHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
 public interface IMinecraftBukkitServerDomainGenerated {

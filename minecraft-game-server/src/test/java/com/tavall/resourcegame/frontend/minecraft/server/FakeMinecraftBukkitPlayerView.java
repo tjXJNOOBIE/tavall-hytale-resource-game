@@ -1,5 +1,7 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
+import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitPlayerView;
+
 import java.util.UUID;
 
 final class FakeMinecraftBukkitPlayerView implements MinecraftBukkitPlayerView {

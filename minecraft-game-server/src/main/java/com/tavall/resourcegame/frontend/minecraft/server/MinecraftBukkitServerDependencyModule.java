@@ -4,6 +4,18 @@ import com.tavall.resourcegame.api.internal.frontend.FrontendControlConfig;
 import com.tavall.resourcegame.api.internal.frontend.FrontendTcpControlCommandClient;
 import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
 import com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig;
+import com.tavall.resourcegame.frontend.minecraft.server.protection.IMinecraftBukkitStructureProtectionHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.protection.MinecraftBukkitStructureProtectionHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotClientHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotSubmitHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.MinecraftBukkitSnapshotClientHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.MinecraftBukkitSnapshotHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.snapshot.MinecraftBukkitSnapshotSubmitHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.visual.IMinecraftBukkitVisualHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.visual.MinecraftBukkitVisualHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
 import java.net.URI;
