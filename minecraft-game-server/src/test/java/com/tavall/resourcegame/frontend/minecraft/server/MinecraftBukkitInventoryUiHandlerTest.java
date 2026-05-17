@@ -2,7 +2,7 @@ package com.tavall.resourcegame.frontend.minecraft.server;
 
 import com.tjxjnoobie.api.dependency.DependencyLoader;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.ui.UiPageType;
+import com.tavall.resourcegame.api.internal.ui.UiPageType;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

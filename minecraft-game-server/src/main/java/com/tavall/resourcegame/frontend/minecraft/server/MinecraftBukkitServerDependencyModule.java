@@ -1,9 +1,9 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
+import com.tavall.resourcegame.api.internal.frontend.FrontendControlConfig;
+import com.tavall.resourcegame.api.internal.frontend.FrontendTcpControlCommandClient;
 import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
 import com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig;
-import com.tavall.resourcegame.services.FrontendControlConfig;
-import com.tavall.resourcegame.services.FrontendTcpControlCommandClient;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
 import java.net.URI;

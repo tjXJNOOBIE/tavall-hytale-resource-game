@@ -1,8 +1,8 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
 import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.ui.UiActions;
-import com.tavall.resourcegame.ui.UiPageType;
+import com.tavall.resourcegame.api.internal.ui.UiActions;
+import com.tavall.resourcegame.api.internal.ui.UiPageType;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

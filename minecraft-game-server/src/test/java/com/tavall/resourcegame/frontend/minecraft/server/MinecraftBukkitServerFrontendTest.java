@@ -2,13 +2,13 @@ package com.tavall.resourcegame.frontend.minecraft.server;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.services.ControlPlaneTcpBridgeRequest;
-import com.tavall.resourcegame.services.FrontendTcpControlBridgeResponse;
-import com.tavall.resourcegame.services.JsonMapperProvider;
-import com.tavall.resourcegame.middleware.control.KdControlCommandTranslationHandler;
 import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
 import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
 import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
+import com.tavall.resourcegame.api.internal.frontend.FrontendControlConfig;
+import com.tavall.resourcegame.api.internal.frontend.transport.ControlPlaneTcpBridgeRequest;
+import com.tavall.resourcegame.api.internal.frontend.transport.FrontendTcpControlBridgeResponse;
+import com.tavall.resourcegame.api.internal.frontend.transport.JsonMapperProvider;
 import com.tavall.resourcegame.api.internal.interaction.InteractionMenuElement;
 import com.tavall.resourcegame.api.internal.interaction.InteractionMenuModel;
 import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
@@ -271,7 +271,7 @@ final class MinecraftBukkitServerFrontendTest {
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class, config);
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitRuntimeState.class, new MinecraftBukkitRuntimeState(startedAtEpochMillis));
         com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig.class,
-                new com.tavall.resourcegame.services.FrontendControlConfig(controlIngressUri, "minecraft-bukkit-server"));
+                new FrontendControlConfig(controlIngressUri, "minecraft-bukkit-server"));
         new MinecraftBukkitServerDependencyModule().registerDependencies();
     }
 
@@ -339,9 +339,7 @@ final class MinecraftBukkitServerFrontendTest {
         Map<String, String> metadata = new LinkedHashMap<String, String>();
         String rawInput = envelope.rawInput();
         if (rawInput != null && !rawInput.isBlank()) {
-            String controlConsoleInput = new KdControlCommandTranslationHandler()
-                    .translateKdCommand(rawInput, envelope.platformAccountId())
-                    .orElse(rawInput);
+            String controlConsoleInput = rawInput.startsWith("kd ") ? rawInput.substring(3) : rawInput;
             metadata.put("controlConsoleInput", controlConsoleInput);
         }
         return new FrontendCommandVerificationResult(

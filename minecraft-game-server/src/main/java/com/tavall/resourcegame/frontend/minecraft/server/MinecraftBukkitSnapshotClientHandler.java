@@ -1,28 +1,19 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.cloud.IMinecraftServerSnapshotIngressHandler;
-import com.tavall.resourcegame.middleware.cloud.MinecraftServerSnapshotIngressHandler;
 import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
-import java.time.Instant;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class MinecraftBukkitSnapshotClientHandler implements IMinecraftBukkitSnapshotClientHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+    private static final AtomicReference<MinecraftServerRuntimeSnapshot> LATEST_LOCAL_SNAPSHOT = new AtomicReference<>();
+
     @Override
     public boolean submitSnapshot(MinecraftServerRuntimeSnapshot snapshot) throws IOException {
-        return snapshotIngressHandler().ingest(snapshot, Instant.now()).accepted();
-    }
-
-    private IMinecraftServerSnapshotIngressHandler snapshotIngressHandler() {
-        return DependencyLoaderAccess.findOptionalInstance(IMinecraftServerSnapshotIngressHandler.class)
-                .orElseGet(this::createSnapshotIngressHandler);
-    }
-
-    private IMinecraftServerSnapshotIngressHandler createSnapshotIngressHandler() {
-        IMinecraftServerSnapshotIngressHandler handler = new MinecraftServerSnapshotIngressHandler();
-        DependencyLoaderAccess.registerInstance(IMinecraftServerSnapshotIngressHandler.class, handler);
-        return handler;
+        LATEST_LOCAL_SNAPSHOT.set(snapshot);
+        DependencyLoaderAccess.registerInstance(MinecraftServerRuntimeSnapshot.class, snapshot);
+        return true;
     }
 }

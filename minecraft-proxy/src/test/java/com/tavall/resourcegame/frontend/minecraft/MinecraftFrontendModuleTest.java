@@ -1,10 +1,10 @@
 package com.tavall.resourcegame.frontend.minecraft;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.services.FrontendControlConfig;
-import com.tavall.resourcegame.services.FrontendTcpControlBridgeResponse;
-import com.tavall.resourcegame.services.FrontendTcpControlCommandClient;
 import com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig;
+import com.tavall.resourcegame.api.internal.frontend.FrontendControlConfig;
+import com.tavall.resourcegame.api.internal.frontend.FrontendTcpControlCommandClient;
+import com.tavall.resourcegame.api.internal.frontend.transport.FrontendTcpControlBridgeResponse;
 import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
 import com.tavall.resourcegame.frontend.minecraft.commands.Ban;
 import com.tavall.resourcegame.frontend.minecraft.commands.Kick;

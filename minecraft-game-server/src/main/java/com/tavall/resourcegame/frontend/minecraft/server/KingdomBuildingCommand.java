@@ -1,6 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
-import com.tavall.resourcegame.ui.UiPageType;
+import com.tavall.resourcegame.api.internal.ui.UiPageType;
 
 import java.util.List;
 import java.util.Optional;
