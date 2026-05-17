@@ -11,20 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 final class ResourceGamePluginBoundaryTest {
     @Test
-    void corePluginRegistersGameplayEventsAndDebugCommandsOnly() throws IOException {
+    void corePluginDelegatesLifecycleToBootstrapOnly() throws IOException {
         String source = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/ResourceGamePlugin.java"));
 
-        assertTrue(source.contains("getEventRegistry().registerGlobal(PlayerReadyEvent.class, getPlayerDataService()::handlePlayerReady)"));
-        assertTrue(source.contains("getEventRegistry().registerGlobal(PlayerDisconnectEvent.class, getPlayerDataService()::handlePlayerDisconnect)"));
-        assertTrue(source.contains("getEventRegistry().registerGlobal(PlayerInteractEvent.class, getPlacementInteractionService()::handleInteract)"));
-        assertTrue(source.contains("getEventRegistry().registerGlobal(PlayerInteractEvent.class, getCastleInteractionService()::handleInteract)"));
-        assertTrue(source.contains("getEventRegistry().registerGlobal(PlayerInteractEvent.class, getResourceNodeInteractionService()::handleInteract)"));
-        assertTrue(source.contains("getEventRegistry().registerGlobal(PlayerInteractEvent.class, getBuildingInteractionService()::handleInteract)"));
-        assertTrue(source.contains("getEventRegistry().registerGlobal(PlayerInteractEvent.class, getWorkerNpcInteractionService()::handleInteract)"));
-        assertTrue(source.contains("getEventRegistry().registerGlobal(PlayerInteractEvent.class, getCustomEntitySpawnService()::handleInteract)"));
-        assertTrue(source.contains("getDebugCommandService().commands()"));
-        assertFalse(source.contains("metaBuilder(\"rank\")"));
-        assertFalse(source.contains("PluginCommand"));
-        assertFalse(source.contains("ProxyServer"));
+        assertTrue(source.contains("bootstrap.setup(this)"));
+        assertTrue(source.contains("bootstrap.start(this)"));
+        assertTrue(source.contains("bootstrap.shutdown(this)"));
+        assertFalse(source.contains("getEventRegistry().registerGlobal(PlayerReadyEvent.class"));
+        assertFalse(source.contains("getDebugCommandService().commands()"));
+        assertFalse(source.contains("AsyncTask.shutdown()"));
     }
 }

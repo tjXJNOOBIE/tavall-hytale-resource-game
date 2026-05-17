@@ -14,41 +14,48 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public final class MinecraftFrontendDependencyPolicyTest {
     @Test
     void velocityEntrypointAdaptsProxyServerBehindMinecraftInterfaceToken() throws IOException {
-        String source = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
+        String pluginSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
+        String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
 
-        assertTrue(source.contains("@Inject"));
-        assertTrue(source.contains("new MinecraftVelocityProxyServerAdapter(proxyServer)"));
-        assertTrue(source.contains("IMinecraftVelocityProxyServer.class"));
-        assertTrue(source.contains("new MinecraftFrontendDependencyModule().registerDependencies(config, new ProxyServerSwitchGateway())"));
-        assertTrue(source.contains("metaBuilder(\"rank\")"));
-        assertTrue(source.contains("new MinecraftVelocityRankCommand()"));
-        assertTrue(source.contains("new Kick()"));
-        assertTrue(source.contains("new Mute()"));
-        assertTrue(source.contains("new Sim()"));
-        assertFalse(source.contains("registerInstance(ProxyServer.class"));
-        assertFalse(source.contains("registerInstance(Logger.class"));
+        assertTrue(pluginSource.contains("@Inject"));
+        assertTrue(pluginSource.contains("new MinecraftVelocityBootstrap(proxyServer, logger, config, new ProxyServerSwitchGateway()).initialize();"));
+        assertFalse(pluginSource.contains("new MinecraftVelocityProxyServerAdapter(proxyServer)"));
+        assertFalse(pluginSource.contains("IMinecraftVelocityProxyServer.class"));
+        assertFalse(pluginSource.contains("new MinecraftFrontendDependencyModule().registerDependencies(config, new ProxyServerSwitchGateway())"));
+        assertTrue(bootstrapSource.contains("new MinecraftVelocityProxyServerAdapter(proxyServer)"));
+        assertTrue(bootstrapSource.contains("IMinecraftVelocityProxyServer.class"));
+        assertTrue(bootstrapSource.contains("new MinecraftFrontendDependencyModule().registerDependencies(config, switchGateway)"));
+        assertTrue(bootstrapSource.contains("metaBuilder(\"rank\")"));
+        assertTrue(bootstrapSource.contains("new MinecraftVelocityRankCommand()"));
+        assertTrue(bootstrapSource.contains("new Kick()"));
+        assertTrue(bootstrapSource.contains("new Mute()"));
+        assertTrue(bootstrapSource.contains("new Sim()"));
+        assertFalse(pluginSource.contains("registerInstance(ProxyServer.class"));
+        assertFalse(pluginSource.contains("registerInstance(Logger.class"));
     }
 
     @Test
     void velocityDoesNotExposeKingdomCommandsOnProxy() throws IOException {
         String pluginDescriptor = Files.readString(Path.of("src/main/resources/velocity-plugin.json"));
         String pluginSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
+        String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
         String commandSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/commands/MinecraftVelocitySimpleCommand.java"));
 
         assertTrue(pluginDescriptor.contains("\"main\": \"com.tavall.resourcegame.frontend.minecraft.runtime.MinecraftVelocityProxyPlugin\""));
-        assertTrue(pluginSource.contains("metaBuilder(\"rank\")"));
+        assertFalse(pluginSource.contains("metaBuilder(\"rank\")"));
         assertFalse(pluginSource.contains("metaBuilder(\"kd\")"));
         assertFalse(pluginSource.contains("aliases(\"kingdom\")"));
         assertFalse(pluginSource.contains("new MinecraftVelocitySimpleCommand()"));
-        assertTrue(pluginSource.contains("new MinecraftVelocityRankCommand()"));
-        assertTrue(pluginSource.contains("new Ban()"));
-        assertTrue(pluginSource.contains("new Kick()"));
-        assertTrue(pluginSource.contains("new Mute()"));
-        assertTrue(pluginSource.contains("new Sim()"));
-        assertTrue(pluginSource.contains("new Warn()"));
-        assertTrue(pluginSource.contains("new Unban()"));
-        assertTrue(pluginSource.contains("new MinecraftVelocityLoginEvent()"));
-        assertTrue(pluginSource.contains("new MinecraftVelocityMuteChatEvent()"));
+        assertTrue(bootstrapSource.contains("metaBuilder(\"rank\")"));
+        assertTrue(bootstrapSource.contains("new MinecraftVelocityRankCommand()"));
+        assertTrue(bootstrapSource.contains("new Ban()"));
+        assertTrue(bootstrapSource.contains("new Kick()"));
+        assertTrue(bootstrapSource.contains("new Mute()"));
+        assertTrue(bootstrapSource.contains("new Sim()"));
+        assertTrue(bootstrapSource.contains("new Warn()"));
+        assertTrue(bootstrapSource.contains("new Unban()"));
+        assertTrue(bootstrapSource.contains("new MinecraftVelocityLoginEvent()"));
+        assertTrue(bootstrapSource.contains("new MinecraftVelocityMuteChatEvent()"));
         assertTrue(commandSource.contains("getMinecraftVelocityCommandExecutionHandler().execute("));
         assertTrue(commandSource.contains("getMinecraftVelocityCommandPermissionHandler().canExecute("));
         assertFalse(pluginSource.contains("new MinecraftVelocityCommandExecutionHandler()"));

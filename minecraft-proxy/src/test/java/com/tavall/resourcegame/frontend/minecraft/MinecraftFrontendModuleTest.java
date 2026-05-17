@@ -998,16 +998,20 @@ public final class MinecraftFrontendModuleTest {
 
     @Test
     void velocityPluginRegistersProxyRuntimeBehindMinecraftInterface() throws Exception {
-        String source = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
+        String pluginSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
+        String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
 
-        assertTrue(source.contains("IMinecraftVelocityProxyServer.class"));
-        assertTrue(source.contains("new MinecraftVelocityProxyServerAdapter(proxyServer)"));
-        assertTrue(source.contains("metaBuilder(\"kick\")"));
-        assertTrue(source.contains("metaBuilder(\"mute\")"));
-        assertTrue(source.contains("metaBuilder(\"sim\")"));
-        assertFalse(source.contains("metaBuilder(\"kd\")"));
-        assertFalse(source.contains(".aliases(\"kingdom\")"));
-        assertFalse(source.contains("registerInstance(ProxyServer.class"));
+        assertTrue(pluginSource.contains("new MinecraftVelocityBootstrap(proxyServer, logger, config, new ProxyServerSwitchGateway()).initialize();"));
+        assertFalse(pluginSource.contains("IMinecraftVelocityProxyServer.class"));
+        assertFalse(pluginSource.contains("new MinecraftVelocityProxyServerAdapter(proxyServer)"));
+        assertTrue(bootstrapSource.contains("IMinecraftVelocityProxyServer.class"));
+        assertTrue(bootstrapSource.contains("new MinecraftVelocityProxyServerAdapter(proxyServer)"));
+        assertTrue(bootstrapSource.contains("metaBuilder(\"kick\")"));
+        assertTrue(bootstrapSource.contains("metaBuilder(\"mute\")"));
+        assertTrue(bootstrapSource.contains("metaBuilder(\"sim\")"));
+        assertFalse(pluginSource.contains("metaBuilder(\"kd\")"));
+        assertFalse(pluginSource.contains(".aliases(\"kingdom\")"));
+        assertFalse(pluginSource.contains("registerInstance(ProxyServer.class"));
     }
 
     private void registerMinecraftDependencies(AtomicReference<FrontendCommandEnvelope> submittedEnvelope) {

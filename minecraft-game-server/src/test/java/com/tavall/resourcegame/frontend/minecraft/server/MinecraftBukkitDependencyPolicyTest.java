@@ -40,7 +40,8 @@ public final class MinecraftBukkitDependencyPolicyTest {
 
     @Test
     void bukkitEntrypointAdaptsFrameworkObjectsBehindMinecraftInterfaces() throws IOException {
-        String source = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitServerPlugin.java"));
+        String pluginSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitServerPlugin.java"));
+        String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/bootstrap/MinecraftBukkitBootstrap.java"));
         String commandClientSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitCommandClientHandler.java"));
         String dependencyModuleSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitServerDependencyModule.java"));
         String accountGuiSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/KingdomAccountGui.java"));
@@ -48,18 +49,27 @@ public final class MinecraftBukkitDependencyPolicyTest {
         String playerDataApiSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "com", "tavall", "resourcegame", "controlserver", "api", "PlayerDataApi.java"));
         String controlBridgeServerSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "com", "tavall", "resourcegame", "controlserver", "transport", "ControlPlaneTcpBridgeServer.java"));
 
-        assertTrue(source.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class"));
-        assertTrue(source.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitRuntimeState.class"));
-        assertTrue(source.contains("DependencyLoaderAccess.registerInstance(MinecraftBukkitServerView.class, new BukkitServerViewAdapter(getServer()))"));
-        assertTrue(source.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitLogger.class"));
-        assertTrue(source.contains("registerEvents(getMinecraftBukkitPlayerJoinHandler(), this)"));
-        assertTrue(source.contains("registerEvents(getMinecraftBukkitInteractionHandler(), this)"));
-        assertTrue(source.contains("registerEvents(getKingdomInventoryUiHandler(), this)"));
-        assertTrue(source.contains("command.setExecutor(getMinecraftBukkitCommandHandler())"));
-        assertFalse(source.contains("registerEvents(this, this)"));
-        assertFalse(source.contains("registerInstance(Server.class"));
-        assertFalse(source.contains("registerInstance(JavaPlugin.class"));
-        assertFalse(source.contains("registerInstance(PluginCommand.class"));
+        assertTrue(pluginSource.contains("bootstrap = new MinecraftBukkitBootstrap(this);"));
+        assertTrue(pluginSource.contains("bootstrap.initialize();"));
+        assertTrue(pluginSource.contains("bootstrap.shutdown();"));
+        assertFalse(pluginSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class"));
+        assertFalse(pluginSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitRuntimeState.class"));
+        assertFalse(pluginSource.contains("registerEvents(getMinecraftBukkitPlayerJoinHandler(), this)"));
+        assertFalse(pluginSource.contains("registerEvents(getMinecraftBukkitInteractionHandler(), this)"));
+        assertFalse(pluginSource.contains("registerEvents(getKingdomInventoryUiHandler(), this)"));
+        assertFalse(pluginSource.contains("command.setExecutor(getMinecraftBukkitCommandHandler())"));
+        assertFalse(pluginSource.contains("registerEvents(this, this)"));
+        assertFalse(pluginSource.contains("registerInstance(Server.class"));
+        assertFalse(pluginSource.contains("registerInstance(JavaPlugin.class"));
+        assertFalse(pluginSource.contains("registerInstance(PluginCommand.class"));
+        assertTrue(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class"));
+        assertTrue(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitRuntimeState.class"));
+        assertTrue(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(MinecraftBukkitServerView.class, new BukkitServerViewAdapter(plugin.getServer()))"));
+        assertTrue(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitLogger.class"));
+        assertTrue(bootstrapSource.contains("registerEvents(plugin.getMinecraftBukkitPlayerJoinHandler(), plugin)"));
+        assertTrue(bootstrapSource.contains("registerEvents(plugin.getMinecraftBukkitInteractionHandler(), plugin)"));
+        assertTrue(bootstrapSource.contains("registerEvents(plugin.getKingdomInventoryUiHandler(), plugin)"));
+        assertTrue(bootstrapSource.contains("command.setExecutor(plugin.getMinecraftBukkitCommandHandler())"));
         assertFalse(commandClientSource.contains("ControlCommandRuntime"));
         assertFalse(commandClientSource.contains("getMinecraftBukkitDirectControlRuntimeHandler()"));
         assertTrue(commandClientSource.contains("fetchPlayerData("));
