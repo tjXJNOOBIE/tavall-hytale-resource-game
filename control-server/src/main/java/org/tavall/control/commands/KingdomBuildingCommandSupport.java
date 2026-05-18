@@ -22,7 +22,7 @@ import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.building.BuildingPlacementPlanner;
 import org.tavall.control.player.PlayerSession;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 import org.tavall.control.world.BuildingPlacementStageStructureHandler;
 
 import java.time.Instant;

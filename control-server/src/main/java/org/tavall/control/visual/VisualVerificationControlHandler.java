@@ -18,7 +18,7 @@ import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.tasks.WorldTasks;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.io.IOException;
 import java.io.Reader;

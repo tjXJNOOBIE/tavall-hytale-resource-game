@@ -14,7 +14,7 @@ import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 import org.tavall.control.world.VectorMath;
 
 import java.util.Objects;

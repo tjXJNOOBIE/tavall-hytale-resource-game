@@ -4,7 +4,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.util.UUID;
 

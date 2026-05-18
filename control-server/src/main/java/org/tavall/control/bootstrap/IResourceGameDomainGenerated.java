@@ -51,7 +51,6 @@ import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
 import org.tavall.control.resource.IResourceHandler;
 import org.tavall.control.ui.IUiNavigator;
-import org.tavall.control.ui.IUiPageRegistry;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
 import org.tavall.control.npc.IWorkerNpcInteractionHandler;
 import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
@@ -65,6 +64,11 @@ import org.tavall.control.world.BuildingPlacementStageStructureHandler;
  * Generated-domain equivalent for repo-local DI accessors.
  */
 public interface IResourceGameDomainGenerated {
+    default <T> T registerSingleton(Class<T> type, T instance) {
+        DependencyLoaderAccess.registerInstance(type, instance);
+        return instance;
+    }
+
     default IPlayerDataHandler getPlayerDataHandler() {
         return DependencyLoaderAccess.findInstance(IPlayerDataHandler.class);
     }
@@ -234,10 +238,6 @@ public interface IResourceGameDomainGenerated {
         return DependencyLoaderAccess.findInstance(IUiNavigator.class);
     }
 
-    default IUiPageRegistry getUiPageRegistry() {
-        return DependencyLoaderAccess.findInstance(IUiPageRegistry.class);
-    }
-
     default IFarmsteadMenuHandler getFarmsteadMenuHandler() {
         return DependencyLoaderAccess.findInstance(IFarmsteadMenuHandler.class);
     }
@@ -314,5 +314,4 @@ public interface IResourceGameDomainGenerated {
         return DependencyLoaderAccess.findInstance(WorldLabelHandler.class);
     }
 }
-
 

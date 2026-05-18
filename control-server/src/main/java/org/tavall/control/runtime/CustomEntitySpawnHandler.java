@@ -26,7 +26,7 @@ import org.tavall.control.domain.CustomEntitySpawnRole;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.farmstead.npc.FarmsteadStewardSpawner;
 import org.tavall.control.tasks.WorldTasks;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 import org.tavall.control.world.VectorMath;
 
 import java.util.Map;

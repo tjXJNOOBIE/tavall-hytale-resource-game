@@ -18,7 +18,7 @@ import org.tavall.control.domain.FocusedWorldTarget;
 import org.tavall.control.domain.FocusedWorldTargetType;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 import org.tavall.control.world.VectorMath;
 
 import java.util.Objects;

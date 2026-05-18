@@ -1,6 +1,6 @@
 package org.tavall.control.domain;
 
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.util.Objects;
 

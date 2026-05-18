@@ -48,6 +48,8 @@ public final class ResourceGameDependencyBootstrapTest {
         assertTrue(source.contains("IFrontendCommandVerificationHandler.class"));
         assertTrue(source.contains("FrontendCommandVerificationHandler"));
         assertTrue(source.contains("FrontendTcpControlCommandClient"));
+        assertFalse(source.contains("IUiPageRegistry"));
+        assertFalse(source.contains("UiPageRegistry"));
         assertFalse(source.contains("IUiActionHandler"));
         assertFalse(source.contains("UiActionHandler"));
     }

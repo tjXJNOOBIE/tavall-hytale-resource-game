@@ -24,7 +24,7 @@ import org.tavall.control.player.PlayerSession;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.time.Instant;
 import java.util.List;

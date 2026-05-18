@@ -13,7 +13,7 @@ import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.npc.IWorkerNpcInteractionHandler;
 import org.tavall.control.domain.CitizenJobType;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.util.Objects;
 import java.util.Optional;

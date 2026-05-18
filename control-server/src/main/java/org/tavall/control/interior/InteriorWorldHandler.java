@@ -35,7 +35,7 @@ import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 import org.tavall.control.interior.InteriorStructureHandler;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 import org.tavall.control.tasks.WorldTasks;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.time.Duration;
 import java.time.Instant;

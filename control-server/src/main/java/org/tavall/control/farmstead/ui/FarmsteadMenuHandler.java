@@ -12,7 +12,7 @@ import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.player.PlayerSession;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.util.Objects;
 import java.util.Optional;

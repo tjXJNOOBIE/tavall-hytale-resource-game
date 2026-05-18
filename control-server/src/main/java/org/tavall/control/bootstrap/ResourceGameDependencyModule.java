@@ -50,7 +50,6 @@ import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
 import org.tavall.control.resource.IResourceHandler;
 import org.tavall.control.ui.IUiNavigator;
-import org.tavall.control.ui.IUiPageRegistry;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
 import org.tavall.control.npc.IWorkerNpcInteractionHandler;
 import org.tavall.control.domain.PlayerGameState;
@@ -124,23 +123,7 @@ import org.tavall.control.protection.StructureProtectionHandler;
 import org.tavall.control.visual.VisualVerificationControlHandler;
 import org.tavall.control.npc.WorkerNpcInteractionHandler;
 import org.tavall.control.world.WorldLabelHandler;
-import org.tavall.control.ui.CastleCitizensPage;
-import org.tavall.control.ui.CastleBuildingsPage;
-import org.tavall.control.ui.CastleInfoPage;
-import org.tavall.control.ui.CastleMainPage;
-import org.tavall.control.ui.CastleResourcesPage;
-import org.tavall.control.ui.CastleTroopsPage;
-import org.tavall.control.ui.CastleUpgradesPage;
-import org.tavall.control.ui.BuildingDetailPage;
-import org.tavall.control.ui.DebugCommandPage;
-import org.tavall.control.ui.DebugNavigatorPage;
-import org.tavall.control.ui.DebugUiCommandBindings;
-import org.tavall.control.ui.FarmsteadMenuPage;
-import org.tavall.control.ui.InteriorMainPage;
-import org.tavall.control.ui.ResourceNodePage;
 import org.tavall.control.ui.UiNavigator;
-import org.tavall.control.ui.UiPageRegistry;
-import org.tavall.control.ui.UiPageType;
 import org.tavall.control.world.CastleEntityRegistry;
 import org.tavall.control.world.CastleBuildingStructureHandler;
 import org.tavall.control.world.BuildingPlacementStageStructureHandler;
@@ -162,7 +145,7 @@ import java.util.logging.Logger;
 /**
  * Repo-local composition root that mirrors the shared Tavall DI bootstrap style.
  */
-public final class ResourceGameDependencyModule implements IDependencyModule {
+public final class ResourceGameDependencyModule implements IDependencyModule, IResourceGameDomainGenerated {
     private final ResourceGamePlugin plugin;
 
     public ResourceGameDependencyModule(ResourceGamePlugin plugin) {
@@ -258,8 +241,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                 new ResourceNodePromptLaneStructureHandler(),
                 playerTeleportHandler
         );
-        UiPageRegistry pageRegistry = new UiPageRegistry();
-        UiNavigator uiNavigator = new UiNavigator(pageRegistry);
+        UiNavigator uiNavigator = new UiNavigator();
         WorkerNpcInteractionHandler workerNpcInteractionHandler = new WorkerNpcInteractionHandler(populationDisplayHandler, sessionStore, uiNavigator);
         ResourceHandler resourceHandler = new ResourceHandler(sessionStore, gameStateHandler, castleSiteVisualHandler, uiNavigator);
         PopulationHandler populationHandler = new PopulationHandler(
@@ -370,7 +352,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                 uiNavigator,
                 farmsteadMenuHandler
         );
-        registerUiPages(pageRegistry, infrastructureHealthHandler, gameStateHandler, populationHandler, economyPlanner, resourceNodeHandler, buildingHandler);
         KingdomPlacementCommandSupport placementCommandSupport = new KingdomPlacementCommandSupport();
         KingdomBuildingCommandSupport buildingCommandSupport = new KingdomBuildingCommandSupport(
                 buildingHandler,
@@ -451,7 +432,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         registerSingleton(ICastlePlacementHandler.class, castlePlacementPlanner);
         registerSingleton(ICastlePromptLaneHandler.class, castlePromptLaneHandler);
         registerSingleton(IResourceNodePromptLaneHandler.class, resourceNodePromptLaneHandler);
-        registerSingleton(IUiPageRegistry.class, pageRegistry);
         registerSingleton(IUiNavigator.class, uiNavigator);
         registerSingleton(IResourceHandler.class, resourceHandler);
         registerSingleton(IPopulationHandler.class, populationHandler);
@@ -488,84 +468,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         registerSingleton(IProtectedBlockSystemHandler.class, protectedBlockSystemHandler);
     }
 
-    private void registerUiPages(
-            IUiPageRegistry registry,
-            IInfrastructureHealthHandler infrastructureHealthHandler,
-            IPlayerGameStateHandler gameStateHandler,
-            IPopulationHandler populationHandler,
-            CastleEconomyPlanner economyPlanner,
-            IResourceNodeHandler resourceNodeHandler,
-            ICastleBuildingHandler buildingHandler
-    ) {
-        registry.register(UiPageType.CASTLE_MAIN, (player, context, state) -> new CastleMainPage(player, context, state, economyPlanner));
-        registry.register(UiPageType.CASTLE_INFO, (player, context, state) -> new CastleInfoPage(player, context, state));
-        registry.register(UiPageType.CASTLE_CITIZENS, (player, context, state) -> new CastleCitizensPage(player, context, state, economyPlanner));
-        registry.register(UiPageType.CASTLE_TROOPS, (player, context, state) -> new CastleTroopsPage(player, context, state));
-        registry.register(UiPageType.CASTLE_RESOURCES, (player, context, state) -> new CastleResourcesPage(player, context, state, economyPlanner));
-        registry.register(UiPageType.CASTLE_UPGRADES, (player, context, state) -> new CastleUpgradesPage(player, context, state, populationHandler, gameStateHandler));
-        registry.register(UiPageType.CASTLE_BUILDINGS, (player, context, state) -> new CastleBuildingsPage(player, context, state, buildingHandler));
-        registry.register(UiPageType.FARMSTEAD_MENU, (player, context, state) -> new FarmsteadMenuPage(player, context, state, buildingHandler));
-        registry.register(UiPageType.RESOURCE_NODE_DETAIL, (player, context, state) -> new ResourceNodePage(player, context, state, resourceNodeHandler));
-        registry.register(UiPageType.BUILDING_DETAIL, (player, context, state) -> new BuildingDetailPage(player, context, state, buildingHandler));
-        registry.register(UiPageType.INTERIOR_MAIN, (player, context, state) -> new InteriorMainPage(player, context, state, gameStateHandler));
-        registry.register(
-                UiPageType.DEBUG_NAVIGATOR,
-                (player, context, state) -> new DebugNavigatorPage(player, context, state, infrastructureHealthHandler, gameStateHandler)
-        );
-        registry.register(
-                UiPageType.DEBUG_PLACEMENT,
-                (player, context, state) -> new DebugCommandPage(
-                        player,
-                        context,
-                        state,
-                        infrastructureHealthHandler,
-                        gameStateHandler,
-                        "Pages/debug-placement.html",
-                        DebugUiCommandBindings.placement()
-                )
-        );
-        registry.register(
-                UiPageType.DEBUG_INTERIOR,
-                (player, context, state) -> new DebugCommandPage(
-                        player,
-                        context,
-                        state,
-                        infrastructureHealthHandler,
-                        gameStateHandler,
-                        "Pages/debug-interior.html",
-                        DebugUiCommandBindings.interior()
-                )
-        );
-        registry.register(
-                UiPageType.DEBUG_BUILDINGS,
-                (player, context, state) -> new DebugCommandPage(
-                        player,
-                        context,
-                        state,
-                        infrastructureHealthHandler,
-                        gameStateHandler,
-                        "Pages/debug-buildings.html",
-                        DebugUiCommandBindings.buildings()
-                )
-        );
-        registry.register(
-                UiPageType.DEBUG_WORLD,
-                (player, context, state) -> new DebugCommandPage(
-                        player,
-                        context,
-                        state,
-                        infrastructureHealthHandler,
-                        gameStateHandler,
-                        "Pages/debug-world.html",
-                        DebugUiCommandBindings.world()
-                )
-        );
-    }
 
-    private <T> void registerSingleton(Class<T> token, T instance) {
-        DependencyLoaderAccess.registerInstance(token, instance);
-    }
 }
-
-
 

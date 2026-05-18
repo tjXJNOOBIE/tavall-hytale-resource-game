@@ -21,7 +21,7 @@ import org.tavall.control.domain.ResourceNodePillageResult;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.resources.ResourceType;
 import org.tavall.control.player.PlayerSession;
-import org.tavall.control.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.time.Instant;
 import java.util.List;
