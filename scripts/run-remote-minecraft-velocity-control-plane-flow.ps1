@@ -168,6 +168,7 @@ if [ -f '$remoteKingdomBackendPluginPath' ]; then
   cp '$remoteKingdomBackendPluginPath' '$remoteKingdomBackendPluginPath.bak-$timestamp'
 fi
 mv '$remoteKingdomBackendPluginPath.new' '$remoteKingdomBackendPluginPath'
+rm -f '$RemoteKingdomBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar' 2>/dev/null || true
 if [ -f '$remoteKingdomServerJarPath' ]; then
   cp '$remoteKingdomServerJarPath' '$remoteKingdomServerJarPath.bak-$timestamp'
 fi

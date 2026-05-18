@@ -62,10 +62,11 @@ public final class MinecraftBukkitDependencyPolicyTest {
         assertFalse(pluginSource.contains("registerInstance(Server.class"));
         assertFalse(pluginSource.contains("registerInstance(JavaPlugin.class"));
         assertFalse(pluginSource.contains("registerInstance(PluginCommand.class"));
-        assertTrue(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class"));
+        assertFalse(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class"));
         assertTrue(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitRuntimeState.class"));
         assertTrue(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(MinecraftBukkitServerView.class, new BukkitServerViewAdapter(plugin.getServer()))"));
         assertTrue(bootstrapSource.contains("DependencyLoaderAccess.registerInstance(IMinecraftBukkitLogger.class"));
+        assertTrue(dependencyModuleSource.contains("registerIfMissing(IMinecraftBukkitServerConfig.class, MinecraftBukkitServerConfig.fromEnvironment(System.getenv()))"));
         assertTrue(bootstrapSource.contains("registerEvents(plugin.getMinecraftBukkitPlayerJoinHandler(), plugin)"));
         assertTrue(bootstrapSource.contains("registerEvents(plugin.getMinecraftBukkitInteractionHandler(), plugin)"));
         assertTrue(bootstrapSource.contains("registerEvents(plugin.getKingdomInventoryUiHandler(), plugin)"));

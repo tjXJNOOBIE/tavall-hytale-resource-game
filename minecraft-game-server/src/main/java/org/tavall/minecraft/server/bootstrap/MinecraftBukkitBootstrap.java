@@ -38,7 +38,6 @@ public final class MinecraftBukkitBootstrap {
     }
 
     public void initialize() {
-        DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class, plugin.getMinecraftBukkitServerConfig());
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitRuntimeState.class, new MinecraftBukkitRuntimeState(System.currentTimeMillis()));
         DependencyLoaderAccess.registerInstance(MinecraftBukkitServerView.class, new BukkitServerViewAdapter(plugin.getServer()));
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitLogger.class, new MinecraftBukkitLoggerHandler());
