@@ -355,23 +355,23 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
 
     private List<String> pageAssets(UiScreenKey pageType) {
         return switch (pageType) {
-            case CASTLE_MAIN -> List.of("ui_panel_castle_ledger_base", "ui_icon_kingdom_castle", "ui_divider_section_gold");
-            case CASTLE_INFO -> List.of("ui_panel_castle_ledger_base", "ui_badge_status_blocked");
-            case CASTLE_CITIZENS -> List.of("ui_panel_castle_ledger_base", "ui_icon_population_worker");
-            case CASTLE_TROOPS -> List.of("ui_panel_war_table_base", "ui_icon_population_troop");
-            case CASTLE_RESOURCES -> List.of("ui_panel_castle_ledger_base", "ui_icon_resource_food", "ui_icon_resource_wood", "ui_icon_resource_iron", "ui_icon_resource_gold");
-            case CASTLE_UPGRADES -> List.of("ui_panel_workshop_base", "ui_icon_action_upgrade");
-            case CASTLE_BUILDINGS -> List.of("ui_panel_workshop_base", "ui_icon_building_farmstead", "ui_icon_building_lumber_mill", "ui_icon_building_iron_works", "ui_icon_building_barracks", "ui_icon_building_workshop");
-            case FARMSTEAD_MENU -> List.of("ui_panel_workshop_base", "ui_icon_building_farmstead");
-            case NPC_MAIN -> List.of("ui_panel_npc_detail_base", "ui_icon_population_worker", "ui_icon_action_info");
-            case RESOURCE_NODE_DETAIL -> List.of("ui_panel_node_detail_base", "ui_icon_node_marker");
-            case BUILDING_DETAIL -> List.of("ui_panel_workshop_base", "ui_icon_action_move", "ui_icon_action_upgrade", "ui_icon_action_storage");
-            case INTERIOR_MAIN -> List.of("ui_panel_interior_base", "ui_icon_action_move");
-            case DEBUG_NAVIGATOR -> List.of("ui_panel_war_table_base", "ui_badge_status_progress");
-            case DEBUG_PLACEMENT -> List.of("ui_selector_building_valid", "ui_selector_corner_valid", "ui_selector_radius_ring");
-            case DEBUG_INTERIOR -> List.of("ui_panel_interior_base", "ui_badge_status_available");
-            case DEBUG_BUILDINGS -> List.of("ui_panel_workshop_base", "ui_icon_action_move");
-            case DEBUG_WORLD -> List.of("ui_panel_castle_ledger_base", "ui_icon_action_blocked", "ui_icon_node_marker");
+            case CASTLE_MAIN -> List.of("crownbound:gui/buttons/button_tab", "crownbound:gui/buttons/button_primary", "crownbound:ui/buttons/button_tab.json");
+            case CASTLE_INFO -> List.of("crownbound:gui/buttons/button_secondary", "crownbound:gui/buttons/button_icon", "crownbound:ui/buttons/button_secondary.json");
+            case CASTLE_CITIZENS -> List.of("crownbound:gui/buttons/button_primary", "crownbound:gui/buttons/button_success", "crownbound:ui/buttons/button_primary.json");
+            case CASTLE_TROOPS -> List.of("crownbound:gui/buttons/button_primary", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_danger.json");
+            case CASTLE_RESOURCES -> List.of("crownbound:gui/buttons/button_icon", "crownbound:gui/buttons/button_secondary", "crownbound:ui/buttons/button_icon.json");
+            case CASTLE_UPGRADES -> List.of("crownbound:gui/buttons/button_success", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_success.json");
+            case CASTLE_BUILDINGS -> List.of("crownbound:gui/buttons/button_primary", "crownbound:gui/buttons/button_tab", "crownbound:ui/buttons/button_primary.json");
+            case FARMSTEAD_MENU -> List.of("crownbound:gui/buttons/button_primary", "crownbound:gui/buttons/button_success", "crownbound:ui/buttons/button_primary.json");
+            case NPC_MAIN -> List.of("crownbound:gui/buttons/button_secondary", "crownbound:gui/buttons/button_icon", "crownbound:ui/buttons/button_icon.json");
+            case RESOURCE_NODE_DETAIL -> List.of("crownbound:gui/buttons/button_success", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_success.json");
+            case BUILDING_DETAIL -> List.of("crownbound:gui/buttons/button_secondary", "crownbound:gui/buttons/button_success", "crownbound:ui/buttons/button_secondary.json");
+            case INTERIOR_MAIN -> List.of("crownbound:gui/buttons/button_primary", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_primary.json");
+            case DEBUG_NAVIGATOR -> List.of("crownbound:gui/buttons/button_tab", "crownbound:gui/buttons/button_icon", "crownbound:ui/buttons/button_tab.json");
+            case DEBUG_PLACEMENT -> List.of("crownbound:gui/buttons/button_success", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_success.json");
+            case DEBUG_INTERIOR -> List.of("crownbound:gui/buttons/button_secondary", "crownbound:gui/buttons/button_icon", "crownbound:ui/buttons/button_secondary.json");
+            case DEBUG_BUILDINGS -> List.of("crownbound:gui/buttons/button_secondary", "crownbound:gui/buttons/button_primary", "crownbound:ui/buttons/button_secondary.json");
+            case DEBUG_WORLD -> List.of("crownbound:gui/buttons/button_icon", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_icon.json");
         };
     }
 }

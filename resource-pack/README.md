@@ -6,8 +6,13 @@ This folder is the local mount point for Tavall castle and building assets. The 
 
 - `castles/`
 - `buildings/`
+- `distribution/`
 
 The Minecraft server bootstrap creates these folders automatically when it starts. Keep private gameplay assets here; the server runtime handles pack delivery for you.
+
+## Bundled Pack
+
+When `distribution/crownbound_minecraft_resource_pack.zip` and `distribution/crownbound_minecraft_resource_pack.sha256.txt` exist, the server prefers that imported pack over generating a pack from the loose local asset tree.
 
 The castle and building inventory screens also preview file names from these folders so artists and devs can see which local assets are available.
 

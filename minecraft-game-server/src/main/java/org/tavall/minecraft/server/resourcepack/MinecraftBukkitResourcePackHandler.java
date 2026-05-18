@@ -28,6 +28,9 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
     private static final String DEFAULT_PACK_FILE_NAME = "pack.zip";
     private static final String DEFAULT_PACK_PATH = "/resource-pack.zip";
     private static final String DEFAULT_CONTENT_TYPE = "application/zip";
+    private static final String DEFAULT_BUNDLED_PACK_DIRECTORY = "distribution";
+    private static final String DEFAULT_BUNDLED_PACK_FILE_NAME = "crownbound_minecraft_resource_pack.zip";
+    private static final String DEFAULT_BUNDLED_CHECKSUM_FILE_NAME = "crownbound_minecraft_resource_pack.sha256.txt";
 
     private final Path explicitRoot;
     private final String explicitResourcePackUrl;
@@ -209,6 +212,7 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
     public String statusLine() {
         return "root=" + resourcePackRoot()
                 + ", archive=" + resourcePackArchive()
+                + ", bundled=" + bundledPackArchive()
                 + ", url=" + resourcePackUrl()
                 + ", castles=" + castleAssetsRoot()
                 + ", buildings=" + buildingAssetsRoot();
@@ -237,7 +241,12 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
         try {
             Files.createDirectories(resourcePackRoot());
             Path packArchive = resourcePackArchive();
-            if (Files.exists(packArchive)) {
+            Path bundledArchive = bundledPackArchive();
+            if (Files.isRegularFile(bundledArchive)) {
+                hostedPackArchiveBytes = Files.readAllBytes(bundledArchive);
+                validateBundledPackChecksum(hostedPackArchiveBytes);
+                Files.write(packArchive, hostedPackArchiveBytes);
+            } else if (Files.exists(packArchive)) {
                 hostedPackArchiveBytes = Files.readAllBytes(packArchive);
             } else {
                 hostedPackArchiveBytes = createPackArchiveBytes();
@@ -330,6 +339,44 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
         } catch (NoSuchAlgorithmException exception) {
             throw new IllegalStateException("SHA-1 digest unavailable.", exception);
         }
+    }
+
+    private static String sha256Hex(byte[] bytes) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] digest = messageDigest.digest(bytes);
+            StringBuilder builder = new StringBuilder(digest.length * 2);
+            for (byte digestByte : digest) {
+                builder.append(String.format("%02x", digestByte));
+            }
+            return builder.toString();
+        } catch (NoSuchAlgorithmException exception) {
+            throw new IllegalStateException("SHA-256 digest unavailable.", exception);
+        }
+    }
+
+    private void validateBundledPackChecksum(byte[] bundledBytes) throws IOException {
+        Path checksumPath = bundledPackChecksumFile();
+        if (!Files.isRegularFile(checksumPath)) {
+            return;
+        }
+        String checksumLine = Files.readString(checksumPath, StandardCharsets.UTF_8).trim();
+        if (checksumLine.isBlank()) {
+            return;
+        }
+        String expectedChecksum = checksumLine.split("\\s+")[0].trim().toLowerCase();
+        String actualChecksum = sha256Hex(bundledBytes);
+        if (!actualChecksum.equals(expectedChecksum)) {
+            throw new IllegalStateException("Bundled resource pack checksum mismatch. expected=" + expectedChecksum + " actual=" + actualChecksum + " file=" + bundledPackArchive());
+        }
+    }
+
+    private Path bundledPackArchive() {
+        return resourcePackRoot().resolve(DEFAULT_BUNDLED_PACK_DIRECTORY).resolve(DEFAULT_BUNDLED_PACK_FILE_NAME);
+    }
+
+    private Path bundledPackChecksumFile() {
+        return resourcePackRoot().resolve(DEFAULT_BUNDLED_PACK_DIRECTORY).resolve(DEFAULT_BUNDLED_CHECKSUM_FILE_NAME);
     }
 
     private static String escapeJson(String value) {

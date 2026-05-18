@@ -13,6 +13,7 @@ The Minecraft Bukkit frontend keeps a local resource-pack mount point for castle
 - Generate a zip from that local mount point and force it to clients on join.
 - Keep the current playable slice working while the asset tree is still being filled in.
 - The plugin bootstraps the local layout on startup and creates `castles/` and `buildings/` folders under the configured root.
+- If `distribution/crownbound_minecraft_resource_pack.zip` and its `.sha256.txt` checksum are present under that root, the server validates and serves that imported pack directly.
 - The castle and building inventory pages preview files from those folders so the UI reflects the local asset layout directly.
 - Castle pages expect filenames like `castle_main.png` and `castle_buildings.json`; building pages expect filenames like `building_detail.png` and `farmstead.json`.
 
