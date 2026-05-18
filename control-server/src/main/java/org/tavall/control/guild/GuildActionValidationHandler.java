@@ -1,6 +1,6 @@
 package org.tavall.control.guild;
 
-public final class GuildActionValidationHandler implements IGuildDomain {
+public final class GuildActionValidationHandler implements GuildDomain {
     public GuildActionValidationHandler() {
     }
 

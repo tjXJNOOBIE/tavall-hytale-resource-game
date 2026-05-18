@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class WorkloadReconciliationHandler implements IWorkloadReconciliationHandler, ICloudControlDomain {
+public final class WorkloadReconciliationHandler implements IWorkloadReconciliationHandler, CloudControlDomain {
     /**
      * Reconciliation is idempotent: desired/actual mismatches create one typed command, not repeated shell actions.
      */

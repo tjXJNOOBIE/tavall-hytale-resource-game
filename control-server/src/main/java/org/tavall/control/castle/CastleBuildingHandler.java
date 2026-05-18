@@ -6,7 +6,7 @@ import org.tavall.control.player.PlayerSession;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.interior.IInteriorInstanceHandler;
 import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.domain.AgingState;
@@ -40,7 +40,7 @@ import java.util.logging.Logger;
 /**
  * Owns upgradeable buildings tied to the castle surface or the interior world.
  */
-public final class CastleBuildingHandler implements IResourceGameDomain, ICastleBuildingHandler, IDependencyInjectableConcrete {
+public final class CastleBuildingHandler implements ResourceGameDomain, ICastleBuildingHandler, IDependencyInjectableConcrete {
     private static final Logger LOGGER = Logger.getLogger(CastleBuildingHandler.class.getName());
     private static final double SURFACE_MIN_RADIUS = 5.0D;
     private static final double SURFACE_MAX_RADIUS = 18.0D;

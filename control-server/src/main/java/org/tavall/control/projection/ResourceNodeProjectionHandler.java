@@ -5,7 +5,7 @@ import org.tavall.control.node.ResourceNode;
 
 import java.util.List;
 
-public final class ResourceNodeProjectionHandler implements IProjectionDomain {
+public final class ResourceNodeProjectionHandler implements ProjectionDomain {
     public ResourceNodeProjectionHandler() {
     }
 

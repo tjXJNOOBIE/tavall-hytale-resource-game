@@ -28,7 +28,7 @@ final class CoreRuntimeDependencyPolicyTest {
         try (var paths = Files.walk(packagePath)) {
             for (Path path : paths.filter(path -> path.toString().endsWith(".java")).toList()) {
                 if (path.getFileName().toString().equals("ControlCommandRuntimeFactory.java")
-                        || path.getFileName().toString().equals("IControlCommandDomain.java")) {
+                        || path.getFileName().toString().equals("ControlCommandDomain.java")) {
                     continue;
                 }
                 String source = Files.readString(path);

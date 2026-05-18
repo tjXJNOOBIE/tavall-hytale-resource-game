@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-public final class HealingGlobalAssetBootstrapHandler implements IHealingDomain {
+public final class HealingGlobalAssetBootstrapHandler implements HealingDomain {
     public HealingGlobalAssetBootstrapHandler() {
     }
 

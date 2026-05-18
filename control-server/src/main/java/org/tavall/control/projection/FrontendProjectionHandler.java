@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class FrontendProjectionHandler implements IProjectionDomain {
+public final class FrontendProjectionHandler implements ProjectionDomain {
     public FrontendProjectionHandler() {
     }
 

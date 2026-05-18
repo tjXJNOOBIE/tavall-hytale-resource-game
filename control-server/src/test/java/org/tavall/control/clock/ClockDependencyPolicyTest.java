@@ -18,7 +18,7 @@ final class ClockDependencyPolicyTest {
             for (Path path : paths.filter(file -> file.toString().endsWith(".java")).toList()) {
                 String source = Files.readString(path);
                 if (path.getFileName().toString().equals("KingdomClockControlSystem.java")) {
-                    assertTrue(source.contains("implements IClockDomain"), path + " should use clock domain accessors.");
+                    assertTrue(source.contains("implements ClockDomain"), path + " should use clock domain accessors.");
                     assertFalse(cachedCollaborator.matcher(source).find(), path + " should not cache dependencies.");
                 }
                 if (!path.getFileName().toString().contains("Domain.java")) {

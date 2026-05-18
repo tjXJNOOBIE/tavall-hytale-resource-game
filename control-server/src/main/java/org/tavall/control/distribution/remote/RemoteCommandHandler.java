@@ -1,7 +1,7 @@
 package org.tavall.control.distribution.remote;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.distribution.IDistributionDomain;
+import org.tavall.control.distribution.DistributionDomain;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-public final class RemoteCommandHandler implements IRemoteCommandHandler, IDistributionDomain, IDependencyInjectableConcrete {
+public final class RemoteCommandHandler implements IRemoteCommandHandler, DistributionDomain, IDependencyInjectableConcrete {
     private static final Pattern PRIVATE_KEY_BLOCK = Pattern.compile("-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", Pattern.DOTALL);
 
     public RemoteCommandResult runRemoteCommand(RemoteTarget target, RemoteCommand command) {

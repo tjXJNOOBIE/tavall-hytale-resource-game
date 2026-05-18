@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class MedicalItemCraftingHandler implements IHealingDomain {
+public final class MedicalItemCraftingHandler implements HealingDomain {
     public MedicalItemCraftingHandler() {
     }
 

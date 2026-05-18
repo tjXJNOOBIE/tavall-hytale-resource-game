@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 final class CastleDependencyPolicyTest {
     @Test
     void castleHandlersUseDomainAccessorsInsteadOfCachedCollaborators() throws IOException {
-        assertPackagePolicy(Path.of("src/main/java/org/tavall/control/castle"), "ICastleDomain");
+        assertPackagePolicy(Path.of("src/main/java/org/tavall/control/castle"), "CastleDomain");
     }
 
     private static void assertPackagePolicy(Path packagePath, String domainInterface) throws IOException {

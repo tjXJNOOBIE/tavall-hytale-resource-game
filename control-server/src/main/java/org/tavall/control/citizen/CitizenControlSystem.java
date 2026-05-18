@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class CitizenControlSystem implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenControlSystem implements CitizenDomain, IDependencyInjectableConcrete {
     private static final String DEFAULT_KINGDOM_ID = "kingdom-1";
 
     public CitizenControlSystem() {

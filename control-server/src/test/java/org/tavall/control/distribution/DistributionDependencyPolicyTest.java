@@ -75,6 +75,6 @@ final class DistributionDependencyPolicyTest {
     private boolean isAllowedCompositionFile(Path path) {
         String fileName = path.getFileName().toString();
         return fileName.equals("DistributionDependencyModule.java")
-                || fileName.equals("IDistributionDomain.java");
+                || fileName.equals("DistributionDomain.java");
     }
 }

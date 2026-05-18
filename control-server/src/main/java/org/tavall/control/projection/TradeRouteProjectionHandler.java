@@ -5,7 +5,7 @@ import org.tavall.control.trade.TradeRoute;
 
 import java.util.List;
 
-public final class TradeRouteProjectionHandler implements IProjectionDomain {
+public final class TradeRouteProjectionHandler implements ProjectionDomain {
     public TradeRouteProjectionHandler() {
     }
 

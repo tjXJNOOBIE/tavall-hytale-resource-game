@@ -1,6 +1,6 @@
 package org.tavall.control.guild;
 
-public final class GuildStatModifierCalculationHandler implements IGuildDomain {
+public final class GuildStatModifierCalculationHandler implements GuildDomain {
     public GuildStatModifierCalculationHandler() {
     }
 

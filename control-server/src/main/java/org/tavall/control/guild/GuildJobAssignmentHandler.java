@@ -5,7 +5,7 @@ import org.tavall.control.identity.UniversalPlayerId;
 import java.time.Instant;
 import java.util.HashSet;
 
-public final class GuildJobAssignmentHandler implements IGuildDomain {
+public final class GuildJobAssignmentHandler implements GuildDomain {
     public GuildJobAssignmentHandler() {
     }
 

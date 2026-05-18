@@ -28,7 +28,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class KingdomClockControlSystem implements IClockDomain {
+public final class KingdomClockControlSystem implements ClockDomain {
     public static final String DEFAULT_KINGDOM_ID = "kingdom-1";
 
     public KingdomClockControlSystem() {

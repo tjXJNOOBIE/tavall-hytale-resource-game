@@ -21,7 +21,7 @@ import redis.clients.jedis.JedisPool;
 
 import java.util.Optional;
 
-public interface ILiveOpsDomain {
+public interface LiveOpsDomain {
     default ObjectMapper getLiveOpsObjectMapper() {
         return DependencyLoaderAccess.findInstance(ObjectMapper.class);
     }

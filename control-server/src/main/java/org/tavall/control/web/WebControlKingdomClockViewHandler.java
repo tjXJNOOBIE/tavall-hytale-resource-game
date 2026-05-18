@@ -1,13 +1,13 @@
 package org.tavall.control.web;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.control.clock.KingdomClockProjection;
 import org.tavall.control.clock.KingdomClockState;
 import org.tavall.control.clock.KingdomScheduleProjection;
 import org.tavall.control.common.GamePlatform;
 import org.tavall.control.runtime.ControlCommandResult;
 
-public final class WebControlKingdomClockViewHandler implements IWebControlKingdomClockViewHandler, IControlServerDomain {
+public final class WebControlKingdomClockViewHandler implements IWebControlKingdomClockViewHandler, ControlServerDomain {
     public String body(String kingdomId, ControlCommandResult result) {
         KingdomClockState state = getControlCommandRuntime().kingdomClockSystem().getCurrentClockState(kingdomId);
         KingdomClockProjection clockProjection = getControlCommandRuntime().kingdomClockSystem().projectClockState(kingdomId, GamePlatform.PC);

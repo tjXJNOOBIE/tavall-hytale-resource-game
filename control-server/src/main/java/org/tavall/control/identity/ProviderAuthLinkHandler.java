@@ -3,7 +3,7 @@ package org.tavall.control.identity;
 import java.time.Instant;
 import java.util.UUID;
 
-public final class ProviderAuthLinkHandler implements IIdentityDomain {
+public final class ProviderAuthLinkHandler implements IdentityDomain {
     public ProviderAuthLinkHandler() {
     }
 

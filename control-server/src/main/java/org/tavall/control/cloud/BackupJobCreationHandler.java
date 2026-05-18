@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class BackupJobCreationHandler implements IBackupJobCreationHandler, ICloudControlDomain {
+public final class BackupJobCreationHandler implements IBackupJobCreationHandler, CloudControlDomain {
     public BackupJob createAndCommand(BackupPlan plan, String sourcePath, UUID requestedBy, java.time.Instant now) {
         if (sourcePath == null || sourcePath.isBlank()) {
             throw new IllegalArgumentException("Backup source path is required.");

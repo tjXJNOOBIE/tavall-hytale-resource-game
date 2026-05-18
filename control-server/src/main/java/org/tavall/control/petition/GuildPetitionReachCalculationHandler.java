@@ -3,9 +3,9 @@ package org.tavall.control.petition;
 import org.tavall.control.guild.GuildJobBuffCalculationHandler;
 import org.tavall.control.guild.GuildJobDomain;
 import org.tavall.control.guild.GuildMemberProfile;
-import org.tavall.control.guild.IGuildDomain;
+import org.tavall.control.guild.GuildDomain;
 
-public final class GuildPetitionReachCalculationHandler implements IPetitionDomain, IGuildDomain {
+public final class GuildPetitionReachCalculationHandler implements PetitionDomain, GuildDomain {
     public GuildPetitionReachCalculationHandler() {
     }
 

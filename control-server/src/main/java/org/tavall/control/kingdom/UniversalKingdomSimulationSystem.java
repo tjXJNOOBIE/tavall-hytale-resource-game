@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class UniversalKingdomSimulationSystem implements IKingdomDomain {
+public final class UniversalKingdomSimulationSystem implements KingdomDomain {
     private static final double DEFAULT_BORDER_SIZE = 1000.0;
     private static final String DEFAULT_WORLD_ID = "default";
 
@@ -1539,7 +1539,7 @@ public final class UniversalKingdomSimulationSystem implements IKingdomDomain {
         CANCELLED
     }
 
-    public static final class PlatformInstanceSelectionHandler implements IKingdomDomain {
+    public static final class PlatformInstanceSelectionHandler implements KingdomDomain {
         public PlatformInstanceSelectionHandler() {
         }
 
@@ -1602,7 +1602,7 @@ public final class UniversalKingdomSimulationSystem implements IKingdomDomain {
         NEW_PLAYER_ROUTING
     }
 
-    public static final class EditableParameterDefinitionRegistryHandler implements IKingdomDomain {
+    public static final class EditableParameterDefinitionRegistryHandler implements KingdomDomain {
         public EditableParameterDefinitionRegistryHandler() {
         }
 

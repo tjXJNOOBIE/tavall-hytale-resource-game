@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class ControlAuthorizationHandler implements IControlAuthorizationHandler, IControlAuthorityDomain {
+public final class ControlAuthorizationHandler implements IControlAuthorizationHandler, ControlAuthorityDomain {
     /**
      * Authorization always evaluates a command policy before authority grants so C-level alone never means access.
      */

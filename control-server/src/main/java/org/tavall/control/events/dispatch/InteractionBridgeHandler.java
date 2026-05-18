@@ -1,6 +1,6 @@
 package org.tavall.control.events.dispatch;
 
-import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.GameEventDomain;
 import org.tavall.control.events.core.BasicGameEvent;
 import org.tavall.control.events.core.EventSource;
 import org.tavall.control.events.core.GameEvent;
@@ -10,7 +10,7 @@ import org.tavall.control.events.core.GameEventType;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class InteractionBridgeHandler implements IGameEventDomain {
+public final class InteractionBridgeHandler implements GameEventDomain {
     public GameEvent translate(FrontendInteractionRequest request) {
         GameEventType eventType = getEventInteractionMappingRegistry().eventTypeFor(request.actionId());
         Map<String, String> attributes = new LinkedHashMap<>(request.payload());

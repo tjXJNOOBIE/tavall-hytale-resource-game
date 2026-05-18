@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class WorkloadRequestHandler implements IWorkloadRequestHandler, ICloudControlDomain {
+public final class WorkloadRequestHandler implements IWorkloadRequestHandler, CloudControlDomain {
     public CloudWorkload createDesiredWorkload(WorkloadRequest request, Instant now) {
         NodeSchedulingDecision decision = getNodeSchedulerHandler().plan(request);
         if (!decision.success()) {

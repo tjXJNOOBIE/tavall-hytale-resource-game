@@ -1,6 +1,6 @@
 package org.tavall.control.web;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshotResult;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 
 @RestController
-public class MinecraftServerSnapshotIngressController implements IControlServerDomain {
+public class MinecraftServerSnapshotIngressController implements ControlServerDomain {
     @PostMapping("/api/frontend/minecraft/server-snapshots")
     public ResponseEntity<MinecraftServerRuntimeSnapshotResult> ingestMinecraftServerSnapshot(@RequestBody MinecraftServerRuntimeSnapshot snapshot) {
         MinecraftServerRuntimeSnapshotResult result = getMinecraftServerSnapshotIngressHandler().ingest(snapshot, Instant.now());

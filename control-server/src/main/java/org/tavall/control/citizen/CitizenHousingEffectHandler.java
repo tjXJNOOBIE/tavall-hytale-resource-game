@@ -2,7 +2,7 @@ package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
-public final class CitizenHousingEffectHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenHousingEffectHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public double modifier(CitizenHousingState housingState) {
         return switch (housingState) {
             case HOUSED -> 1.0;

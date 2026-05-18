@@ -1,7 +1,7 @@
 package org.tavall.control.dependency;
 
 import org.tavall.control.ResourceGamePlugin;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ public final class ResourceGameDependencyBootstrapTest {
 
     @Test
     void pluginImplementsResourceGameDomain() {
-        assertTrue(IResourceGameDomain.class.isAssignableFrom(ResourceGamePlugin.class));
+        assertTrue(ResourceGameDomain.class.isAssignableFrom(ResourceGamePlugin.class));
     }
 
     @Test

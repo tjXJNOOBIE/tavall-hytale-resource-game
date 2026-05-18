@@ -1,11 +1,11 @@
 package org.tavall.control.events.middleware;
 
-import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.GameEventDomain;
 import org.tavall.control.events.core.EventSource;
 import org.tavall.control.events.core.GameEventContext;
 import org.tavall.control.events.core.GameEventResult;
 
-public final class EventDistributedForwardingMiddleware implements GameEventMiddleware, IGameEventDomain {
+public final class EventDistributedForwardingMiddleware implements GameEventMiddleware, GameEventDomain {
     @Override
     public GameEventResult handle(GameEventContext context, GameEventMiddlewareChain chain) {
         GameEventResult result = chain.proceed(context);

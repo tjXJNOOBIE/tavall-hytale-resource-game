@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class PlatformAssetVersionRegistrationHandler implements IAssetDomain {
+public final class PlatformAssetVersionRegistrationHandler implements AssetDomain {
     public PlatformAssetVersionRegistrationHandler() {
     }
 

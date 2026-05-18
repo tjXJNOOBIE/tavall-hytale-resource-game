@@ -4,7 +4,7 @@ import org.tavall.control.guild.GuildId;
 import org.tavall.control.guild.GuildJobBuffCalculationHandler;
 import org.tavall.control.guild.GuildJobDomain;
 import org.tavall.control.guild.GuildMemberProfile;
-import org.tavall.control.guild.IGuildDomain;
+import org.tavall.control.guild.GuildDomain;
 import org.tavall.control.identity.UniversalPlayerId;
 import org.tavall.control.node.MiddlewareResourceType;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class GuildTaxCollectionHandler implements IEconomyDomain, IGuildDomain {
+public final class GuildTaxCollectionHandler implements EconomyDomain, GuildDomain {
     public GuildTaxCollectionHandler() {
     }
 

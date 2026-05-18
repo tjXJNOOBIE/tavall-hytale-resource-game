@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.protection;
 
-import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public final class MinecraftBukkitStructureProtectionHandler implements IMinecraftBukkitStructureProtectionHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitStructureProtectionHandler implements IMinecraftBukkitStructureProtectionHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private static final String CASTLE_REASON = "Castle structures are protected. Use the castle menu instead.";
     private static final String BUILDING_REASON = "Building structures are protected. Use the building menu instead.";
 

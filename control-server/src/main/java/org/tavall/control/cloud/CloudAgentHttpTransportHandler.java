@@ -10,7 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-public final class CloudAgentHttpTransportHandler implements ICloudAgentTransportHandler, ICloudAgentDomain, IDependencyInjectableConcrete {
+public final class CloudAgentHttpTransportHandler implements ICloudAgentTransportHandler, CloudAgentDomain, IDependencyInjectableConcrete {
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
     @Override

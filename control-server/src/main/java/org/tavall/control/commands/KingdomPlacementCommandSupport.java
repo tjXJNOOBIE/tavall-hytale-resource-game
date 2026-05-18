@@ -7,7 +7,7 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.PlacementRequest;
 import org.tavall.control.domain.PlacementResult;
@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Handles `/kd place ...` command flows.
  */
-public final class KingdomPlacementCommandSupport implements IResourceGameDomain, IDependencyInjectableConcrete {
+public final class KingdomPlacementCommandSupport implements ResourceGameDomain, IDependencyInjectableConcrete {
     public void handle(CommandContext context, Player player, List<String> tokens) {
         if (tokens.size() < 2) {
             context.sendMessage(Message.raw("Usage: /kd place castle|node <type>|building <type>|confirm [here]|move <dx> [dy] <dz>|cancel|status|preview").color("yellow"));

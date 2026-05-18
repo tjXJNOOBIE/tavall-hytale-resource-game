@@ -1,7 +1,7 @@
 package org.tavall.control.events.dispatch;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.GameEventDomain;
 import org.tavall.control.events.core.BasicGameEvent;
 import org.tavall.control.events.core.EventSource;
 import org.tavall.control.events.middleware.RedisGameEventEnvelope;
@@ -11,7 +11,7 @@ import redis.clients.jedis.JedisPubSub;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-public final class RedisGameEventSubscriber implements IGameEventDomain, IDependencyInjectableConcrete, AutoCloseable {
+public final class RedisGameEventSubscriber implements GameEventDomain, IDependencyInjectableConcrete, AutoCloseable {
     private volatile JedisPubSub subscription;
     private volatile Future<?> future;
 

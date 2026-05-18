@@ -6,7 +6,7 @@ import org.tavall.control.asset.GlobalAssetResolutionHandler;
 import org.tavall.control.event.DomainEventPublisher;
 import org.tavall.control.troop.TroopRepository;
 
-public interface IHealingDomain {
+public interface HealingDomain {
     default GlobalAssetRepository getGlobalAssetRepository() {
         return DependencyLoaderAccess.findInstance(GlobalAssetRepository.class);
     }

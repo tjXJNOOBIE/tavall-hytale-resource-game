@@ -2,7 +2,7 @@ package org.tavall.control.guild;
 
 import java.time.Instant;
 
-public final class GuildUpgradePurchaseHandler implements IGuildDomain {
+public final class GuildUpgradePurchaseHandler implements GuildDomain {
     public GuildUpgradePurchaseHandler() {
     }
 

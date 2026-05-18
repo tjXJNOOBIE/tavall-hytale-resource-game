@@ -14,13 +14,13 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class OpenFarmsteadInteraction extends SimpleInstantInteraction implements IResourceGameDomain {
+public final class OpenFarmsteadInteraction extends SimpleInstantInteraction implements ResourceGameDomain {
     public static final String ROOT_INTERACTION_ID = "Tavall_Open_Farmstead_Menu";
     public static final String LEGACY_ROOT_INTERACTION_ID = "OpenFarmstead";
     public static final String INTERACTION_TYPE_ID = "tavall:open_farmstead_menu";

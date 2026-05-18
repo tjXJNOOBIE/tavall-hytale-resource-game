@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class RestoreJobCreationHandler implements IRestoreJobCreationHandler, ICloudControlDomain {
+public final class RestoreJobCreationHandler implements IRestoreJobCreationHandler, CloudControlDomain {
     /**
      * Restore is intentionally gated by backup verification and the high-risk RESTORE_BACKUP command policy.
      */

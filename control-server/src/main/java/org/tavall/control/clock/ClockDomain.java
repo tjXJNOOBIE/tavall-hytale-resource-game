@@ -6,7 +6,7 @@ import org.tavall.control.event.RecordingDomainEventPublisher;
 
 import java.time.Clock;
 
-public interface IClockDomain {
+public interface ClockDomain {
     default KingdomClockRepository getKingdomClockRepository() {
         return DependencyLoaderAccess.findOptionalInstance(KingdomClockRepository.class)
                 .orElseGet(() -> registerKingdomClockRepository(new InMemoryKingdomClockRepository()));

@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public final class FrontendCommandIngressHandler implements IControlCommandDomain, IDependencyInjectableConcrete {
+public final class FrontendCommandIngressHandler implements ControlCommandDomain, IDependencyInjectableConcrete {
     public FrontendCommandVerificationResult ingest(FrontendCommandEnvelope envelope, Instant now) {
         Optional<GamePlatform> gamePlatform = toGamePlatform(envelope.platform());
         if (gamePlatform.isEmpty()) {

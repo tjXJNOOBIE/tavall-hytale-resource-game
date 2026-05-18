@@ -9,7 +9,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.function.ToIntFunction;
 
-public final class CitizenAggregationCalculationHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenAggregationCalculationHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenAggregationCalculationHandler() {
     }
 

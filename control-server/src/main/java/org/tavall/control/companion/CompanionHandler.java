@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class CompanionHandler implements ICompanionDomain {
+public final class CompanionHandler implements CompanionDomain {
     public CompanionHandler() {
     }
 

@@ -6,7 +6,7 @@ import org.tavall.control.troop.Troop;
 
 import java.util.Optional;
 
-public final class MinecraftTroopHealingProjectionHandler implements IHealingDomain {
+public final class MinecraftTroopHealingProjectionHandler implements HealingDomain {
     public MinecraftTroopHealingProjectionHandler() {
     }
 

@@ -1,11 +1,11 @@
 package org.tavall.control.events.middleware;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.GameEventDomain;
 import org.tavall.control.events.core.GameEvent;
 import redis.clients.jedis.Jedis;
 
-public final class RedisGameEventForwarder implements DistributedEventForwarder, IGameEventDomain, IDependencyInjectableConcrete {
+public final class RedisGameEventForwarder implements DistributedEventForwarder, GameEventDomain, IDependencyInjectableConcrete {
     @Override
     public void forward(GameEvent event) {
         try (Jedis jedis = getGameEventRedisPool().getResource()) {

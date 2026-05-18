@@ -3,7 +3,7 @@ package org.tavall.minecraft.server.snapshot;
 import org.tavall.api.minecraft.MinecraftPlayerRuntimeSnapshot;
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
-import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
 import org.tavall.minecraft.server.view.MinecraftBukkitPlayerView;
 import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class MinecraftBukkitSnapshotHandler implements IMinecraftBukkitSnapshotHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitSnapshotHandler implements IMinecraftBukkitSnapshotHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     @Override
     public MinecraftServerRuntimeSnapshot createSnapshot(MinecraftBukkitServerView serverView, long observedAtEpochMillis) {
         List<MinecraftPlayerRuntimeSnapshot> players = new ArrayList<MinecraftPlayerRuntimeSnapshot>();

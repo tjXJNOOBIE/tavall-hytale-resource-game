@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class KingdomAccountGui implements IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class KingdomAccountGui implements MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     public boolean open(Player player) {
         return open(player, "kd account");
     }

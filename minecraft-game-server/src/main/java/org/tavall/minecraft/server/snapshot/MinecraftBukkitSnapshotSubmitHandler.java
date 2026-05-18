@@ -1,12 +1,12 @@
 package org.tavall.minecraft.server.snapshot;
 
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
-import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
 
-public final class MinecraftBukkitSnapshotSubmitHandler implements IMinecraftBukkitSnapshotSubmitHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitSnapshotSubmitHandler implements IMinecraftBukkitSnapshotSubmitHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     @Override
     public void submitSnapshotQuietly() {
         try {

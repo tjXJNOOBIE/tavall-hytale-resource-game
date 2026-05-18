@@ -3,7 +3,7 @@ package org.tavall.control.security;
 import java.time.Instant;
 import java.util.UUID;
 
-public final class TwoFactorVerificationHandler implements ISecurityDomain {
+public final class TwoFactorVerificationHandler implements SecurityDomain {
     public TwoFactorVerificationHandler() {
     }
 

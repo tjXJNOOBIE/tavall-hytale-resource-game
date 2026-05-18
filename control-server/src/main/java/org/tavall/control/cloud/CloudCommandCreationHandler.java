@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.tavall.control.runtime.ControlOperator;
 
-public final class CloudCommandCreationHandler implements ICloudCommandCreationHandler, ICloudControlDomain {
+public final class CloudCommandCreationHandler implements ICloudCommandCreationHandler, CloudControlDomain {
     public CloudCommand create(UUID nodeId, CloudCommandType commandType, String payloadJson, UUID requestedBy, UUID correlationId, Instant now) {
         getCloudCommandValidationHandler().validate(commandType, payloadJson);
         if (!requestedBy.equals(ControlOperator.localOwner(now).operatorId())) {

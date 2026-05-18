@@ -1,9 +1,9 @@
 package org.tavall.control.node;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import org.tavall.control.guild.IGuildDomain;
+import org.tavall.control.guild.GuildDomain;
 
-public interface IResourceNodeDomain extends IGuildDomain {
+public interface ResourceNodeDomain extends GuildDomain {
     default ResourceNodeRepository getResourceNodeRepository() {
         return DependencyLoaderAccess.findOptionalInstance(ResourceNodeRepository.class)
                 .orElseGet(() -> registerResourceNodeRepository(new InMemoryResourceNodeRepository()));

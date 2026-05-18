@@ -3,7 +3,7 @@ package org.tavall.control.distribution.remote;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.tavall.control.distribution.IDistributionDomain;
+import org.tavall.control.distribution.DistributionDomain;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class DistributedTestRunnerHandler implements IDistributedTestRunnerHandler, IDistributionDomain {
+public final class DistributedTestRunnerHandler implements IDistributedTestRunnerHandler, DistributionDomain {
     public DistributedSmokeTestResult runDistributedSmokeTest(DistributedTestPlan plan) {
         Instant startedAt = Instant.now();
         RemoteEnvironmentSnapshot snapshot = plan.target().localTarget()

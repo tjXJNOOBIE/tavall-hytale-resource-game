@@ -2,12 +2,12 @@ package org.tavall.control;
 
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.bootstrap.ControlServerBootstrap;
 
 import javax.annotation.Nonnull;
 
-public class ResourceGamePlugin extends JavaPlugin implements IResourceGameDomain {
+public class ResourceGamePlugin extends JavaPlugin implements ResourceGameDomain {
     private final ControlServerBootstrap bootstrap = new ControlServerBootstrap();
 
     public ResourceGamePlugin(@Nonnull JavaPluginInit init) {

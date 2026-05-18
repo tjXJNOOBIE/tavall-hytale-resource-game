@@ -99,7 +99,7 @@ public final class CompanionHandlerTest {
     void domainAccessorsResolveRegisteredCompanionGraph() {
         CompanionRepository repository = new InMemoryCompanionRepository();
         CompanionHandler service = CompanionHandler.withRepository(repository);
-        ICompanionDomain domain = new ICompanionDomain() {
+        CompanionDomain domain = new CompanionDomain() {
         };
 
         assertEquals(service, domain.getCompanionHandler());

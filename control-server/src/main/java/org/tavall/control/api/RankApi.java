@@ -1,6 +1,6 @@
 package org.tavall.control.api;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.runtime.ControlOperator;
 import org.tavall.control.runtime.ControlOperatorRepository;
@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class RankApi implements IControlServerDomain, IDependencyInjectableConcrete {
+public final class RankApi implements ControlServerDomain, IDependencyInjectableConcrete {
     public RankResponse inspect(RankRequest request, Instant now) {
         if (request == null) {
             return RankResponse.unavailable("rank-unavailable", "Rank request was null.");

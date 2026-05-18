@@ -1,6 +1,6 @@
 package org.tavall.control.api;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import org.tavall.control.identity.PlatformAccountBinding;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public final class PlayerDataApi implements IControlServerDomain, IDependencyInjectableConcrete {
+public final class PlayerDataApi implements ControlServerDomain, IDependencyInjectableConcrete {
     public PlayerDataResponse inspect(PlayerDataRequest request, Instant now) {
         if (request == null) {
             return PlayerDataResponse.unavailable(null, "Player data request was null.");

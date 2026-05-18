@@ -13,7 +13,7 @@ import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
 import org.tavall.minecraft.server.visual.IMinecraftBukkitVisualHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface IMinecraftBukkitServerDomain {
+public interface MinecraftBukkitServerDomain {
     default IMinecraftBukkitServerConfig getMinecraftBukkitServerConfig() {
         return DependencyLoaderAccess.requireInstance(IMinecraftBukkitServerConfig.class);
     }

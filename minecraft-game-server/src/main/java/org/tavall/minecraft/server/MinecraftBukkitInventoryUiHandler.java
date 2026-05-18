@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkitInventoryUiHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkitInventoryUiHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private static final NamespacedKey ACTION_KEY = new NamespacedKey("tavall", "kingdom_action");
     private static final NamespacedKey PAYLOAD_KEY = new NamespacedKey("tavall", "kingdom_payload");
 

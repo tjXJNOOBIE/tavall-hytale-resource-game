@@ -4,7 +4,7 @@ import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
 import java.security.SecureRandom;
 
-public interface ISecurityDomain {
+public interface SecurityDomain {
     default ProtectedSecretCodec getProtectedSecretCodec() {
         return DependencyLoaderAccess.findOptionalInstance(ProtectedSecretCodec.class)
                 .orElseGet(() -> registerProtectedSecretCodec(new IsolatedSecretCodec()));

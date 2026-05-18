@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
-public final class ControlCommandAuditLogHandler implements IControlCommandDomain, IDependencyInjectableConcrete {
+public final class ControlCommandAuditLogHandler implements ControlCommandDomain, IDependencyInjectableConcrete {
     public ControlCommandAuditLog logCompletedCommand(ControlCommand command, ControlCommandResult result, Instant completedAt) {
         ControlCommandAuditLog auditLog = new ControlCommandAuditLog(
                 UUID.randomUUID(),

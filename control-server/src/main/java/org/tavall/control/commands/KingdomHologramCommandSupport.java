@@ -11,7 +11,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.tasks.WorldTasks;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 /**
  * Debug command helpers for spawning and clearing hologram-style world labels.
  */
-public final class KingdomHologramCommandSupport implements IResourceGameDomain, IDependencyInjectableConcrete {
+public final class KingdomHologramCommandSupport implements ResourceGameDomain, IDependencyInjectableConcrete {
     private static final Logger LOGGER = Logger.getLogger(KingdomHologramCommandSupport.class.getName());
 
     private final Map<UUID, List<Ref<EntityStore>>> hologramRefs = new ConcurrentHashMap<>();

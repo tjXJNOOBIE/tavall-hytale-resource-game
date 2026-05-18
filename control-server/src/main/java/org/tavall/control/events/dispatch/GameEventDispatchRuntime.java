@@ -1,11 +1,11 @@
 package org.tavall.control.events.dispatch;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.GameEventDomain;
 import org.tavall.control.events.middleware.EventDispatchMetricsMiddleware;
 import org.tavall.control.events.middleware.GameEventAuditHandler;
 
-public final class GameEventDispatchRuntime implements IGameEventDomain, IDependencyInjectableConcrete {
+public final class GameEventDispatchRuntime implements GameEventDomain, IDependencyInjectableConcrete {
     public GameEventDispatchHandler dispatchHandler() {
         return getGameEventDispatchHandler();
     }

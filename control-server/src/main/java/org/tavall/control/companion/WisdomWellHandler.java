@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class WisdomWellHandler implements ICompanionDomain {
+public final class WisdomWellHandler implements CompanionDomain {
     public WisdomWellHandler() {
     }
 

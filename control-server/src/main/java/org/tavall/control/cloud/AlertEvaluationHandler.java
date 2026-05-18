@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class AlertEvaluationHandler implements IAlertEvaluationHandler, ICloudControlDomain {
+public final class AlertEvaluationHandler implements IAlertEvaluationHandler, CloudControlDomain {
     public Optional<CloudAlert> evaluateHeartbeat(CloudNode node, Instant now, Duration threshold) {
         if (node.lastHeartbeatAt().plus(threshold).isAfter(now)) {
             return Optional.empty();

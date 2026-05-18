@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class TwoFactorEnrollmentHandler implements ISecurityDomain {
+public final class TwoFactorEnrollmentHandler implements SecurityDomain {
     public TwoFactorEnrollmentHandler() {
     }
 

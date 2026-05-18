@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public final class CitizenCreationHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenCreationHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenCreationHandler() {
     }
 

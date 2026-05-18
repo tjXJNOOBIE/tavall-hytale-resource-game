@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class ControlPlatformFanoutRetryHandler implements IControlCommandDomain, IDependencyInjectableConcrete {
+public final class ControlPlatformFanoutRetryHandler implements ControlCommandDomain, IDependencyInjectableConcrete {
     private static final int DEFAULT_MAX_ATTEMPTS = 5;
     private static final Duration DEFAULT_RETRY_DELAY = Duration.ofMinutes(1L);
 

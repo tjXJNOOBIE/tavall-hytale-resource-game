@@ -5,7 +5,7 @@ import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public final class CitizenProjectionHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenProjectionHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenPopulationProjection projectPopulation(CitizenSummaryBundle summary) {
         CitizenPopulationSummary population = summary.populationSummary();
         return new CitizenPopulationProjection(

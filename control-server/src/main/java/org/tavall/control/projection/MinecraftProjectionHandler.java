@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public final class MinecraftProjectionHandler implements IProjectionDomain {
+public final class MinecraftProjectionHandler implements ProjectionDomain {
     public MinecraftProjectionHandler() {
     }
 

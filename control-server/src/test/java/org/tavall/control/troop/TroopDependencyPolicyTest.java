@@ -19,7 +19,7 @@ final class TroopDependencyPolicyTest {
             for (Path path : paths.filter(file -> file.toString().endsWith(".java")).toList()) {
                 String source = Files.readString(path);
                 if (path.getFileName().toString().endsWith("Handler.java")) {
-                    assertTrue(source.contains("implements ITroopDomain"), path + " should use troop domain accessors.");
+                    assertTrue(source.contains("implements TroopDomain"), path + " should use troop domain accessors.");
                     assertFalse(cachedCollaborator.matcher(source).find(), path + " should not cache dependencies.");
                 }
                 if (!path.getFileName().toString().contains("Domain.java")) {

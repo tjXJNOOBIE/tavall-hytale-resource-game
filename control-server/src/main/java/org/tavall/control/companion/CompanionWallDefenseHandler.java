@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class CompanionWallDefenseHandler implements ICompanionDomain {
+public final class CompanionWallDefenseHandler implements CompanionDomain {
     public CompanionWallDefenseHandler() {
     }
 

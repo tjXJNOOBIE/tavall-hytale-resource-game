@@ -5,7 +5,7 @@ import org.tavall.control.asset.GlobalAssetResolutionHandler;
 import org.tavall.control.asset.ResolvedPlatformAsset;
 import org.tavall.control.common.GamePlatform;
 
-public final class GlobalAssetProjectionHandler implements IProjectionDomain {
+public final class GlobalAssetProjectionHandler implements ProjectionDomain {
     public GlobalAssetProjectionHandler() {
     }
 

@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public final class DiscordProjectionHandler implements IProjectionDomain {
+public final class DiscordProjectionHandler implements ProjectionDomain {
     public DiscordProjectionHandler() {
     }
 

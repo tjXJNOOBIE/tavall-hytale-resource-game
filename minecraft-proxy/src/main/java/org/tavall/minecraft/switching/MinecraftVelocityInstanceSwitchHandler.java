@@ -3,7 +3,7 @@ package org.tavall.minecraft.switching;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import org.tavall.minecraft.routing.MinecraftVelocityCommandResult;
-import org.tavall.minecraft.runtime.IMinecraftFrontendDomain;
+import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletionException;
 
-public final class MinecraftVelocityInstanceSwitchHandler implements IMinecraftVelocityInstanceSwitchHandler, IMinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftVelocityInstanceSwitchHandler implements IMinecraftVelocityInstanceSwitchHandler, MinecraftFrontendDomain, IDependencyInjectableConcrete {
     @Override
     public MinecraftVelocityCommandResult dispatchSwitchIfPresent(MinecraftVelocityCommandSource source, FrontendCommandVerificationResult switchRequestResult) {
         String switchRequestId = switchRequestResult.metadata().get("instanceSwitchRequestId");

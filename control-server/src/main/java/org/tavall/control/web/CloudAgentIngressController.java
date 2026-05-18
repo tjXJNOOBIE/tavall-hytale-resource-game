@@ -3,7 +3,7 @@ package org.tavall.control.web;
 import org.tavall.control.cloud.CloudAgentHeartbeatPayload;
 import org.tavall.control.cloud.CloudCommand;
 import org.tavall.control.cloud.CloudCommandResult;
-import org.tavall.control.cloud.ICloudControlDomain;
+import org.tavall.control.cloud.CloudControlDomain;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-public final class CloudAgentIngressController implements ICloudControlDomain {
+public final class CloudAgentIngressController implements CloudControlDomain {
     @PostMapping("/api/cloud/agent/{nodeId}/heartbeat")
     public ResponseEntity<Map<String, Object>> heartbeat(
             @PathVariable UUID nodeId,

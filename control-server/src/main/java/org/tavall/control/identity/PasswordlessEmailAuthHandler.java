@@ -1,6 +1,6 @@
 package org.tavall.control.identity;
 
-import org.tavall.control.security.ISecurityDomain;
+import org.tavall.control.security.SecurityDomain;
 import org.tavall.control.security.TokenHasher;
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class PasswordlessEmailAuthHandler implements IIdentityDomain, ISecurityDomain {
+public final class PasswordlessEmailAuthHandler implements IdentityDomain, SecurityDomain {
     private static final int MAX_ATTEMPTS = 5;
 
     public PasswordlessEmailAuthHandler() {

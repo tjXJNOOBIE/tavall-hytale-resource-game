@@ -1,8 +1,8 @@
 package org.tavall.control.liveops.config;
 
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 
-public final class GameRuleHandler implements ILiveOpsDomain {
+public final class GameRuleHandler implements LiveOpsDomain {
     public boolean isEnabled(String key) {
         return getLiveConfigRegistry().isEnabled(key);
     }

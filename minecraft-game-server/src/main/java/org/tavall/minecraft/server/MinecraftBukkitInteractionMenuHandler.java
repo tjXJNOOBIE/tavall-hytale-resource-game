@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class MinecraftBukkitInteractionMenuHandler implements IMinecraftBukkitInteractionMenuHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitInteractionMenuHandler implements IMinecraftBukkitInteractionMenuHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private static final NamespacedKey ACTION_KEY = new NamespacedKey("tavall", "interaction_action");
     private static final NamespacedKey ELEMENT_KEY = new NamespacedKey("tavall", "interaction_element");
     private static final NamespacedKey PAYLOAD_KEY = new NamespacedKey("tavall", "interaction_payload");

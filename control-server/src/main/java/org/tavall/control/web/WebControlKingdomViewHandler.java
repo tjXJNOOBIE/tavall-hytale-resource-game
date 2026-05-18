@@ -1,10 +1,10 @@
 package org.tavall.control.web;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.control.runtime.ControlCommandResult;
 import org.tavall.control.kingdom.UniversalKingdomSimulationSystem;
 
-public final class WebControlKingdomViewHandler implements IWebControlKingdomViewHandler, IControlServerDomain {
+public final class WebControlKingdomViewHandler implements IWebControlKingdomViewHandler, ControlServerDomain {
     public String body(ControlCommandResult result) {
         StringBuilder builder = new StringBuilder();
         builder.append("<section><h2>Create</h2><form method=\"post\" action=\"/control/kingdoms/create\">")

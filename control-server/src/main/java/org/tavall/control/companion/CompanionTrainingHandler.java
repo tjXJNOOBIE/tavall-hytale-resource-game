@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 
-public final class CompanionTrainingHandler implements ICompanionDomain {
+public final class CompanionTrainingHandler implements CompanionDomain {
     public CompanionTrainingHandler() {
     }
 

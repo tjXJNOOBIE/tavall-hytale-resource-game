@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
-public final class NodeMetricIngestionHandler implements INodeMetricIngestionHandler, ICloudControlDomain {
+public final class NodeMetricIngestionHandler implements INodeMetricIngestionHandler, CloudControlDomain {
     private static final double WARNING_THRESHOLD = 90.0D;
     private static final double CRITICAL_THRESHOLD = 95.0D;
 

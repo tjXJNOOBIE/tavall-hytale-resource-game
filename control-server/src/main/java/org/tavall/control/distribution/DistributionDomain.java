@@ -14,7 +14,7 @@ import java.time.Clock;
 /**
  * Domain equivalent for distributed runtime dependencies.
  */
-public interface IDistributionDomain {
+public interface DistributionDomain {
     default Clock getDistributionClock() {
         return DependencyLoaderAccess.findInstance(Clock.class);
     }

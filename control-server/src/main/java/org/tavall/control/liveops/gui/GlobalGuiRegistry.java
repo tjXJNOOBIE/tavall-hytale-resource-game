@@ -2,7 +2,7 @@ package org.tavall.control.liveops.gui;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 import org.tavall.control.liveops.config.LiveConfigValidationException;
 
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class GlobalGuiRegistry implements ILiveOpsDomain {
+public final class GlobalGuiRegistry implements LiveOpsDomain {
     private final Map<String, GlobalGuiDefinition> definitionsByKey = new ConcurrentHashMap<>();
 
     public void reload(Collection<GlobalGuiDefinition> definitions) {

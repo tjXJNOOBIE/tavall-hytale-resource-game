@@ -2,7 +2,7 @@ package org.tavall.control.companion;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface ICompanionDomain {
+public interface CompanionDomain {
     default CompanionRepository getCompanionRepository() {
         return DependencyLoaderAccess.findInstance(CompanionRepository.class);
     }

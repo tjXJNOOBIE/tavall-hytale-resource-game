@@ -5,7 +5,7 @@ import org.tavall.control.common.GamePlatform;
 
 import java.util.List;
 
-public final class CastleProjectionHandler implements IProjectionDomain {
+public final class CastleProjectionHandler implements ProjectionDomain {
     public CastleProjectionHandler() {
     }
 

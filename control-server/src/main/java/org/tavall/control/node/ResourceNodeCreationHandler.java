@@ -8,7 +8,7 @@ import org.tavall.control.identity.UniversalPlayerId;
 import java.util.Map;
 import java.util.Optional;
 
-public final class ResourceNodeCreationHandler implements IResourceNodeDomain {
+public final class ResourceNodeCreationHandler implements ResourceNodeDomain {
     public ResourceNodeCreationHandler() {
     }
 

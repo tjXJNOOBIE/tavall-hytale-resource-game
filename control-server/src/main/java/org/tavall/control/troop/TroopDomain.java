@@ -2,7 +2,7 @@ package org.tavall.control.troop;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface ITroopDomain {
+public interface TroopDomain {
     default TroopRepository getTroopRepository() {
         return DependencyLoaderAccess.findOptionalInstance(TroopRepository.class)
                 .orElseGet(() -> registerTroopRepository(new InMemoryTroopRepository()));

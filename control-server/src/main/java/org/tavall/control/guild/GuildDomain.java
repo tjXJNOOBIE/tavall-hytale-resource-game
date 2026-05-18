@@ -2,7 +2,7 @@ package org.tavall.control.guild;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface IGuildDomain {
+public interface GuildDomain {
     default GuildRepository getGuildRepository() {
         return DependencyLoaderAccess.findOptionalInstance(GuildRepository.class)
                 .orElseGet(() -> registerGuildRepository(new InMemoryGuildRepository()));

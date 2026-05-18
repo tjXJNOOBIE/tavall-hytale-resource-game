@@ -1,7 +1,7 @@
 package org.tavall.control.liveops.gui;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 import org.tavall.control.liveops.config.LiveConfigValidationException;
 
 import java.sql.Connection;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class PostgresGlobalGuiRepository implements GlobalGuiRepository, ILiveOpsDomain, IDependencyInjectableConcrete {
+public final class PostgresGlobalGuiRepository implements GlobalGuiRepository, LiveOpsDomain, IDependencyInjectableConcrete {
     @Override
     public Optional<GlobalGuiDefinition> findByKey(String guiKey) {
         String sql = """

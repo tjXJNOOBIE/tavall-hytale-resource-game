@@ -44,7 +44,7 @@ final class CitizenDependencyPolicyTest {
     }
 
     @Test
-    void citizenPackageUsesGeneratedDomainAccessorsForDependencies() throws IOException {
+    void citizenPackageUsesDomainAccessorsForDependencies() throws IOException {
         Path sourceRoot = Path.of("src/main/java/org/tavall/control/citizen");
         Pattern collaboratorField = Pattern.compile(
                 "private\\s+final\\s+.*(Repository|Handler|System|Handler|Config|Catalog|Registry|Resolver).*;"
@@ -61,7 +61,7 @@ final class CitizenDependencyPolicyTest {
 
         assertTrue(
                 violations.isEmpty(),
-                "Citizen middleware should use ICitizenDomain default accessors instead of cached DI collaborators:%n%s"
+                "Citizen middleware should use CitizenDomain accessors instead of cached DI collaborators:%n%s"
                         .formatted(String.join(System.lineSeparator(), violations))
         );
     }
@@ -101,7 +101,7 @@ final class CitizenDependencyPolicyTest {
                     violations.add(path + ":" + lineNumber + " -> " + line.trim());
                     continue;
                 }
-                if (directLoaderAccess.matcher(line).find() && !fileName.equals("ICitizenDomain.java")) {
+                if (directLoaderAccess.matcher(line).find() && !fileName.equals("CitizenDomain.java")) {
                     violations.add(path + ":" + lineNumber + " -> " + line.trim());
                 }
             }

@@ -1,6 +1,6 @@
 package org.tavall.control.events.dispatch;
 
-import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.GameEventDomain;
 import org.tavall.control.events.core.GameEvent;
 import org.tavall.control.events.core.GameEventContext;
 import org.tavall.control.events.core.GameEventResult;
@@ -9,7 +9,7 @@ import org.tavall.control.events.middleware.GameEventMiddlewareChain;
 import java.time.Instant;
 import java.util.Objects;
 
-public final class GameEventDispatchHandler implements IGameEventDomain {
+public final class GameEventDispatchHandler implements GameEventDomain {
     public GameEventResult dispatch(GameEvent event) {
         Objects.requireNonNull(event, "event");
         GameEventContext context = new GameEventContext(event, Instant.now());

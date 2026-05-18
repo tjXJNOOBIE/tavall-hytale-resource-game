@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
-public final class RobloxPlatformAccountBindingHandler implements IPlatformBindingDomain {
+public final class RobloxPlatformAccountBindingHandler implements PlatformBindingDomain {
     public RobloxPlatformAccountBindingHandler() {
     }
 

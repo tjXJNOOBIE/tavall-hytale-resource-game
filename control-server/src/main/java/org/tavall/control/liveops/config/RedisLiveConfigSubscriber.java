@@ -1,7 +1,7 @@
 package org.tavall.control.liveops.config;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-public final class RedisLiveConfigSubscriber implements ILiveOpsDomain, IDependencyInjectableConcrete, AutoCloseable {
+public final class RedisLiveConfigSubscriber implements LiveOpsDomain, IDependencyInjectableConcrete, AutoCloseable {
     private volatile JedisPubSub subscription;
     private volatile Future<?> future;
 

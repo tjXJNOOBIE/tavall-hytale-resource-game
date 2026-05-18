@@ -6,7 +6,7 @@ import org.tavall.control.domain.CitizenJobType;
 import java.util.EnumSet;
 import java.util.Set;
 
-public final class CitizenLifeStageEligibilityHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenLifeStageEligibilityHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public boolean canWork(CitizenAgeStage ageStage) {
         return switch (ageStage) {
             case TEEN, YOUNG_ADULT, ADULT, MIDDLE_AGED, ELDER -> true;

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class ControlCommandSchedulingHandler implements IControlCommandDomain, IDependencyInjectableConcrete {
+public final class ControlCommandSchedulingHandler implements ControlCommandDomain, IDependencyInjectableConcrete {
     public ScheduledControlCommand scheduleCommand(ControlCommand command, Instant runAt, Instant now) {
         ScheduledControlCommand scheduledCommand = new ScheduledControlCommand(
                 UUID.randomUUID(),

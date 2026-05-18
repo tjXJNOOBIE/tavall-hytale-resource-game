@@ -14,7 +14,7 @@ import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import java.io.IOException;
 import java.util.Map;
 
-public final class MinecraftBukkitCommandClientHandler implements IMinecraftBukkitCommandClientHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitCommandClientHandler implements IMinecraftBukkitCommandClientHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     @Override
     public FrontendCommandVerificationResult submitCommand(
             String platformAccountId,

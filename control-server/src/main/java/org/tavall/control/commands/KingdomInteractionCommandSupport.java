@@ -5,7 +5,7 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.domain.FocusedWorldTarget;
 import org.tavall.control.domain.FocusedWorldTargetType;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * Handles explicit focus and interaction commands that mirror player world selection flow.
  */
-public final class KingdomInteractionCommandSupport implements IResourceGameDomain, IDependencyInjectableConcrete {
+public final class KingdomInteractionCommandSupport implements ResourceGameDomain, IDependencyInjectableConcrete {
     public void handleFocus(CommandContext context, Player player) {
         Optional<FocusedWorldTarget> target = getFocusedWorldInteractionHandler().resolve(player);
         if (target.isEmpty()) {

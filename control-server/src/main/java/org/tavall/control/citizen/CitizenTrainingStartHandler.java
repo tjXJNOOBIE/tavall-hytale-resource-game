@@ -3,7 +3,7 @@ package org.tavall.control.citizen;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.domain.CitizenJobType;
 
-public final class CitizenTrainingStartHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenTrainingStartHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenTrainingStartHandler() {
     }
 

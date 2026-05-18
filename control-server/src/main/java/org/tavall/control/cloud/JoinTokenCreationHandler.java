@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-public final class JoinTokenCreationHandler implements IJoinTokenCreationHandler, ICloudControlDomain {
+public final class JoinTokenCreationHandler implements IJoinTokenCreationHandler, CloudControlDomain {
     private final SecureRandom random = new SecureRandom();
 
     public String createJoinToken(UUID createdBy, Instant expiresAt, Optional<String> region, Set<CloudNodeCapability> allowedCapabilities) {

@@ -3,7 +3,7 @@ package org.tavall.control.security;
 import org.tavall.control.common.HighRiskAction;
 import org.tavall.control.identity.UniversalPlayerId;
 
-public final class HighRiskActionChallengeHandler implements ISecurityDomain {
+public final class HighRiskActionChallengeHandler implements SecurityDomain {
     public HighRiskActionChallengeHandler() {
     }
 

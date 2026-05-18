@@ -1,7 +1,7 @@
 package org.tavall.control.liveops.config;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class PostgresLiveConfigRepository implements LiveConfigRepository, ILiveOpsDomain, IDependencyInjectableConcrete {
+public final class PostgresLiveConfigRepository implements LiveConfigRepository, LiveOpsDomain, IDependencyInjectableConcrete {
     @Override
     public Optional<LiveConfigEntry> findByKey(String key, String environment) {
         String sql = """

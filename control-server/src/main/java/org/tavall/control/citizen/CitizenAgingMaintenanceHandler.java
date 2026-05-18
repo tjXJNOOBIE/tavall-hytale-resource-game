@@ -5,7 +5,7 @@ import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class CitizenAgingMaintenanceHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenAgingMaintenanceHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenAgingMaintenanceHandler() {
     }
 

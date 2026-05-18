@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
-public final class CloudCommandAuthorizationHandler implements ICloudCommandAuthorizationHandler, ICloudControlDomain, IDependencyInjectableConcrete {
+public final class CloudCommandAuthorizationHandler implements ICloudCommandAuthorizationHandler, CloudControlDomain, IDependencyInjectableConcrete {
     /**
      * Cloud commands are node-agent commands, so the authorization target includes the node scope first.
      */

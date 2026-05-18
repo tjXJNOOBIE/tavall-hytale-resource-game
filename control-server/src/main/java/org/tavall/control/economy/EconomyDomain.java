@@ -4,7 +4,7 @@ import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.tavall.control.security.HighRiskActionChallengeHandler;
 import org.tavall.control.security.InMemoryTwoFactorRepository;
 
-public interface IEconomyDomain {
+public interface EconomyDomain {
     default EconomyRepository getEconomyRepository() {
         return DependencyLoaderAccess.findOptionalInstance(EconomyRepository.class)
                 .orElseGet(() -> registerEconomyRepository(new InMemoryEconomyRepository()));

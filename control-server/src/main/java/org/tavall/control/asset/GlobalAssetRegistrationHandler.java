@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-public final class GlobalAssetRegistrationHandler implements IAssetDomain {
+public final class GlobalAssetRegistrationHandler implements AssetDomain {
     public GlobalAssetRegistrationHandler() {
     }
 

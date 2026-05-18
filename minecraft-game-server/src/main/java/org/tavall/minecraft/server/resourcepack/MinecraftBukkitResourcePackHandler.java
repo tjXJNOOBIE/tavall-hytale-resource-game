@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server.resourcepack;
 
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
-import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
 
-public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukkitResourcePackHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukkitResourcePackHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private final Path explicitRoot;
 
     public MinecraftBukkitResourcePackHandler() {

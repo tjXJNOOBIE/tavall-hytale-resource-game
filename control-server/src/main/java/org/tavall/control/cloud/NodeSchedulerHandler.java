@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public final class NodeSchedulerHandler implements INodeSchedulerHandler, ICloudControlDomain {
+public final class NodeSchedulerHandler implements INodeSchedulerHandler, CloudControlDomain {
     /**
      * Scores every node instead of returning the first match so dry-runs can explain both wins and rejections.
      */

@@ -2,7 +2,7 @@ package org.tavall.control.asset;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface IAssetDomain {
+public interface AssetDomain {
     default GlobalAssetRepository getGlobalAssetRepository() {
         return DependencyLoaderAccess.findInstance(GlobalAssetRepository.class);
     }

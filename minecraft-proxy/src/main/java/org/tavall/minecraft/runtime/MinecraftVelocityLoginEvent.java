@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class MinecraftVelocityLoginEvent implements IMinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftVelocityLoginEvent implements MinecraftFrontendDomain, IDependencyInjectableConcrete {
     @Subscribe
     public void onLogin(LoginEvent event) {
         handleLogin(event.getPlayer());

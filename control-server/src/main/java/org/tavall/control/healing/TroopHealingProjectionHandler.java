@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public final class TroopHealingProjectionHandler implements IHealingDomain {
+public final class TroopHealingProjectionHandler implements HealingDomain {
     public TroopHealingProjectionHandler() {
     }
 

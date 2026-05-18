@@ -1,7 +1,7 @@
 package org.tavall.control.cli;
 
 import org.tavall.control.ControlServerDependencyModule;
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.control.common.CanonicalLocation;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import org.tavall.control.healing.WoundSeverity;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public final class ControlConsoleInputHandlerIntegrationTest implements IControlServerDomain {
+public final class ControlConsoleInputHandlerIntegrationTest implements ControlServerDomain {
     @Test
     void helpCommandsDryRunAndExecuteUseSharedDispatchPipeline() {
         new ControlServerDependencyModule().registerDependencies();

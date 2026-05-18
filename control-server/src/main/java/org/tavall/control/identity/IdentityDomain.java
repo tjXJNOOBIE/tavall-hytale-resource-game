@@ -2,7 +2,7 @@ package org.tavall.control.identity;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface IIdentityDomain {
+public interface IdentityDomain {
     default UniversalPlayerAccountRepository getUniversalPlayerAccountRepository() {
         return DependencyLoaderAccess.findOptionalInstance(UniversalPlayerAccountRepository.class)
                 .orElseGet(() -> registerIdentityRepository(new InMemoryIdentityRepository()));

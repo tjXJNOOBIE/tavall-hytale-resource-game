@@ -6,7 +6,7 @@ import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import java.io.IOException;
 import java.util.UUID;
 
-public final class CloudCommandValidationHandler implements ICloudCommandValidationHandler, ICloudControlDomain, IDependencyInjectableConcrete {
+public final class CloudCommandValidationHandler implements ICloudCommandValidationHandler, CloudControlDomain, IDependencyInjectableConcrete {
     public void validate(CloudCommandType commandType, String payloadJson) {
         if (commandType == null) {
             throw new IllegalArgumentException("Cloud command type is required.");

@@ -6,7 +6,7 @@ import org.tavall.control.identity.UniversalPlayerId;
 import java.util.List;
 import java.util.Optional;
 
-public final class CitizenReadHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenReadHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenReadHandler() {
     }
 

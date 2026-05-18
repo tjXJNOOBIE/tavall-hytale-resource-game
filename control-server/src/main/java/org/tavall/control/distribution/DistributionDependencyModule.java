@@ -19,7 +19,7 @@ import org.tavall.control.distribution.remote.RemoteEnvironmentProbeHandler;
 
 import java.time.Clock;
 
-public final class DistributionDependencyModule implements IDependencyModule, IDistributionDomain {
+public final class DistributionDependencyModule implements IDependencyModule, DistributionDomain {
     @Override
     public void registerDependencies() {
         DependencyLoaderAccess.clear();

@@ -4,7 +4,7 @@ import org.tavall.control.guild.GuildId;
 
 import java.util.Map;
 
-public final class GuildTreasuryBalanceHandler implements IEconomyDomain {
+public final class GuildTreasuryBalanceHandler implements EconomyDomain {
     public GuildTreasuryBalanceHandler() {
     }
 

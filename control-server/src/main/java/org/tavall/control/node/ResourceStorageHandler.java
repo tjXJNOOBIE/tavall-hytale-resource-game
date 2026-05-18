@@ -1,6 +1,6 @@
 package org.tavall.control.node;
 
-public final class ResourceStorageHandler implements IResourceNodeDomain {
+public final class ResourceStorageHandler implements ResourceNodeDomain {
     public ResourceStorageHandler() {
     }
 

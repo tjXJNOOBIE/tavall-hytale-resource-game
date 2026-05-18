@@ -69,7 +69,7 @@ Every major system should call the live config registry or toggle handler and fa
 | Component | Dependency rule |
 |---|---|
 | `LiveOpsDependencyModule` | Registers in-memory defaults and preserves pre-registered production adapters |
-| `ILiveOpsDomainGenerated` | Exposes repository, registry, publisher, mapper, and optional event dispatcher accessors |
+| `LiveOpsDomain` | Exposes repository, registry, publisher, mapper, and optional event dispatcher accessors |
 | `LiveConfigMutationHandler` | Mutates config through DI-resolved repository/registry/publisher |
 | `GlobalGuiMutationHandler` | Mutates GUI definitions through DI-resolved repository/registry/publisher |
 | Toggle/rule handlers | Read the live config registry through default accessors |

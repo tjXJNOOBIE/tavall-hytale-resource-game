@@ -3,7 +3,7 @@ package org.tavall.control.cloud;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface ICloudAgentDomain {
+public interface CloudAgentDomain {
     default ObjectMapper getCloudAgentObjectMapper() {
         return DependencyLoaderAccess.findInstance(ObjectMapper.class);
     }

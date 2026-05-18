@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class MinecraftVelocityMuteChatEvent implements IMinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftVelocityMuteChatEvent implements MinecraftFrontendDomain, IDependencyInjectableConcrete {
     @Subscribe
     public void onPlayerChat(PlayerChatEvent event) {
         handleChat(event);

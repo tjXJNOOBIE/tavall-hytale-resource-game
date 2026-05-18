@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-public final class TmuxWorkloadRuntimeAdapter implements ITmuxWorkloadRuntimeAdapter, ICloudAgentDomain {
+public final class TmuxWorkloadRuntimeAdapter implements ITmuxWorkloadRuntimeAdapter, CloudAgentDomain {
     /**
      * Tmux remains a controlled game-server adapter boundary; only typed sessions are accepted.
      */

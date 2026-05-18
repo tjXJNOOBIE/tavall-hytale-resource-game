@@ -4,7 +4,7 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.domain.CustomEntitySpawnRole;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Locale;
 /**
  * Handles `/kd entity ...` debug spawns for custom NPC interaction anchors.
  */
-public final class KingdomEntityCommandSupport implements IResourceGameDomain, IDependencyInjectableConcrete {
+public final class KingdomEntityCommandSupport implements ResourceGameDomain, IDependencyInjectableConcrete {
     public void handle(CommandContext context, Player player, List<String> tokens) {
         if (tokens.size() < 2) {
             sendUsage(context);

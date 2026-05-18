@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
 
-public final class GuildCreationHandler implements IGuildDomain {
+public final class GuildCreationHandler implements GuildDomain {
     public GuildCreationHandler() {
     }
 

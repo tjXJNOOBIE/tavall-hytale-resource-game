@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public final class CloudControlPlaneConsole implements ICloudControlDomain, IDependencyInjectableConcrete {
+public final class CloudControlPlaneConsole implements CloudControlDomain, IDependencyInjectableConcrete {
     private static final UUID CONSOLE_PRINCIPAL = ControlOperator.localOwner(Instant.EPOCH).operatorId();
 
     private final InputStream input;

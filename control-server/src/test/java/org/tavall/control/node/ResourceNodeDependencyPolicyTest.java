@@ -23,14 +23,14 @@ public final class ResourceNodeDependencyPolicyTest {
 
         for (Path handlerFile : handlerFiles) {
             String source = Files.readString(handlerFile);
-            assertTrue(source.contains("implements IResourceNodeDomain"), handlerFile + " should use resource-node domain accessors.");
+            assertTrue(source.contains("implements ResourceNodeDomain"), handlerFile + " should use resource-node domain accessors.");
             assertFalse(cachedCollaborator.matcher(source).find(), handlerFile + " should not cache repositories or handlers.");
         }
     }
 
     @Test
     void resourceNodeDomainOwnsDefaultDependencyLookup() throws IOException {
-        String source = Files.readString(Path.of("src/main/java/org/tavall/control/node/IResourceNodeDomain.java"));
+        String source = Files.readString(Path.of("src/main/java/org/tavall/control/node/ResourceNodeDomain.java"));
 
         assertTrue(source.contains("DependencyLoaderAccess.findOptionalInstance(ResourceNodeRepository.class)"));
         assertTrue(source.contains("new InMemoryResourceNodeRepository()"));

@@ -9,7 +9,7 @@ import org.tavall.control.authority.AuthorizationAuditRepository;
 import org.tavall.control.authority.ControlAuthorityDependencyModule;
 import org.tavall.control.authority.ControlAuthority;
 import org.tavall.control.authority.ControlAuthorityLevel;
-import org.tavall.control.authority.IControlAuthorityDomain;
+import org.tavall.control.authority.ControlAuthorityDomain;
 import org.tavall.control.authority.InMemoryAuthorityRepository;
 import org.tavall.control.authority.InMemoryAuthorizationAuditRepository;
 import org.tavall.control.authority.InMemoryPermissionPolicyRepository;
@@ -45,7 +45,7 @@ import java.time.Clock;
 import java.util.EnumSet;
 import java.util.List;
 
-public final class ControlCommandRuntimeFactory implements IControlAuthorityDomain {
+public final class ControlCommandRuntimeFactory implements ControlAuthorityDomain {
     private static final ControlCommandRuntimeFactory INSTANCE = new ControlCommandRuntimeFactory();
 
     private ControlCommandRuntimeFactory() {

@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
-public final class MinecraftPlatformAccountBindingHandler implements IPlatformBindingDomain {
+public final class MinecraftPlatformAccountBindingHandler implements PlatformBindingDomain {
     public MinecraftPlatformAccountBindingHandler() {
     }
 

@@ -1,6 +1,6 @@
 package org.tavall.control.cloud;
 
-public final class CloudControlPanelViewHandler implements ICloudControlPanelViewHandler, ICloudControlDomain {
+public final class CloudControlPanelViewHandler implements ICloudControlPanelViewHandler, CloudControlDomain {
     public String cloudBody() {
         StringBuilder builder = new StringBuilder();
         builder.append("<section><h2>Cloud Dashboard</h2><div class=\"metric-grid\">");

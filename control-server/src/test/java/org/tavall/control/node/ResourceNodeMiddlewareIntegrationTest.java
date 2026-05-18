@@ -23,7 +23,7 @@ public final class ResourceNodeMiddlewareIntegrationTest {
 
     @Test
     void productionTickStoresResourcesAndSkipsDepletedNodes() {
-        IResourceNodeDomain nodeDomain = new IResourceNodeDomain() {
+        ResourceNodeDomain nodeDomain = new ResourceNodeDomain() {
         };
         ResourceNodeRepository nodeRepository = nodeDomain.registerResourceNodeRepository(new InMemoryResourceNodeRepository());
         ResourceNodeCreationHandler creationHandler = nodeDomain.getResourceNodeCreationHandler();
@@ -42,7 +42,7 @@ public final class ResourceNodeMiddlewareIntegrationTest {
 
     @Test
     void resourceProductionJobBuffAppliesOnlyThroughAssignedJob() {
-        IResourceNodeDomain nodeDomain = new IResourceNodeDomain() {
+        ResourceNodeDomain nodeDomain = new ResourceNodeDomain() {
         };
         ResourceNodeRepository nodeRepository = nodeDomain.registerResourceNodeRepository(new InMemoryResourceNodeRepository());
         nodeDomain.registerGuildRepository(new InMemoryGuildRepository());

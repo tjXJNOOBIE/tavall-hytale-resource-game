@@ -2,7 +2,7 @@ package org.tavall.control.liveops.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class LiveConfigRegistry implements ILiveOpsDomain {
+public final class LiveConfigRegistry implements LiveOpsDomain {
     private final Map<String, LiveConfigEntry> entriesByKey = new ConcurrentHashMap<>();
 
     public void reload(Collection<LiveConfigEntry> entries) {

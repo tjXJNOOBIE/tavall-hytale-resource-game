@@ -2,7 +2,7 @@ package org.tavall.control.guild;
 
 import org.tavall.control.identity.UniversalPlayerId;
 
-public final class GuildAuthorityTierHandler implements IGuildDomain {
+public final class GuildAuthorityTierHandler implements GuildDomain {
     public GuildAuthorityTierHandler() {
     }
 

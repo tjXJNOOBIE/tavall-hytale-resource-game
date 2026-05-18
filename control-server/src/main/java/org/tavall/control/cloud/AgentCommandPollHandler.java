@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class AgentCommandPollHandler implements IAgentCommandPollHandler, ICloudControlDomain {
+public final class AgentCommandPollHandler implements IAgentCommandPollHandler, CloudControlDomain {
     /**
      * Polling marks commands as sent so repeated agent polls do not duplicate work before a result arrives.
      */

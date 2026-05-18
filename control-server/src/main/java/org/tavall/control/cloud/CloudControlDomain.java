@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.tavall.control.authority.IControlAuthorizationHandler;
 
-public interface ICloudControlDomain {
+public interface CloudControlDomain {
     default ObjectMapper getCloudControlObjectMapper() {
         return DependencyLoaderAccess.findInstance(ObjectMapper.class);
     }

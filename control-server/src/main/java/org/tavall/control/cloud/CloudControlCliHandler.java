@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-public final class CloudControlCliHandler implements ICloudControlCliHandler, ICloudControlDomain {
+public final class CloudControlCliHandler implements ICloudControlCliHandler, CloudControlDomain {
     public String execute(String input, UUID requestedBy, Instant now) {
         String trimmed = input == null ? "" : input.trim();
         if (trimmed.startsWith("cloud nodes create-token")) {

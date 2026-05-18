@@ -14,7 +14,7 @@ import org.tavall.control.liveops.gui.GlobalGuiRegistry;
 import org.tavall.control.liveops.gui.GlobalGuiRepository;
 import org.tavall.control.liveops.gui.InMemoryGlobalGuiChangePublisher;
 
-public final class LiveOpsRuntime implements ILiveOpsDomain, IDependencyInjectableConcrete {
+public final class LiveOpsRuntime implements LiveOpsDomain, IDependencyInjectableConcrete {
     public LiveConfigRepository liveConfigRepository() {
         return getLiveConfigRepository();
     }

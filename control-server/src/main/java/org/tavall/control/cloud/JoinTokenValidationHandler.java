@@ -3,7 +3,7 @@ package org.tavall.control.cloud;
 import java.time.Instant;
 import java.util.Optional;
 
-public final class JoinTokenValidationHandler implements IJoinTokenValidationHandler, ICloudControlDomain {
+public final class JoinTokenValidationHandler implements IJoinTokenValidationHandler, CloudControlDomain {
     public Optional<JoinToken> validate(String plaintextToken, Instant now) {
         if (plaintextToken == null || plaintextToken.isBlank()) {
             return Optional.empty();

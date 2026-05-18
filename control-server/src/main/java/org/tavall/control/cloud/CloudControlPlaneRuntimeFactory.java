@@ -2,7 +2,7 @@ package org.tavall.control.cloud;
 
 import java.time.Instant;
 
-public final class CloudControlPlaneRuntimeFactory implements ICloudControlDomain {
+public final class CloudControlPlaneRuntimeFactory implements CloudControlDomain {
     private CloudControlPlaneRuntimeFactory() {
     }
 

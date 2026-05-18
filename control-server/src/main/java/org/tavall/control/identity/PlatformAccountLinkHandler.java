@@ -1,7 +1,7 @@
 package org.tavall.control.identity;
 
 import org.tavall.control.common.GamePlatform;
-import org.tavall.control.security.ISecurityDomain;
+import org.tavall.control.security.SecurityDomain;
 import org.tavall.control.security.TokenHasher;
 
 import java.security.SecureRandom;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class PlatformAccountLinkHandler implements IIdentityDomain, ISecurityDomain {
+public final class PlatformAccountLinkHandler implements IdentityDomain, SecurityDomain {
     public PlatformAccountLinkHandler() {
     }
 

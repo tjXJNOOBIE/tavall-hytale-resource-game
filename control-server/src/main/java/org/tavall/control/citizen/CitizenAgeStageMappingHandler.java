@@ -2,7 +2,7 @@ package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
-public final class CitizenAgeStageMappingHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenAgeStageMappingHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenAgeStage ageStageForYears(double gameYears, CitizenAgingConfig config) {
         if (gameYears < config.ageStageThresholds().get(CitizenAgeStage.CHILD)) {
             return CitizenAgeStage.INFANT;

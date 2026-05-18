@@ -1,13 +1,13 @@
 package org.tavall.control.events.middleware;
 
-import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.GameEventDomain;
 import org.tavall.control.events.core.GameEvent;
 import org.tavall.control.events.core.GameEventContext;
 import org.tavall.control.events.core.GameEventResult;
 
 import java.time.Instant;
 
-public final class EventAuditMiddleware implements GameEventMiddleware, IGameEventDomain {
+public final class EventAuditMiddleware implements GameEventMiddleware, GameEventDomain {
     @Override
     public GameEventResult handle(GameEventContext context, GameEventMiddlewareChain chain) {
         GameEventResult result = chain.proceed(context);

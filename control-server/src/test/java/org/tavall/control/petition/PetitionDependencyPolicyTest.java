@@ -18,7 +18,7 @@ final class PetitionDependencyPolicyTest {
             for (Path path : paths.filter(file -> file.toString().endsWith(".java")).toList()) {
                 String source = Files.readString(path);
                 if (path.getFileName().toString().endsWith("Handler.java")) {
-                    assertTrue(source.contains("implements IPetitionDomain"), path + " should use petition domain accessors.");
+                    assertTrue(source.contains("implements PetitionDomain"), path + " should use petition domain accessors.");
                     assertFalse(cachedCollaborator.matcher(source).find(), path + " should not cache dependencies.");
                 }
                 if (!path.getFileName().toString().contains("Domain.java")) {

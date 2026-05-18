@@ -1,13 +1,13 @@
 package org.tavall.control.distribution.remote;
 
-import org.tavall.control.distribution.IDistributionDomain;
+import org.tavall.control.distribution.DistributionDomain;
 
 import java.net.InetAddress;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public final class RemoteEnvironmentProbeHandler implements IRemoteEnvironmentProbeHandler, IDistributionDomain {
+public final class RemoteEnvironmentProbeHandler implements IRemoteEnvironmentProbeHandler, DistributionDomain {
     public RemoteEnvironmentSnapshot detectLocalEnvironment() {
         Instant now = Instant.now();
         return new RemoteEnvironmentSnapshot(

@@ -6,7 +6,7 @@ import org.tavall.control.identity.UniversalPlayerId;
 import java.time.Instant;
 import java.util.Map;
 
-public final class HealingItemCraftingHandler implements IHealingDomain {
+public final class HealingItemCraftingHandler implements HealingDomain {
     public HealingItemCraftingHandler() {
     }
 

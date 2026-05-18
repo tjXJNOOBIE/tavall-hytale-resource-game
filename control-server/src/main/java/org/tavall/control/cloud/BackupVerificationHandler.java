@@ -2,7 +2,7 @@ package org.tavall.control.cloud;
 
 import java.util.UUID;
 
-public final class BackupVerificationHandler implements IBackupVerificationHandler, ICloudControlDomain {
+public final class BackupVerificationHandler implements IBackupVerificationHandler, CloudControlDomain {
     public boolean verify(UUID backupId) {
         BackupJob backupJob = getCloudRepository().findBackupJob(backupId).orElseThrow();
         if (backupJob.status() == BackupStatus.COMPLETED && backupJob.checksum().isPresent()) {

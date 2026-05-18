@@ -29,14 +29,14 @@ public final class GuildDependencyPolicyTest {
 
         for (Path handlerFile : handlerFiles) {
             String source = Files.readString(handlerFile);
-            assertTrue(source.contains("implements IGuildDomain"), handlerFile + " should use guild domain accessors.");
+            assertTrue(source.contains("implements GuildDomain"), handlerFile + " should use guild domain accessors.");
             assertFalse(cachedCollaborator.matcher(source).find(), handlerFile + " should not cache repositories or handlers.");
         }
     }
 
     @Test
     void guildDomainOwnsDefaultDependencyLookup() throws IOException {
-        String source = Files.readString(Path.of("src/main/java/org/tavall/control/guild/IGuildDomain.java"));
+        String source = Files.readString(Path.of("src/main/java/org/tavall/control/guild/GuildDomain.java"));
 
         assertTrue(source.contains("DependencyLoaderAccess.findOptionalInstance(GuildRepository.class)"));
         assertTrue(source.contains("new InMemoryGuildRepository()"));

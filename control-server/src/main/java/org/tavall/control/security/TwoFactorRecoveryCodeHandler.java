@@ -9,7 +9,7 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.UUID;
 
-public final class TwoFactorRecoveryCodeHandler implements ISecurityDomain {
+public final class TwoFactorRecoveryCodeHandler implements SecurityDomain {
     public TwoFactorRecoveryCodeHandler() {
     }
 

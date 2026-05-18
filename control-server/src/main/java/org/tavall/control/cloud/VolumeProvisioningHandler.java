@@ -3,7 +3,7 @@ package org.tavall.control.cloud;
 import java.util.Map;
 import java.util.UUID;
 
-public final class VolumeProvisioningHandler implements IVolumeProvisioningHandler, ICloudControlDomain {
+public final class VolumeProvisioningHandler implements IVolumeProvisioningHandler, CloudControlDomain {
     @Override
     public CloudVolume createRequestedVolume(UUID workloadId, UUID nodeId, VolumeRequest request) {
         if (request.mountPath() == null || request.mountPath().isBlank()) {

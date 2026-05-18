@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import java.util.Locale;
 import java.util.Optional;
 
-public final class MinecraftBukkitWorldActionHandler implements IMinecraftBukkitWorldActionHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitWorldActionHandler implements IMinecraftBukkitWorldActionHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     @Override
     public Optional<String> apply(Player player, String rawInput, FrontendCommandVerificationResult result) {
         if (player == null || rawInput == null || rawInput.isBlank() || result == null || !result.success()) {

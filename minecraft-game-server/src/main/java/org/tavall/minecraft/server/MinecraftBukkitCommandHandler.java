@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class MinecraftBukkitCommandHandler implements IMinecraftBukkitCommandHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitCommandHandler implements IMinecraftBukkitCommandHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private static final Map<String, List<String>> KINGDOM_COMMAND_CATALOG = Map.ofEntries(
             Map.entry("ui", List.of("castle", "companion", "building", "npc", "debug", "liveops")),
             Map.entry("data", List.of("status")),

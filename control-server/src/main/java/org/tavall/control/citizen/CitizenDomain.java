@@ -3,7 +3,7 @@ package org.tavall.control.citizen;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.tavall.control.clock.KingdomClockControlSystem;
 
-public interface ICitizenDomain {
+public interface CitizenDomain {
     default CitizenRepository getCitizenRepository() {
         return DependencyLoaderAccess.findInstance(CitizenRepository.class);
     }

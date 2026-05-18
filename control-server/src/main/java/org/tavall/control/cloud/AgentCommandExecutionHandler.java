@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.time.Instant;
 import java.util.Optional;
 
-public final class AgentCommandExecutionHandler implements IAgentCommandExecutionHandler, ICloudAgentDomain {
+public final class AgentCommandExecutionHandler implements IAgentCommandExecutionHandler, CloudAgentDomain {
     public CloudCommandResult execute(CloudCommand command, Instant now) {
         if (command.commandType() == null) {
             return new CloudCommandResult(command.commandId(), command.nodeId(), false, Optional.empty(), "Command type is required.",

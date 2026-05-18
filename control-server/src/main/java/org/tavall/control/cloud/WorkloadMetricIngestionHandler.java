@@ -3,7 +3,7 @@ package org.tavall.control.cloud;
 import java.util.Map;
 import java.util.UUID;
 
-public final class WorkloadMetricIngestionHandler implements IWorkloadMetricIngestionHandler, ICloudControlDomain {
+public final class WorkloadMetricIngestionHandler implements IWorkloadMetricIngestionHandler, CloudControlDomain {
     private static final int CRASH_LOOP_RESTART_THRESHOLD = 3;
 
     public void ingest(WorkloadMetricSnapshot snapshot) {

@@ -12,7 +12,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.universe.Universe;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.domain.AccountProgression;
 import org.tavall.control.domain.DebugModeState;
 import org.tavall.control.domain.InfrastructureHealthSnapshot;
@@ -40,7 +40,7 @@ import java.util.logging.Level;
 /**
  * Debug command entry for the kingdom prototype.
  */
-public final class KingdomCommand extends AbstractAsyncCommand implements IResourceGameDomain {
+public final class KingdomCommand extends AbstractAsyncCommand implements ResourceGameDomain {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public KingdomCommand(String name) {

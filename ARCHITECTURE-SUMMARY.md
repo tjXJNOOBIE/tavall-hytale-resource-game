@@ -1,7 +1,7 @@
 # Architecture Summary
 
 ## Core Systems
-- ResourceGamePlugin now boots through a repo-local Tavall-style DI composition root and resolves runtime services through `IResourceGameDomain`.
+- ResourceGamePlugin now boots through a repo-local Tavall-style DI composition root and resolves runtime services through `ResourceGameDomain`.
 - PlayerDataService hydrates PlayerProfile + PlayerGameState via Redis-first cache and Postgres fallback.
 - CastleSpawnService spawns the placeholder castle entity and tracks it in CastleEntityRegistry.
 - CastleInteractionService listens for near/look interactions and opens the castle UI.

@@ -2,7 +2,7 @@ package org.tavall.control.economy;
 
 import org.tavall.control.guild.GuildId;
 
-public final class GuildTaxPolicyUpdateHandler implements IEconomyDomain {
+public final class GuildTaxPolicyUpdateHandler implements EconomyDomain {
     public GuildTaxPolicyUpdateHandler() {
     }
 

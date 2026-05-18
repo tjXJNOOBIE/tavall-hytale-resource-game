@@ -145,7 +145,7 @@ import java.util.logging.Logger;
 /**
  * Repo-local composition root that mirrors the shared Tavall DI bootstrap style.
  */
-public final class ResourceGameDependencyModule implements IDependencyModule, IResourceGameDomain {
+public final class ResourceGameDependencyModule implements IDependencyModule, ResourceGameDomain {
     private final ResourceGamePlugin plugin;
 
     public ResourceGameDependencyModule(ResourceGamePlugin plugin) {

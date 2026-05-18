@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public final class RobloxProjectionHandler implements IProjectionDomain {
+public final class RobloxProjectionHandler implements ProjectionDomain {
     public RobloxProjectionHandler() {
     }
 

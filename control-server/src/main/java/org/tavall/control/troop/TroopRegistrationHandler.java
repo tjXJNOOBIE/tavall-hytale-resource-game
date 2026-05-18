@@ -8,7 +8,7 @@ import org.tavall.control.identity.UniversalPlayerId;
 import java.util.Map;
 import java.util.Optional;
 
-public final class TroopRegistrationHandler implements ITroopDomain {
+public final class TroopRegistrationHandler implements TroopDomain {
     public TroopRegistrationHandler() {
     }
 

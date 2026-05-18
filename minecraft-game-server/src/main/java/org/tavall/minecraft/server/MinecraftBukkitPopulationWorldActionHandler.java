@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public final class MinecraftBukkitPopulationWorldActionHandler implements IMinecraftBukkitPopulationWorldActionHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitPopulationWorldActionHandler implements IMinecraftBukkitPopulationWorldActionHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private static final String HELPER_TAG = "tavall.kingdom.helper";
     private static final String HOLOGRAM_TAG = "tavall.kingdom.hologram";
     private static final String CITIZEN_TAG = "tavall.kingdom.citizen";

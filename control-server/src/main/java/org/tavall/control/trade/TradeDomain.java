@@ -2,7 +2,7 @@ package org.tavall.control.trade;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface ITradeDomain {
+public interface TradeDomain {
     default TradeRouteRepository getTradeRouteRepository() {
         return DependencyLoaderAccess.findOptionalInstance(TradeRouteRepository.class)
                 .orElseGet(() -> registerTradeRouteRepository(new InMemoryTradeRouteRepository()));

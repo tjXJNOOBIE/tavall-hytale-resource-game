@@ -1,6 +1,6 @@
 package org.tavall.control.petition;
 
-public final class GuildPetitionFundingHandler implements IPetitionDomain {
+public final class GuildPetitionFundingHandler implements PetitionDomain {
     public GuildPetitionFundingHandler() {
     }
 

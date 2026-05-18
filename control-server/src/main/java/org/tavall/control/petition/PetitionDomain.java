@@ -2,7 +2,7 @@ package org.tavall.control.petition;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface IPetitionDomain {
+public interface PetitionDomain {
     default PetitionRepository getPetitionRepository() {
         return DependencyLoaderAccess.findOptionalInstance(PetitionRepository.class)
                 .orElseGet(() -> registerPetitionRepository(new InMemoryPetitionRepository()));

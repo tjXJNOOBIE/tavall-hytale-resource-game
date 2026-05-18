@@ -3,9 +3,9 @@ package org.tavall.control.trade;
 import org.tavall.control.guild.GuildJobBuffCalculationHandler;
 import org.tavall.control.guild.GuildJobDomain;
 import org.tavall.control.guild.GuildMemberProfile;
-import org.tavall.control.guild.IGuildDomain;
+import org.tavall.control.guild.GuildDomain;
 
-public final class TradeRouteProgressTickHandler implements ITradeDomain, IGuildDomain {
+public final class TradeRouteProgressTickHandler implements TradeDomain, GuildDomain {
     public TradeRouteProgressTickHandler() {
     }
 

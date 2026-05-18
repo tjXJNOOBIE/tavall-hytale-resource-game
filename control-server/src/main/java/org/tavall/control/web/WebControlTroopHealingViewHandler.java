@@ -1,6 +1,6 @@
 package org.tavall.control.web;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.control.healing.TroopHealingPlan;
 import org.tavall.control.healing.TroopWound;
 import org.tavall.control.troop.TroopId;
@@ -8,7 +8,7 @@ import org.tavall.control.troop.TroopId;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class WebControlTroopHealingViewHandler implements IWebControlTroopHealingViewHandler, IControlServerDomain {
+public final class WebControlTroopHealingViewHandler implements IWebControlTroopHealingViewHandler, ControlServerDomain {
     public String troopHealingBody(Optional<String> troopId) {
         StringBuilder body = new StringBuilder("<form method=\"get\"><input name=\"troopId\" placeholder=\"troop UUID\"><button>Lookup</button></form>");
         troopId.filter(value -> !value.isBlank()).ifPresent(value -> {

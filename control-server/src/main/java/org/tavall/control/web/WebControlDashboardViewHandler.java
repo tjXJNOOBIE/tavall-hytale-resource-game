@@ -1,8 +1,8 @@
 package org.tavall.control.web;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 
-public final class WebControlDashboardViewHandler implements IWebControlDashboardViewHandler, IControlServerDomain {
+public final class WebControlDashboardViewHandler implements IWebControlDashboardViewHandler, ControlServerDomain {
     public String dashboardBody() {
         return "<p>Canonical middleware/control server is active.</p>"
                 + "<p>Commands registered: " + getControlCommandRuntime().commandRegistry().definitions().size() + "</p>"

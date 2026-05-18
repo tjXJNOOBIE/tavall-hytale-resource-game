@@ -4,7 +4,7 @@ import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.tavall.control.event.DomainEventPublisher;
 import org.tavall.control.event.RecordingDomainEventPublisher;
 
-public interface IKingdomDomain {
+public interface KingdomDomain {
     default UniversalKingdomSimulationSystem.UniversalKingdomRepository getUniversalKingdomRepository() {
         return DependencyLoaderAccess.findOptionalInstance(UniversalKingdomSimulationSystem.UniversalKingdomRepository.class)
                 .orElseGet(() -> registerUniversalKingdomRepository(new UniversalKingdomSimulationSystem.InMemoryUniversalKingdomRepository()));

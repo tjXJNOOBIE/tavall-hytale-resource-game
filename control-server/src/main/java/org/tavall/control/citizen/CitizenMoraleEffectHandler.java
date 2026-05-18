@@ -2,7 +2,7 @@ package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
-public final class CitizenMoraleEffectHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenMoraleEffectHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public double modifier(CitizenMoraleState moraleState) {
         return switch (moraleState) {
             case HIGH -> 1.15;

@@ -4,7 +4,7 @@ import org.tavall.control.runtime.ControlCommandValidationException;
 
 import java.util.UUID;
 
-public final class CompanionMoraleHandler implements ICompanionDomain {
+public final class CompanionMoraleHandler implements CompanionDomain {
     public CompanionMoraleHandler() {
     }
 

@@ -3,7 +3,7 @@ package org.tavall.control;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import com.tjxjnoobie.api.platform.global.console.Log;
 
-public final class ResourceGameControlServerModule implements IControlServerDomain {
+public final class ResourceGameControlServerModule implements ControlServerDomain {
     public String moduleName() {
         return "control-server";
     }

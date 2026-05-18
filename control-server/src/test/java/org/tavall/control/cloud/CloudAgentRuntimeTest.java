@@ -12,7 +12,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public final class CloudAgentRuntimeTest implements ICloudAgentDomain {
+public final class CloudAgentRuntimeTest implements CloudAgentDomain {
     @Test
     void runtimeHeartbeatsPollsCommandsExecutesAndReportsResults() throws Exception {
         DependencyLoaderAccess.clear();

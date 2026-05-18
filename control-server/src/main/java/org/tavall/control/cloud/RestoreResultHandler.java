@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class RestoreResultHandler implements IRestoreResultHandler, ICloudControlDomain {
+public final class RestoreResultHandler implements IRestoreResultHandler, CloudControlDomain {
     public boolean record(CloudCommandResult result) {
         Optional<CloudCommand> command = getCloudRepository().findCommand(result.commandId());
         if (command.isEmpty() || command.orElseThrow().commandType() != CloudCommandType.RESTORE_BACKUP) {

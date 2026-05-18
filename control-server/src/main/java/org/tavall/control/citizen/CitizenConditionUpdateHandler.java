@@ -2,7 +2,7 @@ package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
-public final class CitizenConditionUpdateHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenConditionUpdateHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenConditionUpdateHandler() {
     }
 

@@ -6,12 +6,12 @@ Keep object wiring and fast state access aligned with Tavall patterns used elsew
 ## DI shape
 - `ResourceGamePlugin` implements the repo domain interface.
 - `DependencyInjectorHelper.setupDISystem(new ResourceGameDependencyModule(this))` boots the graph.
-- `IResourceGameDomainGenerated` exposes token-based domain getters used by the plugin entrypoint.
+- `ResourceGameDomain` exposes token-based domain getters used by the plugin entrypoint.
 - Services depend on interfaces where mocking or system boundaries justify them.
 - Command supports are now DI-managed as well, instead of being constructed ad hoc inside the command root.
 
 ## Why repo-local DI exists
-- The shared `tavall-di` module is not currently stable enough to consume directly here.
+- The shared `tavall-di` module is consumed directly here through Maven.
 - This repo mirrors the same domain/token/module pattern locally so the usage style still matches Tavall conventions.
 
 ## Cache shape

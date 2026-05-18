@@ -6,7 +6,7 @@ import org.tavall.control.troop.Troop;
 
 import java.util.Optional;
 
-public final class DiscordTroopHealingProjectionHandler implements IHealingDomain {
+public final class DiscordTroopHealingProjectionHandler implements HealingDomain {
     public DiscordTroopHealingProjectionHandler() {
     }
 

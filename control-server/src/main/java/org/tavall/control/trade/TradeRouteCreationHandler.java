@@ -8,7 +8,7 @@ import org.tavall.control.node.ResourceNodeId;
 import java.util.Map;
 import java.util.Optional;
 
-public final class TradeRouteCreationHandler implements ITradeDomain {
+public final class TradeRouteCreationHandler implements TradeDomain {
     public TradeRouteCreationHandler() {
     }
 

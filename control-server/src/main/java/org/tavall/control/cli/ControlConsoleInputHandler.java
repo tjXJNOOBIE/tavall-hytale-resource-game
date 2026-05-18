@@ -1,6 +1,6 @@
 package org.tavall.control.cli;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.control.runtime.CommandIssuedFrom;
 import org.tavall.control.runtime.ControlCommand;
 import org.tavall.control.runtime.ControlCommandDefinition;
@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.time.Instant;
 import java.util.Scanner;
 
-public final class ControlConsoleInputHandler implements IControlServerDomain {
+public final class ControlConsoleInputHandler implements ControlServerDomain {
     public String executeOneShotCommand(String input) {
         if (input == null || input.isBlank()) {
             return "";

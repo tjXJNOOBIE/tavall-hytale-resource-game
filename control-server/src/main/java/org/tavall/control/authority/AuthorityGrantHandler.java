@@ -2,7 +2,7 @@ package org.tavall.control.authority;
 
 import java.util.UUID;
 
-public final class AuthorityGrantHandler implements IAuthorityGrantHandler, IControlAuthorityDomain {
+public final class AuthorityGrantHandler implements IAuthorityGrantHandler, ControlAuthorityDomain {
     /**
      * Grants are routed through the same permission check as commands so delegation cannot bypass the authority kernel.
      */

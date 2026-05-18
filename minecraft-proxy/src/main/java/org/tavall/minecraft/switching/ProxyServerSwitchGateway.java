@@ -1,13 +1,13 @@
 package org.tavall.minecraft.switching;
 
-import org.tavall.minecraft.runtime.IMinecraftFrontendDomain;
+import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public final class ProxyServerSwitchGateway implements MinecraftVelocityInstanceSwitchGateway, IMinecraftFrontendDomain {
+public final class ProxyServerSwitchGateway implements MinecraftVelocityInstanceSwitchGateway, MinecraftFrontendDomain {
     @Override
     public CompletableFuture<MinecraftVelocityInstanceSwitchResult> switchPlayer(String platformAccountId, String targetInstanceId) {
         UUID playerId;

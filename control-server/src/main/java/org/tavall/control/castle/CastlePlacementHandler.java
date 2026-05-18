@@ -2,7 +2,7 @@ package org.tavall.control.castle;
 
 import org.tavall.control.common.CanonicalLocation;
 
-public final class CastlePlacementHandler implements ICastleDomain {
+public final class CastlePlacementHandler implements CastleDomain {
     public CastlePlacementHandler() {
     }
 

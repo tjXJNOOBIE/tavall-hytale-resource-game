@@ -5,7 +5,7 @@ import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ControlCommandValidationHandler implements IControlCommandDomain, IDependencyInjectableConcrete {
+public final class ControlCommandValidationHandler implements ControlCommandDomain, IDependencyInjectableConcrete {
     public List<String> validateCommand(ControlCommand command) {
         ArrayList<String> validationErrors = new ArrayList<>();
         ControlCommandDefinition definition;

@@ -1,8 +1,8 @@
 package org.tavall.control.liveops.config;
 
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 
-public final class SystemToggleHandler implements ILiveOpsDomain {
+public final class SystemToggleHandler implements LiveOpsDomain {
     public boolean isEnabled(GameSystemToggle toggle) {
         return getLiveConfigRegistry().isEnabled(toggle.configKey()) && getLiveConfigRegistry().getBoolean(toggle.configKey(), true);
     }

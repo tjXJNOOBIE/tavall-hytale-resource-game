@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class MinecraftBukkitInteractionHandler implements IMinecraftBukkitInteractionHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitInteractionHandler implements IMinecraftBukkitInteractionHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();

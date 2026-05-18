@@ -1,6 +1,6 @@
 package org.tavall.control.guild;
 
-public final class GuildDomainActionBuffHandler implements IGuildDomain {
+public final class GuildDomainActionBuffHandler implements GuildDomain {
     public GuildDomainActionBuffHandler() {
     }
 

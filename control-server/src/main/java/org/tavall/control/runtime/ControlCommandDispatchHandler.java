@@ -6,7 +6,7 @@ import org.tavall.control.authority.AuthorizationResult;
 import java.time.Instant;
 import java.util.List;
 
-public final class ControlCommandDispatchHandler implements IControlCommandDomain, IDependencyInjectableConcrete {
+public final class ControlCommandDispatchHandler implements ControlCommandDomain, IDependencyInjectableConcrete {
     public ControlCommandResult dispatchCommand(ControlCommand command) {
         Instant startedAt = Instant.now();
         List<String> validationErrors = getControlCommandValidationHandler().validateCommand(command);

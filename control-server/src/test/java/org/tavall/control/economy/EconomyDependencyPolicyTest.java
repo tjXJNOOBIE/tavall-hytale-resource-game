@@ -18,7 +18,7 @@ final class EconomyDependencyPolicyTest {
             for (Path path : paths.filter(file -> file.toString().endsWith(".java")).toList()) {
                 String source = Files.readString(path);
                 if (path.getFileName().toString().endsWith("Handler.java")) {
-                    assertTrue(source.contains("implements IEconomyDomain"), path + " should use economy domain accessors.");
+                    assertTrue(source.contains("implements EconomyDomain"), path + " should use economy domain accessors.");
                     assertFalse(cachedCollaborator.matcher(source).find(), path + " should not cache dependencies.");
                 }
                 if (!path.getFileName().toString().contains("Domain.java")) {

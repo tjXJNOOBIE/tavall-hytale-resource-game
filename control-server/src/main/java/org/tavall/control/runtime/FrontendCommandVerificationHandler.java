@@ -1,7 +1,7 @@
 package org.tavall.control.runtime;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.runtime.IFrontendCommandVerificationHandler;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class FrontendCommandVerificationHandler implements IFrontendCommandVerificationHandler, IResourceGameDomain, IDependencyInjectableConcrete {
+public final class FrontendCommandVerificationHandler implements IFrontendCommandVerificationHandler, ResourceGameDomain, IDependencyInjectableConcrete {
     @Override
     public FrontendCommandVerificationResult verifyMinecraftKdCommand(
             String platformAccountId,

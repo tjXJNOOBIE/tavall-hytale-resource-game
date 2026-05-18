@@ -12,7 +12,7 @@ import org.tavall.minecraft.switching.IMinecraftVelocityInstanceSwitchGateway;
 import org.tavall.minecraft.switching.IMinecraftVelocityInstanceSwitchHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface IMinecraftFrontendDomain {
+public interface MinecraftFrontendDomain {
     default IMinecraftProxyConfig getMinecraftProxyConfig() {
         return DependencyLoaderAccess.requireInstance(IMinecraftProxyConfig.class);
     }

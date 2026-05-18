@@ -5,7 +5,7 @@ import org.tavall.control.asset.GlobalAssetResolutionHandler;
 import org.tavall.control.guild.GuildActionValidationHandler;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendActionCatalog;
 
-public interface IProjectionDomain {
+public interface ProjectionDomain {
     default GlobalAssetResolutionHandler getGlobalAssetResolutionHandler() {
         return DependencyLoaderAccess.findOptionalInstance(GlobalAssetResolutionHandler.class)
                 .orElseGet(() -> registerGlobalAssetResolutionHandler(new GlobalAssetResolutionHandler()));

@@ -5,7 +5,7 @@ import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import java.time.Instant;
 import java.util.List;
 
-public final class CitizenSummaryCacheRefreshHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenSummaryCacheRefreshHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenSummaryCacheRefreshHandler() {
     }
 

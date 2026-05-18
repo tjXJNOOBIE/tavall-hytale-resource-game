@@ -10,7 +10,7 @@ import org.bukkit.command.TabCompleter;
 import java.util.List;
 import java.util.Locale;
 
-public final class KingdomCommandRouter implements IKingdomCommandRouter, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class KingdomCommandRouter implements IKingdomCommandRouter, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private final KingdomHelpCommand helpCommand = new KingdomHelpCommand();
     private final KingdomUiCommand uiCommand = new KingdomUiCommand();
     private final KingdomDataCommand dataCommand = new KingdomDataCommand();

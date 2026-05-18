@@ -82,7 +82,7 @@ final class CloudControlPlaneDependencyPolicyTest {
 
     @Test
     void cloudControlPlaneRegistersEveryGeneratedDependencyAccessor() throws IOException {
-        Path generatedDomain = Path.of("src/main/java/org/tavall/control/cloud/ICloudControlDomain.java");
+        Path generatedDomain = Path.of("src/main/java/org/tavall/control/cloud/CloudControlDomain.java");
         Path dependencyModule = Path.of("src/main/java/org/tavall/control/cloud/CloudControlDependencyModule.java");
         String generatedSource = Files.readString(generatedDomain);
         String moduleSource = Files.readString(dependencyModule);

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public final class CastleCreationHandler implements ICastleDomain {
+public final class CastleCreationHandler implements CastleDomain {
     public CastleCreationHandler() {
     }
 

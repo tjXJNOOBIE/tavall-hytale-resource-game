@@ -6,7 +6,7 @@ import org.tavall.control.common.GamePlatform;
 import java.util.List;
 import java.util.Map;
 
-public final class PlatformCommandFanoutHandler implements IControlCommandDomain, IDependencyInjectableConcrete {
+public final class PlatformCommandFanoutHandler implements ControlCommandDomain, IDependencyInjectableConcrete {
     public List<PlatformCommandResult> fanoutCommand(ControlCommand command, List<String> changedObjectIds) {
         List<PlatformCommandResult> platformResults = getPlatformFanoutTargetResolver()
                 .resolveTargets(command, getPlatformFrontendAdapterRegistry().adaptersByPlatform())

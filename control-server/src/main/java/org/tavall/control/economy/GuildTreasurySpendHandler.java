@@ -7,7 +7,7 @@ import org.tavall.control.security.HighRiskActionChallengeHandler;
 
 import java.util.Map;
 
-public final class GuildTreasurySpendHandler implements IEconomyDomain {
+public final class GuildTreasurySpendHandler implements EconomyDomain {
     private static final long LARGE_SPEND_THRESHOLD = 50_000L;
     private long largeSpendThreshold = LARGE_SPEND_THRESHOLD;
 

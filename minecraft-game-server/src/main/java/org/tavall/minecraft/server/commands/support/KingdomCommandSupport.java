@@ -4,7 +4,7 @@ import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
-import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +21,7 @@ public final class KingdomCommandSupport {
     private KingdomCommandSupport() {
     }
 
-    public static boolean forward(IMinecraftBukkitServerDomain domain, CommandSender sender, String label, String rootToken, String[] args) {
+    public static boolean forward(MinecraftBukkitServerDomain domain, CommandSender sender, String label, String rootToken, String[] args) {
         if (!sender.hasPermission("tavall.resourcegame.command")) {
             sender.sendMessage("Missing permission tavall.resourcegame.command.");
             return true;
@@ -44,7 +44,7 @@ public final class KingdomCommandSupport {
         return true;
     }
 
-    public static boolean openPageIfPlayer(IMinecraftBukkitServerDomain domain, CommandSender sender, UiScreenKey pageType, String feedback) {
+    public static boolean openPageIfPlayer(MinecraftBukkitServerDomain domain, CommandSender sender, UiScreenKey pageType, String feedback) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("This page requires a player sender.");
             return true;
@@ -54,7 +54,7 @@ public final class KingdomCommandSupport {
         return true;
     }
 
-    public static void renderFeedback(IMinecraftBukkitServerDomain domain, CommandSender sender, String rawInput, FrontendCommandVerificationResult result) {
+    public static void renderFeedback(MinecraftBukkitServerDomain domain, CommandSender sender, String rawInput, FrontendCommandVerificationResult result) {
         String actionMessage = null;
         if (result.success() && sender instanceof Player player) {
             actionMessage = domain.getMinecraftBukkitWorldActionHandler()
@@ -74,7 +74,7 @@ public final class KingdomCommandSupport {
         }
     }
 
-    public static String platformAccountId(IMinecraftBukkitServerDomain domain, CommandSender sender) {
+    public static String platformAccountId(MinecraftBukkitServerDomain domain, CommandSender sender) {
         if (sender instanceof Player player) {
             return player.getUniqueId().toString();
         }
@@ -96,7 +96,7 @@ public final class KingdomCommandSupport {
         return "kingdom".equalsIgnoreCase(label) ? "kingdom" : "kd";
     }
 
-    public static Map<String, String> commandMetadata(IMinecraftBukkitServerDomain domain, CommandSender sender, String label) {
+    public static Map<String, String> commandMetadata(MinecraftBukkitServerDomain domain, CommandSender sender, String label) {
         Map<String, String> metadata = new LinkedHashMap<String, String>();
         metadata.put("serverId", domain.getMinecraftBukkitServerConfig().serverId());
         metadata.put("surfaceIdentity", "BUKKIT_SERVER");

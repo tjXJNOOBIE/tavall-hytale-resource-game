@@ -10,7 +10,7 @@ import org.bukkit.command.TabCompleter;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class KingdomHelpCommand implements CommandExecutor, TabCompleter, IMinecraftBukkitServerDomain, com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete {
+public final class KingdomHelpCommand implements CommandExecutor, TabCompleter, MinecraftBukkitServerDomain, com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete {
     private static final String ADMIN_PERMISSION = "tavall.resourcegame.admin";
 
     @Override

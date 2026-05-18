@@ -2,7 +2,7 @@ package org.tavall.control.asset;
 
 import org.tavall.control.common.GamePlatform;
 
-public final class PlatformAssetProjectionHandler implements IAssetDomain {
+public final class PlatformAssetProjectionHandler implements AssetDomain {
     public PlatformAssetProjectionHandler() {
     }
 

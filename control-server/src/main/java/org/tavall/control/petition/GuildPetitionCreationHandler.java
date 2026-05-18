@@ -9,7 +9,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 
-public final class GuildPetitionCreationHandler implements IPetitionDomain {
+public final class GuildPetitionCreationHandler implements PetitionDomain {
     public GuildPetitionCreationHandler() {
     }
 

@@ -1,6 +1,6 @@
 package org.tavall.control.trade;
 
-public final class TradeRouteAttackValidationHandler implements ITradeDomain {
+public final class TradeRouteAttackValidationHandler implements TradeDomain {
     public TradeRouteAttackValidationHandler() {
     }
 

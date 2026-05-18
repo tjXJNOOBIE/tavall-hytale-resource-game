@@ -2,7 +2,7 @@ package org.tavall.control.transport;
 import org.tavall.control.transport.JsonMapperProvider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Objects;
 
-public final class FrontendTcpControlCommandClient implements IFrontendControlCommandClient, IResourceGameDomain, IDependencyInjectableConcrete {
+public final class FrontendTcpControlCommandClient implements IFrontendControlCommandClient, ResourceGameDomain, IDependencyInjectableConcrete {
     private static final ObjectMapper OBJECT_MAPPER = new JsonMapperProvider().mapper();
     private static final Duration CONNECT_TIMEOUT = Duration.ofSeconds(2);
     private static final Duration READ_TIMEOUT = Duration.ofSeconds(5);

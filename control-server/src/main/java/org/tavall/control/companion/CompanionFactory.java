@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class CompanionFactory implements ICompanionDomain {
+public final class CompanionFactory implements CompanionDomain {
     public CompanionFactory() {
     }
 

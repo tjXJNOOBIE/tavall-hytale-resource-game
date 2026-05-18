@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
-public final class PortAllocationHandler implements IPortAllocationHandler, ICloudControlDomain {
+public final class PortAllocationHandler implements IPortAllocationHandler, CloudControlDomain {
     public PortAllocation allocate(UUID workloadId, UUID nodeId, PortProtocol protocol, int publicPort, int internalPort, Instant now) {
         validatePort("Public", publicPort);
         validatePort("Internal", internalPort);

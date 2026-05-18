@@ -2,7 +2,7 @@ package org.tavall.control.troop;
 
 import org.tavall.control.common.CanonicalLocation;
 
-public final class TroopMovementHandler implements ITroopDomain {
+public final class TroopMovementHandler implements TroopDomain {
     public TroopMovementHandler() {
     }
 

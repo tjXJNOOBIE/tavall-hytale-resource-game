@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-public final class RawProcessWorkloadRuntimeAdapter implements IRawProcessWorkloadRuntimeAdapter, ICloudAgentDomain {
+public final class RawProcessWorkloadRuntimeAdapter implements IRawProcessWorkloadRuntimeAdapter, CloudAgentDomain {
     /**
      * Raw process support is restricted to typed dev/test workload commands, never arbitrary shell text.
      */

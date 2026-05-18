@@ -4,13 +4,13 @@ import org.tavall.control.guild.GuildId;
 import org.tavall.control.guild.GuildJobBuffCalculationHandler;
 import org.tavall.control.guild.GuildJobDomain;
 import org.tavall.control.guild.GuildMemberProfile;
-import org.tavall.control.guild.IGuildDomain;
+import org.tavall.control.guild.GuildDomain;
 import org.tavall.control.identity.UniversalPlayerId;
 
 import java.time.Instant;
 import java.util.Map;
 
-public final class GuildPropagandaCampaignHandler implements IPetitionDomain, IGuildDomain {
+public final class GuildPropagandaCampaignHandler implements PetitionDomain, GuildDomain {
     public GuildPropagandaCampaignHandler() {
     }
 

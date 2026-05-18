@@ -10,7 +10,7 @@ import org.tavall.control.troop.TroopStatus;
 import java.time.Instant;
 import java.util.Map;
 
-public final class TroopWoundAssignmentHandler implements IHealingDomain {
+public final class TroopWoundAssignmentHandler implements HealingDomain {
     public TroopWoundAssignmentHandler() {
     }
 

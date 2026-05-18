@@ -2,7 +2,7 @@ package org.tavall.control.cloud;
 
 import java.util.Optional;
 
-public final class CloudCommandResultHandler implements ICloudCommandResultHandler, ICloudControlDomain {
+public final class CloudCommandResultHandler implements ICloudCommandResultHandler, CloudControlDomain {
     public boolean record(CloudCommandResult result) {
         Optional<CloudCommand> existing = getCloudRepository().findCommand(result.commandId());
         if (existing.isEmpty()) {

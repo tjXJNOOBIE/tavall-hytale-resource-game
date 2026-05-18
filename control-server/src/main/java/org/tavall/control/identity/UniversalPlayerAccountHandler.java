@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-public final class UniversalPlayerAccountHandler implements IIdentityDomain {
+public final class UniversalPlayerAccountHandler implements IdentityDomain {
     public UniversalPlayerAccountHandler() {
     }
 

@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class KingdomNpcGui implements IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class KingdomNpcGui implements MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     public boolean open(Player player) {
         Optional<MinecraftBukkitInteractionTarget> target = getMinecraftBukkitInteractionSessionTracker().current(player.getUniqueId());
         if (target.isEmpty()) {

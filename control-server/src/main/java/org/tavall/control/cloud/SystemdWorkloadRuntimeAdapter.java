@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-public final class SystemdWorkloadRuntimeAdapter implements ISystemdWorkloadRuntimeAdapter, ICloudAgentDomain {
+public final class SystemdWorkloadRuntimeAdapter implements ISystemdWorkloadRuntimeAdapter, CloudAgentDomain {
     /**
      * First-pass agent boundary: validate typed systemd work without exposing arbitrary shell execution.
      */

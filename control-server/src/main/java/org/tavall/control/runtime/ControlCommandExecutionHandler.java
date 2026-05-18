@@ -8,12 +8,12 @@ import org.tavall.control.asset.GlobalAssetType;
 import org.tavall.control.asset.PlatformAssetVersion;
 import org.tavall.control.castle.Castle;
 import org.tavall.control.castle.CastleId;
-import org.tavall.control.castle.ICastleDomain;
+import org.tavall.control.castle.CastleDomain;
 import org.tavall.control.common.CanonicalLocation;
 import org.tavall.control.common.GamePlatform;
 import org.tavall.control.guild.GuildId;
 import org.tavall.control.guild.GuildKingdom;
-import org.tavall.control.guild.IGuildDomain;
+import org.tavall.control.guild.GuildDomain;
 import org.tavall.control.healing.HealingFacilityLevelDefinition;
 import org.tavall.control.healing.HealingInventory;
 import org.tavall.control.healing.HealingMode;
@@ -26,7 +26,7 @@ import org.tavall.control.healing.WoundType;
 import org.tavall.control.identity.PlatformAccountBinding;
 import org.tavall.control.identity.UniversalPlayerAccount;
 import org.tavall.control.identity.UniversalPlayerId;
-import org.tavall.control.node.IResourceNodeDomain;
+import org.tavall.control.node.ResourceNodeDomain;
 import org.tavall.control.node.MiddlewareResourceType;
 import org.tavall.control.node.ResourceNode;
 import org.tavall.control.troop.Troop;
@@ -42,7 +42,7 @@ import java.util.Optional;
 import java.util.Locale;
 import java.util.UUID;
 
-public final class ControlCommandExecutionHandler implements IControlCommandDomain, IGuildDomain, ICastleDomain, IResourceNodeDomain, IDependencyInjectableConcrete {
+public final class ControlCommandExecutionHandler implements ControlCommandDomain, GuildDomain, CastleDomain, ResourceNodeDomain, IDependencyInjectableConcrete {
     public ControlCommandResult executeCommand(ControlCommand command, Instant startedAt) {
         try {
             return switch (command.commandType()) {

@@ -4,7 +4,7 @@ import org.tavall.control.common.GamePlatform;
 
 import java.util.Optional;
 
-public final class GlobalAssetResolutionHandler implements IAssetDomain {
+public final class GlobalAssetResolutionHandler implements AssetDomain {
     public GlobalAssetResolutionHandler() {
     }
 

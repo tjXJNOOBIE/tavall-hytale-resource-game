@@ -5,7 +5,7 @@ import org.tavall.control.identity.UniversalPlayerId;
 import java.time.Instant;
 import java.util.Set;
 
-public final class GuildMembershipHandler implements IGuildDomain {
+public final class GuildMembershipHandler implements GuildDomain {
     public GuildMembershipHandler() {
     }
 

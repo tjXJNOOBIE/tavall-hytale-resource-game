@@ -3,7 +3,7 @@ package org.tavall.control.cloud;
 import java.util.Map;
 import java.util.UUID;
 
-public final class FirewallRuleDesiredStateHandler implements IFirewallRuleDesiredStateHandler, ICloudControlDomain {
+public final class FirewallRuleDesiredStateHandler implements IFirewallRuleDesiredStateHandler, CloudControlDomain {
     @Override
     public CloudFirewallRule createRule(UUID nodeId, int port, PortProtocol protocol, String source, FirewallAction action, String reason) {
         if (port <= 0 || port > 65535) {

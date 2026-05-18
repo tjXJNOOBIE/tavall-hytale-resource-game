@@ -3,7 +3,7 @@ package org.tavall.control.troop;
 import java.util.Map;
 import java.util.Set;
 
-public final class TroopStatusTransitionHandler implements ITroopDomain {
+public final class TroopStatusTransitionHandler implements TroopDomain {
     private static final Map<TroopStatus, Set<TroopStatus>> ALLOWED_TRANSITIONS = Map.of(
             TroopStatus.IDLE, Set.of(TroopStatus.TRAINING, TroopStatus.MARCHING, TroopStatus.DEFENDING, TroopStatus.WOUNDED),
             TroopStatus.TRAINING, Set.of(TroopStatus.IDLE),

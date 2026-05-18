@@ -4,7 +4,7 @@ import org.tavall.control.guild.GuildJobBuffCalculationHandler;
 import org.tavall.control.guild.GuildJobDomain;
 import org.tavall.control.guild.GuildMemberProfile;
 
-public final class ResourceProductionTickHandler implements IResourceNodeDomain {
+public final class ResourceProductionTickHandler implements ResourceNodeDomain {
     public ResourceProductionTickHandler() {
     }
 

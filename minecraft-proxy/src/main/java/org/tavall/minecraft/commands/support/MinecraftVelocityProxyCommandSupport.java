@@ -4,7 +4,7 @@ import org.tavall.api.minecraft.permissions.UniversalPermissionPolicy;
 import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
 import org.tavall.minecraft.commands.source.ConsoleVelocityCommandSource;
 import org.tavall.minecraft.commands.source.GenericVelocityCommandSource;
-import org.tavall.minecraft.runtime.IMinecraftFrontendDomain;
+import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
 import org.tavall.minecraft.runtime.IMinecraftVelocityProxyServer;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import org.tavall.minecraft.commands.source.PlayerVelocityCommandSource;
@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class MinecraftVelocityProxyCommandSupport implements IMinecraftFrontendDomain, IDependencyInjectableConcrete {
+public abstract class MinecraftVelocityProxyCommandSupport implements MinecraftFrontendDomain, IDependencyInjectableConcrete {
     protected MinecraftVelocityCommandSource commandSource(SimpleCommand.Invocation invocation) {
         if (invocation.source() instanceof Player player) {
             return new PlayerVelocityCommandSource(player);

@@ -5,7 +5,7 @@ import org.tavall.control.clock.KingdomClockControlSystem;
 import org.tavall.control.clock.KingdomClockState;
 import org.tavall.control.clock.KingdomTimePhase;
 
-public final class CitizenClockIntegrationHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenClockIntegrationHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenClockIntegrationHandler() {
     }
 

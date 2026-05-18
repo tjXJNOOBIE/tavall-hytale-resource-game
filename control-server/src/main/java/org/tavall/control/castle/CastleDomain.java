@@ -2,7 +2,7 @@ package org.tavall.control.castle;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
-public interface ICastleDomain {
+public interface CastleDomain {
     default CastleRepository getCastleRepository() {
         return DependencyLoaderAccess.findOptionalInstance(CastleRepository.class)
                 .orElseGet(() -> registerCastleRepository(new InMemoryCastleRepository()));

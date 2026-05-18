@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-public final class ControlPlaneMaintenanceWorker implements IControlCommandDomain, IDependencyInjectableConcrete {
+public final class ControlPlaneMaintenanceWorker implements ControlCommandDomain, IDependencyInjectableConcrete {
     private static final int DEFAULT_LIMIT = 50;
 
     public ControlPlaneMaintenanceResult runOnce() {

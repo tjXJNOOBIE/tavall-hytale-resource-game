@@ -1,10 +1,10 @@
 package org.tavall.control.liveops.config;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 import redis.clients.jedis.Jedis;
 
-public final class RedisLiveConfigPublisher implements LiveConfigChangePublisher, ILiveOpsDomain, IDependencyInjectableConcrete {
+public final class RedisLiveConfigPublisher implements LiveConfigChangePublisher, LiveOpsDomain, IDependencyInjectableConcrete {
     @Override
     public void publish(LiveConfigChange change) {
         try (Jedis jedis = getLiveOpsRedisPool().getResource()) {

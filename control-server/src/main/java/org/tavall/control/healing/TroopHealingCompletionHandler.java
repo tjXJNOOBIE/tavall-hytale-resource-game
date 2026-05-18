@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
-public final class TroopHealingCompletionHandler implements IHealingDomain {
+public final class TroopHealingCompletionHandler implements HealingDomain {
     public TroopHealingCompletionHandler() {
     }
 

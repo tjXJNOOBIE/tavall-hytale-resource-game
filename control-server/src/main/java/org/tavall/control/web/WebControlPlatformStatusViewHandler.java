@@ -1,9 +1,9 @@
 package org.tavall.control.web;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.control.runtime.PlatformConnectionStatus;
 
-public final class WebControlPlatformStatusViewHandler implements IWebControlPlatformStatusViewHandler, IControlServerDomain {
+public final class WebControlPlatformStatusViewHandler implements IWebControlPlatformStatusViewHandler, ControlServerDomain {
     public String platformStatusTable() {
         StringBuilder builder = new StringBuilder("<table><tr><th>Platform</th><th>Connected</th><th>Message</th></tr>");
         for (PlatformConnectionStatus status : getControlCommandRuntime().fanoutHandler().platformStatuses()) {

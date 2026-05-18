@@ -1,6 +1,6 @@
 package org.tavall.control.troop;
 
-public final class WoundedTroopCaptureHandler implements ITroopDomain {
+public final class WoundedTroopCaptureHandler implements TroopDomain {
     public WoundedTroopCaptureHandler() {
     }
 

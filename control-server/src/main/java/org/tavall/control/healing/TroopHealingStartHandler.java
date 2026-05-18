@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 
-public final class TroopHealingStartHandler implements IHealingDomain {
+public final class TroopHealingStartHandler implements HealingDomain {
     public TroopHealingStartHandler() {
     }
 

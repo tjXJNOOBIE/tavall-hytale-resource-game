@@ -15,7 +15,7 @@ import org.tavall.control.events.middleware.EventRateLimitPolicy;
 import org.tavall.control.events.middleware.GameEventAuditHandler;
 import redis.clients.jedis.JedisPool;
 
-public interface IGameEventDomain {
+public interface GameEventDomain {
     default ObjectMapper getGameEventObjectMapper() {
         return DependencyLoaderAccess.findInstance(ObjectMapper.class);
     }

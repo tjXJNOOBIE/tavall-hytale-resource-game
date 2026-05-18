@@ -26,7 +26,7 @@ import org.tavall.control.runtime.ControlOperator;
 /**
  * Domain equivalent for control-server adapter dependencies.
  */
-public interface IControlServerDomain {
+public interface ControlServerDomain {
     default ControlCommandRuntime getControlCommandRuntime() {
         return DependencyLoaderAccess.findInstance(ControlCommandRuntime.class);
     }

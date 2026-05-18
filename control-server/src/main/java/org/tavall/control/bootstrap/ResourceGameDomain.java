@@ -63,7 +63,7 @@ import org.tavall.control.world.BuildingPlacementStageStructureHandler;
 /**
  * Domain equivalent for repo-local DI accessors.
  */
-public interface IResourceGameDomain {
+public interface ResourceGameDomain {
     default <T> T registerSingleton(Class<T> type, T instance) {
         DependencyLoaderAccess.registerInstance(type, instance);
         return instance;

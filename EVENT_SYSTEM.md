@@ -77,7 +77,7 @@ Events should keep returning `GameEventResult` with success, cancellation, emitt
 | Component | Dependency rule |
 |---|---|
 | `GameEventDependencyModule` | Registers the default event pipeline in Tavall DI |
-| `IGameEventDomainGenerated` | Exposes default accessors used directly by handlers |
+| `GameEventDomain` | Exposes default accessors used directly by handlers |
 | `GameEventDispatchHandler` | Reads middleware and listeners from DI at dispatch time |
 | `InteractionBridgeHandler` | Reads action-to-event mappings and dispatcher from DI |
 | Middleware handlers | Use default accessors instead of constructor-injected collaborators |

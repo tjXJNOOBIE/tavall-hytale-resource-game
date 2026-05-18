@@ -1,7 +1,7 @@
 package org.tavall.control.liveops.gui;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 import org.tavall.control.liveops.config.LiveConfigValidationException;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -9,7 +9,7 @@ import redis.clients.jedis.JedisPubSub;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-public final class RedisGlobalGuiSubscriber implements ILiveOpsDomain, IDependencyInjectableConcrete, AutoCloseable {
+public final class RedisGlobalGuiSubscriber implements LiveOpsDomain, IDependencyInjectableConcrete, AutoCloseable {
     private volatile JedisPubSub subscription;
     private volatile Future<?> future;
 

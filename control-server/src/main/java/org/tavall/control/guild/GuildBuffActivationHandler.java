@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class GuildBuffActivationHandler implements IGuildDomain {
+public final class GuildBuffActivationHandler implements GuildDomain {
     public GuildBuffActivationHandler() {
     }
 

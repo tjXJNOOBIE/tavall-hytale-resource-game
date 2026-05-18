@@ -4,7 +4,7 @@ import org.tavall.control.events.core.AbstractGameEvent;
 import org.tavall.control.events.core.BasicGameEvent;
 import org.tavall.control.events.core.EventSource;
 import org.tavall.control.events.core.GameEventType;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 import org.tavall.control.liveops.config.LiveConfigValidationException;
 
 import java.nio.charset.StandardCharsets;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class GlobalGuiMutationHandler implements ILiveOpsDomain {
+public final class GlobalGuiMutationHandler implements LiveOpsDomain {
     public GlobalGuiDefinition applyChange(GlobalGuiChangeRequest request) {
         return applyChange(request, Instant.now());
     }

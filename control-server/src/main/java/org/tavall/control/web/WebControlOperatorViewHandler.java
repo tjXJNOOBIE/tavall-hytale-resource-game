@@ -1,9 +1,9 @@
 package org.tavall.control.web;
 
-import org.tavall.control.IControlServerDomain;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.control.runtime.ControlOperator;
 
-public final class WebControlOperatorViewHandler implements IWebControlOperatorViewHandler, IControlServerDomain {
+public final class WebControlOperatorViewHandler implements IWebControlOperatorViewHandler, ControlServerDomain {
     public String operatorTable() {
         StringBuilder body = new StringBuilder("<table><tr><th>Name</th><th>Role</th><th>Enabled</th></tr>");
         for (ControlOperator operator : getControlCommandRuntime().operatorRepository().findOperators()) {

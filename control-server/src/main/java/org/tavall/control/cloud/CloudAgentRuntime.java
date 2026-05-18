@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-public final class CloudAgentRuntime implements ICloudAgentRuntime, ICloudAgentDomain, IDependencyInjectableConcrete {
+public final class CloudAgentRuntime implements ICloudAgentRuntime, CloudAgentDomain, IDependencyInjectableConcrete {
     @Override
     public CloudAgentRuntimeCycleResult runOnce(Instant now) throws IOException, InterruptedException {
         boolean heartbeatAccepted = getCloudAgentTransportHandler().sendHeartbeat(new CloudAgentHeartbeatPayload(

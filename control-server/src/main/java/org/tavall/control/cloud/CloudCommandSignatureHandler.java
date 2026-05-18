@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HexFormat;
 
-public final class CloudCommandSignatureHandler implements ICloudCommandSignatureHandler, ICloudAgentDomain, IDependencyInjectableConcrete {
+public final class CloudCommandSignatureHandler implements ICloudCommandSignatureHandler, CloudAgentDomain, IDependencyInjectableConcrete {
     @Override
     public boolean isSignatureRequired() {
         return getCloudAgentSecurityConfig().commandSigningRequired();

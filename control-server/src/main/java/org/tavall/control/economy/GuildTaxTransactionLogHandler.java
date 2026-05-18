@@ -4,7 +4,7 @@ import org.tavall.control.guild.GuildId;
 
 import java.util.List;
 
-public final class GuildTaxTransactionLogHandler implements IEconomyDomain {
+public final class GuildTaxTransactionLogHandler implements EconomyDomain {
     public GuildTaxTransactionLogHandler() {
     }
 

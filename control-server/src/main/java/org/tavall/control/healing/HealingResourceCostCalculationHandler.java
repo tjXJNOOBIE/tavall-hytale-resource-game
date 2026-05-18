@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public final class HealingResourceCostCalculationHandler implements IHealingDomain {
+public final class HealingResourceCostCalculationHandler implements HealingDomain {
     public HealingResourceCostCalculationHandler() {
     }
 

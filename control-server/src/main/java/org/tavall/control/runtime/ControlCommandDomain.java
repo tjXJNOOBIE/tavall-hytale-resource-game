@@ -23,7 +23,7 @@ import org.tavall.control.troop.TroopRepository;
 import java.time.Clock;
 import java.util.Optional;
 
-public interface IControlCommandDomain {
+public interface ControlCommandDomain {
     default ControlCommandRegistry getControlCommandRegistry() {
         return DependencyLoaderAccess.findInstance(ControlCommandRegistry.class);
     }

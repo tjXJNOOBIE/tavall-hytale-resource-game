@@ -3,7 +3,7 @@ package org.tavall.control.cloud;
 import java.util.Map;
 import java.util.UUID;
 
-public final class DnsRecordDesiredStateHandler implements IDnsRecordDesiredStateHandler, ICloudControlDomain {
+public final class DnsRecordDesiredStateHandler implements IDnsRecordDesiredStateHandler, CloudControlDomain {
     @Override
     public DnsRecord createRecord(String hostname, DnsRecordType recordType, String value, int ttl) {
         if (hostname == null || hostname.isBlank()) {

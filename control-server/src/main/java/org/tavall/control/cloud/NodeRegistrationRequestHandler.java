@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class NodeRegistrationRequestHandler implements INodeRegistrationRequestHandler, ICloudControlDomain {
+public final class NodeRegistrationRequestHandler implements INodeRegistrationRequestHandler, CloudControlDomain {
     public NodeRegistrationResult register(NodeRegistrationRequest request, Instant now) {
         Optional<JoinToken> joinToken = getJoinTokenValidationHandler().validate(request.joinToken(), now);
         if (joinToken.isEmpty()) {

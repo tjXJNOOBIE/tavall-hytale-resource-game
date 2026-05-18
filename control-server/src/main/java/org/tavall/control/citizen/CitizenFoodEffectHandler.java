@@ -2,7 +2,7 @@ package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
-public final class CitizenFoodEffectHandler implements ICitizenDomain, IDependencyInjectableConcrete {
+public final class CitizenFoodEffectHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenConditionEffectResult evaluate(CitizenData citizen) {
         return switch (citizen.nutritionState()) {
             case FED -> new CitizenConditionEffectResult(citizen, 1.0, 1.0, "food-sufficient");

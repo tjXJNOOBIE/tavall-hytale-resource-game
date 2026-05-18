@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public final class MinecraftBukkitStructureWorldActionHandler implements IMinecraftBukkitStructureWorldActionHandler, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitStructureWorldActionHandler implements IMinecraftBukkitStructureWorldActionHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private static final String CASTLE_TAG = "tavall.kingdom.castle";
     private static final String BUILDING_TAG = "tavall.kingdom.building";
     private static final String INTERIOR_TAG = "tavall.kingdom.interior";

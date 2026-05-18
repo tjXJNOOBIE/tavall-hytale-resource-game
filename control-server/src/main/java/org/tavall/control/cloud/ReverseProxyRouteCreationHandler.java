@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class ReverseProxyRouteCreationHandler implements IReverseProxyRouteCreationHandler, ICloudControlDomain {
+public final class ReverseProxyRouteCreationHandler implements IReverseProxyRouteCreationHandler, CloudControlDomain {
     @Override
     public ReverseProxyRoute createRoute(UUID workloadId, UUID nodeId, String hostname, Optional<String> pathPrefix, String targetHost, int targetPort, boolean tlsEnabled) {
         if (hostname == null || hostname.isBlank()) {

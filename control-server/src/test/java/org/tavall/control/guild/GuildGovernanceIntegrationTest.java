@@ -22,7 +22,7 @@ public final class GuildGovernanceIntegrationTest {
 
     @Test
     void authorityTiersExplicitPermissionsAndJobsStaySeparate() {
-        IGuildDomain guildDomain = new IGuildDomain() {
+        GuildDomain guildDomain = new GuildDomain() {
         };
         GuildRepository guildRepository = guildDomain.registerGuildRepository(new InMemoryGuildRepository());
         GuildCreationHandler guildCreationHandler = guildDomain.getGuildCreationHandler();
@@ -64,7 +64,7 @@ public final class GuildGovernanceIntegrationTest {
 
     @Test
     void statCalculatorCombinesUpgradeBuffJobAndKingdomState() {
-        IGuildDomain guildDomain = new IGuildDomain() {
+        GuildDomain guildDomain = new GuildDomain() {
         };
         GuildBuffRepository buffRepository = guildDomain.registerGuildBuffRepository(new InMemoryGuildBuffRepository());
         guildDomain.registerGuildRepository(new InMemoryGuildRepository());

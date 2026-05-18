@@ -11,7 +11,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public final class AgentCommandExecutionHandlerTest implements ICloudAgentDomain {
+public final class AgentCommandExecutionHandlerTest implements CloudAgentDomain {
     @Test
     void agentAcceptsTypedAllowlistedCommands() {
         DependencyLoaderAccess.clear();

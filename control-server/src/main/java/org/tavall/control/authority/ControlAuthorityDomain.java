@@ -3,7 +3,7 @@ package org.tavall.control.authority;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.tavall.control.runtime.ControlCommandRegistry;
 
-public interface IControlAuthorityDomain {
+public interface ControlAuthorityDomain {
     default AuthorityRepository getAuthorityRepository() {
         return DependencyLoaderAccess.findInstance(AuthorityRepository.class);
     }

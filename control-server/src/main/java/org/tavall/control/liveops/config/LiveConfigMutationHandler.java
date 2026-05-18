@@ -4,7 +4,7 @@ import org.tavall.control.events.core.AbstractGameEvent;
 import org.tavall.control.events.core.BasicGameEvent;
 import org.tavall.control.events.core.EventSource;
 import org.tavall.control.events.core.GameEventType;
-import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.LiveOpsDomain;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class LiveConfigMutationHandler implements ILiveOpsDomain {
+public final class LiveConfigMutationHandler implements LiveOpsDomain {
     public LiveConfigEntry applyChange(LiveConfigChangeRequest request) {
         return applyChange(request, Instant.now());
     }

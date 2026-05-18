@@ -10,7 +10,7 @@ import org.bukkit.command.TabCompleter;
 import java.util.List;
 import java.util.Locale;
 
-public final class KingdomCompanionCommand implements CommandExecutor, TabCompleter, IMinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class KingdomCompanionCommand implements CommandExecutor, TabCompleter, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
     private final KingdomCompanionListCommand listCommand = new KingdomCompanionListCommand();
     private final KingdomCompanionGiveCommand giveCommand = new KingdomCompanionGiveCommand();
     private final KingdomCompanionCreateCommand createCommand = new KingdomCompanionCreateCommand();
