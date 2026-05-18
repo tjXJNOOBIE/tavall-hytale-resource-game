@@ -1,6 +1,7 @@
 package com.tavall.resourcegame.frontend.minecraft.commands;
 
 import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
+import com.tavall.resourcegame.frontend.minecraft.commands.util.MinecraftVelocityPunishmentCommandSupport;
 import com.tavall.resourcegame.frontend.minecraft.routing.MinecraftVelocityCommandResult;
 import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
 import com.velocitypowered.api.command.SimpleCommand;

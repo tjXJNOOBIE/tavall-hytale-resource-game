@@ -5,6 +5,7 @@ import com.tavall.resourcegame.api.internal.permissions.RankRequest;
 import com.tavall.resourcegame.api.internal.permissions.RankResponse;
 import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionRole;
 import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject;
+import com.tavall.resourcegame.frontend.minecraft.commands.util.MinecraftVelocityProxyCommandSupport;
 import com.tavall.resourcegame.frontend.minecraft.routing.MinecraftVelocityCommandResult;
 import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
 import com.velocitypowered.api.command.SimpleCommand;

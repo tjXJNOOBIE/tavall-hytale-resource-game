@@ -1,7 +1,7 @@
 package com.tavall.resourcegame.dependency.modules;
 
 import com.tavall.resourcegame.ResourceGamePlugin;
-import com.tavall.resourcegame.clock.KingdomClockService;
+import com.tavall.resourcegame.clock.KingdomClockHandler;
 import com.tavall.resourcegame.config.CacheConfig;
 import com.tavall.resourcegame.config.CastleAssetConfig;
 import com.tavall.resourcegame.config.DatabaseConfig;
@@ -318,7 +318,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         );
         FarmsteadMenuService farmsteadMenuService = new FarmsteadMenuService(sessionStore, buildingService, uiNavigator);
 
-        KingdomClockService clockService = new KingdomClockService(clockConfig);
+        KingdomClockHandler clockService = new KingdomClockHandler(clockConfig);
         PlayerDataService playerDataService = new PlayerDataService(
                 profileService,
                 gameStateService,

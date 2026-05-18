@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package com.tavall.resourcegame.frontend.minecraft.server.world;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,18 +13,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-final class MinecraftBukkitWorldActionSupport {
+public final class MinecraftBukkitWorldActionSupport {
     private MinecraftBukkitWorldActionSupport() {
     }
 
-    static String token(String[] tokens, int index) {
+    public static String token(String[] tokens, int index) {
         if (tokens == null || index < 0 || index >= tokens.length) {
             return null;
         }
         return tokens[index];
     }
 
-    static String joined(String[] tokens, int startIndex) {
+    public static String joined(String[] tokens, int startIndex) {
         if (tokens == null || startIndex >= tokens.length) {
             return "";
         }
@@ -38,7 +38,7 @@ final class MinecraftBukkitWorldActionSupport {
         return builder.toString().trim();
     }
 
-    static Location placeAnchor(Player player, Location previousAnchor, double offsetDistance, double verticalOffset) {
+    public static Location placeAnchor(Player player, Location previousAnchor, double offsetDistance, double verticalOffset) {
         World world = player.getWorld();
         Location location = player.getLocation().clone();
         Vector direction = location.getDirection();
@@ -58,7 +58,7 @@ final class MinecraftBukkitWorldActionSupport {
         return location;
     }
 
-    static void clearTrackedEntities(World world, Location center, double radius, String tag) {
+    public static void clearTrackedEntities(World world, Location center, double radius, String tag) {
         Collection<Entity> nearby = world.getNearbyEntities(center, radius, radius, radius);
         for (Entity entity : nearby) {
             if (entity == null || !entity.getScoreboardTags().contains(tag)) {
@@ -68,7 +68,7 @@ final class MinecraftBukkitWorldActionSupport {
         }
     }
 
-    static int countTaggedEntities(World world, Location center, double radius, String tag) {
+    public static int countTaggedEntities(World world, Location center, double radius, String tag) {
         int count = 0;
         for (Entity entity : world.getNearbyEntities(center, radius, radius, radius)) {
             if (entity != null && entity.getScoreboardTags().contains(tag)) {
@@ -78,7 +78,7 @@ final class MinecraftBukkitWorldActionSupport {
         return count;
     }
 
-    static void clearCube(World world, Location center, int halfX, int halfY, int halfZ, String tag) {
+    public static void clearCube(World world, Location center, int halfX, int halfY, int halfZ, String tag) {
         if (center == null) {
             return;
         }
@@ -96,7 +96,7 @@ final class MinecraftBukkitWorldActionSupport {
         clearTrackedEntities(world, center, Math.max(halfX, Math.max(halfY, halfZ)) + 4.0D, "tavall.kingdom.hologram");
     }
 
-    static void fillPad(World world, int centerX, int centerY, int centerZ, int radiusX, int radiusZ, Material material) {
+    public static void fillPad(World world, int centerX, int centerY, int centerZ, int radiusX, int radiusZ, Material material) {
         for (int x = centerX - radiusX; x <= centerX + radiusX; x++) {
             for (int z = centerZ - radiusZ; z <= centerZ + radiusZ; z++) {
                 world.getBlockAt(x, centerY, z).setType(material, false);
@@ -104,17 +104,17 @@ final class MinecraftBukkitWorldActionSupport {
         }
     }
 
-    static void setColumn(World world, int x, int y, int z, int height, Material material) {
+    public static void setColumn(World world, int x, int y, int z, int height, Material material) {
         for (int offset = 0; offset < height; offset++) {
             world.getBlockAt(x, y + offset, z).setType(material, false);
         }
     }
 
-    static void setBlock(World world, int x, int y, int z, Material material) {
+    public static void setBlock(World world, int x, int y, int z, Material material) {
         world.getBlockAt(x, y, z).setType(material, false);
     }
 
-    static void spawnHologramStack(World world, Location location, List<String> lines) {
+    public static void spawnHologramStack(World world, Location location, List<String> lines) {
         Location cursor = location.clone();
         for (String line : lines) {
             ArmorStand stand = (ArmorStand) world.spawnEntity(cursor, EntityType.ARMOR_STAND);
@@ -131,7 +131,7 @@ final class MinecraftBukkitWorldActionSupport {
         }
     }
 
-    static String capitalize(String value) {
+    public static String capitalize(String value) {
         if (value == null || value.isBlank()) {
             return "Kingdom";
         }
@@ -139,7 +139,7 @@ final class MinecraftBukkitWorldActionSupport {
         return Character.toUpperCase(normalized.charAt(0)) + normalized.substring(1);
     }
 
-    static String normalizeType(String token, String defaultValue) {
+    public static String normalizeType(String token, String defaultValue) {
         if (token == null || token.isBlank()) {
             return defaultValue;
         }

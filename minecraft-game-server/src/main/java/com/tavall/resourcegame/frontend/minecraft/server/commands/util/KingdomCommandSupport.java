@@ -1,9 +1,10 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package com.tavall.resourcegame.frontend.minecraft.server.commands.util;
 
 import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
 import com.tavall.resourcegame.api.internal.minecraft.MinecraftVisualRenderRequest;
 import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
 import com.tavall.resourcegame.api.internal.ui.UiPageType;
+import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -16,11 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-final class KingdomCommandSupport {
+public final class KingdomCommandSupport {
     private KingdomCommandSupport() {
     }
 
-    static boolean forward(IMinecraftBukkitServerDomain domain, CommandSender sender, String label, String rootToken, String[] args) {
+    public static boolean forward(IMinecraftBukkitServerDomain domain, CommandSender sender, String label, String rootToken, String[] args) {
         if (!sender.hasPermission("tavall.resourcegame.command")) {
             sender.sendMessage("Missing permission tavall.resourcegame.command.");
             return true;
@@ -43,7 +44,7 @@ final class KingdomCommandSupport {
         return true;
     }
 
-    static boolean openPageIfPlayer(IMinecraftBukkitServerDomain domain, CommandSender sender, UiPageType pageType, String feedback) {
+    public static boolean openPageIfPlayer(IMinecraftBukkitServerDomain domain, CommandSender sender, UiPageType pageType, String feedback) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("This page requires a player sender.");
             return true;
@@ -53,7 +54,7 @@ final class KingdomCommandSupport {
         return true;
     }
 
-    static void renderFeedback(IMinecraftBukkitServerDomain domain, CommandSender sender, String rawInput, FrontendCommandVerificationResult result) {
+    public static void renderFeedback(IMinecraftBukkitServerDomain domain, CommandSender sender, String rawInput, FrontendCommandVerificationResult result) {
         String actionMessage = null;
         if (result.success() && sender instanceof Player player) {
             actionMessage = domain.getMinecraftBukkitWorldActionHandler()
@@ -73,14 +74,14 @@ final class KingdomCommandSupport {
         }
     }
 
-    static String platformAccountId(IMinecraftBukkitServerDomain domain, CommandSender sender) {
+    public static String platformAccountId(IMinecraftBukkitServerDomain domain, CommandSender sender) {
         if (sender instanceof Player player) {
             return player.getUniqueId().toString();
         }
         return "minecraft-console:" + domain.getMinecraftBukkitServerConfig().serverId();
     }
 
-    static String rawKingdomInput(String label, String rootToken, String[] args) {
+    public static String rawKingdomInput(String label, String rootToken, String[] args) {
         StringBuilder builder = new StringBuilder(normalizeKingdomAlias(label));
         if (rootToken != null && !rootToken.isBlank()) {
             builder.append(' ').append(rootToken);
@@ -91,11 +92,11 @@ final class KingdomCommandSupport {
         return builder.toString();
     }
 
-    static String normalizeKingdomAlias(String label) {
+    public static String normalizeKingdomAlias(String label) {
         return "kingdom".equalsIgnoreCase(label) ? "kingdom" : "kd";
     }
 
-    static Map<String, String> commandMetadata(IMinecraftBukkitServerDomain domain, CommandSender sender, String label) {
+    public static Map<String, String> commandMetadata(IMinecraftBukkitServerDomain domain, CommandSender sender, String label) {
         Map<String, String> metadata = new LinkedHashMap<String, String>();
         metadata.put("serverId", domain.getMinecraftBukkitServerConfig().serverId());
         metadata.put("surfaceIdentity", "BUKKIT_SERVER");
@@ -108,7 +109,7 @@ final class KingdomCommandSupport {
         return metadata;
     }
 
-    static List<String> matching(List<String> candidates, String prefix) {
+    public static List<String> matching(List<String> candidates, String prefix) {
         String normalizedPrefix = prefix == null ? "" : prefix.toLowerCase();
         ArrayList<String> matches = new ArrayList<String>();
         for (String candidate : candidates) {

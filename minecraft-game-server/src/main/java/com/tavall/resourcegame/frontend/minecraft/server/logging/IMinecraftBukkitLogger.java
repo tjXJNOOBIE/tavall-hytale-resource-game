@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package com.tavall.resourcegame.frontend.minecraft.server.logging;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 

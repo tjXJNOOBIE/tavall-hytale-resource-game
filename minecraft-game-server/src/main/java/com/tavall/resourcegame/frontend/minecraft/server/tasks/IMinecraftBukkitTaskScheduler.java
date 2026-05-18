@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package com.tavall.resourcegame.frontend.minecraft.server.tasks;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 

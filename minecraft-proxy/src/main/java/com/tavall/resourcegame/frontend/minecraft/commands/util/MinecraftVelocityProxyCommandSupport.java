@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.commands;
+package com.tavall.resourcegame.frontend.minecraft.commands.util;
 
 import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionPolicy;
 import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject;
@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-abstract class MinecraftVelocityProxyCommandSupport implements IMinecraftFrontendDomain, IDependencyInjectableConcrete {
+public abstract class MinecraftVelocityProxyCommandSupport implements IMinecraftFrontendDomain, IDependencyInjectableConcrete {
     protected MinecraftVelocityCommandSource commandSource(SimpleCommand.Invocation invocation) {
         if (invocation.source() instanceof Player player) {
             return new PlayerVelocityCommandSource(player);

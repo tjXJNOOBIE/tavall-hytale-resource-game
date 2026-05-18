@@ -1,9 +1,7 @@
 package com.tavall.resourcegame.frontend.minecraft.server.bootstrap;
 
-import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitLogger;
 import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitRuntimeState;
 import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitServerConfig;
-import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitLoggerHandler;
 import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitRuntimeState;
 import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitServerDependencyModule;
 import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitServerPlugin;
@@ -16,9 +14,11 @@ import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitInventor
 import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitPlayerJoinHandler;
 import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitPopulationWorldActionHandler;
 import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitStructureWorldActionHandler;
-import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitTaskSchedulerHandler;
 import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitWorldActionHandler;
 import com.tavall.resourcegame.frontend.minecraft.server.protection.MinecraftBukkitStructureProtectionHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.logging.MinecraftBukkitLoggerHandler;
+import com.tavall.resourcegame.frontend.minecraft.server.logging.IMinecraftBukkitLogger;
+import com.tavall.resourcegame.frontend.minecraft.server.tasks.MinecraftBukkitTaskSchedulerHandler;
 import com.tavall.resourcegame.frontend.minecraft.server.view.BukkitServerViewAdapter;
 import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitServerView;
 import com.tavall.resourcegame.frontend.minecraft.server.visual.MinecraftBukkitVisualHandler;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.commands;
+package com.tavall.resourcegame.frontend.minecraft.commands.util;
 
 import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
 import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
-abstract class MinecraftVelocityPunishmentCommandSupport extends MinecraftVelocityProxyCommandSupport {
+public abstract class MinecraftVelocityPunishmentCommandSupport extends MinecraftVelocityProxyCommandSupport {
     protected PunishRequest inspectRequest(MinecraftVelocityCommandSource source, String alias, String targetName) {
         String targetAccountId = resolveTargetAccountId(targetName);
         String targetDisplayName = resolveTargetDisplayName(targetName);

@@ -1,5 +1,6 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
+import com.tavall.resourcegame.frontend.minecraft.server.commands.util.KingdomCommandSupport;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

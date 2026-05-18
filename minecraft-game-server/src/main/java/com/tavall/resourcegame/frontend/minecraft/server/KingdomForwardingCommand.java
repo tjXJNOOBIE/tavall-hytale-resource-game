@@ -1,6 +1,7 @@
 package com.tavall.resourcegame.frontend.minecraft.server;
 
 import com.tavall.resourcegame.api.internal.ui.UiPageType;
+import com.tavall.resourcegame.frontend.minecraft.server.commands.util.KingdomCommandSupport;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

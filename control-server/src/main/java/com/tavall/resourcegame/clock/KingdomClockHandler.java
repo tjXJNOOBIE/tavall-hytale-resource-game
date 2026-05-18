@@ -22,7 +22,7 @@ import java.util.logging.Level;
 /**
  * Kingdom clock service using real-world time.
  */
-public final class KingdomClockService implements IKingdomClockService, IDependencyInjectableConcrete {
+public final class KingdomClockHandler implements IKingdomClockService, IDependencyInjectableConcrete {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private static final long REFRESH_INTERVAL_SECONDS = 60L;
     private static final long INITIAL_REFRESH_DELAY_SECONDS = 10L;
@@ -30,7 +30,7 @@ public final class KingdomClockService implements IKingdomClockService, IDepende
     private final KingdomClockConfig config;
     private volatile ScheduledFuture<?> refreshTask;
 
-    public KingdomClockService(KingdomClockConfig config) {
+    public KingdomClockHandler(KingdomClockConfig config) {
         this.config = Objects.requireNonNull(config, "config");
     }
 
@@ -47,7 +47,7 @@ public final class KingdomClockService implements IKingdomClockService, IDepende
         if (world == null) {
             return;
         }
-        WorldTasks.executeSafe(world, "KingdomClockService.applyToWorldConfig", () -> applyToWorldConfig(world));
+        WorldTasks.executeSafe(world, "KingdomClockHandler.applyToWorldConfig", () -> applyToWorldConfig(world));
     }
 
     private void applyToWorldConfig(World world) {

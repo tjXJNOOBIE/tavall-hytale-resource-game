@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package com.tavall.resourcegame.frontend.minecraft.server.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
