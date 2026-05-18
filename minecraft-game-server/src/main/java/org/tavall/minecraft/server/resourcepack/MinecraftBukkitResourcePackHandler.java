@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -256,8 +257,30 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
             zipOutputStream.putNextEntry(metadataEntry);
             zipOutputStream.write(packMetadataJson().getBytes(StandardCharsets.UTF_8));
             zipOutputStream.closeEntry();
+            zipResourcePackFiles(zipOutputStream);
         }
         return outputStream.toByteArray();
+    }
+
+    private void zipResourcePackFiles(ZipOutputStream zipOutputStream) throws IOException {
+        if (!Files.exists(resourcePackRoot())) {
+            return;
+        }
+        try (Stream<Path> stream = Files.walk(resourcePackRoot())) {
+            List<Path> files = stream
+                    .filter(Files::isRegularFile)
+                    .filter(path -> !Objects.equals(path.getFileName().toString(), DEFAULT_PACK_FILE_NAME))
+                    .filter(path -> !Objects.equals(path.getFileName().toString(), "README.md"))
+                    .filter(path -> !Objects.equals(path.getFileName().toString(), ".gitkeep"))
+                    .sorted((left, right) -> resourcePackRoot().relativize(left).toString().compareTo(resourcePackRoot().relativize(right).toString()))
+                    .toList();
+            for (Path file : files) {
+                ZipEntry entry = new ZipEntry(resourcePackRoot().relativize(file).toString().replace('\\', '/'));
+                zipOutputStream.putNextEntry(entry);
+                Files.copy(file, zipOutputStream);
+                zipOutputStream.closeEntry();
+            }
+        }
     }
 
     private String packMetadataJson() {

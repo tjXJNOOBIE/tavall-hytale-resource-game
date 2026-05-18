@@ -1,6 +1,6 @@
 # Minecraft Resource Pack Path
 
-The Minecraft Bukkit frontend keeps a local resource-pack mount point for future castle and building assets.
+The Minecraft Bukkit frontend keeps a local resource-pack mount point for castle and building assets and serves a generated `pack.zip` from that mount point when players join.
 
 ## Default Path
 
@@ -10,20 +10,19 @@ The Minecraft Bukkit frontend keeps a local resource-pack mount point for future
 ## Purpose
 
 - Store future custom castle and building assets in one predictable place.
-- Keep the current playable slice working with vanilla placeholders until assets exist.
-- Avoid HTTP-based private asset delivery.
+- Generate a zip from that local mount point and force it to clients on join.
+- Keep the current playable slice working while the asset tree is still being filled in.
 - The plugin bootstraps the local layout on startup and creates `castles/` and `buildings/` folders under the configured root.
 - The castle and building inventory pages preview files from those folders so the UI reflects the local asset layout directly.
 - Castle pages expect filenames like `castle_main.png` and `castle_buildings.json`; building pages expect filenames like `building_detail.png` and `farmstead.json`.
 
 ## Current Rule
 
-- The path is a local filesystem mount point only.
-- We do not require a generated pack or remote asset server for the current pass.
+- The path remains the local source of truth for gameplay assets.
+- The server now hosts a generated pack archive over HTTP so clients can be forced to load it.
 - Minecraft castles and buildings should remain interactable even before custom assets are added.
 
 ## Future Use
 
 - Drop the castle and building model/texture pack contents under this path later.
-- Wire any eventual pack build or distribution step from this path, not from the gameplay command path.
-- Keep the folder local to the Minecraft server runtime; do not add HTTP delivery for private assets.
+- Keep the folder local to the Minecraft server runtime; the HTTP pack delivery is only the runtime transport for the local mount point.

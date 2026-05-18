@@ -1,13 +1,13 @@
 # Resource Pack Root
 
-This folder is the local mount point for future Tavall castle and building assets.
+This folder is the local mount point for Tavall castle and building assets. The Minecraft server now zips the files in this tree into `pack.zip` and forces that archive to clients on join.
 
 ## Expected Layout
 
 - `castles/`
 - `buildings/`
 
-The Minecraft server bootstrap creates these folders automatically when it starts. Keep private gameplay assets here instead of adding HTTP delivery paths.
+The Minecraft server bootstrap creates these folders automatically when it starts. Keep private gameplay assets here; the server runtime handles pack delivery for you.
 
 The castle and building inventory screens also preview file names from these folders so artists and devs can see which local assets are available.
 
