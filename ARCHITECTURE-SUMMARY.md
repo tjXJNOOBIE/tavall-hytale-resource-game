@@ -13,11 +13,11 @@
 - KingdomClockService provides 24-hour day/night state.
 
 ## UI
-- Custom .ui pages live under Common/UI/Custom/Pages.
-- UiPageRegistry + UiNavigator build and open pages.
-- UiActionService routes button actions to game services and now clears first-join tutorial milestones when upgrade actions succeed.
-- DebugNavigatorPage exposes cache mode, persistence mode, and onboarding milestone state for testable operator visibility.
-- InteriorMainPage and CastleUpgradesPage surface first-join tutorial copy from persisted onboarding metadata.
+- `UIData` provides the read models that fill UI screens.
+- `minecraft-framework` owns reusable screen/action contracts such as `UiAction`, `UiScreen`, `UiSection`, `UiScreenKey`, and `AssetId`.
+- `minecraft-game-server` renders those contracts in Minecraft and handles clicks, layout, and refresh behavior.
+- Domain pages remain backed by cache/database data and can still surface operator or debug state when the domain owns that data.
+- The old `UiNavigator`, `UiPageRegistry`, `UiActionService`, and `UiPageType` layer is gone.
 
 ## Dependency Composition
 - `dependency/` contains a repo-local compatibility layer that mirrors the shared Tavall token/domain access pattern while the upstream `tavall-di` module remains non-buildable in this monorepo.

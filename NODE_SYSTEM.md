@@ -15,9 +15,9 @@ Own player-placed resource nodes, worker/troop assignment, depletion, regenerati
 - Open the node detail UI from world interaction or command-driven selection.
 
 ## Main classes
-- `ResourceNodeService`
-- `ResourceNodeVisualService`
-- `ResourceNodeVisualPulseService`
+- `ResourceNodeHandler`
+- `ResourceNodeVisualHandler`
+- `ResourceNodeVisualPulseHandler`
 - `ResourceNodeRoutePlanner`
 - `ResourceNodeInteractionService`
 - `ResourceNodeStructureService`
@@ -27,7 +27,7 @@ Own player-placed resource nodes, worker/troop assignment, depletion, regenerati
 
 ## Data flow
 - Node state lives inside `GameStateMetadata.resourceNodes`.
-- `ResourceNodeService` rewrites the metadata JSON when node state changes.
+- `ResourceNodeHandler` rewrites the metadata JSON when node state changes.
 - Node summary objects derive UI- and visual-friendly values like stock status, gain per tick, available troops, and visible route count.
 
 ## World behavior
@@ -41,7 +41,7 @@ Own player-placed resource nodes, worker/troop assignment, depletion, regenerati
 
 ## UI behavior
 - `ResourceNodePage` shows assignment, reserve troops, auto workers, gain per tick, pillage reward, stock, regen, and route status.
-- Node UI actions route through `UiActionService`, not directly to repositories or page classes.
+- Node UI actions should read through `UIData` and hand off to Minecraft-side UI handlers, not directly to repositories or generic page services.
 
 ## Links to other systems
 - Depends on castle location from the castle system for route rendering.

@@ -24,10 +24,10 @@ Keep UI images, font reference sheets, Blockbench source models, and prefab reci
 - Prefer the editor's HYUIML patterns for server pages: `page-overlay`, `container`, `container-title`, `<button>`, `<progress>`, and stable element IDs.
 - Keep Resource Game action IDs unchanged when replacing markup, because Java bindings and bot assertions target selectors such as `#EnterInteriorButton`, `#BackButton`, and debug command buttons.
 - Copy generated snippets into `src/main/resources/Common/UI/Custom/Pages/*.html`, then keep the generated Resource Game texture references under `Textures/ResourceGame/...`.
-- Keep `/kd ui` as a lightweight debug command center. Large command groups belong in category pages such as `debug-placement.html`, `debug-interior.html`, `debug-buildings.html`, and `debug-world.html` so the live Hytale client does not reject oversized HyUI event-binding batches.
+- Keep UI pages small and domain-focused so the Minecraft renderer can refresh them without bundling unrelated controls into one screen.
 - Runtime button polish is applied by `HyUiPageMarkupDecorator`, which converts page `<button>` elements to raw image-backed Resource Game controls with generated button textures and centered text labels.
 - Do not add HyUI `back-button`, `action-button`, `toggle-button`, `item-slot-button`, `native-tab-button`, `custom-button`, or `custom-textbutton` classes to action-bound Resource Game buttons.
-- UI clicks must route `UiActionEventData` into `UiActionService`; debug and gameplay buttons should use internal action names instead of command-line payloads.
+- UI clicks should map to internal action names and let the Minecraft-side handlers decide whether the requested screen action is allowed.
 
 ## Font References
 The font template documents are tracked as PNG sheets and described in `FONT_TEMPLATES.md`.
