@@ -24,9 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkitInventoryUiHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkitInventoryUiHandler, IBukkitUtilDependencyAccess, IDependencyInjectableConcrete {
     private static final NamespacedKey ACTION_KEY = new NamespacedKey("tavall", "kingdom_action");
     private static final NamespacedKey PAYLOAD_KEY = new NamespacedKey("tavall", "kingdom_payload");
+    private static final NamespacedKey BUTTON_FAMILY_KEY = new NamespacedKey("tavall", "kingdom_button_family");
 
     @Override
     public void open(Player player, UiScreenKey pageType, String feedback) {
@@ -36,7 +37,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
         fill(inventory);
         inventory.setItem(4, pageHeader(pageType, definition.title(), feedback));
         for (KingdomInventoryPageCatalog.KingdomInventoryButton button : definition.buttons()) {
-            inventory.setItem(button.slot(), button(button.material(), button.title(), button.action(), button.payload(), button.lore(), button.enabled(), button.disabledReason(), button.assetKey()));
+            inventory.setItem(button.slot(), button(button.material(), button.title(), button.action(), button.payload(), button.lore(), button.enabled(), button.disabledReason(), button.assetKey(), button.buttonFamily()));
         }
         Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(MinecraftBukkitServerPlugin.class), () -> player.openInventory(inventory));
     }
@@ -66,6 +67,10 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
     private void handle(Player player, UiScreenKey currentPage, String action, String payload) {
         if (UiActions.CLOSE.equals(action)) {
             player.closeInventory();
+            return;
+        }
+        if (UiActions.RUN_COMMAND.equals(action)) {
+            sendCommand(player, payload, "Command sent.");
             return;
         }
         if (UiActions.OPEN_CASTLE_MAIN.equals(action)) {
@@ -253,11 +258,11 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
         }
     }
 
-    private ItemStack button(Material material, String title, String action, String payload, List<String> lore, boolean enabled, String disabledReason, String assetKey) {
+    private ItemStack button(Material material, String title, String action, String payload, List<String> lore, boolean enabled, String disabledReason, String assetKey, String buttonFamily) {
         ItemStack item = new ItemStack(material == null ? Material.PAPER : material);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName((enabled ? ChatColor.GOLD : ChatColor.DARK_RED) + title);
+            meta.setDisplayName(colorForFamily(buttonFamily, enabled) + title);
             ArrayList<String> lines = new ArrayList<String>();
             if (lore != null && !lore.isEmpty()) {
                 for (String line : lore) {
@@ -265,6 +270,9 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
                         lines.add(ChatColor.GRAY + line);
                     }
                 }
+            }
+            if (buttonFamily != null && !buttonFamily.isBlank()) {
+                lines.add(ChatColor.DARK_AQUA + "Crownbound button: " + familyLabel(buttonFamily));
             }
             if (!enabled && disabledReason != null && !disabledReason.isBlank()) {
                 lines.add(ChatColor.RED + disabledReason);
@@ -279,6 +287,9 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             if (enabled) {
                 meta.getPersistentDataContainer().set(ACTION_KEY, PersistentDataType.STRING, action);
+            }
+            if (buttonFamily != null && !buttonFamily.isBlank()) {
+                meta.getPersistentDataContainer().set(BUTTON_FAMILY_KEY, PersistentDataType.STRING, buttonFamily);
             }
             if (assetKey != null && !assetKey.isBlank()) {
                 meta.getPersistentDataContainer().set(new NamespacedKey("tavall", "kingdom_asset"), PersistentDataType.STRING, assetKey);
@@ -299,6 +310,9 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             ArrayList<String> lore = new ArrayList<String>();
             if (feedback != null && !feedback.isBlank()) {
                 lore.add(ChatColor.GRAY + feedback);
+            }
+            if (pageType == UiScreenKey.DEBUG_NAVIGATOR) {
+                lore.add(ChatColor.DARK_AQUA + "Crownbound layout: tabs for navigation, primary cards for live actions.");
             }
             for (String line : assetPreview(pageType)) {
                 lore.add(ChatColor.DARK_GRAY + line);
@@ -348,7 +362,9 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
                     Material.BEACON;
             case FARMSTEAD_MENU, NPC_MAIN, RESOURCE_NODE_DETAIL, BUILDING_DETAIL, INTERIOR_MAIN ->
                     Material.BOOK;
-            case DEBUG_NAVIGATOR, DEBUG_PLACEMENT, DEBUG_INTERIOR, DEBUG_BUILDINGS, DEBUG_WORLD ->
+            case DEBUG_NAVIGATOR ->
+                    Material.NETHER_STAR;
+            case DEBUG_PLACEMENT, DEBUG_INTERIOR, DEBUG_BUILDINGS, DEBUG_WORLD ->
                     Material.MAP;
         };
     }
@@ -367,11 +383,51 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             case RESOURCE_NODE_DETAIL -> List.of("crownbound:gui/buttons/button_success", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_success.json");
             case BUILDING_DETAIL -> List.of("crownbound:gui/buttons/button_secondary", "crownbound:gui/buttons/button_success", "crownbound:ui/buttons/button_secondary.json");
             case INTERIOR_MAIN -> List.of("crownbound:gui/buttons/button_primary", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_primary.json");
-            case DEBUG_NAVIGATOR -> List.of("crownbound:gui/buttons/button_tab", "crownbound:gui/buttons/button_icon", "crownbound:ui/buttons/button_tab.json");
+            case DEBUG_NAVIGATOR -> List.of(
+                    "crownbound:gui/buttons/button_tab",
+                    "crownbound:gui/buttons/button_primary",
+                    "crownbound:gui/buttons/button_success",
+                    "crownbound:gui/buttons/button_icon",
+                    "crownbound:gui/buttons/button_danger",
+                    "crownbound:ui/buttons/button_families.index.json"
+            );
             case DEBUG_PLACEMENT -> List.of("crownbound:gui/buttons/button_success", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_success.json");
             case DEBUG_INTERIOR -> List.of("crownbound:gui/buttons/button_secondary", "crownbound:gui/buttons/button_icon", "crownbound:ui/buttons/button_secondary.json");
             case DEBUG_BUILDINGS -> List.of("crownbound:gui/buttons/button_secondary", "crownbound:gui/buttons/button_primary", "crownbound:ui/buttons/button_secondary.json");
             case DEBUG_WORLD -> List.of("crownbound:gui/buttons/button_icon", "crownbound:gui/buttons/button_danger", "crownbound:ui/buttons/button_icon.json");
+        };
+    }
+
+    private ChatColor colorForFamily(String buttonFamily, boolean enabled) {
+        if (!enabled) {
+            return ChatColor.DARK_RED;
+        }
+        if (buttonFamily == null || buttonFamily.isBlank()) {
+            return ChatColor.GOLD;
+        }
+        return switch (buttonFamily) {
+            case "primary" -> ChatColor.GOLD;
+            case "secondary" -> ChatColor.AQUA;
+            case "danger" -> ChatColor.RED;
+            case "success" -> ChatColor.GREEN;
+            case "tab" -> ChatColor.YELLOW;
+            case "icon" -> ChatColor.LIGHT_PURPLE;
+            default -> ChatColor.GOLD;
+        };
+    }
+
+    private String familyLabel(String buttonFamily) {
+        if (buttonFamily == null || buttonFamily.isBlank()) {
+            return "Default";
+        }
+        return switch (buttonFamily) {
+            case "primary" -> "Primary";
+            case "secondary" -> "Secondary";
+            case "danger" -> "Danger";
+            case "success" -> "Success";
+            case "tab" -> "Tab";
+            case "icon" -> "Icon";
+            default -> buttonFamily;
         };
     }
 }

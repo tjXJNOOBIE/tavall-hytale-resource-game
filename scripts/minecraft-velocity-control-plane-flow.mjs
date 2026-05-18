@@ -599,7 +599,7 @@ try {
       response = await Promise.race([uiWindowPromise, safeCommandResponsePromise])
       if (normalizedPrepared.startsWith('/kd ui') && bot.currentWindow) {
         const headerSummary = summarizeWindowItem(bot.currentWindow.slots?.[4])
-        if (!headerSummary.includes('Minecraft assets:') || !headerSummary.includes('ui_icon_kingdom_castle')) {
+        if (!headerSummary.includes('Minecraft assets:') || !headerSummary.includes('crownbound:gui/buttons/button_tab') || !headerSummary.includes('crownbound:ui/buttons/button_families.index.json')) {
           throw new Error(`Resource-pack-backed UI header missing asset markers: ${headerSummary || '[empty]'}`)
         }
         log(`resource-pack header ${headerSummary.replace(/\s+/g, ' ').trim()}`)

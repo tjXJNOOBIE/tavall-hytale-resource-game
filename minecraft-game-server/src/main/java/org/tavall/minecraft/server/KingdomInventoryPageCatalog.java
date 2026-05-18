@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 final class KingdomInventoryPageCatalog {
+    private static final String FAMILY_PRIMARY = "primary";
+    private static final String FAMILY_SECONDARY = "secondary";
+    private static final String FAMILY_DANGER = "danger";
+    private static final String FAMILY_SUCCESS = "success";
+    private static final String FAMILY_TAB = "tab";
+    private static final String FAMILY_ICON = "icon";
+
     private KingdomInventoryPageCatalog() {
     }
 
@@ -135,23 +142,24 @@ final class KingdomInventoryPageCatalog {
             );
             case DEBUG_NAVIGATOR -> new KingdomInventoryPageDefinition(
                     "Kingdom Command Center",
-                    54,
+                    45,
                     List.of(
-                            button(10, Material.BEACON, "Castle", UiActions.OPEN_CASTLE_MAIN, "", "debug_navigator.png"),
-                            button(11, Material.BOOK, "Citizens", UiActions.OPEN_CITIZENS, "", "debug_navigator.png"),
-                            button(12, Material.IRON_SWORD, "Troops", UiActions.OPEN_TROOPS, "", "debug_navigator.png"),
-                            button(13, Material.EMERALD, "Resources", UiActions.OPEN_RESOURCES, "", "debug_navigator.png"),
-                            button(14, Material.ANVIL, "Buildings", UiActions.OPEN_BUILDINGS, "", "debug_navigator.png"),
-                            button(15, Material.CRAFTING_TABLE, "Interior", UiActions.ENTER_INTERIOR, "", "debug_navigator.png"),
-                            button(16, Material.SCAFFOLDING, "Placement", UiActions.OPEN_DEBUG_PLACEMENT, "", "debug_placement.png"),
-                            button(19, Material.NETHER_BRICK, "Interior Debug", UiActions.OPEN_DEBUG_INTERIOR, "", "debug_interior.png"),
-                            button(20, Material.CHISELED_STONE_BRICKS, "Building Debug", UiActions.OPEN_DEBUG_BUILDINGS, "", "debug_buildings.png"),
-                            button(21, Material.MAP, "World Debug", UiActions.OPEN_DEBUG_WORLD, "", "debug_world.png"),
-                            button(22, Material.ENDER_EYE, "Scene", UiActions.DEBUG_SCENE_REFRESH, "", "debug_navigator.png"),
-                            button(23, Material.WRITABLE_BOOK, "Tutorial", UiActions.DEBUG_TUTORIAL_RESET, "", "debug_navigator.png"),
-                            button(40, Material.BARRIER, "Close", UiActions.CLOSE, "", "debug_navigator.png")
+                            button(10, Material.PLAYER_HEAD, "Account", UiActions.RUN_COMMAND, "kd ui account", true, "Open your player profile.", "debug_navigator.png", FAMILY_TAB),
+                            button(11, Material.BEACON, "Castle", UiActions.OPEN_CASTLE_MAIN, "", true, "Open the castle overview.", "debug_navigator.png", FAMILY_TAB),
+                            button(12, Material.BOOK, "Citizens", UiActions.OPEN_CITIZENS, "", true, "Review staffing and citizen progression.", "debug_navigator.png", FAMILY_TAB),
+                            button(13, Material.IRON_SWORD, "Troops", UiActions.OPEN_TROOPS, "", true, "Review troop health and promotion tools.", "debug_navigator.png", FAMILY_TAB),
+                            button(14, Material.EMERALD, "Resources", UiActions.OPEN_RESOURCES, "", true, "Inspect kingdom resource controls.", "debug_navigator.png", FAMILY_TAB),
+                            button(15, Material.ANVIL, "Buildings", UiActions.OPEN_BUILDINGS, "", true, "Stage and manage kingdom buildings.", "debug_navigator.png", FAMILY_TAB),
+                            button(16, Material.END_PORTAL_FRAME, "Interior", UiActions.ENTER_INTERIOR, "", true, "Enter the interior flow.", "debug_navigator.png", FAMILY_TAB),
+                            button(19, Material.CRAFTING_TABLE, "Focused Building", UiActions.RUN_COMMAND, "kd ui building", true, "Open the focused building detail UI.", "debug_navigator.png", FAMILY_PRIMARY),
+                            button(20, Material.VILLAGER_SPAWN_EGG, "NPC Interaction", UiActions.RUN_COMMAND, "kd ui npc", true, "Open NPC and building interaction UI.", "debug_navigator.png", FAMILY_PRIMARY),
+                            button(21, Material.SCAFFOLDING, "Placement Tools", UiActions.RUN_COMMAND, "kd ui placement", true, "Arm placement and confirmation actions.", "debug_navigator.png", FAMILY_SUCCESS),
+                            button(22, Material.MAP, "Scene Refresh", UiActions.DEBUG_SCENE_REFRESH, "", true, "Refresh the kingdom scene in-world.", "debug_navigator.png", FAMILY_SUCCESS),
+                            button(23, Material.RECOVERY_COMPASS, "Debug Surfaces", UiActions.RUN_COMMAND, "kd ui debug", true, "Open the debug-focused UI screens.", "debug_navigator.png", FAMILY_ICON),
+                            button(24, Material.WRITABLE_BOOK, "Tutorial Reset", UiActions.DEBUG_TUTORIAL_RESET, "", true, "Reset the tutorial state for this player.", "debug_navigator.png", FAMILY_SECONDARY),
+                            button(40, Material.BARRIER, "Close", UiActions.CLOSE, "", true, "Close the command center.", "debug_navigator.png", FAMILY_DANGER)
                     ),
-                    feedback
+                    feedback == null || feedback.isBlank() ? "Crownbound command center." : feedback
             );
             case DEBUG_PLACEMENT -> new KingdomInventoryPageDefinition(
                     "Placement",
@@ -241,19 +249,23 @@ final class KingdomInventoryPageCatalog {
     }
 
     private static KingdomInventoryButton button(int slot, Material material, String title, String action, String payload) {
-        return button(slot, material, title, action, payload, true, "", "");
+        return button(slot, material, title, action, payload, true, "", "", "");
     }
 
     private static KingdomInventoryButton button(int slot, Material material, String title, String action, String payload, String assetKey) {
-        return button(slot, material, title, action, payload, true, "", assetKey);
+        return button(slot, material, title, action, payload, true, "", assetKey, "");
     }
 
     private static KingdomInventoryButton button(int slot, Material material, String title, String action, String payload, boolean enabled, String disabledReason) {
-        return button(slot, material, title, action, payload, enabled, disabledReason, "");
+        return button(slot, material, title, action, payload, enabled, disabledReason, "", "");
     }
 
     private static KingdomInventoryButton button(int slot, Material material, String title, String action, String payload, boolean enabled, String disabledReason, String assetKey) {
-        return new KingdomInventoryButton(slot, material, title, lore(payload, enabled, disabledReason), action, payload, enabled, disabledReason, assetKey);
+        return button(slot, material, title, action, payload, enabled, disabledReason, assetKey, "");
+    }
+
+    private static KingdomInventoryButton button(int slot, Material material, String title, String action, String payload, boolean enabled, String disabledReason, String assetKey, String buttonFamily) {
+        return new KingdomInventoryButton(slot, material, title, lore(payload, enabled, disabledReason), action, payload, enabled, disabledReason, assetKey, buttonFamily);
     }
 
     private static List<String> lore(String payload, boolean enabled, String disabledReason) {
@@ -270,6 +282,6 @@ final class KingdomInventoryPageCatalog {
     record KingdomInventoryPageDefinition(String title, int size, List<KingdomInventoryButton> buttons, String feedback) {
     }
 
-    record KingdomInventoryButton(int slot, Material material, String title, List<String> lore, String action, String payload, boolean enabled, String disabledReason, String assetKey) {
+    record KingdomInventoryButton(int slot, Material material, String title, List<String> lore, String action, String payload, boolean enabled, String disabledReason, String assetKey, String buttonFamily) {
     }
 }
