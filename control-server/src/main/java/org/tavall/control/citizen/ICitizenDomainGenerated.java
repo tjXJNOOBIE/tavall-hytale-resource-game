@@ -12,8 +12,12 @@ public interface ICitizenDomainGenerated {
         return DependencyLoaderAccess.findInstance(CitizenSummaryCacheRepository.class);
     }
 
+    default CitizenAgingConfigRepository getCitizenAgingConfigRepository() {
+        return DependencyLoaderAccess.findInstance(CitizenAgingConfigRepository.class);
+    }
+
     default CitizenAgingConfig getCitizenAgingConfig() {
-        return DependencyLoaderAccess.findInstance(CitizenAgingConfig.class);
+        return getCitizenAgingConfigRepository().current();
     }
 
     default CitizenAgeStageMappingHandler getCitizenAgeStageMappingHandler() {

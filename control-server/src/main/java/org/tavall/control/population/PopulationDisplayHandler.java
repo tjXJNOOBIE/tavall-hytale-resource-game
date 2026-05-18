@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.tavall.control.config.PopulationDisplayConfig;
 import org.tavall.control.domain.CitizenJobType;
-import org.tavall.control.interior.InteriorLayout;
+import org.tavall.minecraft.domain.interior.InteriorLayout;
 import org.tavall.control.population.PopulationDisplayRefs;
 import org.tavall.control.domain.PopulationSummary;
 import org.tavall.control.tasks.WorldTasks;

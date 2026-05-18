@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public final class BuildingPlacementPlannerTest {
     @Test
     void returnsDeterministicSurfaceAndInteriorAnchorsWhenBuildingsDoNotExist() {
-        org.tavall.control.interior.InteriorLayoutHandler layoutHandler = new org.tavall.control.interior.InteriorLayoutHandler();
+        org.tavall.minecraft.domain.interior.InteriorLayoutHandler layoutHandler = new org.tavall.minecraft.domain.interior.InteriorLayoutHandler();
         PlayerSessionStore sessionStore = new PlayerSessionStore();
         PlayerGameStateHandler gameStateHandler = gameStateHandler("building-placement-planner-state-a");
         StubInteriorInstanceHandler interiorInstanceHandler = new StubInteriorInstanceHandler();
@@ -58,7 +58,7 @@ public final class BuildingPlacementPlannerTest {
 
     @Test
     void returnsExistingBuildingLocationWhenBuildingAlreadyPlaced() {
-        org.tavall.control.interior.InteriorLayoutHandler layoutHandler = new org.tavall.control.interior.InteriorLayoutHandler();
+        org.tavall.minecraft.domain.interior.InteriorLayoutHandler layoutHandler = new org.tavall.minecraft.domain.interior.InteriorLayoutHandler();
         PlayerSessionStore sessionStore = new PlayerSessionStore();
         PlayerGameStateHandler gameStateHandler = gameStateHandler("building-placement-planner-state-b");
         StubInteriorInstanceHandler interiorInstanceHandler = new StubInteriorInstanceHandler();

@@ -128,7 +128,7 @@ public final class CastleEconomySimulationHandlerTest {
                 sessionStore,
                 gameStateHandler,
                 new StubInteriorInstanceHandler(),
-                new org.tavall.control.interior.InteriorLayoutHandler(),
+                new org.tavall.minecraft.domain.interior.InteriorLayoutHandler(),
                 mapperProvider.mapper()
         );
         ResourceNodeHandler resourceNodeHandler = new ResourceNodeHandler(sessionStore, gameStateHandler, mapperProvider.mapper(), new CastleEconomyPlanner());
@@ -163,7 +163,7 @@ public final class CastleEconomySimulationHandlerTest {
                 playerId,
                 BuildingType.FARMSTEAD,
                 new StubInteriorInstanceHandler().worldNameFor(playerId),
-                new org.tavall.control.interior.InteriorLayoutHandler()
+                new org.tavall.minecraft.domain.interior.InteriorLayoutHandler()
                         .createLayoutForCastle(seededState.castleLocation())
                         .buildingAnchor(BuildingType.FARMSTEAD),
                 start

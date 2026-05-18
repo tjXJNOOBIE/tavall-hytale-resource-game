@@ -14,6 +14,9 @@ public record CitizenAgingConfig(
         long maintenanceIntervalMillis,
         Map<String, String> metadata
 ) implements IDependencyInjectableConcrete {
+    public static final String LIVE_CONFIG_KEY = "citizens.aging.config";
+    public static final String LIVE_CONFIG_ENVIRONMENT = "local";
+
     public CitizenAgingConfig {
         if (realMillisPerGameDay <= 0) {
             throw new IllegalArgumentException("realMillisPerGameDay must be positive.");
@@ -31,9 +34,7 @@ public record CitizenAgingConfig(
     }
 
     public static CitizenAgingConfig defaults() {
-        return new CitizenAgingConfig(true, Duration.ofDays(1).toMillis(), 12, defaultThresholds(), Duration.ofMinutes(15).toMillis(), Map.of(
-                "prototypeBalance", "1 real day = 1 in-game month; 12 real days = 1 citizen year"
-        ));
+        return new CitizenAgingConfig(true, Duration.ofDays(1).toMillis(), 12, defaultThresholds(), Duration.ofMinutes(15).toMillis(), Map.of());
     }
 
     public static Map<CitizenAgeStage, Integer> defaultThresholds() {

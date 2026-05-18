@@ -1,5 +1,7 @@
 package org.tavall.control.ui;
 
+import org.tavall.api.minecraft.ui.UiActions;
+
 import java.util.Objects;
 
 /**

@@ -1,6 +1,7 @@
 package org.tavall.control.interior;
 
 import com.hypixel.hytale.server.core.universe.world.World;
+import org.tavall.minecraft.domain.interior.InteriorLayout;
 
 /**
  * Builds a simple same-process placeholder interior platform that is safe to teleport onto.

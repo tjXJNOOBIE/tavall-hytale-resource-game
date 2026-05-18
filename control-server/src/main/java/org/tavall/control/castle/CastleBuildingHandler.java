@@ -23,8 +23,8 @@ import org.tavall.control.domain.OnboardingProgress;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.domain.ResourceNodeData;
-import org.tavall.control.interior.InteriorLayout;
-import org.tavall.control.interior.InteriorLayoutHandler;
+import org.tavall.minecraft.domain.interior.InteriorLayout;
+import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 import org.tavall.control.population.PromotionCost;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 

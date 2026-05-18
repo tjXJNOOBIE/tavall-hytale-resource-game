@@ -2,7 +2,7 @@ package org.tavall.control.support;
 
 import com.hypixel.hytale.server.core.universe.world.World;
 import org.tavall.control.domain.PopulationSummary;
-import org.tavall.control.interior.InteriorLayout;
+import org.tavall.minecraft.domain.interior.InteriorLayout;
 import org.tavall.control.population.PopulationDisplayGateway;
 
 import java.util.Map;

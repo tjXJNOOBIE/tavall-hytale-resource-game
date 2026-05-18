@@ -47,7 +47,7 @@ public final class CastleBuildingHandlerTest {
                 sessionStore,
                 gameStateHandler,
                 new StubInteriorInstanceHandler(),
-                new org.tavall.control.interior.InteriorLayoutHandler(),
+                new org.tavall.minecraft.domain.interior.InteriorLayoutHandler(),
                 mapperProvider.mapper()
         );
 
@@ -67,7 +67,7 @@ public final class CastleBuildingHandlerTest {
         ));
 
         String interiorWorld = new StubInteriorInstanceHandler().worldNameFor(playerId);
-        Vector3d buildPosition = new org.tavall.control.interior.InteriorLayoutHandler()
+        Vector3d buildPosition = new org.tavall.minecraft.domain.interior.InteriorLayoutHandler()
                 .createLayoutForCastle(initialState.castleLocation())
                 .buildingAnchor(BuildingType.FARMSTEAD);
         BuildingMutationResult placement = buildingHandler.placeBuilding(playerId, BuildingType.FARMSTEAD, interiorWorld, buildPosition, start);
@@ -108,7 +108,7 @@ public final class CastleBuildingHandlerTest {
     @Test
     void workshopAndBarracksAffectFutureBuildSpeedAndPromotionCost() {
         JsonMapperProvider mapperProvider = new JsonMapperProvider();
-        org.tavall.control.interior.InteriorLayoutHandler layoutHandler = new org.tavall.control.interior.InteriorLayoutHandler();
+        org.tavall.minecraft.domain.interior.InteriorLayoutHandler layoutHandler = new org.tavall.minecraft.domain.interior.InteriorLayoutHandler();
         InMemoryPlayerGameStateStore gameStateStore = new InMemoryPlayerGameStateStore();
         PlayerGameStateHandler gameStateHandler = new PlayerGameStateHandler(
                 gameStateStore,
@@ -199,7 +199,7 @@ public final class CastleBuildingHandlerTest {
                 sessionStore,
                 gameStateHandler,
                 new StubInteriorInstanceHandler(),
-                new org.tavall.control.interior.InteriorLayoutHandler(),
+                new org.tavall.minecraft.domain.interior.InteriorLayoutHandler(),
                 mapperProvider.mapper()
         );
 
@@ -243,7 +243,7 @@ public final class CastleBuildingHandlerTest {
         );
         PlayerSessionStore sessionStore = new PlayerSessionStore();
         StubInteriorInstanceHandler interiorInstanceHandler = new StubInteriorInstanceHandler();
-        org.tavall.control.interior.InteriorLayoutHandler layoutHandler = new org.tavall.control.interior.InteriorLayoutHandler();
+        org.tavall.minecraft.domain.interior.InteriorLayoutHandler layoutHandler = new org.tavall.minecraft.domain.interior.InteriorLayoutHandler();
         CastleBuildingHandler buildingHandler = new CastleBuildingHandler(
                 sessionStore,
                 gameStateHandler,
@@ -308,7 +308,7 @@ public final class CastleBuildingHandlerTest {
                 sessionStore,
                 gameStateHandler,
                 interiorInstanceHandler,
-                new org.tavall.control.interior.InteriorLayoutHandler(),
+                new org.tavall.minecraft.domain.interior.InteriorLayoutHandler(),
                 mapperProvider.mapper()
         );
 
@@ -333,7 +333,7 @@ public final class CastleBuildingHandlerTest {
                 playerId,
                 BuildingType.FARMSTEAD,
                 interiorInstanceHandler.worldNameFor(playerId),
-                new org.tavall.control.interior.InteriorLayoutHandler()
+                new org.tavall.minecraft.domain.interior.InteriorLayoutHandler()
                         .createLayoutForCastle(indexed.castleLocation(), gameStateHandler.interiorInstanceIndex(indexed))
                         .buildingAnchor(BuildingType.FARMSTEAD),
                 now.plusSeconds(2)

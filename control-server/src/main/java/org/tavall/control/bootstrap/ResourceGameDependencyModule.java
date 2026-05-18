@@ -58,7 +58,7 @@ import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PlayerProfile;
 import org.tavall.control.farmstead.npc.FarmsteadStewardSpawner;
 import org.tavall.control.farmstead.ui.FarmsteadMenuHandler;
-import org.tavall.control.interior.InteriorLayoutHandler;
+import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 import org.tavall.control.interior.InteriorStructureHandler;
 import org.tavall.control.persistence.InMemoryPlayerGameStateStore;
 import org.tavall.control.persistence.InMemoryPlayerProfileStore;

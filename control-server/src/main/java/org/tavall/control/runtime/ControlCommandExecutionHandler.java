@@ -39,6 +39,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Locale;
 import java.util.UUID;
 
 public final class ControlCommandExecutionHandler implements IControlCommandDomain, IGuildDomain, ICastleDomain, IResourceNodeDomain, IDependencyInjectableConcrete {
@@ -368,14 +369,22 @@ public final class ControlCommandExecutionHandler implements IControlCommandDoma
     }
 
     private ControlCommandResult routeFrontendKdCommand(ControlCommand command, Instant startedAt) {
+        String category = command.argument("category").toLowerCase(Locale.ROOT);
+        if (isControlPanelSource(command.issuedFrom())) {
+            return rejected(command, startedAt, "The /kd route requires an in-game player session and is disabled on the control panel console. Run it from Minecraft instead.");
+        }
         String platform = command.metadata().getOrDefault("platform", command.issuedFrom().name());
         String sourceAccount = command.metadata().getOrDefault("platformAccountId", "");
         String message = "Kingdom command accepted platform="
                 + platform
                 + " category="
-                + command.argument("category")
+                + category
                 + (sourceAccount.isBlank() ? "" : " account=" + sourceAccount);
-        return informational(command, startedAt, message, List.of("frontend-kd:" + command.argument("category")));
+        return informational(command, startedAt, message, List.of("frontend-kd:" + category));
+    }
+
+    private boolean isControlPanelSource(CommandIssuedFrom issuedFrom) {
+        return issuedFrom == CommandIssuedFrom.CLI || issuedFrom == CommandIssuedFrom.WEB_PANEL;
     }
 
     private UniversalPlayerAccount loadOrCreateAccount(UniversalPlayerId playerId, ControlCommand command, Instant now) {

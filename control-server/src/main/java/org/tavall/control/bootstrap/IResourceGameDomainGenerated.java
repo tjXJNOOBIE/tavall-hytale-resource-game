@@ -55,7 +55,7 @@ import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.ui.IUiPageRegistry;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
 import org.tavall.control.npc.IWorkerNpcInteractionHandler;
-import org.tavall.control.interior.InteriorLayoutHandler;
+import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 import org.tavall.control.building.BuildingPlacementPlanner;
 import org.tavall.control.castle.CastleEconomyPlanner;
 import org.tavall.control.population.PopulationDisplayGateway;

@@ -1,5 +1,7 @@
 package org.tavall.control.ui;
 
+import org.tavall.api.minecraft.ui.UiActions;
+
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import org.tavall.control.resource.IResourceNodeHandler;
 import org.tavall.control.ui.IUiActionHandler;

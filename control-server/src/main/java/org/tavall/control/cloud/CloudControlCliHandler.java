@@ -51,7 +51,7 @@ public final class CloudControlCliHandler implements ICloudControlCliHandler, IC
             if (parts.length < 5) {
                 return "usage=cloud workloads create <type> <name> [region]" + System.lineSeparator();
             }
-            WorkloadRequest request = defaultWorkloadRequest(CloudWorkloadType.valueOf(parts[3]), parts[4],
+            WorkloadRequest request = prototypeWorkloadRequest(CloudWorkloadType.valueOf(parts[3]), parts[4],
                     parts.length >= 6 ? Optional.of(parts[5]) : Optional.empty());
             CloudWorkload workload = getWorkloadRequestHandler().createDesiredWorkload(request, now);
             String sessionName = getCloudControlPlaneFilesystemLayout().workloadSessionName(workload);
@@ -296,7 +296,7 @@ public final class CloudControlCliHandler implements ICloudControlCliHandler, IC
             return "usage=cloud scheduler " + (includeCandidates ? "candidates" : "plan") + " <type> <name> [region]"
                     + System.lineSeparator();
         }
-        WorkloadRequest request = defaultWorkloadRequest(CloudWorkloadType.valueOf(parts[0]), parts[1],
+        WorkloadRequest request = prototypeWorkloadRequest(CloudWorkloadType.valueOf(parts[0]), parts[1],
                 parts.length >= 3 ? Optional.of(parts[2]) : Optional.empty());
         NodeSchedulingDecision decision = getNodeSchedulerHandler().plan(request);
         if (!includeCandidates) {
@@ -325,9 +325,9 @@ public final class CloudControlCliHandler implements ICloudControlCliHandler, IC
     }
 
     /**
-     * CLI workload creation uses conservative built-in profiles until durable template storage is introduced.
+     * Dev/prototype workload creation uses conservative built-in profiles until durable template storage is introduced.
      */
-    private WorkloadRequest defaultWorkloadRequest(CloudWorkloadType workloadType, String name, Optional<String> preferredRegion) {
+    private WorkloadRequest prototypeWorkloadRequest(CloudWorkloadType workloadType, String name, Optional<String> preferredRegion) {
         Set<CloudNodeCapability> capabilities = capabilitiesFor(workloadType);
         Optional<NodeArchitecture> architecture = capabilities.contains(CloudNodeCapability.X86_64)
                 ? Optional.of(NodeArchitecture.X86_64)

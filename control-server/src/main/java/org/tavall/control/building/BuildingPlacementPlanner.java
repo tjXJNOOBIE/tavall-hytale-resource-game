@@ -10,8 +10,8 @@ import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CastleBuildingSummary;
 import org.tavall.control.domain.PlayerGameState;
-import org.tavall.control.interior.InteriorLayout;
-import org.tavall.control.interior.InteriorLayoutHandler;
+import org.tavall.minecraft.domain.interior.InteriorLayout;
+import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 
 import java.time.Instant;
 import java.util.Objects;

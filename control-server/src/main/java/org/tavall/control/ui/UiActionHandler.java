@@ -1,4 +1,6 @@
 package org.tavall.control.ui;
+
+import org.tavall.api.minecraft.ui.UiActions;
 import org.tavall.control.player.PlayerGameStateHandler;
 import org.tavall.control.world.WorldLabelHandler;
 import org.tavall.control.player.PlayerSessionStore;
@@ -387,6 +389,32 @@ public final class UiActionHandler implements IResourceGameDomain, IUiActionHand
         handleBuildingStage(player, context, returnPage, buildingType, session);
     }
 
+    private void handleDebugInteriorAction(Player player, UiNavigationContext context, String action, PlayerGameState state) {
+        if (UiActions.DEBUG_INTERIOR_GENERATE.equals(action)) {
+            getInteriorWorldHandler().generateInterior(player);
+            return;
+        }
+        if (UiActions.DEBUG_INTERIOR_REBUILD.equals(action)) {
+            getInteriorWorldHandler().rebuildInterior(player);
+            return;
+        }
+        if (UiActions.DEBUG_INTERIOR_DELETE.equals(action)) {
+            getInteriorWorldHandler().deleteInterior(player);
+            return;
+        }
+        if (UiActions.DEBUG_INTERIOR_MOVE.equals(action)) {
+            getInteriorWorldHandler().moveInterior(player);
+            return;
+        }
+        if (UiActions.DEBUG_INTERIOR_EXIT.equals(action)) {
+            getInteriorWorldHandler().exitInterior(player);
+            return;
+        }
+        if (state != null) {
+            openFeedback(player, context, UiPageType.DEBUG_INTERIOR, state, "Unknown interior action.");
+        }
+    }
+
     private void handleBuildingPlace(Player player, UiNavigationContext context, UiPageType returnPage, BuildingType buildingType, PlayerGameState state) {
         getPlacementModeHandler().armBuildingPlacement(player, buildingType);
         Vector3i currentBlock = currentStandingBlock(player);
@@ -429,32 +457,6 @@ public final class UiActionHandler implements IResourceGameDomain, IUiActionHand
         Vector3i stagedTargetBlock = stagedTargetBlock(anchor);
         getPlacementModeHandler().armBuildingPlacement(player, buildingType, stagedTargetBlock);
         openFeedback(player, context, returnPage, session.gameState(), stageMessage(buildingType, stagedTargetBlock));
-    }
-
-    private void handleDebugInteriorAction(Player player, UiNavigationContext context, String action, PlayerGameState state) {
-        if (UiActions.DEBUG_INTERIOR_GENERATE.equals(action)) {
-            getInteriorWorldHandler().generateInterior(player);
-            return;
-        }
-        if (UiActions.DEBUG_INTERIOR_REBUILD.equals(action)) {
-            getInteriorWorldHandler().rebuildInterior(player);
-            return;
-        }
-        if (UiActions.DEBUG_INTERIOR_DELETE.equals(action)) {
-            getInteriorWorldHandler().deleteInterior(player);
-            return;
-        }
-        if (UiActions.DEBUG_INTERIOR_MOVE.equals(action)) {
-            getInteriorWorldHandler().moveInterior(player);
-            return;
-        }
-        if (UiActions.DEBUG_INTERIOR_EXIT.equals(action)) {
-            getInteriorWorldHandler().exitInterior(player);
-            return;
-        }
-        if (state != null) {
-            openFeedback(player, context, UiPageType.DEBUG_INTERIOR, state, "Unknown interior action.");
-        }
     }
 
     private void handleSceneRefresh(Player player, UiNavigationContext context, String payload, PlayerGameState state) {

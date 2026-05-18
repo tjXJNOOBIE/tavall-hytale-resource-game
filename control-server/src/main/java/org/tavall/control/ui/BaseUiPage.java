@@ -1,5 +1,7 @@
 package org.tavall.control.ui;
 
+import org.tavall.api.minecraft.ui.UiActions;
+
 import au.ellie.hyui.builders.HyUIPage;
 import au.ellie.hyui.events.DynamicPageData;
 import au.ellie.hyui.events.UIContext;

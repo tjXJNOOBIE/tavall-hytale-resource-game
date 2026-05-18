@@ -48,4 +48,16 @@ public final class ControlConsoleInputHandlerIntegrationTest implements IControl
 
         assertTrue(output.contains("nodes=0"));
     }
+
+    @Test
+    void inGameKdCommandsAreRejectedFromTheControlPanelConsole() {
+        new ControlServerDependencyModule().registerDependencies();
+        ControlConsoleInputHandler console = new ControlConsoleInputHandler();
+
+        String output = console.executeOneShotCommand("frontend kd ui castle-main");
+
+        assertTrue(output.contains("state=REJECTED"));
+        assertTrue(output.contains("requires an in-game player session"));
+        assertTrue(output.contains("disabled on the control panel console"));
+    }
 }

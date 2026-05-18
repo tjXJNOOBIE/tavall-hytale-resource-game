@@ -11,6 +11,7 @@ import org.tavall.control.runtime.ControlCommandType;
 import org.tavall.control.identity.UniversalPlayerId;
 import org.tavall.control.persistence.PostgresCitizenRepository;
 import org.tavall.control.persistence.PostgresConnectionProvider;
+import org.tavall.control.config.CacheConfig;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -27,7 +28,7 @@ public final class CitizenControlSystem implements ICitizenDomain, IDependencyIn
     public CitizenControlSystem(
             CitizenRepository citizenRepository,
             CitizenSummaryCacheRepository summaryCacheRepository,
-            CitizenAgingConfig agingConfig,
+            CitizenAgingConfigRepository agingConfigRepository,
             CitizenCreationHandler creationHandler,
             CitizenReadHandler readHandler,
             CitizenJobAssignmentHandler jobAssignmentHandler,
@@ -41,7 +42,7 @@ public final class CitizenControlSystem implements ICitizenDomain, IDependencyIn
     ) {
         registerCitizenDependency(CitizenRepository.class, citizenRepository);
         registerCitizenDependency(CitizenSummaryCacheRepository.class, summaryCacheRepository);
-        registerCitizenDependency(CitizenAgingConfig.class, agingConfig);
+        registerCitizenDependency(CitizenAgingConfigRepository.class, agingConfigRepository);
         registerCitizenDependency(CitizenCreationHandler.class, creationHandler);
         registerCitizenDependency(CitizenReadHandler.class, readHandler);
         registerCitizenDependency(CitizenJobAssignmentHandler.class, jobAssignmentHandler);
@@ -58,18 +59,25 @@ public final class CitizenControlSystem implements ICitizenDomain, IDependencyIn
     public static CitizenControlSystem inMemory(KingdomClockControlSystem clockControlSystem) {
         CitizenRepository citizenRepository = new InMemoryCitizenRepository();
         CitizenSummaryCacheRepository cacheRepository = new InMemoryCitizenSummaryCacheRepository();
-        return withRepositories(citizenRepository, cacheRepository, clockControlSystem);
+        CitizenAgingConfigRepository agingConfigRepository = new InMemoryCitizenAgingConfigRepository();
+        return withRepositories(citizenRepository, cacheRepository, agingConfigRepository, clockControlSystem);
     }
 
     public static CitizenControlSystem postgres(PostgresConnectionProvider connectionProvider, KingdomClockControlSystem clockControlSystem) {
         CitizenRepository citizenRepository = new PostgresCitizenRepository(connectionProvider, new ObjectMapper());
         CitizenSummaryCacheRepository cacheRepository = new InMemoryCitizenSummaryCacheRepository();
-        return withRepositories(citizenRepository, cacheRepository, clockControlSystem);
+        CitizenAgingConfigRepository agingConfigRepository = PostgresCitizenAgingConfigRepository.open(
+                connectionProvider,
+                CacheConfig.fromEnv(),
+                new ObjectMapper()
+        );
+        return withRepositories(citizenRepository, cacheRepository, agingConfigRepository, clockControlSystem);
     }
 
     public static CitizenControlSystem withRepositories(
             CitizenRepository citizenRepository,
             CitizenSummaryCacheRepository cacheRepository,
+            CitizenAgingConfigRepository agingConfigRepository,
             KingdomClockControlSystem clockControlSystem
     ) {
         CitizenAgeStageMappingHandler ageStageMappingHandler = new CitizenAgeStageMappingHandler();
@@ -88,7 +96,7 @@ public final class CitizenControlSystem implements ICitizenDomain, IDependencyIn
         return new CitizenControlSystem(
                 citizenRepository,
                 cacheRepository,
-                CitizenAgingConfig.defaults(),
+                agingConfigRepository,
                 new CitizenCreationHandler(citizenRepository, agingCalculationHandler, cacheInvalidationHandler),
                 new CitizenReadHandler(citizenRepository, agingCalculationHandler),
                 new CitizenJobAssignmentHandler(citizenRepository, jobEligibilityHandler, cacheInvalidationHandler),

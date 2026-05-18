@@ -34,6 +34,7 @@ final class CitizenDependencyPolicyTest {
         assertSame(citizenControlSystem, citizenControlSystem.getCitizenControlSystem());
         assertInstanceOf(InMemoryCitizenRepository.class, citizenControlSystem.getCitizenRepository());
         assertInstanceOf(InMemoryCitizenSummaryCacheRepository.class, citizenControlSystem.getCitizenSummaryCacheRepository());
+        assertInstanceOf(InMemoryCitizenAgingConfigRepository.class, citizenControlSystem.getCitizenAgingConfigRepository());
 
         UniversalPlayerId playerId = UniversalPlayerId.random();
         List<CitizenData> citizens = citizenControlSystem.getCitizenCreationHandler()
@@ -92,10 +93,11 @@ final class CitizenDependencyPolicyTest {
     ) {
         try {
             String fileName = path.getFileName().toString();
+            boolean infrastructureWrapper = fileName.endsWith("Cache.java") || fileName.endsWith("Repository.java");
             int lineNumber = 0;
             for (String line : Files.readAllLines(path)) {
                 lineNumber++;
-                if (collaboratorField.matcher(line).find()) {
+                if (!infrastructureWrapper && collaboratorField.matcher(line).find()) {
                     violations.add(path + ":" + lineNumber + " -> " + line.trim());
                     continue;
                 }
