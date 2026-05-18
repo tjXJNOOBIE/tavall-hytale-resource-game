@@ -1,4 +1,6 @@
 package org.tavall.control.commands;
+import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.player.PlayerSessionStore;
 
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
@@ -17,8 +19,8 @@ import org.tavall.control.domain.InfrastructureHealthSnapshot;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.resources.ResourceType;
-import org.tavall.control.services.CastleEconomySimulationService;
-import org.tavall.control.services.PlayerSession;
+import org.tavall.control.castle.CastleEconomySimulationService;
+import org.tavall.control.player.PlayerSession;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;

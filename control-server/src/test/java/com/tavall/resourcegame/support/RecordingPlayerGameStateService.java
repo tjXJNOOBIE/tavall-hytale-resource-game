@@ -1,4 +1,5 @@
 package org.tavall.control.support;
+import org.tavall.control.player.PlayerGameStateService;
 
 import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
 import org.tavall.control.domain.AccountProgression;

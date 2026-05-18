@@ -1,4 +1,9 @@
-package org.tavall.control.services;
+package org.tavall.control.resource;
+import org.tavall.control.castle.CastleEconomyPlanner;
+import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.world.NodeStockProfile;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.building;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;

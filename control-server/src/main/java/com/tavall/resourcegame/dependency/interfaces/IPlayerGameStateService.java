@@ -1,4 +1,5 @@
 package org.tavall.control.dependency.interfaces;
+import org.tavall.control.player.PlayerGameStateService;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.AccountProgression;

@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.transport;
 
 public enum ControlPlaneTcpBridgeRequestType {
     FRONTEND_COMMAND,

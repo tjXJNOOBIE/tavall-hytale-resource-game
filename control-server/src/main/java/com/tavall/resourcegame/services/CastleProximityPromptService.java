@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.castle;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.HytaleServer;

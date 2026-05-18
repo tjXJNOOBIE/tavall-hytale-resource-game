@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.world;
 
 import org.tavall.control.domain.FocusedWorldTargetType;
 import org.junit.jupiter.api.Test;

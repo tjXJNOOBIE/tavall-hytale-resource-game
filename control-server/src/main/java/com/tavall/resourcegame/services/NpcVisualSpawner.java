@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.npc;
+import org.tavall.control.npc.NpcVisualSpawner;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;

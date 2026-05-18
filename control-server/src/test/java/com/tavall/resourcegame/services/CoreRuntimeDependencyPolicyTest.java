@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.runtime;
 
 import org.junit.jupiter.api.Test;
 

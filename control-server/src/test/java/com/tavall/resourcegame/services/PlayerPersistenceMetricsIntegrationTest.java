@@ -1,4 +1,7 @@
-package org.tavall.control.services;
+package org.tavall.control.player;
+import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 
 import org.tavall.control.cache.JacksonCacheCodec;
 import org.tavall.control.cache.SemanticCacheFactory;

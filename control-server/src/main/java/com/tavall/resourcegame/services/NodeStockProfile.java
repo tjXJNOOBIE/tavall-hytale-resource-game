@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.world;
 
 /**
  * Immutable stock defaults for a resource node type.

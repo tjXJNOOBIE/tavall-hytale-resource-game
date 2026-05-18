@@ -1,4 +1,8 @@
-package org.tavall.control.services;
+package org.tavall.control.population;
+import org.tavall.control.population.PopulationDisplayGateway;
+import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.dependency.interfaces.ICastleBuildingService;

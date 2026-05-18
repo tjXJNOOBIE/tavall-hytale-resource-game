@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.player;
 
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PlayerProfile;

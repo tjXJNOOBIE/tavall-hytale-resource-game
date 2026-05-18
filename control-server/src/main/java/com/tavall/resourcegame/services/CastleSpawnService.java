@@ -1,4 +1,6 @@
-package org.tavall.control.services;
+package org.tavall.control.castle;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import org.tavall.control.config.CastleAssetConfig;

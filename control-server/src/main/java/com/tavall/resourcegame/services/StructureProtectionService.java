@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.protection;
 
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;

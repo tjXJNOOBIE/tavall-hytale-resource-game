@@ -1,4 +1,5 @@
 package org.tavall.control.farmstead.ui;
+import org.tavall.control.player.PlayerSessionStore;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -10,7 +11,7 @@ import org.tavall.control.dependency.interfaces.IUiNavigator;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.control.services.PlayerSession;
+import org.tavall.control.player.PlayerSession;
 import org.tavall.control.ui.UiPageType;
 
 import java.util.Objects;

@@ -13,8 +13,8 @@ Policy rule:
 - Control plane entrypoint: `org.tavall.control.cli.ControlConsoleApplication`
 - Control bridge server: `org.tavall.control.transport.ControlPlaneTcpBridgeServer`
 - Control bridge client: `org.tavall.control.transport.ControlPlaneTcpBridgeClient`
-- Minecraft client config: `org.tavall.control.services.FrontendControlConfig`
-- Minecraft command client: `org.tavall.control.services.FrontendTcpControlCommandClient`
+- Minecraft client config: `org.tavall.control.transport.FrontendControlConfig`
+- Minecraft command client: `org.tavall.control.transport.FrontendTcpControlCommandClient`
 
 Default bridge address:
 

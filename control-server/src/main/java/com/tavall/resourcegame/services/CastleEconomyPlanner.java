@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.castle;
+import org.tavall.control.castle.CastleEconomyPlanner;
 
 import org.tavall.control.domain.CastleEconomySnapshot;
 import org.tavall.control.domain.CitizenJobType;

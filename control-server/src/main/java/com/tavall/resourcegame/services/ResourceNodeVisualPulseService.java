@@ -1,4 +1,6 @@
-package org.tavall.control.services;
+package org.tavall.control.resource;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;

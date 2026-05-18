@@ -1,7 +1,8 @@
 package org.tavall.control.dependency.interfaces;
+import org.tavall.control.player.PlayerSessionStore;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import org.tavall.control.services.PlayerSession;
+import org.tavall.control.player.PlayerSession;
 
 import java.util.Collection;
 import java.util.UUID;

@@ -1,4 +1,5 @@
 package org.tavall.minecraft.server;
+import org.tavall.control.runtime.JsonMapperProvider;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

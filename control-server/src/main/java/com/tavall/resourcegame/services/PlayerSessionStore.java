@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.player;
+import org.tavall.control.player.PlayerSession;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.dependency.interfaces.IPlayerSessionStore;

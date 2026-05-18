@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.interior;
 
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.universe.Universe;

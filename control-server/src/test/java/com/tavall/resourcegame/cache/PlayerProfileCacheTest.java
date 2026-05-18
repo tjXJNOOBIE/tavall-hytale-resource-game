@@ -3,7 +3,7 @@ package org.tavall.control.cache;
 import org.tavall.control.config.CacheConfig;
 import org.tavall.control.domain.PlayerProfile;
 import org.tavall.control.player.cache.PlayerProfileCache;
-import org.tavall.control.services.JsonMapperProvider;
+import org.tavall.control.runtime.JsonMapperProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

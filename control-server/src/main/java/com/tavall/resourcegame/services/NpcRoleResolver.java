@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.npc;
+import org.tavall.control.npc.NpcRoleResolver;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import com.hypixel.hytale.server.npc.NPCPlugin;

@@ -1,7 +1,7 @@
 package org.tavall.control.citizen;
 
 import org.tavall.control.citizen.cache.CitizenSummaryCache;
-import org.tavall.control.services.JsonMapperProvider;
+import org.tavall.control.runtime.JsonMapperProvider;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Optional;

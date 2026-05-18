@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.population;
+import org.tavall.control.population.PopulationDisplayGateway;
 
 import com.hypixel.hytale.server.core.universe.world.World;
 import org.tavall.control.domain.PopulationSummary;

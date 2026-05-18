@@ -1,4 +1,6 @@
-package org.tavall.control.services;
+package org.tavall.control.castle;
+import org.tavall.control.protection.StructureProtectionService;
+import org.tavall.control.world.WorldLabelService;
 
 import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.Holder;

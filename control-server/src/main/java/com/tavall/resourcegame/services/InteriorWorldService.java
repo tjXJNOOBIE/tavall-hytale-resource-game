@@ -1,4 +1,9 @@
-package org.tavall.control.services;
+package org.tavall.control.interior;
+import org.tavall.control.interior.InteriorTourMarkerService;
+import org.tavall.control.population.PopulationDisplayGateway;
+import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;

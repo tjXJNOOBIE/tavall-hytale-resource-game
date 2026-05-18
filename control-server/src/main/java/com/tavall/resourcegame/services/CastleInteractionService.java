@@ -1,4 +1,6 @@
-package org.tavall.control.services;
+package org.tavall.control.castle;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;

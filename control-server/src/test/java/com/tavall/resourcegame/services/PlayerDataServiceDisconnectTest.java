@@ -1,4 +1,10 @@
-package org.tavall.control.services;
+package org.tavall.control.player;
+import org.tavall.control.interior.InteriorTourMarkerService;
+import org.tavall.control.population.PopulationDisplayGateway;
+import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.world.WorldLabelService;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import org.tavall.control.dependency.TestKingdomClockService;
 import org.tavall.control.domain.AgingState;

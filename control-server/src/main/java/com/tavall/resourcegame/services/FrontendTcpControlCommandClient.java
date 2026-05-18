@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.transport;
+import org.tavall.control.runtime.JsonMapperProvider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.control.dependency.composition.domains.IResourceGameDomain;

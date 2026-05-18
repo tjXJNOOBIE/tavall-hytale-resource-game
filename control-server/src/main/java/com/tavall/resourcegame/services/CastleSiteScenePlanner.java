@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.castle;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.domain.PlayerGameState;

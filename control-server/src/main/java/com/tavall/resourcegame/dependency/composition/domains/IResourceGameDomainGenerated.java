@@ -1,4 +1,7 @@
 package org.tavall.control.dependency.composition.domains;
+import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.control.commands.KingdomBuildingCommandSupport;
@@ -53,10 +56,10 @@ import org.tavall.control.dependency.interfaces.IUiPageRegistry;
 import org.tavall.control.dependency.interfaces.IVisualVerificationControlHandler;
 import org.tavall.control.dependency.interfaces.IWorkerNpcInteractionService;
 import org.tavall.control.interior.InteriorLayoutService;
-import org.tavall.control.services.BuildingPlacementPlanner;
-import org.tavall.control.services.CastleEconomyPlanner;
-import org.tavall.control.services.PopulationDisplayGateway;
-import org.tavall.control.services.WorldLabelService;
+import org.tavall.control.building.BuildingPlacementPlanner;
+import org.tavall.control.castle.CastleEconomyPlanner;
+import org.tavall.control.population.PopulationDisplayGateway;
+import org.tavall.control.world.WorldLabelService;
 import org.tavall.control.world.BuildingPlacementStageStructureService;
 
 /**

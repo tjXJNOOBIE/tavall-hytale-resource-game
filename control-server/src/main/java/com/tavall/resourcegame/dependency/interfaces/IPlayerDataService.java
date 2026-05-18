@@ -4,7 +4,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import org.tavall.control.services.PlayerSession;
+import org.tavall.control.player.PlayerSession;
 
 import java.util.concurrent.CompletableFuture;
 

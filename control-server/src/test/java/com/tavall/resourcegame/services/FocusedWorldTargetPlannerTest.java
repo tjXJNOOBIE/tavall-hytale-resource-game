@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.world;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import org.tavall.control.domain.BuildingConstructionStage;

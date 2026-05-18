@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.protection;
+import org.tavall.control.protection.StructureProtectionService;
 
 import com.hypixel.hytale.component.Archetype;
 import com.hypixel.hytale.component.ArchetypeChunk;

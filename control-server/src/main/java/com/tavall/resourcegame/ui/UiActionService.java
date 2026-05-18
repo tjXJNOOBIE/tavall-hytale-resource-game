@@ -1,4 +1,7 @@
 package org.tavall.control.ui;
+import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.world.WorldLabelService;
+import org.tavall.control.player.PlayerSessionStore;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
@@ -20,7 +23,7 @@ import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.domain.ResourceNodeData;
 import org.tavall.control.domain.ResourceNodePillageResult;
 import org.tavall.control.resources.ResourceType;
-import org.tavall.control.services.PlayerSession;
+import org.tavall.control.player.PlayerSession;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 import org.tavall.control.tasks.WorldTasks;
 

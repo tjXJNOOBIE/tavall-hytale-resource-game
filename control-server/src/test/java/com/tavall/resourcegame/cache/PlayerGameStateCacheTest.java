@@ -10,7 +10,7 @@ import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.domain.TroopMetaData;
 import org.tavall.control.config.CacheConfig;
 import org.tavall.control.player.cache.PlayerGameStateCache;
-import org.tavall.control.services.JsonMapperProvider;
+import org.tavall.control.runtime.JsonMapperProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.runtime;
+import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 
 import org.tavall.control.config.CacheConfig;
 import org.tavall.control.config.DatabaseConfig;

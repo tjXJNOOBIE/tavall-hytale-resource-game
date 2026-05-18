@@ -6,7 +6,7 @@ import org.tavall.control.domain.CastleEconomySnapshot;
 import org.tavall.control.domain.CitizenJobType;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.control.services.CastleEconomyPlanner;
+import org.tavall.control.castle.CastleEconomyPlanner;
 
 import java.util.List;
 import java.util.Map;

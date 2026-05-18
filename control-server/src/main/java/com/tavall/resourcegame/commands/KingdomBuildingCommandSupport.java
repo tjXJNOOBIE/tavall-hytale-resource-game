@@ -20,8 +20,8 @@ import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CastleBuildingSummary;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.control.services.BuildingPlacementPlanner;
-import org.tavall.control.services.PlayerSession;
+import org.tavall.control.building.BuildingPlacementPlanner;
+import org.tavall.control.player.PlayerSession;
 import org.tavall.control.ui.UiPageType;
 import org.tavall.control.world.BuildingPlacementStageStructureService;
 

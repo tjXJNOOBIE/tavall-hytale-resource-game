@@ -2,8 +2,8 @@ package org.tavall.control.transport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
-import org.tavall.control.services.ControlPlaneTcpBridgeRequest;
-import org.tavall.control.services.JsonMapperProvider;
+import org.tavall.control.transport.ControlPlaneTcpBridgeRequest;
+import org.tavall.control.runtime.JsonMapperProvider;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.interaction.InteractionRequest;

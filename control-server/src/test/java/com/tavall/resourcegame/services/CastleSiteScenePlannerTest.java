@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.castle;
 
 import org.tavall.control.domain.AgingState;
 import org.tavall.control.domain.CastleLocationData;

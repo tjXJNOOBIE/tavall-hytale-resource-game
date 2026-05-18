@@ -1,4 +1,5 @@
 package org.tavall.control.commands;
+import org.tavall.control.world.WorldLabelService;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;

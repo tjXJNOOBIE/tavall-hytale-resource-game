@@ -1,4 +1,5 @@
-package org.tavall.control.services;
+package org.tavall.control.protection;
+import org.tavall.control.protection.StructureProtectionService;
 
 import com.hypixel.hytale.math.vector.Vector3i;
 import org.tavall.control.world.ProtectedStructureType;

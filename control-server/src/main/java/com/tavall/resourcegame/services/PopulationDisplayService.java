@@ -1,4 +1,6 @@
-package org.tavall.control.services;
+package org.tavall.control.population;
+import org.tavall.control.population.PopulationDisplayGateway;
+import org.tavall.control.world.WorldLabelService;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;

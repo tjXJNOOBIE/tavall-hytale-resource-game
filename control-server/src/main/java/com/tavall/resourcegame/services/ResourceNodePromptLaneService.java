@@ -1,4 +1,4 @@
-package org.tavall.control.services;
+package org.tavall.control.resource;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.entity.entities.Player;

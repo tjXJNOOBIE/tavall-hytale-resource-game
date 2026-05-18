@@ -1,8 +1,9 @@
-package org.tavall.control.services;
+package org.tavall.control.runtime;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
 import org.tavall.api.minecraft.frontend.IFrontendControlConfig;
+import org.tavall.control.transport.FrontendControlConfig;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import org.tavall.control.runtime.ControlCommandRuntimeFactory;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;

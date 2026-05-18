@@ -1,4 +1,6 @@
-package org.tavall.control.services;
+package org.tavall.control.resource;
+import org.tavall.control.protection.StructureProtectionService;
+import org.tavall.control.world.WorldLabelService;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;

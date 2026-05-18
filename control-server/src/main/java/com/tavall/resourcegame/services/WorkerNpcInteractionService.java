@@ -1,4 +1,7 @@
-package org.tavall.control.services;
+package org.tavall.control.npc;
+import org.tavall.control.population.PopulationDisplayService;
+import org.tavall.control.player.PlayerSessionStore;
+import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
