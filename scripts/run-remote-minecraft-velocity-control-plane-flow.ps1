@@ -14,9 +14,13 @@ param(
     [string]$KingdomServerJarLocalPath = "",
     [string]$RemoteControlDir = "/srv/resource-game-control",
     [string]$RemoteHeadlessDir = "/srv/headless",
+    [string]$RemotePublicResourcePackDir = "/var/www/html/resource-game/minecraft",
     [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/control-server/target/control-server-0.1.1-SNAPSHOT-exec.jar",
     [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/minecraft-proxy/target/minecraft-proxy-0.1.1-SNAPSHOT.jar",
     [string]$ServerPluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/minecraft-game-server/target/minecraft-game-server-0.1.1-SNAPSHOT.jar",
+    [string]$BundledResourcePackPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack/distribution/crownbound_minecraft_resource_pack.zip",
+    [string]$BundledResourcePackChecksumPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack/distribution/crownbound_minecraft_resource_pack.sha256.txt",
+    [string]$PublicResourcePackUrl = "https://docs.tavall.org/resource-game/minecraft/resource-pack.zip",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/minecraft-velocity-control-plane-flow.mjs",
     [int]$ControlPort = 19081,
     [string]$BotUsername = "ResourceProxyBot",
@@ -47,6 +51,8 @@ $remoteKingdomBackendPluginPath = "$RemoteKingdomBackendDir/plugins/minecraft-ga
 $remoteKingdomServerJarPath = "$RemoteKingdomBackendDir/$KingdomServerJarName"
 $remoteScriptPath = "$RemoteHeadlessDir/$baseName.mjs"
 $remoteOutputDir = "/tmp/$baseName"
+$remoteBundledPackPath = "/tmp/$baseName-resource-pack.zip"
+$remoteBundledPackChecksumPath = "/tmp/$baseName-resource-pack.sha256.txt"
 
 function Write-LogLine {
     param([string]$Message)
@@ -69,23 +75,19 @@ function Invoke-Checked {
     }
 }
 
-function Get-SshHostName {
-    param([string]$ConfigPath, [string]$Alias)
-    $resolved = & ssh.exe -F $ConfigPath -G $Alias 2>$null | Where-Object { $_ -match '^hostname\s+' } | Select-Object -First 1
-    if ($resolved -match '^hostname\s+(.+)$') {
-        return $Matches[1].Trim()
-    }
-    return "127.0.0.1"
-}
-
-$RemoteHostName = Get-SshHostName -ConfigPath $SshConfigPath -Alias $SshAlias
-$ResourcePackUrl = "http://$($RemoteHostName):18182/resource-pack.zip"
+$ResourcePackUrl = $PublicResourcePackUrl
 
 if (-not (Test-Path $PluginJarPath)) {
     throw "Minecraft Velocity plugin jar not found at $PluginJarPath"
 }
 if (-not (Test-Path $ServerPluginJarPath)) {
     throw "Minecraft Bukkit server plugin jar not found at $ServerPluginJarPath"
+}
+if (-not (Test-Path $BundledResourcePackPath)) {
+    throw "Bundled resource pack not found at $BundledResourcePackPath"
+}
+if (-not (Test-Path $BundledResourcePackChecksumPath)) {
+    throw "Bundled resource pack checksum not found at $BundledResourcePackChecksumPath"
 }
 if (-not (Test-Path $ControlServerJarPath)) {
     throw "Control server jar not found at $ControlServerJarPath"
@@ -159,6 +161,8 @@ Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $PluginJar
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to backend."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteSwitchBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to switch backend."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteKingdomBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to kingdom backend."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $BundledResourcePackPath, "$SshAlias`:$remoteBundledPackPath") -FailureMessage "Failed to copy bundled resource pack."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $BundledResourcePackChecksumPath, "$SshAlias`:$remoteBundledPackChecksumPath") -FailureMessage "Failed to copy bundled resource pack checksum."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $KingdomServerJarLocalPath, "$SshAlias`:$remoteKingdomServerJarPath.new") -FailureMessage "Failed to copy Paper kingdom backend jar."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ScenarioScriptPath, "$SshAlias`:$remoteScriptPath") -FailureMessage "Failed to copy Minecraft Velocity scenario script."
 
@@ -180,6 +184,12 @@ if [ -f '$remoteKingdomBackendPluginPath' ]; then
   cp '$remoteKingdomBackendPluginPath' '$remoteKingdomBackendPluginPath.bak-$timestamp'
 fi
 mv '$remoteKingdomBackendPluginPath.new' '$remoteKingdomBackendPluginPath'
+mkdir -p '$RemoteKingdomBackendDir/resource-pack/distribution'
+cp '$remoteBundledPackPath' '$RemoteKingdomBackendDir/resource-pack/distribution/crownbound_minecraft_resource_pack.zip'
+cp '$remoteBundledPackChecksumPath' '$RemoteKingdomBackendDir/resource-pack/distribution/crownbound_minecraft_resource_pack.sha256.txt'
+sudo install -d -m 755 '$RemotePublicResourcePackDir'
+sudo install -m 644 '$remoteBundledPackPath' '$RemotePublicResourcePackDir/resource-pack.zip'
+sudo install -m 644 '$remoteBundledPackChecksumPath' '$RemotePublicResourcePackDir/resource-pack.sha256.txt'
 rm -f '$RemoteKingdomBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar' 2>/dev/null || true
 if [ -f '$remoteKingdomServerJarPath' ]; then
   cp '$remoteKingdomServerJarPath' '$remoteKingdomServerJarPath.bak-$timestamp'
@@ -238,6 +248,14 @@ path.write_text('\n'.join(lines) + '\n')
 PY
 "@
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $remoteDeploy) -FailureMessage "Failed to install remote Minecraft proxy/server plugins."
+
+Write-LogLine "[$((Get-Date).ToString("o"))] Verifying public resource-pack URL."
+$publicResourcePackProbe = @"
+set -euo pipefail
+curl --fail --silent --show-error --location '$PublicResourcePackUrl' --output /tmp/$baseName-public-resource-pack.zip
+sha256sum /tmp/$baseName-public-resource-pack.zip
+"@
+Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $publicResourcePackProbe) -FailureMessage "Failed to verify public resource-pack URL."
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Ensuring configured remote Minecraft backend is listening on 25566."
 $remoteBackend = @"

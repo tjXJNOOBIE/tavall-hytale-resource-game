@@ -1,4 +1,5 @@
 import mineflayer from 'mineflayer'
+import { createHash } from 'node:crypto'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { Vec3 } from 'vec3'
@@ -24,6 +25,27 @@ function log(message) {
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function downloadResourcePack(url, outputDir) {
+  const response = await fetch(url, { redirect: 'follow' })
+  if (!response.ok) {
+    throw new Error(`Resource pack download failed: status=${response.status} url=${url}`)
+  }
+  const bytes = Buffer.from(await response.arrayBuffer())
+  if (bytes.length < 4 || bytes[0] !== 0x50 || bytes[1] !== 0x4b) {
+    throw new Error(`Resource pack download did not return a zip archive: url=${url} bytes=${bytes.length}`)
+  }
+  const sha256 = createHash('sha256').update(bytes).digest('hex')
+  const filePath = path.join(outputDir, 'downloaded-resource-pack.zip')
+  await fs.writeFile(filePath, bytes)
+  return {
+    url,
+    status: response.status,
+    bytes: bytes.length,
+    sha256,
+    filePath
+  }
 }
 
 function normalizeMessage(message) {
@@ -494,16 +516,20 @@ bot.on('spawn', () => {
 const resourcePackPromise = new Promise((resolve, reject) => {
   const timeout = setTimeout(() => reject(new Error('Timed out waiting for Minecraft resource pack request')), 30000)
   bot.once('resourcePack', (url, hashOrUuid, uuidMaybe) => {
-    clearTimeout(timeout)
-    log(`resource-pack requested url=${url} hashOrUuid=${hashOrUuid ?? '[none]'} uuid=${uuidMaybe ?? '[none]'}`)
-    try {
-      bot.acceptResourcePack()
-      log('resource-pack accepted')
-    } catch (error) {
-      reject(error)
-      return
-    }
-    resolve({ url, hashOrUuid, uuidMaybe })
+    ;(async () => {
+      clearTimeout(timeout)
+      log(`resource-pack requested url=${url} hashOrUuid=${hashOrUuid ?? '[none]'} uuid=${uuidMaybe ?? '[none]'}`)
+      try {
+        bot.acceptResourcePack()
+        log('resource-pack accepted')
+      } catch (error) {
+        reject(error)
+        return
+      }
+      const download = await downloadResourcePack(url, outputDir)
+      log(`resource-pack downloaded status=${download.status} bytes=${download.bytes} sha256=${download.sha256}`)
+      resolve({ url, hashOrUuid, uuidMaybe, ...download })
+    })().catch(reject)
   })
   bot.once('kicked', reason => {
     clearTimeout(timeout)

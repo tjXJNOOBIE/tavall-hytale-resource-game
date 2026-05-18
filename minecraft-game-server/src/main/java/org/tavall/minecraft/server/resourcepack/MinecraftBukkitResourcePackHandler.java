@@ -163,6 +163,10 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
         if (resourcePackUrl == null) {
             return;
         }
+        if ("https".equalsIgnoreCase(resourcePackUrl.getScheme())) {
+            getMinecraftBukkitLogger().info("Skipping local resource pack HTTP server because the configured resource pack URL is externally hosted over HTTPS: " + resourcePackUrl);
+            return;
+        }
         ensurePackArchive();
         synchronized (this) {
             if (hostedPackServer != null) {
@@ -220,16 +224,19 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
 
     private void handlePackRequest(HttpExchange exchange) throws IOException {
         try (exchange) {
-            if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+            boolean headRequest = "HEAD".equalsIgnoreCase(exchange.getRequestMethod());
+            if (!"GET".equalsIgnoreCase(exchange.getRequestMethod()) && !headRequest) {
                 exchange.sendResponseHeaders(405, -1);
                 return;
             }
             byte[] bytes = ensurePackArchive();
             exchange.getResponseHeaders().set("Content-Type", DEFAULT_CONTENT_TYPE);
             exchange.getResponseHeaders().set("Content-Length", String.valueOf(bytes.length));
-            exchange.sendResponseHeaders(200, bytes.length);
-            try (OutputStream outputStream = exchange.getResponseBody()) {
-                outputStream.write(bytes);
+            exchange.sendResponseHeaders(200, headRequest ? -1 : bytes.length);
+            if (!headRequest) {
+                try (OutputStream outputStream = exchange.getResponseBody()) {
+                    outputStream.write(bytes);
+                }
             }
         }
     }
