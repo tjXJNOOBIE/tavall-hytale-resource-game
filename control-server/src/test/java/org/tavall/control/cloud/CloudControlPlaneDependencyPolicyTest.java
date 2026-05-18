@@ -82,7 +82,7 @@ final class CloudControlPlaneDependencyPolicyTest {
 
     @Test
     void cloudControlPlaneRegistersEveryGeneratedDependencyAccessor() throws IOException {
-        Path generatedDomain = Path.of("src/main/java/org/tavall/control/cloud/ICloudControlDomainGenerated.java");
+        Path generatedDomain = Path.of("src/main/java/org/tavall/control/cloud/ICloudControlDomain.java");
         Path dependencyModule = Path.of("src/main/java/org/tavall/control/cloud/CloudControlDependencyModule.java");
         String generatedSource = Files.readString(generatedDomain);
         String moduleSource = Files.readString(dependencyModule);
@@ -135,6 +135,6 @@ final class CloudControlPlaneDependencyPolicyTest {
     private boolean isAllowedCompositionFile(Path path) {
         String fileName = path.getFileName().toString();
         return fileName.endsWith("DependencyModule.java")
-                || fileName.endsWith("DomainGenerated.java");
+                || fileName.endsWith("Domain.java");
     }
 }

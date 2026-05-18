@@ -67,7 +67,7 @@ public class DependencyAccessPolicyTest {
         String normalized = path.toString();
         return fileName.equals("DependencyLoaderAccess.java")
                 || fileName.equals("DependencyInjectorHelper.java")
-                || fileName.endsWith("DomainGenerated.java")
+                || fileName.endsWith("Domain.java")
                 || fileName.endsWith("DependencyModule.java")
                 || fileName.equals("ControlCommandRuntimeFactory.java")
                 || normalized.contains("\\src\\main\\java\\com\\tavall\\hytale\\resourcegame\\dependency\\");

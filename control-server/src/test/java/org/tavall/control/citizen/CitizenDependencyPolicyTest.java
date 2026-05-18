@@ -101,7 +101,7 @@ final class CitizenDependencyPolicyTest {
                     violations.add(path + ":" + lineNumber + " -> " + line.trim());
                     continue;
                 }
-                if (directLoaderAccess.matcher(line).find() && !fileName.equals("ICitizenDomainGenerated.java")) {
+                if (directLoaderAccess.matcher(line).find() && !fileName.equals("ICitizenDomain.java")) {
                     violations.add(path + ":" + lineNumber + " -> " + line.trim());
                 }
             }

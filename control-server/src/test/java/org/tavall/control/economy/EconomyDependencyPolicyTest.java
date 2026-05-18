@@ -21,7 +21,7 @@ final class EconomyDependencyPolicyTest {
                     assertTrue(source.contains("implements IEconomyDomain"), path + " should use economy domain accessors.");
                     assertFalse(cachedCollaborator.matcher(source).find(), path + " should not cache dependencies.");
                 }
-                if (!path.getFileName().toString().contains("DomainGenerated")) {
+                if (!path.getFileName().toString().contains("Domain.java")) {
                     assertFalse(source.contains("DependencyLoaderAccess."), path + " should not access the dependency loader directly.");
                 }
                 assertFalse(path.getFileName().toString().endsWith("Service.java"));

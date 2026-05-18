@@ -113,6 +113,6 @@ final class CloudAgentDependencyPolicyTest {
     private boolean isAllowedCompositionFile(Path path) {
         String fileName = path.getFileName().toString();
         return fileName.endsWith("DependencyModule.java")
-                || fileName.endsWith("DomainGenerated.java");
+                || fileName.endsWith("Domain.java");
     }
 }

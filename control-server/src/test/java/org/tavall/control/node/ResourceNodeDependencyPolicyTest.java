@@ -29,8 +29,8 @@ public final class ResourceNodeDependencyPolicyTest {
     }
 
     @Test
-    void resourceNodeDomainGeneratedOwnsDefaultDependencyLookup() throws IOException {
-        String source = Files.readString(Path.of("src/main/java/org/tavall/control/node/IResourceNodeDomainGenerated.java"));
+    void resourceNodeDomainOwnsDefaultDependencyLookup() throws IOException {
+        String source = Files.readString(Path.of("src/main/java/org/tavall/control/node/IResourceNodeDomain.java"));
 
         assertTrue(source.contains("DependencyLoaderAccess.findOptionalInstance(ResourceNodeRepository.class)"));
         assertTrue(source.contains("new InMemoryResourceNodeRepository()"));

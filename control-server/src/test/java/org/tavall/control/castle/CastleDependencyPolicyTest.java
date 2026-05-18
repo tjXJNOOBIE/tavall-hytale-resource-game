@@ -21,7 +21,7 @@ final class CastleDependencyPolicyTest {
             List<Path> javaFiles = paths.filter(path -> path.toString().endsWith(".java")).toList();
             for (Path path : javaFiles) {
                 String source = Files.readString(path);
-                if (!path.getFileName().toString().contains("DomainGenerated")) {
+                if (!path.getFileName().toString().contains("Domain.java")) {
                     assertFalse(source.contains("DependencyLoaderAccess."), path + " should not access the dependency loader directly.");
                 }
                 assertFalse(path.getFileName().toString().endsWith("Service.java"), "No new Service classes in " + packagePath);

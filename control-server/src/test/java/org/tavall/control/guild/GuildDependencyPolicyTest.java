@@ -35,8 +35,8 @@ public final class GuildDependencyPolicyTest {
     }
 
     @Test
-    void guildDomainGeneratedOwnsDefaultDependencyLookup() throws IOException {
-        String source = Files.readString(Path.of("src/main/java/org/tavall/control/guild/IGuildDomainGenerated.java"));
+    void guildDomainOwnsDefaultDependencyLookup() throws IOException {
+        String source = Files.readString(Path.of("src/main/java/org/tavall/control/guild/IGuildDomain.java"));
 
         assertTrue(source.contains("DependencyLoaderAccess.findOptionalInstance(GuildRepository.class)"));
         assertTrue(source.contains("new InMemoryGuildRepository()"));

@@ -51,7 +51,7 @@ public final class SecurityDependencyPolicyTest {
                     violations.add(path + ":" + lineNumber + " -> " + line.trim());
                     continue;
                 }
-                if (directLoaderAccess.matcher(line).find() && !fileName.endsWith("DomainGenerated.java")) {
+                if (directLoaderAccess.matcher(line).find() && !fileName.endsWith("Domain.java")) {
                     violations.add(path + ":" + lineNumber + " -> " + line.trim());
                 }
             }

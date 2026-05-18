@@ -1,4 +1,14 @@
 package org.tavall.control.platform;
 
-public interface IPlatformBindingDomain extends IPlatformBindingDomainGenerated {
+import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.control.identity.PlatformAccountLinkHandler;
+
+public interface IPlatformBindingDomain {
+    default PlatformAccountLinkHandler getPlatformAccountLinkHandler() {
+        return DependencyLoaderAccess.findInstance(PlatformAccountLinkHandler.class);
+    }
+
+    default void registerPlatformAccountLinkHandler(PlatformAccountLinkHandler platformAccountLinkHandler) {
+        DependencyLoaderAccess.registerInstance(PlatformAccountLinkHandler.class, platformAccountLinkHandler);
+    }
 }
