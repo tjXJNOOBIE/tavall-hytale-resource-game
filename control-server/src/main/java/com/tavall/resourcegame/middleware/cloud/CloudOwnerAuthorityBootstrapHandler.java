@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
-import com.tavall.resourcegame.middleware.authority.AuthorityScope;
-import com.tavall.resourcegame.middleware.authority.ControlAuthority;
-import com.tavall.resourcegame.middleware.authority.ControlAuthorityLevel;
-import com.tavall.resourcegame.middleware.authority.IControlAuthorityDomain;
-import com.tavall.resourcegame.middleware.control.ControlOperator;
-import com.tavall.resourcegame.middleware.control.ControlPermission;
+import org.tavall.control.authority.AuthorityScope;
+import org.tavall.control.authority.ControlAuthority;
+import org.tavall.control.authority.ControlAuthorityLevel;
+import org.tavall.control.authority.IControlAuthorityDomain;
+import org.tavall.control.runtime.ControlOperator;
+import org.tavall.control.runtime.ControlPermission;
 
 import java.time.Instant;
 import java.util.EnumSet;

@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.frontend.minecraft;
+package org.tavall.minecraft;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
-import com.tavall.resourcegame.api.internal.permissions.RankRequest;
-import com.tavall.resourcegame.api.internal.permissions.RankResponse;
-import com.tavall.resourcegame.frontend.minecraft.bridge.IMinecraftControlCommandClient;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.permissions.PunishRequest;
+import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.api.minecraft.permissions.RankRequest;
+import org.tavall.api.minecraft.permissions.RankResponse;
+import org.tavall.minecraft.bridge.IMinecraftControlCommandClient;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Objects;

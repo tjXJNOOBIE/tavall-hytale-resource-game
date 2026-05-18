@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetResolutionHandler;
-import com.tavall.resourcegame.middleware.asset.ResolvedPlatformAsset;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.projection.InteractionAction;
-import com.tavall.resourcegame.middleware.projection.PlatformInteractionType;
-import com.tavall.resourcegame.middleware.troop.Troop;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.asset.GlobalAssetResolutionHandler;
+import org.tavall.control.asset.ResolvedPlatformAsset;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.projection.InteractionAction;
+import org.tavall.control.projection.PlatformInteractionType;
+import org.tavall.control.troop.Troop;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

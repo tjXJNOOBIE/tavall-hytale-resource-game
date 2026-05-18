@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.Holder;

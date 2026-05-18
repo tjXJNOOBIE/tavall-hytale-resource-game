@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.PlayerProfile;
+import org.tavall.control.domain.PlayerProfile;
 
 import java.time.Instant;
 import java.util.Optional;

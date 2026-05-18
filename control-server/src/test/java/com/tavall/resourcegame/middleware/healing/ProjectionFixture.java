@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.troop.Troop;
+import org.tavall.control.troop.Troop;
 
 import java.util.Optional;
 

@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.clock;
+package org.tavall.control.clock;
 
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
-import com.tavall.resourcegame.persistence.ControlPlaneSnapshotJsonCodec;
-import com.tavall.resourcegame.persistence.PostgresConnectionProvider;
+import org.tavall.control.runtime.ControlCommandValidationException;
+import org.tavall.control.persistence.ControlPlaneSnapshotJsonCodec;
+import org.tavall.control.persistence.PostgresConnectionProvider;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

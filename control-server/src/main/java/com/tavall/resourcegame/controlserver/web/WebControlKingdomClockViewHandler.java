@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.clock.KingdomClockProjection;
-import com.tavall.resourcegame.middleware.clock.KingdomClockState;
-import com.tavall.resourcegame.middleware.clock.KingdomScheduleProjection;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.clock.KingdomClockProjection;
+import org.tavall.control.clock.KingdomClockState;
+import org.tavall.control.clock.KingdomScheduleProjection;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.runtime.ControlCommandResult;
 
 public final class WebControlKingdomClockViewHandler implements IWebControlKingdomClockViewHandler, IControlServerDomain {
     public String body(String kingdomId, ControlCommandResult result) {

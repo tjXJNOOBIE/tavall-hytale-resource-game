@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

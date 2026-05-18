@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.domain.ui;
+package org.tavall.minecraft.domain.ui;
 
 import java.util.List;
 

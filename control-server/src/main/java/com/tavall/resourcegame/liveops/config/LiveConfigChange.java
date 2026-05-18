@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.liveops.config;
+package org.tavall.control.liveops.config;
 
 import java.time.Instant;
 import java.util.Map;

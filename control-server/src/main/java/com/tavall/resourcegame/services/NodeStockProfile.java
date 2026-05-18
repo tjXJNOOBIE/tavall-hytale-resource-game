@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 /**
  * Immutable stock defaults for a resource node type.

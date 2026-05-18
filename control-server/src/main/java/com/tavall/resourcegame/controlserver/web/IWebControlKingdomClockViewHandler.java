@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
+import org.tavall.control.runtime.ControlCommandResult;
 
 public interface IWebControlKingdomClockViewHandler {
     String body(String kingdomId, ControlCommandResult result);

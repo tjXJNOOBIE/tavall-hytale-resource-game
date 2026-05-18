@@ -1,7 +1,7 @@
-package org.tavall.hytale.resourcegame.runtime;
+package org.tavall.minecraft.runtime;
 
 import java.util.UUID;
-import org.tavall.hytale.resourcegame.domain.ui.UiScreen;
+import org.tavall.minecraft.domain.ui.UiScreen;
 
 /**
  * Boundary adapter for spawning entities and opening UIs with the Hytale runtime.

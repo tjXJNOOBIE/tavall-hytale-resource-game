@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.runtime;
+package org.tavall.minecraft.runtime;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 

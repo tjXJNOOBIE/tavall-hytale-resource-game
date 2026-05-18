@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.controlserver.cli;
+package org.tavall.control.cli;
 
-import com.tavall.resourcegame.controlserver.bootstrap.ControlServerBootstrap;
+import org.tavall.control.bootstrap.ControlServerBootstrap;
 
 public final class ControlConsoleApplication {
     private static final ControlServerBootstrap BOOTSTRAP = new ControlServerBootstrap();

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.common.MetadataMaps;
 
 import java.util.List;
 import java.util.Map;

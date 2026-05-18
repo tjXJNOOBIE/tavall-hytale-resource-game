@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.frontend.minecraft.bridge;
+package org.tavall.minecraft.bridge;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelopeFactory;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandSurface;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelopeFactory;
+import org.tavall.api.minecraft.frontend.FrontendCommandSurface;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import com.tjxjnoobie.api.platform.global.console.Log;
 
 import java.util.Map;

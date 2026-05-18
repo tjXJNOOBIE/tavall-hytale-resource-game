@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.Holder;
@@ -24,17 +24,17 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingVisualService;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.domain.CastleBuildingSummary;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.interactions.OpenFarmsteadInteraction;
-import com.tavall.resourcegame.population.PromotionCost;
-import com.tavall.resourcegame.world.CastleBuildingStructureService;
-import com.tavall.resourcegame.world.CastleBuildingVisualRefs;
-import com.tavall.resourcegame.world.ProtectedStructureType;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.domain.CastleBuildingSummary;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.interactions.OpenFarmsteadInteraction;
+import org.tavall.control.population.PromotionCost;
+import org.tavall.control.world.CastleBuildingStructureService;
+import org.tavall.control.world.CastleBuildingVisualRefs;
+import org.tavall.control.world.ProtectedStructureType;
+import org.tavall.control.tasks.WorldTasks;
 
 import java.time.Instant;
 import java.util.List;
@@ -241,7 +241,7 @@ public final class CastleBuildingVisualService implements ICastleBuildingVisualS
 
     private List<String> buildingModelCandidates(CastleBuildingSummary summary) {
         String buildingKey = summary.buildingData().buildingType().shortKey();
-        if (summary.buildingData().buildingType() == com.tavall.resourcegame.domain.BuildingType.FARMSTEAD) {
+        if (summary.buildingData().buildingType() == org.tavall.control.domain.BuildingType.FARMSTEAD) {
             if (summary.isUnderConstruction()) {
                 String stageKey = summary.constructionStage().name().toLowerCase(java.util.Locale.ROOT);
                 return List.of(

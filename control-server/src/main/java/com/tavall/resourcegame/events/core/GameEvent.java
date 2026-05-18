@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.events.core;
+package org.tavall.control.events.core;
 
 import java.util.Map;
 import java.util.UUID;

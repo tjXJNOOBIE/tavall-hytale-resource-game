@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tavall.resourcegame.domain.BuildingConstructionStage;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.domain.CastleBuildingSummary;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.FocusedWorldTarget;
-import com.tavall.resourcegame.domain.FocusedWorldTargetType;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.domain.BuildingConstructionStage;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.domain.CastleBuildingSummary;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.FocusedWorldTarget;
+import org.tavall.control.domain.FocusedWorldTargetType;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.resources.ResourceType;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

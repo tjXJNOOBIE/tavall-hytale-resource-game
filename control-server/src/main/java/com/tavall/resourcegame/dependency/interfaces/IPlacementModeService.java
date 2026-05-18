@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.PlacementRequest;
-import com.tavall.resourcegame.domain.PlacementResult;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.PlacementRequest;
+import org.tavall.control.domain.PlacementResult;
+import org.tavall.control.resources.ResourceType;
 
 import java.time.Instant;
 import java.util.Optional;

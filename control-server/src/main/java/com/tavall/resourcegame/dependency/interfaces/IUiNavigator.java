@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.ui.UiPageType;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.ui.UiPageType;
 
 import java.util.UUID;
 

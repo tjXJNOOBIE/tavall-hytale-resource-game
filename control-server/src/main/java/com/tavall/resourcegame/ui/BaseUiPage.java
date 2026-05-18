@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import au.ellie.hyui.builders.HyUIPage;
 import au.ellie.hyui.events.DynamicPageData;
@@ -10,9 +10,9 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tavall.resourcegame.dependency.interfaces.IUiActionService;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
+import org.tavall.control.dependency.interfaces.IUiActionService;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
 
 import java.util.Collection;
 import java.util.Map;

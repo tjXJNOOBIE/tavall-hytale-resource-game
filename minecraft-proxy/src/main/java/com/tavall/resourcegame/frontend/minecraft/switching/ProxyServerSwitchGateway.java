@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.switching;
+package org.tavall.minecraft.switching;
 
-import com.tavall.resourcegame.frontend.minecraft.runtime.IMinecraftFrontendDomain;
+import org.tavall.minecraft.runtime.IMinecraftFrontendDomain;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 import java.util.Optional;

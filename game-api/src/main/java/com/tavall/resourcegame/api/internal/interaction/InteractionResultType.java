@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.interaction;
+package org.tavall.api.minecraft.interaction;
 
 public enum InteractionResultType {
     OPEN_MENU,

@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
-import com.tavall.resourcegame.dependency.interfaces.IFrontendCommandVerificationService;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.frontend.FrontendKdCommandInputFormatter;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.dependency.interfaces.IFrontendCommandVerificationService;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.FrontendKdCommandInputFormatter;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 
 import java.util.LinkedHashMap;
 import java.util.List;

@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.petition;
+package org.tavall.control.petition;
 
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
-import com.tavall.resourcegame.middleware.guild.GuildId;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.common.MetadataMaps;
+import org.tavall.control.guild.GuildId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.time.Instant;
 import java.util.Map;

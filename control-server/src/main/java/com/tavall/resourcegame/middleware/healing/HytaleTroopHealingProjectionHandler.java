@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.projection.PlatformInteractionType;
-import com.tavall.resourcegame.middleware.troop.Troop;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.projection.PlatformInteractionType;
+import org.tavall.control.troop.Troop;
 
 import java.util.Optional;
 

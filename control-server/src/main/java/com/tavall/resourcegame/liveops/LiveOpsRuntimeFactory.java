@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.liveops;
+package org.tavall.control.liveops;
 
-import com.tavall.resourcegame.events.dispatch.GameEventDispatchHandler;
+import org.tavall.control.events.dispatch.GameEventDispatchHandler;
 
 public final class LiveOpsRuntimeFactory {
     private LiveOpsRuntimeFactory() {

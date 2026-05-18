@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.resources.ResourceType;
 
 import java.time.Instant;
 import java.util.Objects;

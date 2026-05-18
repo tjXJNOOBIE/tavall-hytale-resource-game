@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.security;
+package org.tavall.control.security;
 
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.util.List;
 import java.util.Optional;

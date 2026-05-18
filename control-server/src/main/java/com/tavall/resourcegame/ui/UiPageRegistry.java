@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IUiPageRegistry;
+import org.tavall.control.dependency.interfaces.IUiPageRegistry;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;

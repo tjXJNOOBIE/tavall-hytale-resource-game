@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.node;
+package org.tavall.control.node;
 
-import com.tavall.resourcegame.middleware.guild.IGuildDomain;
+import org.tavall.control.guild.IGuildDomain;
 
 public interface IResourceNodeDomain extends IResourceNodeDomainGenerated, IGuildDomain {
 }

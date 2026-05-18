@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
 /**
  * Describes the type of world placement the player is currently arming.

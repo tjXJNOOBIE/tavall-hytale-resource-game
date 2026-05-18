@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.domain.resource;
+package org.tavall.minecraft.domain.resource;
 
 import java.util.EnumMap;
 import java.util.Map;

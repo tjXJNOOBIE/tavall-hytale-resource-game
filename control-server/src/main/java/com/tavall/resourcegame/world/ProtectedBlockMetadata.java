@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.world;
+package org.tavall.control.world;
 
 import java.util.Objects;
 import java.util.UUID;

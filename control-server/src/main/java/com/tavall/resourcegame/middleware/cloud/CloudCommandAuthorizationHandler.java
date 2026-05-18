@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.authority.AuthorizationResult;
-import com.tavall.resourcegame.middleware.authority.AuthorityScopeType;
-import com.tavall.resourcegame.middleware.authority.ControlCommandRequest;
-import com.tavall.resourcegame.middleware.authority.ControlPrincipalType;
-import com.tavall.resourcegame.middleware.authority.ResourceTarget;
+import org.tavall.control.authority.AuthorizationResult;
+import org.tavall.control.authority.AuthorityScopeType;
+import org.tavall.control.authority.ControlCommandRequest;
+import org.tavall.control.authority.ControlPrincipalType;
+import org.tavall.control.authority.ResourceTarget;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -46,24 +46,24 @@ public final class CloudCommandAuthorizationHandler implements ICloudCommandAuth
         );
     }
 
-    private com.tavall.resourcegame.middleware.authority.CloudCommandType authorityCommandType(CloudCommandType commandType) {
+    private org.tavall.control.authority.CloudCommandType authorityCommandType(CloudCommandType commandType) {
         return switch (commandType) {
-            case INSTALL_WORKLOAD -> com.tavall.resourcegame.middleware.authority.CloudCommandType.INSTALL_WORKLOAD;
-            case START_WORKLOAD -> com.tavall.resourcegame.middleware.authority.CloudCommandType.START_WORKLOAD;
-            case STOP_WORKLOAD -> com.tavall.resourcegame.middleware.authority.CloudCommandType.STOP_WORKLOAD;
-            case RESTART_WORKLOAD -> com.tavall.resourcegame.middleware.authority.CloudCommandType.RESTART_WORKLOAD;
-            case DELETE_WORKLOAD -> com.tavall.resourcegame.middleware.authority.CloudCommandType.DELETE_WORKLOAD;
-            case OPEN_PORT -> com.tavall.resourcegame.middleware.authority.CloudCommandType.OPEN_PORT;
-            case CLOSE_PORT -> com.tavall.resourcegame.middleware.authority.CloudCommandType.CLOSE_PORT;
-            case APPLY_FIREWALL_RULES -> com.tavall.resourcegame.middleware.authority.CloudCommandType.APPLY_FIREWALL_RULES;
-            case APPLY_PROXY_CONFIG -> com.tavall.resourcegame.middleware.authority.CloudCommandType.APPLY_PROXY_CONFIG;
-            case RUN_HEALTH_CHECK -> com.tavall.resourcegame.middleware.authority.CloudCommandType.RUN_HEALTH_CHECK;
-            case COLLECT_LOGS -> com.tavall.resourcegame.middleware.authority.CloudCommandType.COLLECT_LOGS;
-            case RUN_BACKUP -> com.tavall.resourcegame.middleware.authority.CloudCommandType.RUN_BACKUP;
-            case RESTORE_BACKUP -> com.tavall.resourcegame.middleware.authority.CloudCommandType.RESTORE_BACKUP;
-            case UPDATE_AGENT -> com.tavall.resourcegame.middleware.authority.CloudCommandType.UPDATE_AGENT;
-            case DRAIN_NODE -> com.tavall.resourcegame.middleware.authority.CloudCommandType.DRAIN_NODE;
-            case CANCEL_COMMAND -> com.tavall.resourcegame.middleware.authority.CloudCommandType.CANCEL_COMMAND;
+            case INSTALL_WORKLOAD -> org.tavall.control.authority.CloudCommandType.INSTALL_WORKLOAD;
+            case START_WORKLOAD -> org.tavall.control.authority.CloudCommandType.START_WORKLOAD;
+            case STOP_WORKLOAD -> org.tavall.control.authority.CloudCommandType.STOP_WORKLOAD;
+            case RESTART_WORKLOAD -> org.tavall.control.authority.CloudCommandType.RESTART_WORKLOAD;
+            case DELETE_WORKLOAD -> org.tavall.control.authority.CloudCommandType.DELETE_WORKLOAD;
+            case OPEN_PORT -> org.tavall.control.authority.CloudCommandType.OPEN_PORT;
+            case CLOSE_PORT -> org.tavall.control.authority.CloudCommandType.CLOSE_PORT;
+            case APPLY_FIREWALL_RULES -> org.tavall.control.authority.CloudCommandType.APPLY_FIREWALL_RULES;
+            case APPLY_PROXY_CONFIG -> org.tavall.control.authority.CloudCommandType.APPLY_PROXY_CONFIG;
+            case RUN_HEALTH_CHECK -> org.tavall.control.authority.CloudCommandType.RUN_HEALTH_CHECK;
+            case COLLECT_LOGS -> org.tavall.control.authority.CloudCommandType.COLLECT_LOGS;
+            case RUN_BACKUP -> org.tavall.control.authority.CloudCommandType.RUN_BACKUP;
+            case RESTORE_BACKUP -> org.tavall.control.authority.CloudCommandType.RESTORE_BACKUP;
+            case UPDATE_AGENT -> org.tavall.control.authority.CloudCommandType.UPDATE_AGENT;
+            case DRAIN_NODE -> org.tavall.control.authority.CloudCommandType.DRAIN_NODE;
+            case CANCEL_COMMAND -> org.tavall.control.authority.CloudCommandType.CANCEL_COMMAND;
         };
     }
 

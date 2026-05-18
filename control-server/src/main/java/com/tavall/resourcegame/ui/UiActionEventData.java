@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;

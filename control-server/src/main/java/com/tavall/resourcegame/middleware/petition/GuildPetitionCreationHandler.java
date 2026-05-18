@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.petition;
+package org.tavall.control.petition;
 
-import com.tavall.resourcegame.middleware.guild.GuildId;
-import com.tavall.resourcegame.middleware.guild.GuildMemberProfile;
-import com.tavall.resourcegame.middleware.guild.GuildValidationException;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.guild.GuildId;
+import org.tavall.control.guild.GuildMemberProfile;
+import org.tavall.control.guild.GuildValidationException;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.time.Duration;
 import java.time.Instant;

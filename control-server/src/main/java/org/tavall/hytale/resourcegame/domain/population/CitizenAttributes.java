@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.domain.population;
+package org.tavall.minecraft.domain.population;
 
 /**
  * Starter stat shape for continuum units that can be expanded later without schema churn.

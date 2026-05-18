@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.ui.UiActionEventData;
-import com.tavall.resourcegame.ui.UpgradeActionState;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.ui.UiActionEventData;
+import org.tavall.control.ui.UpgradeActionState;
 
 public interface IUiActionService extends IDependencyInjectableInterface {
     void handle(Player player, UiNavigationContext context, UiActionEventData eventData);

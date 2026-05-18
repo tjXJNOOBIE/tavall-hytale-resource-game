@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.middleware.trade;
+package org.tavall.control.trade;
 
-import com.tavall.resourcegame.middleware.castle.CastleId;
-import com.tavall.resourcegame.middleware.guild.GuildCreationHandler;
-import com.tavall.resourcegame.middleware.guild.GuildJobAssignmentHandler;
-import com.tavall.resourcegame.middleware.guild.GuildJobBuffCalculationHandler;
-import com.tavall.resourcegame.middleware.guild.GuildJobTitle;
-import com.tavall.resourcegame.middleware.guild.GuildKingdom;
-import com.tavall.resourcegame.middleware.guild.GuildMemberProfile;
-import com.tavall.resourcegame.middleware.guild.GuildMembershipHandler;
-import com.tavall.resourcegame.middleware.guild.InMemoryGuildRepository;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.castle.CastleId;
+import org.tavall.control.guild.GuildCreationHandler;
+import org.tavall.control.guild.GuildJobAssignmentHandler;
+import org.tavall.control.guild.GuildJobBuffCalculationHandler;
+import org.tavall.control.guild.GuildJobTitle;
+import org.tavall.control.guild.GuildKingdom;
+import org.tavall.control.guild.GuildMemberProfile;
+import org.tavall.control.guild.GuildMembershipHandler;
+import org.tavall.control.guild.InMemoryGuildRepository;
+import org.tavall.control.identity.UniversalPlayerId;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

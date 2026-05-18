@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.interaction.InteractionTargetType;
+import org.tavall.api.minecraft.interaction.InteractionTargetType;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;

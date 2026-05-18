@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
+import org.tavall.control.asset.GlobalAssetId;
 
 import java.util.Objects;
 

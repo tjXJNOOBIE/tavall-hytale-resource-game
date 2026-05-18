@@ -1,20 +1,20 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.domain.AgingState;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.domain.CitizenMetaData;
-import com.tavall.resourcegame.domain.DebugModeState;
-import com.tavall.resourcegame.domain.GameStateMetadata;
-import com.tavall.resourcegame.domain.OnboardingProgress;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PopulationSummary;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.domain.TroopMetaData;
-import com.tavall.resourcegame.support.InMemoryPlayerGameStateStore;
+import org.tavall.control.cache.JacksonCacheCodec;
+import org.tavall.control.cache.SemanticCacheFactory;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.domain.AgingState;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.domain.CitizenMetaData;
+import org.tavall.control.domain.DebugModeState;
+import org.tavall.control.domain.GameStateMetadata;
+import org.tavall.control.domain.OnboardingProgress;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PopulationSummary;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.domain.TroopMetaData;
+import org.tavall.control.support.InMemoryPlayerGameStateStore;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

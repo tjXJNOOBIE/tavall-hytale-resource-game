@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.domain.resource;
+package org.tavall.minecraft.domain.resource;
 
 public enum ResourceType {
   FOOD,

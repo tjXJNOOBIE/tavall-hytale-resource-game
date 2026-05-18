@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
-import com.tavall.resourcegame.dependency.interfaces.IPlayerProfileService;
-import com.tavall.resourcegame.domain.PlayerProfile;
+import org.tavall.control.dependency.interfaces.IPlayerProfileService;
+import org.tavall.control.domain.PlayerProfile;
 
 import java.time.Instant;
 import java.util.Optional;

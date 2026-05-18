@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.ControlServerDependencyModule;
+import org.tavall.control.ControlServerDependencyModule;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
 

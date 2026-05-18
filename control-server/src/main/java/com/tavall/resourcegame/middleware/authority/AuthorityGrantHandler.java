@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
 import java.util.UUID;
 
@@ -7,7 +7,7 @@ public final class AuthorityGrantHandler implements IAuthorityGrantHandler, ICon
      * Grants are routed through the same permission check as commands so delegation cannot bypass the authority kernel.
      */
     public ControlAuthority grant(UUID grantedBy, AuthorityGrantRequest request, long nowEpochMillis) {
-        getControlAuthorizationHandler().requirePermission(grantedBy, com.tavall.resourcegame.middleware.control.ControlPermission.AUTHORITY_GRANT, ResourceTarget.global());
+        getControlAuthorizationHandler().requirePermission(grantedBy, org.tavall.control.runtime.ControlPermission.AUTHORITY_GRANT, ResourceTarget.global());
         ControlAuthority authority = new ControlAuthority(
                 UUID.randomUUID(),
                 request.grantedToPrincipalId(),

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.companion;
+package org.tavall.control.companion;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;

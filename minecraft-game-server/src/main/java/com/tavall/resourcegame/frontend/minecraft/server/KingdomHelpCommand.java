@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

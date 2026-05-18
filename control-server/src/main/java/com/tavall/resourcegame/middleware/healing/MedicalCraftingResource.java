@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.node.MiddlewareResourceType;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.node.MiddlewareResourceType;
 
 public enum MedicalCraftingResource {
     FOOD_GRAIN("resource.food.grain", MiddlewareResourceType.FOOD),

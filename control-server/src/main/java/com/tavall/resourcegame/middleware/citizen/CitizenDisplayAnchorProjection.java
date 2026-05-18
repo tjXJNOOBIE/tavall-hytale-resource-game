@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 import java.util.Map;
 

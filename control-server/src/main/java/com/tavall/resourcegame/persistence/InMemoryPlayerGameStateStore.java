@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerGameState;
 
 import java.sql.SQLException;
 import java.time.Instant;

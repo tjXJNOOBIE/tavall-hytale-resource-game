@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.liveops;
+package org.tavall.control.liveops;
 
 public interface ILiveOpsDomain extends ILiveOpsDomainGenerated {
 }

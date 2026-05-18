@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
-import com.tavall.resourcegame.population.PromotionCost;
+import org.tavall.control.population.PromotionCost;
 
 /**
  * Describes the gameplay effect and construction profile for a building target level.

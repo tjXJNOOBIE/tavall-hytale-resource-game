@@ -1,23 +1,23 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.IFocusedWorldInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.IFocusedWorldOverrideService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeService;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.domain.FocusedWorldTarget;
-import com.tavall.resourcegame.domain.FocusedWorldTargetType;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.ui.UiPageType;
-import com.tavall.resourcegame.world.VectorMath;
+import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.dependency.interfaces.ICastleInteractionService;
+import org.tavall.control.dependency.interfaces.IFocusedWorldInteractionService;
+import org.tavall.control.dependency.interfaces.IFocusedWorldOverrideService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IResourceNodeService;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.domain.FocusedWorldTarget;
+import org.tavall.control.domain.FocusedWorldTargetType;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.ui.UiPageType;
+import org.tavall.control.world.VectorMath;
 
 import java.util.Objects;
 import java.util.Optional;

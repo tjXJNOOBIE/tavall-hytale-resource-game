@@ -1,18 +1,18 @@
-package com.tavall.resourcegame.events;
+package org.tavall.control.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.events.dispatch.EventInteractionMappingRegistry;
-import com.tavall.resourcegame.events.dispatch.GameEventDispatchHandler;
-import com.tavall.resourcegame.events.dispatch.GameEventListenerRegistry;
-import com.tavall.resourcegame.events.dispatch.InteractionBridgeHandler;
-import com.tavall.resourcegame.events.dispatch.RedisGameEventSubscriber;
-import com.tavall.resourcegame.events.middleware.DistributedEventForwarder;
-import com.tavall.resourcegame.events.middleware.EventDispatchMetricsMiddleware;
-import com.tavall.resourcegame.events.middleware.EventMiddlewareCatalog;
-import com.tavall.resourcegame.events.middleware.EventPermissionPolicy;
-import com.tavall.resourcegame.events.middleware.EventRateLimitPolicy;
-import com.tavall.resourcegame.events.middleware.GameEventAuditHandler;
+import org.tavall.control.events.dispatch.EventInteractionMappingRegistry;
+import org.tavall.control.events.dispatch.GameEventDispatchHandler;
+import org.tavall.control.events.dispatch.GameEventListenerRegistry;
+import org.tavall.control.events.dispatch.InteractionBridgeHandler;
+import org.tavall.control.events.dispatch.RedisGameEventSubscriber;
+import org.tavall.control.events.middleware.DistributedEventForwarder;
+import org.tavall.control.events.middleware.EventDispatchMetricsMiddleware;
+import org.tavall.control.events.middleware.EventMiddlewareCatalog;
+import org.tavall.control.events.middleware.EventPermissionPolicy;
+import org.tavall.control.events.middleware.EventRateLimitPolicy;
+import org.tavall.control.events.middleware.GameEventAuditHandler;
 import redis.clients.jedis.JedisPool;
 
 public interface IGameEventDomainGenerated {

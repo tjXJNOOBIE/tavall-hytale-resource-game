@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.frontend.minecraft.server.world.MinecraftBukkitWorldActionSupport;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.minecraft.server.world.MinecraftBukkitWorldActionSupport;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Location;
 import org.bukkit.Material;

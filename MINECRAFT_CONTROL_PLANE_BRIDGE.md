@@ -10,11 +10,11 @@ Policy rule:
 
 ## Runtime shape
 
-- Control plane entrypoint: `com.tavall.resourcegame.controlserver.cli.ControlConsoleApplication`
-- Control bridge server: `com.tavall.resourcegame.controlserver.transport.ControlPlaneTcpBridgeServer`
-- Control bridge client: `com.tavall.resourcegame.controlserver.transport.ControlPlaneTcpBridgeClient`
-- Minecraft client config: `com.tavall.resourcegame.services.FrontendControlConfig`
-- Minecraft command client: `com.tavall.resourcegame.services.FrontendTcpControlCommandClient`
+- Control plane entrypoint: `org.tavall.control.cli.ControlConsoleApplication`
+- Control bridge server: `org.tavall.control.transport.ControlPlaneTcpBridgeServer`
+- Control bridge client: `org.tavall.control.transport.ControlPlaneTcpBridgeClient`
+- Minecraft client config: `org.tavall.control.services.FrontendControlConfig`
+- Minecraft command client: `org.tavall.control.services.FrontendTcpControlCommandClient`
 
 Default bridge address:
 

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.ui.UiActions;
-import com.tavall.resourcegame.api.internal.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiActions;
+import org.tavall.api.minecraft.ui.UiPageType;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

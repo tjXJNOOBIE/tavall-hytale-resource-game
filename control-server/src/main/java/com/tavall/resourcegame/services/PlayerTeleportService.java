@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -13,8 +13,8 @@ import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerTeleportService;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
+import org.tavall.control.tasks.WorldTasks;
 import java.util.concurrent.TimeUnit;
 
 /**

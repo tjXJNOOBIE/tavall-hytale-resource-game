@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.tavall.resourcegame.dependency.interfaces.IInteriorInstanceService;
+import org.tavall.control.dependency.interfaces.IInteriorInstanceService;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;

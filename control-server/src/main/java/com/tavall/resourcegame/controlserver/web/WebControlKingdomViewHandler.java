@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem;
 
 public final class WebControlKingdomViewHandler implements IWebControlKingdomViewHandler, IControlServerDomain {
     public String body(ControlCommandResult result) {

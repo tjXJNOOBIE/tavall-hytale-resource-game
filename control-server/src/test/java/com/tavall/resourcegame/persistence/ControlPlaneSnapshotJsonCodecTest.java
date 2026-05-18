@@ -1,19 +1,19 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
-import com.tavall.resourcegame.middleware.clock.KingdomClockMode;
-import com.tavall.resourcegame.middleware.clock.KingdomClockRealTimeSource;
-import com.tavall.resourcegame.middleware.clock.KingdomClockState;
-import com.tavall.resourcegame.middleware.clock.KingdomTimePhase;
-import com.tavall.resourcegame.middleware.companion.CompanionBaseAttributes;
-import com.tavall.resourcegame.middleware.companion.CompanionBehaviorState;
-import com.tavall.resourcegame.middleware.companion.CompanionData;
-import com.tavall.resourcegame.middleware.companion.CompanionMoraleState;
-import com.tavall.resourcegame.middleware.companion.CompanionSkillSlot;
-import com.tavall.resourcegame.middleware.companion.CompanionStats;
-import com.tavall.resourcegame.middleware.companion.CompanionStatus;
-import com.tavall.resourcegame.middleware.companion.CompanionType;
-import com.tavall.resourcegame.middleware.event.RecordingDomainEventPublisher;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
+import org.tavall.control.clock.KingdomClockMode;
+import org.tavall.control.clock.KingdomClockRealTimeSource;
+import org.tavall.control.clock.KingdomClockState;
+import org.tavall.control.clock.KingdomTimePhase;
+import org.tavall.control.companion.CompanionBaseAttributes;
+import org.tavall.control.companion.CompanionBehaviorState;
+import org.tavall.control.companion.CompanionData;
+import org.tavall.control.companion.CompanionMoraleState;
+import org.tavall.control.companion.CompanionSkillSlot;
+import org.tavall.control.companion.CompanionStats;
+import org.tavall.control.companion.CompanionStatus;
+import org.tavall.control.companion.CompanionType;
+import org.tavall.control.event.RecordingDomainEventPublisher;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

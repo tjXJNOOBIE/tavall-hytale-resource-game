@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.interaction.InteractionMenuModel;
+import org.tavall.api.minecraft.interaction.InteractionMenuModel;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 

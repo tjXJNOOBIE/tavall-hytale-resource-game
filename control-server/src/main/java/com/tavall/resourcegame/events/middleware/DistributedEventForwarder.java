@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.events.middleware;
+package org.tavall.control.events.middleware;
 
-import com.tavall.resourcegame.events.core.GameEvent;
+import org.tavall.control.events.core.GameEvent;
 
 @FunctionalInterface
 public interface DistributedEventForwarder {

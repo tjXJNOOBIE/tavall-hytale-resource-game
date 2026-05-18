@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.dependency;
+package org.tavall.control.dependency;
 
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.tavall.resourcegame.dependency.interfaces.IKingdomClockService;
-import com.tavall.resourcegame.domain.KingdomClockState;
+import org.tavall.control.dependency.interfaces.IKingdomClockService;
+import org.tavall.control.domain.KingdomClockState;
 
 import java.time.Instant;
 

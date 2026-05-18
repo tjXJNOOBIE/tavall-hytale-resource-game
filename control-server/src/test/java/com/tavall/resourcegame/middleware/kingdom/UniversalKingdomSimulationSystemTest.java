@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.middleware.kingdom;
+package org.tavall.control.kingdom;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.control.CommandIssuedFrom;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntimeFactory;
-import com.tavall.resourcegame.middleware.control.ControlOperator;
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
-import com.tavall.resourcegame.middleware.event.RecordingDomainEventPublisher;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.runtime.CommandIssuedFrom;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.ControlCommandRuntime;
+import org.tavall.control.runtime.ControlCommandRuntimeFactory;
+import org.tavall.control.runtime.ControlOperator;
+import org.tavall.control.runtime.ControlCommandValidationException;
+import org.tavall.control.event.RecordingDomainEventPublisher;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

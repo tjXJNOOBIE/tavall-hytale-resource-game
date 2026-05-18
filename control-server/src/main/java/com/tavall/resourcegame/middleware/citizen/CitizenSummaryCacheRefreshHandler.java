@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
@@ -31,7 +31,7 @@ public final class CitizenSummaryCacheRefreshHandler implements ICitizenDomain, 
 
     public CitizenSummaryBundle refreshSummary(CitizenSummaryScope scope, Instant now) {
         List<CitizenData> citizens = switch (scope.scopeType()) {
-            case PLAYER -> getCitizenRepository().findCitizensForPlayer(com.tavall.resourcegame.middleware.identity.UniversalPlayerId.of(java.util.UUID.fromString(scope.scopeId())));
+            case PLAYER -> getCitizenRepository().findCitizensForPlayer(org.tavall.control.identity.UniversalPlayerId.of(java.util.UUID.fromString(scope.scopeId())));
             case KINGDOM -> getCitizenRepository().findCitizensForKingdom(scope.scopeId());
         };
         CitizenSummaryBundle summary = getCitizenAggregationCalculationHandler().calculate(scope, citizens, now);

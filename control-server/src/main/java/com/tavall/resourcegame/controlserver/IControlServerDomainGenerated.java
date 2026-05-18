@@ -1,27 +1,27 @@
-package com.tavall.resourcegame.controlserver;
+package org.tavall.control;
 
-import com.tavall.resourcegame.controlserver.api.PlayerDataApi;
-import com.tavall.resourcegame.controlserver.api.PunishApi;
-import com.tavall.resourcegame.controlserver.api.RankApi;
-import com.tavall.resourcegame.controlserver.interaction.ControlPlaneInteractionService;
-import com.tavall.resourcegame.controlserver.cli.IControlConsoleResultRenderer;
-import com.tavall.resourcegame.controlserver.web.IWebControlAuditQueryHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlCommandSubmissionHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlDashboardViewHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlHtmlHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlKingdomClockViewHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlKingdomViewHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlOperatorViewHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlPanelCommandHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlPlayerViewHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlPlatformStatusViewHandler;
-import com.tavall.resourcegame.controlserver.web.IWebControlTroopHealingViewHandler;
+import org.tavall.control.api.PlayerDataApi;
+import org.tavall.control.api.PunishApi;
+import org.tavall.control.api.RankApi;
+import org.tavall.control.interaction.ControlPlaneInteractionService;
+import org.tavall.control.cli.IControlConsoleResultRenderer;
+import org.tavall.control.web.IWebControlAuditQueryHandler;
+import org.tavall.control.web.IWebControlCommandSubmissionHandler;
+import org.tavall.control.web.IWebControlDashboardViewHandler;
+import org.tavall.control.web.IWebControlHtmlHandler;
+import org.tavall.control.web.IWebControlKingdomClockViewHandler;
+import org.tavall.control.web.IWebControlKingdomViewHandler;
+import org.tavall.control.web.IWebControlOperatorViewHandler;
+import org.tavall.control.web.IWebControlPanelCommandHandler;
+import org.tavall.control.web.IWebControlPlayerViewHandler;
+import org.tavall.control.web.IWebControlPlatformStatusViewHandler;
+import org.tavall.control.web.IWebControlTroopHealingViewHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.cloud.ICloudControlPanelViewHandler;
-import com.tavall.resourcegame.middleware.cloud.ICloudControlCliHandler;
-import com.tavall.resourcegame.middleware.cloud.IMinecraftServerSnapshotIngressHandler;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.middleware.control.ControlOperator;
+import org.tavall.control.cloud.ICloudControlPanelViewHandler;
+import org.tavall.control.cloud.ICloudControlCliHandler;
+import org.tavall.control.cloud.IMinecraftServerSnapshotIngressHandler;
+import org.tavall.control.runtime.ControlCommandRuntime;
+import org.tavall.control.runtime.ControlOperator;
 
 /**
  * Generated-domain equivalent for control-server adapter dependencies.

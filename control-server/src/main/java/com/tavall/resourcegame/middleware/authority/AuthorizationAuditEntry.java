@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
 import java.util.Objects;
 import java.util.UUID;

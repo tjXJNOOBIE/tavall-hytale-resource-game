@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.controlserver.cli;
+package org.tavall.control.cli;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.control.CommandIssuedFrom;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlCommandDefinition;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.runtime.CommandIssuedFrom;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlCommandDefinition;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.ControlCommandValidationException;
 
 import java.io.PrintWriter;
 import java.time.Instant;

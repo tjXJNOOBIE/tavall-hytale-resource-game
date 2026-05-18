@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
 import org.junit.jupiter.api.Test;
 

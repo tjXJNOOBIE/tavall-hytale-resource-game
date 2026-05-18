@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.tavall.resourcegame.domain.PopulationSummary;
-import com.tavall.resourcegame.interior.InteriorLayout;
+import org.tavall.control.domain.PopulationSummary;
+import org.tavall.control.interior.InteriorLayout;
 
 import java.util.UUID;
 

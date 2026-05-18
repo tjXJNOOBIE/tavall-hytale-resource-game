@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.asset;
+package org.tavall.control.asset;
 
 import java.util.Objects;
 

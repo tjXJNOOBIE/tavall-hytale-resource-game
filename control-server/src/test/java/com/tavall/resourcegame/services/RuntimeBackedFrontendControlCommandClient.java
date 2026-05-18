@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
+import org.tavall.control.runtime.ControlCommandRuntime;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 
 import java.time.Instant;
 import java.util.Objects;

@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.CastleBuildingSummary;
-import com.tavall.resourcegame.domain.FocusedWorldTarget;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.world.VectorMath;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.CastleBuildingSummary;
+import org.tavall.control.domain.FocusedWorldTarget;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.world.VectorMath;
 
 import java.util.List;
 import java.util.Objects;

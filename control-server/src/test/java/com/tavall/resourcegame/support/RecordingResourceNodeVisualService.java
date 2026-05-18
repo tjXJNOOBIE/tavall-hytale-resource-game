@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeVisualService;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.domain.PlayerGameState;
 
 import java.util.Map;
 import java.util.Optional;

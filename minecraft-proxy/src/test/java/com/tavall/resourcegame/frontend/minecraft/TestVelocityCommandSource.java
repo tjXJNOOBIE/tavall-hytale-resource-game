@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft;
+package org.tavall.minecraft;
 
-import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
+import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 
 import java.util.Map;
 import java.util.Set;

@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
+import org.tavall.control.cache.JacksonCacheCodec;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerProfileService;
-import com.tavall.resourcegame.domain.PlayerProfile;
-import com.tavall.resourcegame.player.cache.PlayerProfileCache;
-import com.tavall.resourcegame.persistence.PlayerProfileStore;
+import org.tavall.control.dependency.interfaces.IPlayerProfileService;
+import org.tavall.control.domain.PlayerProfile;
+import org.tavall.control.player.cache.PlayerProfileCache;
+import org.tavall.control.persistence.PlayerProfileStore;
 import org.tavall.abstractcache.semantic.SemanticCache;
 
 import java.time.Instant;

@@ -1,13 +1,13 @@
-package com.tavall.resourcegame.commands;
+package org.tavall.control.commands;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
-import com.tavall.resourcegame.domain.FocusedWorldTarget;
-import com.tavall.resourcegame.domain.FocusedWorldTargetType;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.domain.FocusedWorldTarget;
+import org.tavall.control.domain.FocusedWorldTargetType;
 
 import java.util.Locale;
 import java.util.Optional;

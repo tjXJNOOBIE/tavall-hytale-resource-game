@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
 import com.hypixel.hytale.math.vector.Vector3i;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.resources.ResourceType;
 
 import java.time.Instant;
 import java.util.Objects;

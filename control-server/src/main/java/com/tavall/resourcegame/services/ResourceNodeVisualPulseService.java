@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeVisualPulseService;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IResourceNodeVisualPulseService;
+import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
 
 import java.util.Objects;
 import java.util.concurrent.ScheduledFuture;

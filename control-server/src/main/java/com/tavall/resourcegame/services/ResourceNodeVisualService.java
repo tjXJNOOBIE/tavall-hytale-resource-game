@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -8,15 +8,15 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeService;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeVisualService;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.domain.ResourceNodeSummary;
-import com.tavall.resourcegame.world.ProtectedStructureType;
-import com.tavall.resourcegame.world.ResourceNodeStructureService;
-import com.tavall.resourcegame.world.ResourceNodeVisualRefs;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.dependency.interfaces.IResourceNodeService;
+import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.domain.ResourceNodeSummary;
+import org.tavall.control.world.ProtectedStructureType;
+import org.tavall.control.world.ResourceNodeStructureService;
+import org.tavall.control.world.ResourceNodeVisualRefs;
+import org.tavall.control.tasks.WorldTasks;
 
 import java.util.List;
 import java.util.Map;

@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
-import com.tavall.resourcegame.dependency.interfaces.IPlayerGameStateService;
-import com.tavall.resourcegame.domain.AccountProgression;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.DebugModeState;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.domain.AccountProgression;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.DebugModeState;
+import org.tavall.control.domain.PlayerGameState;
 
 import java.time.Instant;
 import java.util.Optional;

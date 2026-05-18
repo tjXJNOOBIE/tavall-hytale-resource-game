@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.liveops.gui;
+package org.tavall.control.liveops.gui;
 
 @FunctionalInterface
 public interface GlobalGuiChangePublisher {

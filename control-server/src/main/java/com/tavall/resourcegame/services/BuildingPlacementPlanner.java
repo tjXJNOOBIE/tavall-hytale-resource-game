@@ -1,16 +1,16 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingService;
-import com.tavall.resourcegame.dependency.interfaces.IInteriorInstanceService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerGameStateService;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.domain.CastleBuildingSummary;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.interior.InteriorLayout;
-import com.tavall.resourcegame.interior.InteriorLayoutService;
+import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.dependency.interfaces.IInteriorInstanceService;
+import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.domain.CastleBuildingSummary;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.interior.InteriorLayout;
+import org.tavall.control.interior.InteriorLayoutService;
 
 import java.time.Instant;
 import java.util.Objects;

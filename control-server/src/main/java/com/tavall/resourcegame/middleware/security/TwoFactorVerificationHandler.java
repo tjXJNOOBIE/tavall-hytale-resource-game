@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.security;
+package org.tavall.control.security;
 
 import java.time.Instant;
 import java.util.UUID;

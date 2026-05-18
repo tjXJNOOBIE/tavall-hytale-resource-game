@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
-import com.tavall.resourcegame.ui.UiPageType;
+import org.tavall.control.ui.UiPageType;
 
 import java.util.Objects;
 

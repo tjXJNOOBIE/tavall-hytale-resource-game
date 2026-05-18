@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.ResourceNodeData;
+import org.tavall.control.domain.ResourceNodeData;
 
 public interface IResourceNodePromptLaneService extends IDependencyInjectableInterface {
     void alignPlayer(Player player, ResourceNodeData node);

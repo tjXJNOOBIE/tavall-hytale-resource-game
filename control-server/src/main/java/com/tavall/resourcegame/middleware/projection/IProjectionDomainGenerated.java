@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetResolutionHandler;
-import com.tavall.resourcegame.middleware.guild.GuildActionValidationHandler;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendActionCatalog;
+import org.tavall.control.asset.GlobalAssetResolutionHandler;
+import org.tavall.control.guild.GuildActionValidationHandler;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendActionCatalog;
 
 public interface IProjectionDomainGenerated {
     default GlobalAssetResolutionHandler getGlobalAssetResolutionHandler() {

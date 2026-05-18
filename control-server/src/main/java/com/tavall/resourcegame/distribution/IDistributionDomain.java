@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.distribution;
+package org.tavall.control.distribution;
 
 public interface IDistributionDomain extends IDistributionDomainGenerated {
 }

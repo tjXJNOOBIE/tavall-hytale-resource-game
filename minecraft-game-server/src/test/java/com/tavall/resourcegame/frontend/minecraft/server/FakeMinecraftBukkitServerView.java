@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitPlayerView;
-import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitServerView;
+import org.tavall.minecraft.server.view.MinecraftBukkitPlayerView;
+import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.troop;
+package org.tavall.control.troop;
 
 import java.util.Map;
 import java.util.Set;

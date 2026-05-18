@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.domain.InfrastructureMetricsSnapshot;
+import org.tavall.control.domain.InfrastructureMetricsSnapshot;
 
 import java.util.concurrent.atomic.LongAdder;
 

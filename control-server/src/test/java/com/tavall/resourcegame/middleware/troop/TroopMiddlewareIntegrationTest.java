@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.troop;
+package org.tavall.control.troop;
 
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.common.CanonicalLocation;
+import org.tavall.control.identity.UniversalPlayerId;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.clock;
+package org.tavall.minecraft.clock;
 
 public enum DayPhase {
   DAY,

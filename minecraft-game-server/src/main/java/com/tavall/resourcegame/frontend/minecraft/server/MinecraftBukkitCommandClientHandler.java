@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
-import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
-import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.interaction.InteractionRequest;
+import org.tavall.api.minecraft.interaction.InteractionResult;
+import org.tavall.api.minecraft.player.PlayerDataRequest;
+import org.tavall.api.minecraft.player.PlayerDataResponse;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;

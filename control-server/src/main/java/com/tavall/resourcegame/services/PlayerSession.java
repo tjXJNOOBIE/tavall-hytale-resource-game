@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PlayerProfile;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerProfile;
 
 import java.util.Objects;
 import java.util.UUID;

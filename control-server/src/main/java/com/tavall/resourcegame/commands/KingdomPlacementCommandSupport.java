@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.commands;
+package org.tavall.control.commands;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
@@ -7,11 +7,11 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.PlacementRequest;
-import com.tavall.resourcegame.domain.PlacementResult;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.PlacementRequest;
+import org.tavall.control.domain.PlacementResult;
+import org.tavall.control.resources.ResourceType;
 
 import java.util.List;
 import java.util.Locale;

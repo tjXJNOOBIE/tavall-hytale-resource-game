@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.economy;
+package org.tavall.control.economy;
 
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
-import com.tavall.resourcegame.middleware.guild.GuildId;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.middleware.node.MiddlewareResourceType;
+import org.tavall.control.common.MetadataMaps;
+import org.tavall.control.guild.GuildId;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.control.node.MiddlewareResourceType;
 
 import java.time.Instant;
 import java.util.Map;

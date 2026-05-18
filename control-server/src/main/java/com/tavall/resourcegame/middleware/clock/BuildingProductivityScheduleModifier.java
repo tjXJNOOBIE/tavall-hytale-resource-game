@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.clock;
+package org.tavall.control.clock;
 
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
+import org.tavall.control.common.MetadataMaps;
 
 import java.util.Map;
 import java.util.Optional;

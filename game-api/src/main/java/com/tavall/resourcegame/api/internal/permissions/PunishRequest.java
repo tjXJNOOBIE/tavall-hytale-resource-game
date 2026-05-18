@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.api.internal.permissions;
+package org.tavall.api.minecraft.permissions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 
 import java.util.Map;
 import java.util.Objects;

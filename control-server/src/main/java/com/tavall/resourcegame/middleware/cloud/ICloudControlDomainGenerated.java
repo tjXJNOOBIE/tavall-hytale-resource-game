@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.authority.IControlAuthorizationHandler;
+import org.tavall.control.authority.IControlAuthorizationHandler;
 
 public interface ICloudControlDomainGenerated {
     default ObjectMapper getCloudControlObjectMapper() {

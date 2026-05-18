@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.controlserver;
+package org.tavall.control;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.guild;
+package org.tavall.control.guild;
 
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 public final class GuildAuthorityTierHandler implements IGuildDomain {
     public GuildAuthorityTierHandler() {

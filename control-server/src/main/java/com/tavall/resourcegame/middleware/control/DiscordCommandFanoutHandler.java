@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
 public final class DiscordCommandFanoutHandler {
     private final PlatformFrontendAdapter discordAdapter;

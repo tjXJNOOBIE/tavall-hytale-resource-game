@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.world;
+package org.tavall.control.world;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.domain.ResourceNodeSummary;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.domain.ResourceNodeSummary;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

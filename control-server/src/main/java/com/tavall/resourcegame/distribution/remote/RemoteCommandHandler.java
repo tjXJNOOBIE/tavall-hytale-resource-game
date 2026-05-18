@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.distribution.remote;
+package org.tavall.control.distribution.remote;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.distribution.IDistributionDomain;
+import org.tavall.control.distribution.IDistributionDomain;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

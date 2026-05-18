@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.cache;
+package org.tavall.control.cache;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

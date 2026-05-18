@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.petition;
+package org.tavall.control.petition;
 
 import org.junit.jupiter.api.Test;
 

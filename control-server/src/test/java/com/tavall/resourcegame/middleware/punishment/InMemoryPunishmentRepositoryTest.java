@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.middleware.punishment;
+package org.tavall.control.punishment;
 
-import com.tavall.resourcegame.api.internal.permissions.PunishOperationType;
-import com.tavall.resourcegame.api.internal.permissions.PunishRecord;
-import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.permissions.PunishOperationType;
+import org.tavall.api.minecraft.permissions.PunishRecord;
+import org.tavall.api.minecraft.permissions.PunishRequest;
+import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

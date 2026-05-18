@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.identity.UniversalPlayerId;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

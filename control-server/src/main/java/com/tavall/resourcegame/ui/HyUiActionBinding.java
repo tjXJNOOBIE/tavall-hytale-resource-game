@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import java.util.Objects;
 

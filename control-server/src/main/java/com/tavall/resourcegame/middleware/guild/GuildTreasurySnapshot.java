@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.guild;
+package org.tavall.control.guild;
 
-import com.tavall.resourcegame.middleware.node.MiddlewareResourceType;
+import org.tavall.control.node.MiddlewareResourceType;
 
 import java.util.EnumMap;
 import java.util.Map;

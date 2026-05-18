@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
 public interface IControlAuthorityDomain extends IControlAuthorityDomainGenerated {
 }

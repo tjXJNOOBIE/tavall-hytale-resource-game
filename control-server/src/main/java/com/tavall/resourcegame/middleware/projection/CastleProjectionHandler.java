@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
-import com.tavall.resourcegame.middleware.castle.Castle;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
+import org.tavall.control.castle.Castle;
+import org.tavall.control.common.GamePlatform;
 
 import java.util.List;
 

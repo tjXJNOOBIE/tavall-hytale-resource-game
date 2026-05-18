@@ -12,7 +12,7 @@ import {
   printStructured
 } from "./bot-flow-helpers.mjs";
 
-const FARMSTEAD_PAGE = "com.tavall.resourcegame.ui.FarmsteadMenuPage";
+const FARMSTEAD_PAGE = "org.tavall.control.ui.FarmsteadMenuPage";
 const EXPECTED_OPTIONS = ["Crops", "Storage", "Workers", "Upgrade", "Close"];
 
 function readSelectorValue(snapshot, selector) {

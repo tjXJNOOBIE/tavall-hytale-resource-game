@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.control.CommandIssuedFrom;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.runtime.CommandIssuedFrom;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlCommandResult;
 
 import java.time.Instant;
 

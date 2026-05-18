@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.control.ControlOperator;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.runtime.ControlOperator;
 
 public final class WebControlOperatorViewHandler implements IWebControlOperatorViewHandler, IControlServerDomain {
     public String operatorTable() {

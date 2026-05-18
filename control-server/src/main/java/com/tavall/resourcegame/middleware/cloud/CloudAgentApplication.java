@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 public final class CloudAgentApplication implements ICloudAgentDomain {
     public static void main(String[] args) throws Exception {

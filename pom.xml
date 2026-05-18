@@ -22,7 +22,7 @@
         <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hytale.server.version>2026.03.26-89796e57b</hytale.server.version>
-        <plugin.main.class>com.tavall.resourcegame.ResourceGamePlugin</plugin.main.class>
+        <plugin.main.class>org.tavall.control.ResourceGamePlugin</plugin.main.class>
         <jackson.version>2.18.3</jackson.version>
         <postgres.version>42.7.10</postgres.version>
         <junit.version>5.11.4</junit.version>

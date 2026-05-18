@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.config;
+package org.tavall.control.config;
 
 /**
  * Castle asset and interaction defaults.

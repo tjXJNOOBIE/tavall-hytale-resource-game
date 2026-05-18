@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.frontend.minecraft.server.snapshot;
+package org.tavall.minecraft.server.snapshot;
 
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitServerView;
+import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
+import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 
 public interface IMinecraftBukkitSnapshotHandler extends IDependencyInjectableInterface {

@@ -1,13 +1,13 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PlayerProfile;
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.support.InMemoryPlayerGameStateStore;
-import com.tavall.resourcegame.support.RecordingResourceNodeVisualService;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerProfile;
+import org.tavall.control.cache.JacksonCacheCodec;
+import org.tavall.control.cache.SemanticCacheFactory;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.support.InMemoryPlayerGameStateStore;
+import org.tavall.control.support.RecordingResourceNodeVisualService;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.Test;

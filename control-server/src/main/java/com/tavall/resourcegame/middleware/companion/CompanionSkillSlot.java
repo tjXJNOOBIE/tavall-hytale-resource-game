@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.companion;
+package org.tavall.control.companion;
 
 import java.util.Optional;
 import java.util.UUID;

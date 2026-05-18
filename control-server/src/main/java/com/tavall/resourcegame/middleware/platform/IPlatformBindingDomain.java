@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.platform;
+package org.tavall.control.platform;
 
 public interface IPlatformBindingDomain extends IPlatformBindingDomainGenerated {
 }

@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.distribution.remote;
+package org.tavall.control.distribution.remote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.tavall.resourcegame.distribution.IDistributionDomain;
+import org.tavall.control.distribution.IDistributionDomain;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

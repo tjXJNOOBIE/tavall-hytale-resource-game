@@ -1,16 +1,16 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.middleware.clock.KingdomClockControlSystem;
-import com.tavall.resourcegame.middleware.control.CommandExecutionState;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.ControlCommandType;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.persistence.PostgresCitizenRepository;
-import com.tavall.resourcegame.persistence.PostgresConnectionProvider;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.clock.KingdomClockControlSystem;
+import org.tavall.control.runtime.CommandExecutionState;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.ControlCommandType;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.control.persistence.PostgresCitizenRepository;
+import org.tavall.control.persistence.PostgresConnectionProvider;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;

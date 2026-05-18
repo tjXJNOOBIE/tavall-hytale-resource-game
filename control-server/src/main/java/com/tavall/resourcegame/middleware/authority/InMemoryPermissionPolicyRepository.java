@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
-import com.tavall.resourcegame.middleware.control.ControlPermission;
+import org.tavall.control.runtime.ControlPermission;
 
 import java.util.EnumMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft;
+package org.tavall.minecraft;
 
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +41,7 @@ public final class MinecraftFrontendDependencyPolicyTest {
         String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
         String commandSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/commands/MinecraftVelocitySimpleCommand.java"));
 
-        assertTrue(pluginDescriptor.contains("\"main\": \"com.tavall.resourcegame.frontend.minecraft.runtime.MinecraftVelocityProxyPlugin\""));
+        assertTrue(pluginDescriptor.contains("\"main\": \"org.tavall.minecraft.runtime.MinecraftVelocityProxyPlugin\""));
         assertFalse(pluginSource.contains("metaBuilder(\"rank\")"));
         assertFalse(pluginSource.contains("metaBuilder(\"kd\")"));
         assertFalse(pluginSource.contains("aliases(\"kingdom\")"));

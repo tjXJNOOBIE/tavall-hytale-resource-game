@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.frontend.minecraft.bridge;
+package org.tavall.minecraft.bridge;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandSurface;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.frontend.minecraft.runtime.IMinecraftFrontendDomain;
+import org.tavall.api.minecraft.frontend.FrontendCommandSurface;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.minecraft.runtime.IMinecraftFrontendDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import com.tjxjnoobie.api.platform.global.console.Log;
 

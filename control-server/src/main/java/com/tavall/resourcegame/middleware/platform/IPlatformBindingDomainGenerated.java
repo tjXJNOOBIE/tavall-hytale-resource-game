@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.platform;
+package org.tavall.control.platform;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.identity.PlatformAccountLinkHandler;
+import org.tavall.control.identity.PlatformAccountLinkHandler;
 
 public interface IPlatformBindingDomainGenerated {
     default PlatformAccountLinkHandler getPlatformAccountLinkHandler() {

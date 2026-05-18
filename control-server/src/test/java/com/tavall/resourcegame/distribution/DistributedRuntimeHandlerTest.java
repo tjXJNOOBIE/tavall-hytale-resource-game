@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.distribution;
+package org.tavall.control.distribution;
 
-import com.tavall.resourcegame.distribution.node.DistributedNode;
-import com.tavall.resourcegame.distribution.node.DistributedNodeStatus;
-import com.tavall.resourcegame.distribution.node.DistributedNodeType;
-import com.tavall.resourcegame.distribution.node.NodeCapability;
-import com.tavall.resourcegame.distribution.node.NodeRegistryHandler;
-import com.tavall.resourcegame.distribution.remote.DistributedSmokeTestResult;
-import com.tavall.resourcegame.distribution.remote.DistributedTestPlan;
-import com.tavall.resourcegame.distribution.remote.RemoteCommand;
-import com.tavall.resourcegame.distribution.remote.RemoteCommandResult;
-import com.tavall.resourcegame.distribution.remote.RemoteTarget;
+import org.tavall.control.distribution.node.DistributedNode;
+import org.tavall.control.distribution.node.DistributedNodeStatus;
+import org.tavall.control.distribution.node.DistributedNodeType;
+import org.tavall.control.distribution.node.NodeCapability;
+import org.tavall.control.distribution.node.NodeRegistryHandler;
+import org.tavall.control.distribution.remote.DistributedSmokeTestResult;
+import org.tavall.control.distribution.remote.DistributedTestPlan;
+import org.tavall.control.distribution.remote.RemoteCommand;
+import org.tavall.control.distribution.remote.RemoteCommandResult;
+import org.tavall.control.distribution.remote.RemoteTarget;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 

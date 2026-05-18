@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
-import com.tavall.resourcegame.middleware.guild.GuildActionRequirement;
-import com.tavall.resourcegame.middleware.guild.GuildAuthorityTier;
-import com.tavall.resourcegame.middleware.guild.GuildKingdom;
-import com.tavall.resourcegame.middleware.guild.GuildMemberProfile;
-import com.tavall.resourcegame.middleware.guild.GuildPermission;
-import com.tavall.resourcegame.middleware.guild.GuildActionValidationHandler;
+import org.tavall.control.guild.GuildActionRequirement;
+import org.tavall.control.guild.GuildAuthorityTier;
+import org.tavall.control.guild.GuildKingdom;
+import org.tavall.control.guild.GuildMemberProfile;
+import org.tavall.control.guild.GuildPermission;
+import org.tavall.control.guild.GuildActionValidationHandler;
 
 import java.util.Map;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;

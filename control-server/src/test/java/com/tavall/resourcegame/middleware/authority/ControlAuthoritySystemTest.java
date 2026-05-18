@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.control.CommandExecutionState;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntimeFactory;
-import com.tavall.resourcegame.middleware.control.ControlPermission;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.control.runtime.CommandExecutionState;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.ControlCommandRuntime;
+import org.tavall.control.runtime.ControlCommandRuntimeFactory;
+import org.tavall.control.runtime.ControlPermission;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -222,8 +222,8 @@ public final class ControlAuthoritySystemTest implements IControlAuthorityDomain
         DependencyLoaderAccess.registerInstance(AuthorityRepository.class, authorityRepository);
         DependencyLoaderAccess.registerInstance(PermissionPolicyRepository.class, new InMemoryPermissionPolicyRepository());
         DependencyLoaderAccess.registerInstance(AuthorizationAuditRepository.class, new InMemoryAuthorizationAuditRepository());
-        DependencyLoaderAccess.registerInstance(com.tavall.resourcegame.middleware.control.ControlCommandRegistry.class,
-                new com.tavall.resourcegame.middleware.control.ControlCommandRegistry());
+        DependencyLoaderAccess.registerInstance(org.tavall.control.runtime.ControlCommandRegistry.class,
+                new org.tavall.control.runtime.ControlCommandRegistry());
         new ControlAuthorityDependencyModule().registerDependencies();
     }
 

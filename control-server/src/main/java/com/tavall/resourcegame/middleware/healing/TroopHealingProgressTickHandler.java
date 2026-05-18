@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.event.DomainEventPublisher;
-import com.tavall.resourcegame.middleware.event.SimpleDomainEvent;
+import org.tavall.control.event.DomainEventPublisher;
+import org.tavall.control.event.SimpleDomainEvent;
 
 import java.time.Instant;
 import java.util.ArrayList;

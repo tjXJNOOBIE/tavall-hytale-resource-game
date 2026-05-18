@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import { captureWorldSnapshot, delay, ensureBotBaseline, resolveBotClientModuleUrl, writeJson, printStructured, } from "./bot-flow-helpers.mjs";
 
 async function main() {
@@ -38,7 +38,7 @@ async function main() {
     assertions.push("castle-ui-not-auto-opened");
 
     bot.chat("/kingdom castle open");
-    const castlePage = await bot.waitForPage("com.tavall.resourcegame.ui.CastleMainPage", 8_000);
+    const castlePage = await bot.waitForPage("org.tavall.control.ui.CastleMainPage", 8_000);
     pages.push({ key: castlePage.key, title: castlePage.title ?? null, snapshot: bot.snapshotPage() });
     assertions.push("castle-ui-opened-by-command");
 

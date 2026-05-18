@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.node;
+package org.tavall.control.node;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 

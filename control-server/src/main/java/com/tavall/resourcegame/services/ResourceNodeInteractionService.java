@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IFocusedWorldInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeVisualService;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.ui.UiPageType;
+import org.tavall.control.dependency.interfaces.IFocusedWorldInteractionService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IResourceNodeInteractionService;
+import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.ui.UiPageType;
 
 import java.util.Objects;
 import java.util.Optional;

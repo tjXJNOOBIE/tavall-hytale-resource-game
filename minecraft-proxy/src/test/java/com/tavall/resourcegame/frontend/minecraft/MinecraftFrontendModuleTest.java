@@ -1,37 +1,37 @@
-package com.tavall.resourcegame.frontend.minecraft;
+package org.tavall.minecraft;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig;
-import com.tavall.resourcegame.api.internal.frontend.FrontendControlConfig;
-import com.tavall.resourcegame.api.internal.frontend.FrontendTcpControlCommandClient;
-import com.tavall.resourcegame.api.internal.frontend.transport.FrontendTcpControlBridgeResponse;
-import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
-import com.tavall.resourcegame.frontend.minecraft.commands.Ban;
-import com.tavall.resourcegame.frontend.minecraft.commands.Kick;
-import com.tavall.resourcegame.frontend.minecraft.commands.MinecraftVelocityRankCommand;
-import com.tavall.resourcegame.frontend.minecraft.commands.Mute;
-import com.tavall.resourcegame.frontend.minecraft.commands.Sim;
-import com.tavall.resourcegame.frontend.minecraft.commands.Unban;
-import com.tavall.resourcegame.frontend.minecraft.commands.Unmute;
-import com.tavall.resourcegame.frontend.minecraft.commands.Unwarn;
-import com.tavall.resourcegame.frontend.minecraft.commands.Warn;
-import com.tavall.resourcegame.frontend.minecraft.bridge.*;
-import com.tavall.resourcegame.frontend.minecraft.permissions.*;
-import com.tavall.resourcegame.frontend.minecraft.routing.*;
-import com.tavall.resourcegame.frontend.minecraft.runtime.*;
-import com.tavall.resourcegame.frontend.minecraft.switching.*;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
-import com.tavall.resourcegame.api.internal.permissions.RankOperationType;
-import com.tavall.resourcegame.api.internal.permissions.PunishOperationType;
-import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendRuntime;
-import com.tavall.resourcegame.api.internal.permissions.RankRequest;
-import com.tavall.resourcegame.api.internal.permissions.RankResponse;
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionRole;
+import org.tavall.api.minecraft.frontend.IFrontendControlConfig;
+import org.tavall.api.minecraft.frontend.FrontendControlConfig;
+import org.tavall.api.minecraft.frontend.FrontendTcpControlCommandClient;
+import org.tavall.api.minecraft.frontend.transport.FrontendTcpControlBridgeResponse;
+import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
+import org.tavall.minecraft.commands.Ban;
+import org.tavall.minecraft.commands.Kick;
+import org.tavall.minecraft.commands.MinecraftVelocityRankCommand;
+import org.tavall.minecraft.commands.Mute;
+import org.tavall.minecraft.commands.Sim;
+import org.tavall.minecraft.commands.Unban;
+import org.tavall.minecraft.commands.Unmute;
+import org.tavall.minecraft.commands.Unwarn;
+import org.tavall.minecraft.commands.Warn;
+import org.tavall.minecraft.bridge.*;
+import org.tavall.minecraft.permissions.*;
+import org.tavall.minecraft.routing.*;
+import org.tavall.minecraft.runtime.*;
+import org.tavall.minecraft.switching.*;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
+import org.tavall.api.minecraft.permissions.RankOperationType;
+import org.tavall.api.minecraft.permissions.PunishOperationType;
+import org.tavall.api.minecraft.permissions.PunishRequest;
+import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendRuntime;
+import org.tavall.api.minecraft.permissions.RankRequest;
+import org.tavall.api.minecraft.permissions.RankResponse;
+import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
 import com.tjxjnoobie.api.dependency.DependencyLoader;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
@@ -251,7 +251,7 @@ public final class MinecraftFrontendModuleTest {
                 envelope -> dispatched(envelope, "dispatched", "cmd-minecraft", Map.of("controlConsoleInput", envelope.rawInput())),
                 request -> {
                     submittedRankRequest.set(request);
-                    if (request.operation() == com.tavall.resourcegame.api.internal.permissions.RankOperationType.LIST) {
+                    if (request.operation() == org.tavall.api.minecraft.permissions.RankOperationType.LIST) {
                         return RankResponse.listed(
                                 request.requestId(),
                                 "Loaded 1 rank subject.",
@@ -262,7 +262,7 @@ public final class MinecraftFrontendModuleTest {
                     return RankResponse.updated(
                             request.requestId(),
                             "Updated " + request.targetDisplayName() + " to " + request.requestedRole().name() + ".",
-                            new com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject(
+                            new org.tavall.api.minecraft.permissions.UniversalPermissionSubject(
                                     ResourceGameFrontendPlatform.MINECRAFT,
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
@@ -407,7 +407,7 @@ public final class MinecraftFrontendModuleTest {
                     return RankResponse.updated(
                             request.requestId(),
                             "Updated " + request.targetDisplayName() + " to " + request.requestedRole().name() + ".",
-                            new com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject(
+                            new org.tavall.api.minecraft.permissions.UniversalPermissionSubject(
                                     ResourceGameFrontendPlatform.MINECRAFT,
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
@@ -445,7 +445,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have banned " + request.targetDisplayName() + " for " + request.durationText() + ".",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.BAN,
@@ -489,7 +489,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "unexpected",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.BAN,
@@ -531,7 +531,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have warned " + request.targetDisplayName() + ". Total warns: 1",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.WARN,
@@ -573,7 +573,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have warned " + request.targetDisplayName() + ". Total warns: 1",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.WARN,
@@ -616,7 +616,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have unbanned " + request.targetDisplayName() + ".",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.UNBAN,
@@ -659,7 +659,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have kicked " + request.targetDisplayName() + " for " + request.reason() + ".",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.KICK,
@@ -703,7 +703,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have muted " + request.targetDisplayName() + " for " + request.durationText() + " for " + request.reason() + ".",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.MUTE,
@@ -746,7 +746,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "You have unmuted " + request.targetDisplayName() + ".",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.UNMUTE,
@@ -788,7 +788,7 @@ public final class MinecraftFrontendModuleTest {
                     return PunishResponse.updated(
                             request.requestId(),
                             "Removed one warning from " + request.targetDisplayName() + ".",
-                            new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                            new org.tavall.api.minecraft.permissions.PunishRecord(
                                     request.targetPlatformAccountId(),
                                     request.targetDisplayName(),
                                     PunishOperationType.UNWARN,
@@ -843,7 +843,7 @@ public final class MinecraftFrontendModuleTest {
                 request -> PunishResponse.updated(
                         request.requestId(),
                         "Loaded active punishment for ResourceProxyBot.",
-                        new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                        new org.tavall.api.minecraft.permissions.PunishRecord(
                                 request.targetPlatformAccountId(),
                                 request.targetDisplayName(),
                                 PunishOperationType.BAN,
@@ -875,7 +875,7 @@ public final class MinecraftFrontendModuleTest {
                 request -> PunishResponse.updated(
                         request.requestId(),
                         "Loaded active punishment for ResourceProxyBot.",
-                        new com.tavall.resourcegame.api.internal.permissions.PunishRecord(
+                        new org.tavall.api.minecraft.permissions.PunishRecord(
                                 request.targetPlatformAccountId(),
                                 request.targetDisplayName(),
                                 PunishOperationType.MUTE,

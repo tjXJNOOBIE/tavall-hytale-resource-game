@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.distribution.node;
+package org.tavall.control.distribution.node;
 
 import java.net.InetAddress;
 import java.time.Instant;

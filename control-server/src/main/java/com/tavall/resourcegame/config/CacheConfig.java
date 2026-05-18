@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.config;
+package org.tavall.control.config;
 
 /**
  * Cache configuration for Redis usage.

@@ -1,18 +1,18 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
-import com.tavall.resourcegame.middleware.companion.CompanionBaseAttributes;
-import com.tavall.resourcegame.middleware.companion.CompanionBehaviorState;
-import com.tavall.resourcegame.middleware.companion.CompanionData;
-import com.tavall.resourcegame.middleware.companion.CompanionMoraleState;
-import com.tavall.resourcegame.middleware.companion.CompanionRepository;
-import com.tavall.resourcegame.middleware.companion.CompanionSkillSlot;
-import com.tavall.resourcegame.middleware.companion.CompanionStats;
-import com.tavall.resourcegame.middleware.companion.CompanionStatus;
-import com.tavall.resourcegame.middleware.companion.CompanionTrainingSession;
-import com.tavall.resourcegame.middleware.companion.CompanionType;
-import com.tavall.resourcegame.middleware.companion.CompanionWallAssignment;
-import com.tavall.resourcegame.middleware.companion.CompanionWisdomUpgrade;
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
+import org.tavall.control.companion.CompanionBaseAttributes;
+import org.tavall.control.companion.CompanionBehaviorState;
+import org.tavall.control.companion.CompanionData;
+import org.tavall.control.companion.CompanionMoraleState;
+import org.tavall.control.companion.CompanionRepository;
+import org.tavall.control.companion.CompanionSkillSlot;
+import org.tavall.control.companion.CompanionStats;
+import org.tavall.control.companion.CompanionStatus;
+import org.tavall.control.companion.CompanionTrainingSession;
+import org.tavall.control.companion.CompanionType;
+import org.tavall.control.companion.CompanionWallAssignment;
+import org.tavall.control.companion.CompanionWisdomUpgrade;
+import org.tavall.control.runtime.ControlCommandValidationException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

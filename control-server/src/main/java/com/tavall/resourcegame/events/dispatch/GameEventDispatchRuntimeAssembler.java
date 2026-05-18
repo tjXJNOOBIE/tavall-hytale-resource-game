@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.events.dispatch;
+package org.tavall.control.events.dispatch;
 
-import com.tavall.resourcegame.events.GameEventDependencyModule;
-import com.tavall.resourcegame.events.IGameEventDomain;
+import org.tavall.control.events.GameEventDependencyModule;
+import org.tavall.control.events.IGameEventDomain;
 
 public final class GameEventDispatchRuntimeAssembler implements IGameEventDomain {
     public GameEventDispatchRuntime createInMemoryRuntime() {

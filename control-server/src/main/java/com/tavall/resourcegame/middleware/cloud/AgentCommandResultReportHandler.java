@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 public final class AgentCommandResultReportHandler implements IAgentCommandResultReportHandler, ICloudControlDomain {
     public boolean report(CloudCommandResult result) {

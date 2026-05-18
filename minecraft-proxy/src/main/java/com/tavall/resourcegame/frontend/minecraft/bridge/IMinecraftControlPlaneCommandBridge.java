@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.frontend.minecraft.bridge;
+package org.tavall.minecraft.bridge;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandSurface;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.FrontendCommandSurface;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 
 import java.util.List;

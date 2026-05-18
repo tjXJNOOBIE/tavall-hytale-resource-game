@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.config.DatabaseConfig;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.config.DatabaseConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IInfrastructureHealthService;
-import com.tavall.resourcegame.domain.InfrastructureHealthSnapshot;
-import com.tavall.resourcegame.domain.InfrastructureMetricsSnapshot;
+import org.tavall.control.dependency.interfaces.IInfrastructureHealthService;
+import org.tavall.control.domain.InfrastructureHealthSnapshot;
+import org.tavall.control.domain.InfrastructureMetricsSnapshot;
 import redis.clients.jedis.JedisPooled;
 
 import java.sql.Connection;

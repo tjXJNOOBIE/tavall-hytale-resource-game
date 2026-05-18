@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.asset;
+package org.tavall.control.asset;
 
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
+import org.tavall.control.common.MetadataMaps;
 
 import java.time.Instant;
 import java.util.Map;

@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.events.dispatch;
+package org.tavall.control.events.dispatch;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.events.IGameEventDomain;
-import com.tavall.resourcegame.events.middleware.EventDispatchMetricsMiddleware;
-import com.tavall.resourcegame.events.middleware.GameEventAuditHandler;
+import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.middleware.EventDispatchMetricsMiddleware;
+import org.tavall.control.events.middleware.GameEventAuditHandler;
 
 public final class GameEventDispatchRuntime implements IGameEventDomain, IDependencyInjectableConcrete {
     public GameEventDispatchHandler dispatchHandler() {

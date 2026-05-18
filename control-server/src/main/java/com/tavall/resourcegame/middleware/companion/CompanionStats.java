@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.companion;
+package org.tavall.control.companion;
 
 public record CompanionStats(
         double hp,

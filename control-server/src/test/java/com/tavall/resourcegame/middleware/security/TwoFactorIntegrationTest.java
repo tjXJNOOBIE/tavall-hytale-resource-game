@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.security;
+package org.tavall.control.security;
 
-import com.tavall.resourcegame.middleware.common.HighRiskAction;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.common.HighRiskAction;
+import org.tavall.control.identity.UniversalPlayerId;
 import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3i;
-import com.tavall.resourcegame.world.ProtectedStructureType;
+import org.tavall.control.world.ProtectedStructureType;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

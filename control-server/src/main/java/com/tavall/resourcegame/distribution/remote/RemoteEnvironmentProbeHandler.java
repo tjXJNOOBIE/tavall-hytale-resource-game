@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.distribution.remote;
+package org.tavall.control.distribution.remote;
 
-import com.tavall.resourcegame.distribution.IDistributionDomain;
+import org.tavall.control.distribution.IDistributionDomain;
 
 import java.net.InetAddress;
 import java.time.Instant;

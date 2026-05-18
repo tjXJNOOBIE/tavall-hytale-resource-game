@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.kingdom;
+package org.tavall.control.kingdom;
 
 public interface IKingdomDomain extends IKingdomDomainGenerated {
 }

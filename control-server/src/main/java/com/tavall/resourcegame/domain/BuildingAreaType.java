@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
 /**
  * High-level ownership zone for kingdom buildings.

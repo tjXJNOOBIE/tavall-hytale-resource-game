@@ -1,17 +1,17 @@
-package com.tavall.resourcegame.controlserver.bootstrap;
+package org.tavall.control.bootstrap;
 
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
 import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
-import com.tavall.resourcegame.ResourceGamePlugin;
-import com.tavall.resourcegame.controlserver.ResourceGameControlServerModule;
-import com.tavall.resourcegame.controlserver.cli.ControlConsoleInputHandler;
-import com.tavall.resourcegame.controlserver.transport.ControlPlaneTcpBridgeConfiguration;
-import com.tavall.resourcegame.controlserver.transport.ControlPlaneTcpBridgeServer;
-import com.tavall.resourcegame.dependency.modules.ResourceGameDependencyModule;
-import com.tavall.resourcegame.interactions.OpenFarmsteadInteraction;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
+import org.tavall.control.ResourceGamePlugin;
+import org.tavall.control.ResourceGameControlServerModule;
+import org.tavall.control.cli.ControlConsoleInputHandler;
+import org.tavall.control.transport.ControlPlaneTcpBridgeConfiguration;
+import org.tavall.control.transport.ControlPlaneTcpBridgeServer;
+import org.tavall.control.dependency.modules.ResourceGameDependencyModule;
+import org.tavall.control.interactions.OpenFarmsteadInteraction;
+import org.tavall.control.runtime.ControlCommandRuntime;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tjxjnoobie.api.dependency.injection.helpers.DependencyInjectorHelper;
 import com.tjxjnoobie.api.dependency.injection.helpers.interfaces.IDependencyInjectorHelper;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.runtime;
+package org.tavall.minecraft.runtime;
 
 public interface IMinecraftFrontendDomain extends IMinecraftFrontendDomainGenerated {
 }

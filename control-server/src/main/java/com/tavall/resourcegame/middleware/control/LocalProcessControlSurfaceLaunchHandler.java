@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class LocalProcessControlSurfaceLaunchHandler implements ControlSurfaceLaunchHandler {
-    private static final String WEB_PANEL_MAIN_CLASS = "com.tavall.resourcegame.controlserver.web.ControlServerApplication";
+    private static final String WEB_PANEL_MAIN_CLASS = "org.tavall.control.web.ControlServerApplication";
 
     @Override
     public ControlSurfaceLaunchResult startSurface(String surfaceName, Map<String, String> arguments) {

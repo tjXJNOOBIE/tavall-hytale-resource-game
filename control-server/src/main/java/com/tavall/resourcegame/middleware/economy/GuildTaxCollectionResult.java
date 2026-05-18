@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.economy;
+package org.tavall.control.economy;
 
 public record GuildTaxCollectionResult(
         int playerAmount,

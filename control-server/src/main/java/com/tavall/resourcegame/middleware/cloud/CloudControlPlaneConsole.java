@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.control.ControlOperator;
+import org.tavall.control.runtime.ControlOperator;
 
 import java.io.BufferedReader;
 import java.io.IOException;

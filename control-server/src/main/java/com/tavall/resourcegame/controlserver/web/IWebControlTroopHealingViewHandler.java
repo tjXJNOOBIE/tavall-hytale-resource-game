@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
 import java.util.Optional;
 

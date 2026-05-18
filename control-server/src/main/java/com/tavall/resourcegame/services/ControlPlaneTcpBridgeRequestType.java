@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 public enum ControlPlaneTcpBridgeRequestType {
     FRONTEND_COMMAND,

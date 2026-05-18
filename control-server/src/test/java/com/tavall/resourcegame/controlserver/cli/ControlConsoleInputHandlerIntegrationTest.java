@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.controlserver.cli;
+package org.tavall.control.cli;
 
-import com.tavall.resourcegame.controlserver.ControlServerDependencyModule;
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.middleware.healing.WoundSeverity;
-import com.tavall.resourcegame.middleware.healing.WoundType;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.middleware.troop.Troop;
-import com.tavall.resourcegame.middleware.troop.TroopRegistrationHandler;
+import org.tavall.control.ControlServerDependencyModule;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.common.CanonicalLocation;
+import org.tavall.control.runtime.ControlCommandRuntime;
+import org.tavall.control.healing.WoundSeverity;
+import org.tavall.control.healing.WoundType;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.control.troop.Troop;
+import org.tavall.control.troop.TroopRegistrationHandler;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

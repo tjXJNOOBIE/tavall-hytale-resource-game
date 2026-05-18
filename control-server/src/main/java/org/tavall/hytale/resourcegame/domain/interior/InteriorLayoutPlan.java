@@ -1,6 +1,6 @@
-package org.tavall.hytale.resourcegame.domain.interior;
+package org.tavall.minecraft.domain.interior;
 
-import org.tavall.hytale.resourcegame.runtime.WorldPosition;
+import org.tavall.minecraft.runtime.WorldPosition;
 
 public record InteriorLayoutPlan(
     WorldPosition citizenAnchorPosition,

@@ -1,36 +1,36 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetRegistrationHandler;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetResolutionHandler;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetType;
-import com.tavall.resourcegame.middleware.asset.InMemoryGlobalAssetRepository;
-import com.tavall.resourcegame.middleware.asset.PlatformAssetVersionRegistrationHandler;
-import com.tavall.resourcegame.middleware.castle.Castle;
-import com.tavall.resourcegame.middleware.castle.CastleCreationHandler;
-import com.tavall.resourcegame.middleware.clock.KingdomClockControlSystem;
-import com.tavall.resourcegame.middleware.castle.InMemoryCastleRepository;
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.guild.GuildActionValidationHandler;
-import com.tavall.resourcegame.middleware.guild.GuildAuthorityTier;
-import com.tavall.resourcegame.middleware.guild.GuildCreationHandler;
-import com.tavall.resourcegame.middleware.guild.GuildKingdom;
-import com.tavall.resourcegame.middleware.guild.GuildMemberProfile;
-import com.tavall.resourcegame.middleware.guild.GuildMembershipHandler;
-import com.tavall.resourcegame.middleware.guild.GuildPermissionValidationHandler;
-import com.tavall.resourcegame.middleware.guild.GuildAuthorityTierHandler;
-import com.tavall.resourcegame.middleware.guild.GuildPermission;
-import com.tavall.resourcegame.middleware.guild.InMemoryGuildRepository;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.middleware.node.InMemoryResourceNodeRepository;
-import com.tavall.resourcegame.middleware.node.MiddlewareResourceType;
-import com.tavall.resourcegame.middleware.node.ResourceNode;
-import com.tavall.resourcegame.middleware.node.ResourceNodeCreationHandler;
-import com.tavall.resourcegame.middleware.petition.GuildPetitionCreationHandler;
-import com.tavall.resourcegame.middleware.petition.InMemoryPetitionRepository;
-import com.tavall.resourcegame.middleware.petition.Petition;
-import com.tavall.resourcegame.middleware.petition.PetitionType;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.asset.GlobalAssetRegistrationHandler;
+import org.tavall.control.asset.GlobalAssetResolutionHandler;
+import org.tavall.control.asset.GlobalAssetType;
+import org.tavall.control.asset.InMemoryGlobalAssetRepository;
+import org.tavall.control.asset.PlatformAssetVersionRegistrationHandler;
+import org.tavall.control.castle.Castle;
+import org.tavall.control.castle.CastleCreationHandler;
+import org.tavall.control.clock.KingdomClockControlSystem;
+import org.tavall.control.castle.InMemoryCastleRepository;
+import org.tavall.control.common.CanonicalLocation;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.guild.GuildActionValidationHandler;
+import org.tavall.control.guild.GuildAuthorityTier;
+import org.tavall.control.guild.GuildCreationHandler;
+import org.tavall.control.guild.GuildKingdom;
+import org.tavall.control.guild.GuildMemberProfile;
+import org.tavall.control.guild.GuildMembershipHandler;
+import org.tavall.control.guild.GuildPermissionValidationHandler;
+import org.tavall.control.guild.GuildAuthorityTierHandler;
+import org.tavall.control.guild.GuildPermission;
+import org.tavall.control.guild.InMemoryGuildRepository;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.control.node.InMemoryResourceNodeRepository;
+import org.tavall.control.node.MiddlewareResourceType;
+import org.tavall.control.node.ResourceNode;
+import org.tavall.control.node.ResourceNodeCreationHandler;
+import org.tavall.control.petition.GuildPetitionCreationHandler;
+import org.tavall.control.petition.InMemoryPetitionRepository;
+import org.tavall.control.petition.Petition;
+import org.tavall.control.petition.PetitionType;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -158,7 +158,7 @@ public final class ProjectionIntegrationTest {
                 "Set Tax",
                 guildKingdom,
                 citizen,
-                com.tavall.resourcegame.middleware.guild.GuildActionRequirement.of(GuildAuthorityTier.COUNCIL, com.tavall.resourcegame.middleware.guild.GuildPermission.MANAGE_TAX_POLICY),
+                org.tavall.control.guild.GuildActionRequirement.of(GuildAuthorityTier.COUNCIL, org.tavall.control.guild.GuildPermission.MANAGE_TAX_POLICY),
                 PlatformInteractionType.DISCORD_BUTTON
         );
 

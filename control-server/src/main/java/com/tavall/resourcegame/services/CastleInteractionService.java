@@ -1,19 +1,19 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.tavall.resourcegame.config.CastleAssetConfig;
+import org.tavall.control.config.CastleAssetConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.ui.UiPageType;
-import com.tavall.resourcegame.world.VectorMath;
+import org.tavall.control.dependency.interfaces.ICastleInteractionService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.ui.UiPageType;
+import org.tavall.control.world.VectorMath;
 
 import java.util.Objects;
 import java.util.UUID;

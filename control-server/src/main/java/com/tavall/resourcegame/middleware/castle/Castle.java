@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.middleware.castle;
+package org.tavall.control.castle;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
-import com.tavall.resourcegame.middleware.guild.GuildId;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.common.CanonicalLocation;
+import org.tavall.control.common.MetadataMaps;
+import org.tavall.control.guild.GuildId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.util.List;
 import java.util.Map;

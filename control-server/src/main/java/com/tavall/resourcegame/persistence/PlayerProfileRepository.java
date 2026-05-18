@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
-import com.tavall.resourcegame.domain.PlayerProfile;
+import org.tavall.control.domain.PlayerProfile;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

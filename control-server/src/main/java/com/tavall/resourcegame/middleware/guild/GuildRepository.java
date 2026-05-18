@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.guild;
+package org.tavall.control.guild;
 
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.util.List;
 import java.util.Optional;

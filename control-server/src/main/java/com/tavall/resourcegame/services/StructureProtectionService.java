@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.world.ProtectedBlockMetadata;
-import com.tavall.resourcegame.world.ProtectedPlacementZone;
-import com.tavall.resourcegame.world.ProtectedStructureType;
-import com.tavall.resourcegame.world.WorldBlockKey;
+import org.tavall.control.world.ProtectedBlockMetadata;
+import org.tavall.control.world.ProtectedPlacementZone;
+import org.tavall.control.world.ProtectedStructureType;
+import org.tavall.control.world.WorldBlockKey;
 
 import java.util.HashSet;
 import java.util.Map;

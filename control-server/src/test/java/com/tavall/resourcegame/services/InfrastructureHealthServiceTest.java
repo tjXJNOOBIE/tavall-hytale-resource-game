@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.config.DatabaseConfig;
-import com.tavall.resourcegame.domain.InfrastructureHealthSnapshot;
-import com.tavall.resourcegame.domain.InfrastructureMetricsSnapshot;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.config.DatabaseConfig;
+import org.tavall.control.domain.InfrastructureHealthSnapshot;
+import org.tavall.control.domain.InfrastructureMetricsSnapshot;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.frontend.minecraft.switching;
+package org.tavall.minecraft.switching;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
-import com.tavall.resourcegame.frontend.minecraft.routing.MinecraftVelocityCommandResult;
-import com.tavall.resourcegame.frontend.minecraft.runtime.IMinecraftFrontendDomain;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
+import org.tavall.minecraft.routing.MinecraftVelocityCommandResult;
+import org.tavall.minecraft.runtime.IMinecraftFrontendDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.List;

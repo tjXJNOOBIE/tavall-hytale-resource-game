@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.middleware.clock;
+package org.tavall.control.clock;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.control.CommandExecutionState;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
-import com.tavall.resourcegame.middleware.event.DomainEvent;
-import com.tavall.resourcegame.middleware.event.DomainEventPublisher;
-import com.tavall.resourcegame.middleware.event.RecordingDomainEventPublisher;
-import com.tavall.resourcegame.persistence.PostgresConnectionProvider;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.runtime.CommandExecutionState;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.ControlCommandValidationException;
+import org.tavall.control.event.DomainEvent;
+import org.tavall.control.event.DomainEventPublisher;
+import org.tavall.control.event.RecordingDomainEventPublisher;
+import org.tavall.control.persistence.PostgresConnectionProvider;
 
 import java.time.Clock;
 import java.time.Duration;

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.api.internal.frontend.FrontendControlCommandClient;
+import org.tavall.api.minecraft.frontend.FrontendControlCommandClient;
 
 public interface IFrontendControlCommandClient extends FrontendControlCommandClient, IDependencyInjectableInterface {
 }

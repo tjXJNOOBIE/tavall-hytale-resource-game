@@ -1,20 +1,20 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.middleware.citizen.CitizenAgeStage;
-import com.tavall.resourcegame.middleware.citizen.CitizenData;
-import com.tavall.resourcegame.middleware.citizen.CitizenHealthState;
-import com.tavall.resourcegame.middleware.citizen.CitizenHousingState;
-import com.tavall.resourcegame.middleware.citizen.CitizenId;
-import com.tavall.resourcegame.middleware.citizen.CitizenMoraleState;
-import com.tavall.resourcegame.middleware.citizen.CitizenNutritionState;
-import com.tavall.resourcegame.middleware.citizen.CitizenRepository;
-import com.tavall.resourcegame.middleware.citizen.CitizenStatBlock;
-import com.tavall.resourcegame.middleware.citizen.CitizenStatus;
-import com.tavall.resourcegame.middleware.citizen.CitizenTrainingState;
-import com.tavall.resourcegame.middleware.citizen.CitizenTroopLinkState;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.citizen.CitizenAgeStage;
+import org.tavall.control.citizen.CitizenData;
+import org.tavall.control.citizen.CitizenHealthState;
+import org.tavall.control.citizen.CitizenHousingState;
+import org.tavall.control.citizen.CitizenId;
+import org.tavall.control.citizen.CitizenMoraleState;
+import org.tavall.control.citizen.CitizenNutritionState;
+import org.tavall.control.citizen.CitizenRepository;
+import org.tavall.control.citizen.CitizenStatBlock;
+import org.tavall.control.citizen.CitizenStatus;
+import org.tavall.control.citizen.CitizenTrainingState;
+import org.tavall.control.citizen.CitizenTroopLinkState;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

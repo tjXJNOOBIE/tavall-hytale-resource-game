@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -9,9 +9,9 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlacementPreviewService;
-import com.tavall.resourcegame.domain.PlacementRequest;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.dependency.interfaces.IPlacementPreviewService;
+import org.tavall.control.domain.PlacementRequest;
+import org.tavall.control.tasks.WorldTasks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public final class PlacementPreviewService implements IPlacementPreviewService, 
             if (labelRef != null && labelRef.isValid()) {
                 refs.add(labelRef);
             }
-            if (request.modeType() == com.tavall.resourcegame.domain.PlacementModeType.BUILDING) {
+            if (request.modeType() == org.tavall.control.domain.PlacementModeType.BUILDING) {
                 refs.addAll(spawnBuildingSelectionMarkers(player, targetBlock));
             }
             if (!refs.isEmpty()) {
@@ -82,10 +82,10 @@ public final class PlacementPreviewService implements IPlacementPreviewService, 
     }
 
     private String previewLabel(PlacementRequest request) {
-        if (request.modeType() == com.tavall.resourcegame.domain.PlacementModeType.CASTLE) {
+        if (request.modeType() == org.tavall.control.domain.PlacementModeType.CASTLE) {
             return "Castle Preview | /kd place confirm";
         }
-        if (request.modeType() == com.tavall.resourcegame.domain.PlacementModeType.BUILDING) {
+        if (request.modeType() == org.tavall.control.domain.PlacementModeType.BUILDING) {
             return (request.buildingType() == null ? "Building" : request.buildingType().displayName())
                     + " Preview | /kd place move <dx> <dz> | /kd place confirm";
         }

@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
-import com.tavall.resourcegame.dependency.interfaces.IIpHashService;
+import org.tavall.control.dependency.interfaces.IIpHashService;
 
 public final class NoopIpHashService implements IIpHashService {
     @Override

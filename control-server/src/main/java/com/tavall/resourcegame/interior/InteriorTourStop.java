@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.interior;
+package org.tavall.control.interior;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 

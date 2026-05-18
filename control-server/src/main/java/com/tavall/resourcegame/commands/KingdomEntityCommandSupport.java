@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.commands;
+package org.tavall.control.commands;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
-import com.tavall.resourcegame.domain.CustomEntitySpawnRole;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.domain.CustomEntitySpawnRole;
 
 import java.util.List;
 import java.util.Locale;

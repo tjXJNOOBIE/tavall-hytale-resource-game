@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.event.DomainEventPublisher;
-import com.tavall.resourcegame.middleware.event.SimpleDomainEvent;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.event.DomainEventPublisher;
+import org.tavall.control.event.SimpleDomainEvent;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.common;
+package org.tavall.control.common;
 
 import java.util.Map;
 

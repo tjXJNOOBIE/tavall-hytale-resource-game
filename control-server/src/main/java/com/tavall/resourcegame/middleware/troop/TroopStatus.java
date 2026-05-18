@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.troop;
+package org.tavall.control.troop;
 
 public enum TroopStatus {
     IDLE,

@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IFocusedWorldOverrideService;
-import com.tavall.resourcegame.domain.FocusedWorldOverride;
-import com.tavall.resourcegame.domain.FocusedWorldTarget;
+import org.tavall.control.dependency.interfaces.IFocusedWorldOverrideService;
+import org.tavall.control.domain.FocusedWorldOverride;
+import org.tavall.control.domain.FocusedWorldTarget;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 

@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlacementInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.IPlacementModeService;
-import com.tavall.resourcegame.domain.PlacementResult;
+import org.tavall.control.dependency.interfaces.IPlacementInteractionService;
+import org.tavall.control.dependency.interfaces.IPlacementModeService;
+import org.tavall.control.domain.PlacementResult;
 
 import java.util.Objects;
 

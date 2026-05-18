@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
-import com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntimeFactory;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
+import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
+import org.tavall.api.minecraft.frontend.IFrontendControlConfig;
+import org.tavall.control.runtime.ControlCommandRuntime;
+import org.tavall.control.runtime.ControlCommandRuntimeFactory;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

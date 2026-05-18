@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
 import java.time.Duration;
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.events.dispatch;
+package org.tavall.control.events.dispatch;
 
-import com.tavall.resourcegame.events.IGameEventDomain;
-import com.tavall.resourcegame.events.core.GameEvent;
-import com.tavall.resourcegame.events.core.GameEventContext;
-import com.tavall.resourcegame.events.core.GameEventResult;
-import com.tavall.resourcegame.events.middleware.GameEventMiddlewareChain;
+import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.core.GameEvent;
+import org.tavall.control.events.core.GameEventContext;
+import org.tavall.control.events.core.GameEventResult;
+import org.tavall.control.events.middleware.GameEventMiddlewareChain;
 
 import java.time.Instant;
 import java.util.Objects;

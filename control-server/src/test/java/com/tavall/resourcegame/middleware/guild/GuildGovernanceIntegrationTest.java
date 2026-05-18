@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.guild;
+package org.tavall.control.guild;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.common.HighRiskAction;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.common.HighRiskAction;
+import org.tavall.control.identity.UniversalPlayerId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

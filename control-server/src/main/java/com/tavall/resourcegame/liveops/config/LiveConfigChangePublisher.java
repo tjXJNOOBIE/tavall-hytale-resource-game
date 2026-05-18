@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.liveops.config;
+package org.tavall.control.liveops.config;
 
 @FunctionalInterface
 public interface LiveConfigChangePublisher {

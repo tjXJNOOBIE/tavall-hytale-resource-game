@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
+import org.tavall.control.runtime.ControlCommandValidationException;
 
 public final class ControlPlaneSnapshotJsonCodec {
     private final ObjectMapper objectMapper;

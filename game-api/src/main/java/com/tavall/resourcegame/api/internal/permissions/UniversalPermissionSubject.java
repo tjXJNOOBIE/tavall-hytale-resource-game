@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.api.internal.permissions;
+package org.tavall.api.minecraft.permissions;
 
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 
 import java.util.Objects;
 import java.util.Set;

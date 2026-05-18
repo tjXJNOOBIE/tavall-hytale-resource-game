@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.universe.Universe;
@@ -9,7 +9,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.resources.EmptyReso
 import com.hypixel.hytale.server.core.universe.world.worldgen.provider.VoidWorldGenProvider;
 import com.hypixel.hytale.server.core.util.io.FileUtil;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IInteriorInstanceService;
+import org.tavall.control.dependency.interfaces.IInteriorInstanceService;
 
 import java.io.IOException;
 import java.nio.file.Files;

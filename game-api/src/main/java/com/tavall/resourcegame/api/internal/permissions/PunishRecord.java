@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.permissions;
+package org.tavall.api.minecraft.permissions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

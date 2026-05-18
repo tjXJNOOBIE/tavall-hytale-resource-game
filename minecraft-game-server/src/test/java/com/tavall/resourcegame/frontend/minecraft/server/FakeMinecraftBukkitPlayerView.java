@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitPlayerView;
+import org.tavall.minecraft.server.view.MinecraftBukkitPlayerView;
 
 import java.util.UUID;
 

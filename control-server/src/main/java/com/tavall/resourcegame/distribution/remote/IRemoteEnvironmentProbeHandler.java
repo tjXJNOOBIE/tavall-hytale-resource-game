@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.distribution.remote;
+package org.tavall.control.distribution.remote;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 

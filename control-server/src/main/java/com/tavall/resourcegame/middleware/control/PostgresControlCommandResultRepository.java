@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
-import com.tavall.resourcegame.persistence.PostgresConnectionProvider;
+import org.tavall.control.persistence.PostgresConnectionProvider;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

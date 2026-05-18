@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.kingdom;
+package org.tavall.control.kingdom;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.event.DomainEventPublisher;
-import com.tavall.resourcegame.middleware.event.RecordingDomainEventPublisher;
+import org.tavall.control.event.DomainEventPublisher;
+import org.tavall.control.event.RecordingDomainEventPublisher;
 
 public interface IKingdomDomainGenerated {
     default UniversalKingdomSimulationSystem.UniversalKingdomRepository getUniversalKingdomRepository() {

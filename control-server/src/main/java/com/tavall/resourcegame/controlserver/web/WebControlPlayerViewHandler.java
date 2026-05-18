@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.util.Optional;
 import java.util.UUID;

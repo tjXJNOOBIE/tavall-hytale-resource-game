@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.events.dispatch;
+package org.tavall.control.events.dispatch;
 
-import com.tavall.resourcegame.events.IGameEventDomain;
-import com.tavall.resourcegame.events.core.BasicGameEvent;
-import com.tavall.resourcegame.events.core.EventSource;
-import com.tavall.resourcegame.events.core.GameEvent;
-import com.tavall.resourcegame.events.core.GameEventResult;
-import com.tavall.resourcegame.events.core.GameEventType;
+import org.tavall.control.events.IGameEventDomain;
+import org.tavall.control.events.core.BasicGameEvent;
+import org.tavall.control.events.core.EventSource;
+import org.tavall.control.events.core.GameEvent;
+import org.tavall.control.events.core.GameEventResult;
+import org.tavall.control.events.core.GameEventType;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

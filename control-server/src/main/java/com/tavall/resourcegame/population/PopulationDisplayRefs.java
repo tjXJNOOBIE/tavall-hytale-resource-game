@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.population;
+package org.tavall.control.population;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tavall.resourcegame.domain.CitizenJobType;
+import org.tavall.control.domain.CitizenJobType;
 
 import java.util.EnumMap;
 import java.util.Map;

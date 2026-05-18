@@ -1,21 +1,21 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.asset.ResolvedPlatformAsset;
-import com.tavall.resourcegame.middleware.castle.Castle;
-import com.tavall.resourcegame.middleware.citizen.CitizenDisplayAnchorProjection;
-import com.tavall.resourcegame.middleware.citizen.CitizenPopulationProjection;
-import com.tavall.resourcegame.middleware.clock.KingdomClockProjection;
-import com.tavall.resourcegame.middleware.clock.KingdomScheduleProjection;
-import com.tavall.resourcegame.middleware.clock.KingdomTimePhase;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.guild.GuildKingdom;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
-import com.tavall.resourcegame.middleware.node.ResourceNode;
-import com.tavall.resourcegame.middleware.petition.Petition;
-import com.tavall.resourcegame.middleware.petition.PropagandaCampaign;
-import com.tavall.resourcegame.middleware.trade.TradeRoute;
-import com.tavall.resourcegame.middleware.troop.Troop;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.asset.ResolvedPlatformAsset;
+import org.tavall.control.castle.Castle;
+import org.tavall.control.citizen.CitizenDisplayAnchorProjection;
+import org.tavall.control.citizen.CitizenPopulationProjection;
+import org.tavall.control.clock.KingdomClockProjection;
+import org.tavall.control.clock.KingdomScheduleProjection;
+import org.tavall.control.clock.KingdomTimePhase;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.guild.GuildKingdom;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem;
+import org.tavall.control.node.ResourceNode;
+import org.tavall.control.petition.Petition;
+import org.tavall.control.petition.PropagandaCampaign;
+import org.tavall.control.trade.TradeRoute;
+import org.tavall.control.troop.Troop;
 
 import java.util.List;
 import java.util.Map;
@@ -158,7 +158,7 @@ public final class FrontendProjectionHandler implements IProjectionDomain {
             ProjectionObjectType objectType,
             GlobalAssetId globalAssetId,
             String displayName,
-            Optional<com.tavall.resourcegame.middleware.common.CanonicalLocation> location,
+            Optional<org.tavall.control.common.CanonicalLocation> location,
             String state,
             List<InteractionAction> actions,
             Map<String, String> metadata

@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.healing.TroopHealingPlan;
-import com.tavall.resourcegame.middleware.healing.TroopWound;
-import com.tavall.resourcegame.middleware.troop.TroopId;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.healing.TroopHealingPlan;
+import org.tavall.control.healing.TroopWound;
+import org.tavall.control.troop.TroopId;
 
 import java.util.Optional;
 import java.util.UUID;

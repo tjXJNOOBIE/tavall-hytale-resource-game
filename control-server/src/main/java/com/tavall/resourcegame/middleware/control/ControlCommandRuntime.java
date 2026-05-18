@@ -1,19 +1,19 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
-import com.tavall.resourcegame.middleware.authority.AuthorizationAuditRepository;
-import com.tavall.resourcegame.middleware.authority.AuthorityRepository;
-import com.tavall.resourcegame.middleware.authority.IControlAuthorizationHandler;
-import com.tavall.resourcegame.middleware.authority.PermissionPolicyRepository;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetRepository;
-import com.tavall.resourcegame.middleware.citizen.CitizenControlSystem;
-import com.tavall.resourcegame.middleware.clock.KingdomClockControlSystem;
-import com.tavall.resourcegame.middleware.companion.CompanionService;
-import com.tavall.resourcegame.middleware.healing.HealingInventoryRepository;
-import com.tavall.resourcegame.middleware.healing.TroopHealingRepository;
-import com.tavall.resourcegame.middleware.identity.PlatformAccountBindingRepository;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerAccountRepository;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
-import com.tavall.resourcegame.middleware.troop.TroopRepository;
+import org.tavall.control.authority.AuthorizationAuditRepository;
+import org.tavall.control.authority.AuthorityRepository;
+import org.tavall.control.authority.IControlAuthorizationHandler;
+import org.tavall.control.authority.PermissionPolicyRepository;
+import org.tavall.control.asset.GlobalAssetRepository;
+import org.tavall.control.citizen.CitizenControlSystem;
+import org.tavall.control.clock.KingdomClockControlSystem;
+import org.tavall.control.companion.CompanionService;
+import org.tavall.control.healing.HealingInventoryRepository;
+import org.tavall.control.healing.TroopHealingRepository;
+import org.tavall.control.identity.PlatformAccountBindingRepository;
+import org.tavall.control.identity.UniversalPlayerAccountRepository;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem;
+import org.tavall.control.troop.TroopRepository;
 
 public record ControlCommandRuntime(
         ControlCommandDispatchHandler dispatchHandler,

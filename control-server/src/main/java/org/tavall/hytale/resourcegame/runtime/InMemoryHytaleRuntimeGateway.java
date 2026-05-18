@@ -1,10 +1,10 @@
-package org.tavall.hytale.resourcegame.runtime;
+package org.tavall.minecraft.runtime;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.tavall.hytale.resourcegame.domain.ui.UiScreen;
+import org.tavall.minecraft.domain.ui.UiScreen;
 
 /**
  * Local runtime stub that mimics core Hytale interactions for development and tests.

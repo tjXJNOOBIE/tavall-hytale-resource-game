@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.liveops.config;
+package org.tavall.control.liveops.config;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.ILiveOpsDomain;
 import redis.clients.jedis.Jedis;
 
 public final class RedisLiveConfigPublisher implements LiveConfigChangePublisher, ILiveOpsDomain, IDependencyInjectableConcrete {

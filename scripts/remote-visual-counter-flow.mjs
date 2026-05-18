@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import { captureWorldSnapshot, createTraceSession, delay, ensureBotBaseline, findNearbyEntityByPosition, resolveBotClientModuleUrl, waitForPageOrNull, waitForWorldSnapshot, writeJson, printStructured, } from "./bot-flow-helpers.mjs";
 
 const IDLE_WORKER_ANCHOR = { x: -3.5, y: 121.0, z: 7.0 };
@@ -48,7 +48,7 @@ async function main() {
     bot.chat("/kingdom interior");
     await bot.waitForWorldActivity(10_000);
     assertions.push("interior-entered");
-    const interiorPage = await waitForPageOrNull(bot, "com.tavall.resourcegame.ui.InteriorMainPage", 10_000);
+    const interiorPage = await waitForPageOrNull(bot, "org.tavall.control.ui.InteriorMainPage", 10_000);
     if (interiorPage) {
       pages.push({ key: interiorPage.key, title: interiorPage.title ?? null, snapshot: bot.snapshotPage() });
       assertions.push("interior-ui-opened");

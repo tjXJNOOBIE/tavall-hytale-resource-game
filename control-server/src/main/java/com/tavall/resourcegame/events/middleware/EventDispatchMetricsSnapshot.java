@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.events.middleware;
+package org.tavall.control.events.middleware;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.troop;
+package org.tavall.control.troop;
 
-import com.tavall.resourcegame.middleware.guild.GuildId;
+import org.tavall.control.guild.GuildId;
 
 public final class GuildWarDeclarationHandler implements ITroopDomain {
     public String declareWar(GuildId attackerGuildId, GuildId defenderGuildId) {

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.ui;
+package org.tavall.api.minecraft.ui;
 
 public enum UiPageType {
     CASTLE_MAIN,

@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.ui.UpgradeActionState;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.ui.UpgradeActionState;
 
 import java.time.Instant;
 import java.util.UUID;

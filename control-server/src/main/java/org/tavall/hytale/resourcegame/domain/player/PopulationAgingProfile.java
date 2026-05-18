@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.domain.player;
+package org.tavall.minecraft.domain.player;
 
 import java.time.Duration;
 import java.time.Instant;

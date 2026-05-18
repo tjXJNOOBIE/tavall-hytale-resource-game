@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 

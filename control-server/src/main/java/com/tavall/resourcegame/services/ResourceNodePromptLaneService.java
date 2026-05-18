@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerTeleportService;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodePromptLaneService;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.tasks.WorldTasks;
-import com.tavall.resourcegame.world.ResourceNodePromptLaneLayout;
-import com.tavall.resourcegame.world.ResourceNodePromptLaneLayoutService;
-import com.tavall.resourcegame.world.ResourceNodePromptLaneStructureService;
+import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
+import org.tavall.control.dependency.interfaces.IResourceNodePromptLaneService;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.tasks.WorldTasks;
+import org.tavall.control.world.ResourceNodePromptLaneLayout;
+import org.tavall.control.world.ResourceNodePromptLaneLayoutService;
+import org.tavall.control.world.ResourceNodePromptLaneStructureService;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.runtime;
+package org.tavall.minecraft.runtime;
 
 public record WorldPosition(String worldId, double x, double y, double z) {
 

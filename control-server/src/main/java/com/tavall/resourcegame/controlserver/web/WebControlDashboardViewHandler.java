@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
+import org.tavall.control.IControlServerDomain;
 
 public final class WebControlDashboardViewHandler implements IWebControlDashboardViewHandler, IControlServerDomain {
     public String dashboardBody() {

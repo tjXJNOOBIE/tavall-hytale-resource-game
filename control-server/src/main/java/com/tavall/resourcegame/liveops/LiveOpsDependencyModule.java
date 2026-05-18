@@ -1,23 +1,23 @@
-package com.tavall.resourcegame.liveops;
+package org.tavall.control.liveops;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tjxjnoobie.api.dependency.IDependencyModule;
-import com.tavall.resourcegame.liveops.config.FeatureFlagHandler;
-import com.tavall.resourcegame.liveops.config.GameRuleHandler;
-import com.tavall.resourcegame.liveops.config.InMemoryLiveConfigChangePublisher;
-import com.tavall.resourcegame.liveops.config.InMemoryLiveConfigRepository;
-import com.tavall.resourcegame.liveops.config.LiveConfigChangePublisher;
-import com.tavall.resourcegame.liveops.config.LiveConfigMutationHandler;
-import com.tavall.resourcegame.liveops.config.LiveConfigRegistry;
-import com.tavall.resourcegame.liveops.config.LiveConfigRepository;
-import com.tavall.resourcegame.liveops.config.SystemToggleHandler;
-import com.tavall.resourcegame.liveops.gui.GlobalGuiChangePublisher;
-import com.tavall.resourcegame.liveops.gui.GlobalGuiMutationHandler;
-import com.tavall.resourcegame.liveops.gui.GlobalGuiRegistry;
-import com.tavall.resourcegame.liveops.gui.GlobalGuiRepository;
-import com.tavall.resourcegame.liveops.gui.InMemoryGlobalGuiChangePublisher;
-import com.tavall.resourcegame.liveops.gui.InMemoryGlobalGuiRepository;
+import org.tavall.control.liveops.config.FeatureFlagHandler;
+import org.tavall.control.liveops.config.GameRuleHandler;
+import org.tavall.control.liveops.config.InMemoryLiveConfigChangePublisher;
+import org.tavall.control.liveops.config.InMemoryLiveConfigRepository;
+import org.tavall.control.liveops.config.LiveConfigChangePublisher;
+import org.tavall.control.liveops.config.LiveConfigMutationHandler;
+import org.tavall.control.liveops.config.LiveConfigRegistry;
+import org.tavall.control.liveops.config.LiveConfigRepository;
+import org.tavall.control.liveops.config.SystemToggleHandler;
+import org.tavall.control.liveops.gui.GlobalGuiChangePublisher;
+import org.tavall.control.liveops.gui.GlobalGuiMutationHandler;
+import org.tavall.control.liveops.gui.GlobalGuiRegistry;
+import org.tavall.control.liveops.gui.GlobalGuiRepository;
+import org.tavall.control.liveops.gui.InMemoryGlobalGuiChangePublisher;
+import org.tavall.control.liveops.gui.InMemoryGlobalGuiRepository;
 
 /**
  * Keeps LiveOps mutation handlers decoupled from their storage, cache, and event-dispatch adapters.

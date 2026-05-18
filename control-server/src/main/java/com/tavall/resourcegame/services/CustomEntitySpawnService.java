@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -11,19 +11,19 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingService;
-import com.tavall.resourcegame.dependency.interfaces.ICustomEntitySpawnService;
-import com.tavall.resourcegame.dependency.interfaces.IFarmsteadMenuService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.domain.CustomEntitySpawnRole;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.farmstead.npc.FarmsteadStewardSpawner;
-import com.tavall.resourcegame.tasks.WorldTasks;
-import com.tavall.resourcegame.ui.UiPageType;
-import com.tavall.resourcegame.world.VectorMath;
+import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.dependency.interfaces.ICustomEntitySpawnService;
+import org.tavall.control.dependency.interfaces.IFarmsteadMenuService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.domain.CustomEntitySpawnRole;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.farmstead.npc.FarmsteadStewardSpawner;
+import org.tavall.control.tasks.WorldTasks;
+import org.tavall.control.ui.UiPageType;
+import org.tavall.control.world.VectorMath;
 
 import java.util.Map;
 import java.util.Objects;

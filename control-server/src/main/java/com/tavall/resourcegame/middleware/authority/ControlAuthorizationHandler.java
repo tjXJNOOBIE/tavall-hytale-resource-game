@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
-import com.tavall.resourcegame.middleware.control.CommandTargetScope;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlCommandDefinition;
-import com.tavall.resourcegame.middleware.control.ControlCommandRegistry;
-import com.tavall.resourcegame.middleware.control.ControlPermission;
+import org.tavall.control.runtime.CommandTargetScope;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlCommandDefinition;
+import org.tavall.control.runtime.ControlCommandRegistry;
+import org.tavall.control.runtime.ControlPermission;
 
 import java.util.List;
 import java.util.Map;

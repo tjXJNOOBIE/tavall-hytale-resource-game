@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.events;
+package org.tavall.control.events;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.events.dispatch.RedisGameEventSubscriber;
-import com.tavall.resourcegame.events.middleware.DistributedEventForwarder;
-import com.tavall.resourcegame.events.middleware.NoopDistributedEventForwarder;
-import com.tavall.resourcegame.events.middleware.RedisGameEventForwarder;
+import org.tavall.control.events.dispatch.RedisGameEventSubscriber;
+import org.tavall.control.events.middleware.DistributedEventForwarder;
+import org.tavall.control.events.middleware.NoopDistributedEventForwarder;
+import org.tavall.control.events.middleware.RedisGameEventForwarder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import redis.clients.jedis.JedisPool;

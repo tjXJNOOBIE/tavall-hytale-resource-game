@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.trade;
+package org.tavall.control.trade;
 
 import java.util.Objects;
 import java.util.UUID;

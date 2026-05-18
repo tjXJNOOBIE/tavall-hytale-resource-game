@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
 import org.junit.jupiter.api.Test;
 
@@ -83,7 +83,7 @@ public final class MinecraftBukkitDependencyPolicyTest {
         assertFalse(accountGuiSource.contains("accountRepository().saveAccount"));
         assertFalse(accountGuiSource.contains("platformAccountBindingRepository().savePlatformBinding"));
         assertTrue(controlServerDependencyModuleSource.contains("PlayerDataApi.class"));
-        assertTrue(playerDataApiSource.contains("package com.tavall.resourcegame.controlserver.api;"));
+        assertTrue(playerDataApiSource.contains("package org.tavall.control.api;"));
         assertTrue(playerDataApiSource.contains("runtime.accountRepository()"));
         assertTrue(playerDataApiSource.contains("runtime.platformAccountBindingRepository()"));
         assertTrue(controlBridgeServerSource.contains("PLAYER_DATA_REQUEST"));
@@ -103,7 +103,7 @@ public final class MinecraftBukkitDependencyPolicyTest {
     void bukkitCommandExposurePublishesServerSurfaceDiagnosticsCommand() throws IOException {
         String pluginDescriptor = Files.readString(Path.of("src/main/resources/plugin.yml"));
 
-        assertTrue(pluginDescriptor.contains("main: com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitServerPlugin"));
+        assertTrue(pluginDescriptor.contains("main: org.tavall.minecraft.server.MinecraftBukkitServerPlugin"));
         assertTrue(pluginDescriptor.contains("commands:"));
         assertTrue(pluginDescriptor.contains("  tavallserver:"));
         assertTrue(pluginDescriptor.contains("usage: /tavallserver [snapshot|visual <chat|title> <message>|interact <message>]"));

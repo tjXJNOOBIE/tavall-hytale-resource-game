@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.services.PlayerSession;
+import org.tavall.control.services.PlayerSession;
 
 import java.util.Collection;
 import java.util.UUID;

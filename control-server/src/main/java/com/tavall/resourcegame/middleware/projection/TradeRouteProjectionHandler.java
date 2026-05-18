@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.trade.TradeRoute;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.trade.TradeRoute;
 
 import java.util.List;
 

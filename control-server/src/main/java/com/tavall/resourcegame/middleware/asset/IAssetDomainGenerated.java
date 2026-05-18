@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.asset;
+package org.tavall.control.asset;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 

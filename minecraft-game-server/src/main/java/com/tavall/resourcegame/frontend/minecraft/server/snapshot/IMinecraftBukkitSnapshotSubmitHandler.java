@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server.snapshot;
+package org.tavall.minecraft.server.snapshot;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 

@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
 import com.tjxjnoobie.api.dependency.DependencyLoader;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.api.internal.ui.UiPageType;
-import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
-import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
+import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
+import org.tavall.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

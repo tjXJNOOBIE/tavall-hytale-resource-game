@@ -8,9 +8,9 @@ On `minecraft-main`, cloud/runtime code lives inside the single `control-server`
 
 | Package area | Owns | Must not own |
 |---|---|---|
-| `com.tavall.resourcegame.middleware.cloud` | Cloud domain models, command types, repository ports, in-memory repository, reconciliation, alerts, agent/runtime entrypoints | Minecraft adapter state |
-| `com.tavall.resourcegame.controlserver.cli` | Plain Java control-plane console and command entrypoint | Canonical cloud state |
-| `com.tavall.resourcegame.controlserver.web` | Optional Spring/web adapter into Java handlers | Canonical cloud state |
+| `org.tavall.control.cloud` | Cloud domain models, command types, repository ports, in-memory repository, reconciliation, alerts, agent/runtime entrypoints | Minecraft adapter state |
+| `org.tavall.control.cli` | Plain Java control-plane console and command entrypoint | Canonical cloud state |
+| `org.tavall.control.web` | Optional Spring/web adapter into Java handlers | Canonical cloud state |
 
 ## Runtime Layers
 

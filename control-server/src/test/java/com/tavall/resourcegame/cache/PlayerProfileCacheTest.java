@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.cache;
+package org.tavall.control.cache;
 
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.domain.PlayerProfile;
-import com.tavall.resourcegame.player.cache.PlayerProfileCache;
-import com.tavall.resourcegame.services.JsonMapperProvider;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.domain.PlayerProfile;
+import org.tavall.control.player.cache.PlayerProfileCache;
+import org.tavall.control.services.JsonMapperProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

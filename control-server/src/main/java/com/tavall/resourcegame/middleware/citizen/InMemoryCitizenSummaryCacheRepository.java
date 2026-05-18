@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
-import com.tavall.resourcegame.middleware.citizen.cache.CitizenSummaryCache;
-import com.tavall.resourcegame.services.JsonMapperProvider;
+import org.tavall.control.citizen.cache.CitizenSummaryCache;
+import org.tavall.control.services.JsonMapperProvider;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Optional;

@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetRepository;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetResolutionHandler;
-import com.tavall.resourcegame.middleware.event.DomainEventPublisher;
-import com.tavall.resourcegame.middleware.troop.TroopRepository;
+import org.tavall.control.asset.GlobalAssetRepository;
+import org.tavall.control.asset.GlobalAssetResolutionHandler;
+import org.tavall.control.event.DomainEventPublisher;
+import org.tavall.control.troop.TroopRepository;
 
 public interface IHealingDomainGenerated {
     default GlobalAssetRepository getGlobalAssetRepository() {

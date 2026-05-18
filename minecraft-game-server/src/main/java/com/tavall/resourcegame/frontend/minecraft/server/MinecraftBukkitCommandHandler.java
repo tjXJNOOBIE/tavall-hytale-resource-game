@@ -1,13 +1,13 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
-import com.tavall.resourcegame.api.internal.interaction.InteractionTargetType;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftVisualRenderRequest;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
-import com.tavall.resourcegame.frontend.minecraft.server.commands.util.KingdomCommandSupport;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.interaction.InteractionRequest;
+import org.tavall.api.minecraft.interaction.InteractionResult;
+import org.tavall.api.minecraft.interaction.InteractionTargetType;
+import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
+import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
+import org.tavall.minecraft.server.commands.util.KingdomCommandSupport;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

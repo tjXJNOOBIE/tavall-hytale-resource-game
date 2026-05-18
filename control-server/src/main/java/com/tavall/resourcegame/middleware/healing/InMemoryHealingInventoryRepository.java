@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.util.Map;
 import java.util.Optional;

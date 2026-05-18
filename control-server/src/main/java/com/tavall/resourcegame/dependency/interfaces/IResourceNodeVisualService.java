@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerGameState;
 
 import java.util.Optional;
 import java.util.UUID;

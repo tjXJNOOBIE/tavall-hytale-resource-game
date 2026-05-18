@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.petition;
+package org.tavall.control.petition;
 
-import com.tavall.resourcegame.middleware.guild.GuildId;
+import org.tavall.control.guild.GuildId;
 
 import java.util.ArrayList;
 import java.util.List;

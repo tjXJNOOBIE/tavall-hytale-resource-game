@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.liveops.gui;
+package org.tavall.control.liveops.gui;
 
-import com.tavall.resourcegame.events.core.AbstractGameEvent;
-import com.tavall.resourcegame.events.core.BasicGameEvent;
-import com.tavall.resourcegame.events.core.EventSource;
-import com.tavall.resourcegame.events.core.GameEventType;
-import com.tavall.resourcegame.liveops.ILiveOpsDomain;
-import com.tavall.resourcegame.liveops.config.LiveConfigValidationException;
+import org.tavall.control.events.core.AbstractGameEvent;
+import org.tavall.control.events.core.BasicGameEvent;
+import org.tavall.control.events.core.EventSource;
+import org.tavall.control.events.core.GameEventType;
+import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.config.LiveConfigValidationException;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;

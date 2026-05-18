@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.frontend.transport;
+package org.tavall.api.minecraft.frontend.transport;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

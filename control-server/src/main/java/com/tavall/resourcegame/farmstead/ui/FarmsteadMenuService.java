@@ -1,17 +1,17 @@
-package com.tavall.resourcegame.farmstead.ui;
+package org.tavall.control.farmstead.ui;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingService;
-import com.tavall.resourcegame.dependency.interfaces.IFarmsteadMenuService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.services.PlayerSession;
-import com.tavall.resourcegame.ui.UiPageType;
+import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.dependency.interfaces.IFarmsteadMenuService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.services.PlayerSession;
+import org.tavall.control.ui.UiPageType;
 
 import java.util.Objects;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.tasks;
+package org.tavall.control.tasks;
 
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;

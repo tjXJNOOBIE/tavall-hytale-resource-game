@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.commands;
+package org.tavall.control.commands;
 
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.Message;
@@ -10,19 +10,19 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.universe.Universe;
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
-import com.tavall.resourcegame.domain.AccountProgression;
-import com.tavall.resourcegame.domain.DebugModeState;
-import com.tavall.resourcegame.domain.InfrastructureHealthSnapshot;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.resources.ResourceType;
-import com.tavall.resourcegame.services.CastleEconomySimulationService;
-import com.tavall.resourcegame.services.PlayerSession;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.domain.AccountProgression;
+import org.tavall.control.domain.DebugModeState;
+import org.tavall.control.domain.InfrastructureHealthSnapshot;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.resources.ResourceType;
+import org.tavall.control.services.CastleEconomySimulationService;
+import org.tavall.control.services.PlayerSession;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
-import com.tavall.resourcegame.ui.UiPageType;
+import org.tavall.control.ui.UiPageType;
 
 import java.time.Instant;
 import java.util.List;

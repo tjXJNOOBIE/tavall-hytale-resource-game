@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.domain.AgingState;
-import com.tavall.resourcegame.domain.CastleEconomySnapshot;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PopulationSummary;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.persistence.PopulationSummaryDefaults;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.domain.AgingState;
+import org.tavall.control.domain.CastleEconomySnapshot;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PopulationSummary;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.persistence.PopulationSummaryDefaults;
+import org.tavall.control.resources.ResourceType;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

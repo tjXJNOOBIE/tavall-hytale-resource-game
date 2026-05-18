@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import java.time.Instant;
 import java.util.ArrayList;

@@ -49,7 +49,7 @@
 - Compensation handling currently produces explicit decisions for partial/failed commands so operators can distinguish platform retry work from gameplay compensation.
 
 ## Universal Kingdom Simulation
-- Universal kingdom world partitions live under `com.tavall.resourcegame.middleware.kingdom` and are backend-owned canonical state.
+- Universal kingdom world partitions live under `org.tavall.control.kingdom` and are backend-owned canonical state.
 - The backend coordinate model is a 1:1 canonical world coordinate system with `worldId`, `x`, `y`, `z`, optional yaw/pitch, optional kingdom/region IDs, and metadata. Minecraft, Hytale, Roblox, Android, and PC coordinates convert through explicit platform conversion parameters; Discord displays summaries only.
 - Kingdoms receive deterministic storage namespaces and folder names such as `kingdom-1`, `kingdom-2`, and `kingdom-3`. The namespace is repository-backed and can later map to Postgres, folders, snapshots, exports, or config partitions without filesystem writes in gameplay handlers.
 - Rectangular kingdom borders are implemented first. Backend containment resolves the current kingdom from canonical coordinates, detects old kingdom to new kingdom transitions, records the transition, and creates a backend instance-switch request.

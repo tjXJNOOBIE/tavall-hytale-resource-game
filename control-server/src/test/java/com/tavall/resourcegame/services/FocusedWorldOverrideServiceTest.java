@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.domain.FocusedWorldTargetType;
+import org.tavall.control.domain.FocusedWorldTargetType;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

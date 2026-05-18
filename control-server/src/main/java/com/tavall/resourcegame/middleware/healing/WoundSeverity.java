@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
 public enum WoundSeverity {
     MINOR(1.0d),

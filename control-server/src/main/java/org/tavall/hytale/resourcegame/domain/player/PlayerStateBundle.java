@@ -1,8 +1,8 @@
-package org.tavall.hytale.resourcegame.domain.player;
+package org.tavall.minecraft.domain.player;
 
 import java.util.Objects;
 import java.util.UUID;
-import org.tavall.hytale.resourcegame.domain.population.PopulationRoster;
+import org.tavall.minecraft.domain.population.PopulationRoster;
 
 /**
  * Active aggregate used by gameplay systems and persistence orchestration.

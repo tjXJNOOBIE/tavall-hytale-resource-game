@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.identity;
+package org.tavall.control.identity;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.security.Sha256TokenHasher;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.security.Sha256TokenHasher;
 import org.junit.jupiter.api.Test;
 
 import java.security.SecureRandom;

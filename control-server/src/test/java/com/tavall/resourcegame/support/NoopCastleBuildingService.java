@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingService;
-import com.tavall.resourcegame.domain.BuildingConstructionStage;
-import com.tavall.resourcegame.domain.BuildingLevelProfile;
-import com.tavall.resourcegame.domain.BuildingMutationResult;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.domain.CastleBuildingSummary;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.population.PromotionCost;
+import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.domain.BuildingConstructionStage;
+import org.tavall.control.domain.BuildingLevelProfile;
+import org.tavall.control.domain.BuildingMutationResult;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.domain.CastleBuildingSummary;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.population.PromotionCost;
 
 import java.time.Instant;
 import java.util.List;

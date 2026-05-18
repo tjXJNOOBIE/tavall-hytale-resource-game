@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.routing;
+package org.tavall.minecraft.routing;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 
 public record MinecraftVelocityCommandResult(boolean success, String message) {
     public static MinecraftVelocityCommandResult denied(String message) {

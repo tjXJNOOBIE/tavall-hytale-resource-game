@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.world;
+package org.tavall.control.world;
 
-import com.tavall.resourcegame.domain.CastleLocationData;
+import org.tavall.control.domain.CastleLocationData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

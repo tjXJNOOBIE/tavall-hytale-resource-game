@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.identity;
+package org.tavall.control.identity;
 
 import java.util.Optional;
 import java.util.UUID;

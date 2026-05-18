@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IProtectedBlockSystemService;
+import org.tavall.control.dependency.interfaces.IProtectedBlockSystemService;
 
 import java.util.Objects;
 import java.util.concurrent.ScheduledFuture;

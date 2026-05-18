@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.HytaleServer;
@@ -8,10 +8,10 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleProximityPromptService;
-import com.tavall.resourcegame.dependency.interfaces.IPlacementModeService;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.dependency.interfaces.ICastleInteractionService;
+import org.tavall.control.dependency.interfaces.ICastleProximityPromptService;
+import org.tavall.control.dependency.interfaces.IPlacementModeService;
+import org.tavall.control.tasks.WorldTasks;
 
 import java.util.Objects;
 import java.util.Set;

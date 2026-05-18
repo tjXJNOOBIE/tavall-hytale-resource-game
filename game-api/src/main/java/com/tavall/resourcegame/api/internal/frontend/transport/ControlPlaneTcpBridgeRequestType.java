@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.frontend.transport;
+package org.tavall.api.minecraft.frontend.transport;
 
 public enum ControlPlaneTcpBridgeRequestType {
     FRONTEND_COMMAND,

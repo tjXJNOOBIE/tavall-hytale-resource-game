@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.economy;
+package org.tavall.control.economy;
 
-import com.tavall.resourcegame.middleware.guild.GuildId;
+import org.tavall.control.guild.GuildId;
 
 public final class GuildTaxPolicyUpdateHandler implements IEconomyDomain {
     public GuildTaxPolicyUpdateHandler() {

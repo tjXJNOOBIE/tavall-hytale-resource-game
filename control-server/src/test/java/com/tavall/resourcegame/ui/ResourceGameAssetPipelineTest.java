@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.domain.BuildingConstructionStage;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.domain.BuildingConstructionStage;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.resources.ResourceType;
 import org.junit.jupiter.api.Test;
 
 import javax.imageio.ImageIO;

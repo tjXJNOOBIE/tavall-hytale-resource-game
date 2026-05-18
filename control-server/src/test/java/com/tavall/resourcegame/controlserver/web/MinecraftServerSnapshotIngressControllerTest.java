@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.controlserver.ControlServerDependencyModule;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftPlayerRuntimeSnapshot;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
+import org.tavall.control.ControlServerDependencyModule;
+import org.tavall.api.minecraft.MinecraftPlayerRuntimeSnapshot;
+import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;

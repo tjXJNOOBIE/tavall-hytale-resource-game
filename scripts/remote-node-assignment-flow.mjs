@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import {
   captureWorldSnapshot,
   delay,
@@ -51,10 +51,10 @@ function parseLeadingNumber(rawText) {
 
 async function openNodePage(bot) {
   bot.chat("/kingdom nodes select 1");
-  await bot.waitForPage("com.tavall.resourcegame.ui.ResourceNodePage", 10_000);
+  await bot.waitForPage("org.tavall.control.ui.ResourceNodePage", 10_000);
   return waitForSnapshot(
     bot,
-    (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.ResourceNodePage",
+    (snapshot) => snapshot.key === "org.tavall.control.ui.ResourceNodePage",
     5_000,
     "resource node page snapshot"
   );
@@ -153,7 +153,7 @@ async function main() {
     snapshot = await waitForSnapshot(
       bot,
       (candidate) => {
-        if (candidate.key !== "com.tavall.resourcegame.ui.ResourceNodePage") {
+        if (candidate.key !== "org.tavall.control.ui.ResourceNodePage") {
           return false;
         }
         const stock = parseStockValue(candidate);

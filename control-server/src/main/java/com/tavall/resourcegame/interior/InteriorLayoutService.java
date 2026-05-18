@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.interior;
+package org.tavall.control.interior;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.CitizenJobType;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.CitizenJobType;
 
 import java.util.EnumMap;
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.clock.KingdomClockControlSystem;
+import org.tavall.control.clock.KingdomClockControlSystem;
 
 public interface ICitizenDomainGenerated {
     default CitizenRepository getCitizenRepository() {

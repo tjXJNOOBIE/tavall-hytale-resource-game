@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.frontend.minecraft.server.bootstrap.MinecraftBukkitBootstrap;
+import org.tavall.minecraft.server.bootstrap.MinecraftBukkitBootstrap;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MinecraftBukkitServerPlugin extends JavaPlugin implements IMinecraftBukkitServerDomain {

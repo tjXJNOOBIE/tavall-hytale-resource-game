@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.clock;
+package org.tavall.control.clock;
 
 public enum KingdomClockMode {
     REAL_TIME_SYNCED,

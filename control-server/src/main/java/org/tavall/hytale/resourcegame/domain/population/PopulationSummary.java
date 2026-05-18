@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.domain.population;
+package org.tavall.minecraft.domain.population;
 
 public record PopulationSummary(int citizens, int troops) {
 

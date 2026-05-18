@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.frontend.minecraft.server.visual;
+package org.tavall.minecraft.server.visual;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftVisualRenderRequest;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

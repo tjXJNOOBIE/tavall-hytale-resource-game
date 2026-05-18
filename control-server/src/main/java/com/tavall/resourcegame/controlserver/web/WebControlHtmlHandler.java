@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.PlatformCommandResult;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.PlatformCommandResult;
 
 public final class WebControlHtmlHandler implements IWebControlHtmlHandler {
     public String page(String title, String body) {

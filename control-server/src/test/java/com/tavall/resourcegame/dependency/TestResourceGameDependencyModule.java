@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.dependency;
+package org.tavall.control.dependency;
 
-import com.tavall.resourcegame.dependency.interfaces.ICastleInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleProximityPromptService;
-import com.tavall.resourcegame.dependency.interfaces.IDebugCommandService;
-import com.tavall.resourcegame.dependency.interfaces.IKingdomClockService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerDataService;
+import org.tavall.control.dependency.interfaces.ICastleInteractionService;
+import org.tavall.control.dependency.interfaces.ICastleProximityPromptService;
+import org.tavall.control.dependency.interfaces.IDebugCommandService;
+import org.tavall.control.dependency.interfaces.IKingdomClockService;
+import org.tavall.control.dependency.interfaces.IPlayerDataService;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tjxjnoobie.api.dependency.IDependencyModule;
 

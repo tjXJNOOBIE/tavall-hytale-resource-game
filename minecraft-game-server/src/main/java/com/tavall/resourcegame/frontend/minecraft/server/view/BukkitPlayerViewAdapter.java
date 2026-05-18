@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server.view;
+package org.tavall.minecraft.server.view;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

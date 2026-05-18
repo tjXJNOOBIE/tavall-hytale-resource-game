@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
 /**
  * Role assignments for citizens in the aggregated population continuum.

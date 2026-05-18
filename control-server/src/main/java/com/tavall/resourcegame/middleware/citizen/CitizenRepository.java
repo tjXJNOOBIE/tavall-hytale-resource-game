@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.util.List;
 import java.util.Optional;

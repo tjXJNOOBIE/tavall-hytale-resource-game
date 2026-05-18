@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.dependency;
+package org.tavall.control.dependency;
 
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
 
 /**
  * Test-only domain accessor for the repo-local DI layer.

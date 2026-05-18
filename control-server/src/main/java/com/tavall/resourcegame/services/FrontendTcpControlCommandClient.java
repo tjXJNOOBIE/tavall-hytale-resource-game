@@ -1,18 +1,18 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
-import com.tavall.resourcegame.api.internal.frontend.IFrontendControlCommandClient;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
-import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
-import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
-import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
-import com.tavall.resourcegame.api.internal.permissions.RankRequest;
-import com.tavall.resourcegame.api.internal.permissions.RankResponse;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.interaction.InteractionRequest;
+import org.tavall.api.minecraft.interaction.InteractionResult;
+import org.tavall.api.minecraft.player.PlayerDataRequest;
+import org.tavall.api.minecraft.player.PlayerDataResponse;
+import org.tavall.api.minecraft.permissions.PunishRequest;
+import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.api.minecraft.permissions.RankRequest;
+import org.tavall.api.minecraft.permissions.RankResponse;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.BufferedReader;
@@ -249,7 +249,7 @@ public final class FrontendTcpControlCommandClient implements IFrontendControlCo
     private InteractionResult backendUnavailable(InteractionRequest request, String message) {
         return new InteractionResult(
                 request.requestId(),
-                com.tavall.resourcegame.api.internal.interaction.InteractionResultType.BACKEND_UNAVAILABLE,
+                org.tavall.api.minecraft.interaction.InteractionResultType.BACKEND_UNAVAILABLE,
                 false,
                 message,
                 null,

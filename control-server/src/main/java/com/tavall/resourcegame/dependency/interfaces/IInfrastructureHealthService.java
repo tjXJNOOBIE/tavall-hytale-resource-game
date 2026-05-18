@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.InfrastructureHealthSnapshot;
-import com.tavall.resourcegame.domain.InfrastructureMetricsSnapshot;
+import org.tavall.control.domain.InfrastructureHealthSnapshot;
+import org.tavall.control.domain.InfrastructureMetricsSnapshot;
 
 /**
  * Reports current cache and persistence operating modes for debug surfaces.

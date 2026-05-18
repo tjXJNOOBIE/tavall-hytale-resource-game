@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.liveops.config;
+package org.tavall.control.liveops.config;
 
-import com.tavall.resourcegame.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.ILiveOpsDomain;
 
 public final class SystemToggleHandler implements ILiveOpsDomain {
     public boolean isEnabled(GameSystemToggle toggle) {

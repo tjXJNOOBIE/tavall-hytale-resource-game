@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.clock;
+package org.tavall.minecraft.clock;
 
 import java.time.Instant;
 import java.time.ZoneId;

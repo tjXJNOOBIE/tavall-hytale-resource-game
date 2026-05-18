@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
+import org.tavall.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

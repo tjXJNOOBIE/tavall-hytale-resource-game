@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.routing;
+package org.tavall.minecraft.routing;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 

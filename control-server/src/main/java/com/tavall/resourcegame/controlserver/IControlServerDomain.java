@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.controlserver;
+package org.tavall.control;
 
 public interface IControlServerDomain extends IControlServerDomainGenerated {
 }

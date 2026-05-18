@@ -156,7 +156,7 @@
                 <version>${spring.boot.version}</version>
                 <configuration>
                     <classifier>exec</classifier>
-                    <mainClass>com.tavall.resourcegame.controlserver.cli.ControlConsoleApplication</mainClass>
+                    <mainClass>org.tavall.control.cli.ControlConsoleApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

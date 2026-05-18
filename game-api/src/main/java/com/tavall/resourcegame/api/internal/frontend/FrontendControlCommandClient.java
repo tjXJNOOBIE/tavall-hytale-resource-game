@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.api.internal.frontend;
+package org.tavall.api.minecraft.frontend;
 
-import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResultType;
-import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
-import com.tavall.resourcegame.api.internal.permissions.RankRequest;
-import com.tavall.resourcegame.api.internal.permissions.RankResponse;
-import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
-import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
+import org.tavall.api.minecraft.interaction.InteractionRequest;
+import org.tavall.api.minecraft.interaction.InteractionResult;
+import org.tavall.api.minecraft.interaction.InteractionResultType;
+import org.tavall.api.minecraft.permissions.PunishRequest;
+import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.api.minecraft.permissions.RankRequest;
+import org.tavall.api.minecraft.permissions.RankResponse;
+import org.tavall.api.minecraft.player.PlayerDataRequest;
+import org.tavall.api.minecraft.player.PlayerDataResponse;
 
 import java.util.Map;
 

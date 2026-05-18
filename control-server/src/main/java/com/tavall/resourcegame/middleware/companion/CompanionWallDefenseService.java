@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.companion;
+package org.tavall.control.companion;
 
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
+import org.tavall.control.runtime.ControlCommandValidationException;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,21 +1,21 @@
-package com.tavall.resourcegame.events;
+package org.tavall.control.events;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.events.core.BasicGameEvent;
-import com.tavall.resourcegame.events.core.EventSource;
-import com.tavall.resourcegame.events.core.GameEventResult;
-import com.tavall.resourcegame.events.core.GameEventType;
-import com.tavall.resourcegame.events.dispatch.FrontendInteractionRequest;
-import com.tavall.resourcegame.events.dispatch.GameEventDispatchHandler;
-import com.tavall.resourcegame.events.dispatch.GameEventDispatchRuntime;
-import com.tavall.resourcegame.events.dispatch.GameEventDispatchRuntimeFactory;
-import com.tavall.resourcegame.events.dispatch.GameEventListenerRegistry;
-import com.tavall.resourcegame.events.middleware.EventAuditMiddleware;
-import com.tavall.resourcegame.events.middleware.EventMiddlewareCatalog;
-import com.tavall.resourcegame.events.middleware.EventPermissionMiddleware;
-import com.tavall.resourcegame.events.middleware.EventPermissionPolicy;
-import com.tavall.resourcegame.events.middleware.EventValidationMiddleware;
-import com.tavall.resourcegame.events.middleware.GameEventAuditHandler;
+import org.tavall.control.events.core.BasicGameEvent;
+import org.tavall.control.events.core.EventSource;
+import org.tavall.control.events.core.GameEventResult;
+import org.tavall.control.events.core.GameEventType;
+import org.tavall.control.events.dispatch.FrontendInteractionRequest;
+import org.tavall.control.events.dispatch.GameEventDispatchHandler;
+import org.tavall.control.events.dispatch.GameEventDispatchRuntime;
+import org.tavall.control.events.dispatch.GameEventDispatchRuntimeFactory;
+import org.tavall.control.events.dispatch.GameEventListenerRegistry;
+import org.tavall.control.events.middleware.EventAuditMiddleware;
+import org.tavall.control.events.middleware.EventMiddlewareCatalog;
+import org.tavall.control.events.middleware.EventPermissionMiddleware;
+import org.tavall.control.events.middleware.EventPermissionPolicy;
+import org.tavall.control.events.middleware.EventValidationMiddleware;
+import org.tavall.control.events.middleware.GameEventAuditHandler;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

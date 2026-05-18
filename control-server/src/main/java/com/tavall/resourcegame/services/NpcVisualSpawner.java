@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.core.modules.entity.component.EntityScaleCompon
 import com.hypixel.hytale.server.core.modules.interaction.Interactions;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.protocol.InteractionType;
-import com.tavall.resourcegame.interactions.OpenFarmsteadInteraction;
+import org.tavall.control.interactions.OpenFarmsteadInteraction;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import it.unimi.dsi.fastutil.Pair;

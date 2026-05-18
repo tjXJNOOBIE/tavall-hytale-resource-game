@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.trade;
+package org.tavall.control.trade;
 
 import org.junit.jupiter.api.Test;
 

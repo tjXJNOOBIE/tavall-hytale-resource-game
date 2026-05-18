@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.runtime;
+package org.tavall.minecraft.runtime;
 
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendModuleDescriptor;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendModuleDescriptor;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 
 public interface IMinecraftFrontendModule extends IDependencyInjectableInterface {

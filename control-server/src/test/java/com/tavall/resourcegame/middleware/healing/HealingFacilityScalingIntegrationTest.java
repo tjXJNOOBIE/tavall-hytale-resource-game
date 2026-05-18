@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.middleware.troop.InMemoryTroopRepository;
-import com.tavall.resourcegame.middleware.troop.Troop;
-import com.tavall.resourcegame.middleware.troop.TroopRegistrationHandler;
+import org.tavall.control.common.CanonicalLocation;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.control.troop.InMemoryTroopRepository;
+import org.tavall.control.troop.Troop;
+import org.tavall.control.troop.TroopRegistrationHandler;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

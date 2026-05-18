@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.liveops.gui;
+package org.tavall.control.liveops.gui;
 
 import java.util.List;
 import java.util.Optional;

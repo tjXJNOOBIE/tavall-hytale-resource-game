@@ -1,13 +1,13 @@
-package com.tavall.resourcegame.distribution;
+package org.tavall.control.distribution;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.distribution.health.IRemoteHealthCheckHandler;
-import com.tavall.resourcegame.distribution.node.INodeHeartbeatHandler;
-import com.tavall.resourcegame.distribution.node.INodeRegistryHandler;
-import com.tavall.resourcegame.distribution.remote.IDistributedTestRunnerHandler;
-import com.tavall.resourcegame.distribution.remote.IRemoteCommandHandler;
-import com.tavall.resourcegame.distribution.remote.IRemoteCommandPolicy;
-import com.tavall.resourcegame.distribution.remote.IRemoteEnvironmentProbeHandler;
+import org.tavall.control.distribution.health.IRemoteHealthCheckHandler;
+import org.tavall.control.distribution.node.INodeHeartbeatHandler;
+import org.tavall.control.distribution.node.INodeRegistryHandler;
+import org.tavall.control.distribution.remote.IDistributedTestRunnerHandler;
+import org.tavall.control.distribution.remote.IRemoteCommandHandler;
+import org.tavall.control.distribution.remote.IRemoteCommandPolicy;
+import org.tavall.control.distribution.remote.IRemoteEnvironmentProbeHandler;
 
 import java.time.Clock;
 

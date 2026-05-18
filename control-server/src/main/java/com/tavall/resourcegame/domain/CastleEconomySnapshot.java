@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.resources.ResourceType;
 
 import java.util.EnumMap;
 import java.util.Map;

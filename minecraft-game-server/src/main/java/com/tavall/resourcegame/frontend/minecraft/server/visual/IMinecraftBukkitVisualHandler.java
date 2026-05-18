@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.frontend.minecraft.server.visual;
+package org.tavall.minecraft.server.visual;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftVisualRenderRequest;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
 import org.bukkit.entity.Player;
 
 public interface IMinecraftBukkitVisualHandler extends IDependencyInjectableInterface {

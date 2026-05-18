@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import au.ellie.hyui.builders.PageBuilder;
 import au.ellie.hyui.events.UIContext;

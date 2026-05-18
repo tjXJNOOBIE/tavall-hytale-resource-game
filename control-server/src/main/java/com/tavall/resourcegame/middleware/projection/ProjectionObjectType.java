@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
 public enum ProjectionObjectType {
     GUILD,

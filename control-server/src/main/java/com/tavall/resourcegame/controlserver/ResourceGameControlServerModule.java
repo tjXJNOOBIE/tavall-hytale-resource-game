@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.controlserver;
+package org.tavall.control;
 
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
+import org.tavall.control.runtime.ControlCommandRuntime;
 import com.tjxjnoobie.api.platform.global.console.Log;
 
 public final class ResourceGameControlServerModule implements IControlServerDomain {

@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingVisualService;
-import com.tavall.resourcegame.dependency.interfaces.ICastlePlacementService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleSiteVisualService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleSpawnService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerGameStateService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeVisualService;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
+import org.tavall.control.dependency.interfaces.ICastlePlacementService;
+import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
+import org.tavall.control.dependency.interfaces.ICastleSpawnService;
+import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.PlayerGameState;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;

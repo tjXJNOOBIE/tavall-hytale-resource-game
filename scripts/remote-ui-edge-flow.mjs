@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import { captureWorldSnapshot, createTraceSession, delay, ensureBotBaseline, resolveBotClientModuleUrl, writeJson, printStructured } from "./bot-flow-helpers.mjs";
 
 function readSelectorValue(snapshot, selector) {
@@ -75,7 +75,7 @@ async function openUpgrades(bot, expected = null) {
   bot.chat("/kd ui upgrades");
   return waitForSnapshot(
     bot,
-    (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleUpgradesPage" && matchesExpectedValues(snapshot, expected),
+    (snapshot) => snapshot.key === "org.tavall.control.ui.CastleUpgradesPage" && matchesExpectedValues(snapshot, expected),
     10_000,
     "upgrades page snapshot"
   );
@@ -93,7 +93,7 @@ async function forceUpgradeStateAndOpen(bot, commands, expected, timeoutMs, labe
     const retryUntil = Date.now() + 1_750;
     while (Date.now() < retryUntil) {
       const snapshot = bot.snapshotPage();
-      if (snapshot?.key === "com.tavall.resourcegame.ui.CastleUpgradesPage") {
+      if (snapshot?.key === "org.tavall.control.ui.CastleUpgradesPage") {
         latestSnapshot = snapshot;
         if (matchesExpectedValues(snapshot, expected)) {
           return snapshot;
@@ -113,7 +113,7 @@ async function openCastleInfo(bot) {
     sendAction(bot, "OpenCastleInfo");
     return await waitForSnapshot(
       bot,
-      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleInfoPage" && snapshot.selectors.includes("#CastleId.Text"),
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleInfoPage" && snapshot.selectors.includes("#CastleId.Text"),
       10_000,
       "castle info page"
     );
@@ -121,7 +121,7 @@ async function openCastleInfo(bot) {
     bot.chat("/kingdom ui info");
     return await waitForSnapshot(
       bot,
-      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleInfoPage" && snapshot.selectors.includes("#CastleId.Text"),
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleInfoPage" && snapshot.selectors.includes("#CastleId.Text"),
       15_000,
       "castle info page (fallback)"
     );
@@ -161,7 +161,7 @@ async function main() {
     await delay(5_000);
 
     bot.chat("/kd ui");
-    const debugSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.DebugNavigatorPage", 15_000, "debug page");
+    const debugSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "org.tavall.control.ui.DebugNavigatorPage", 15_000, "debug page");
     pages.push({ key: debugSnapshot.key, title: null, snapshot: debugSnapshot });
     assertions.push("debug-ui-opened");
 
@@ -170,12 +170,12 @@ async function main() {
     assertions.push("castle-info-opened-from-ui");
 
     sendAction(bot, "OpenCastleMain");
-    const castleMainSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleMainPage" && snapshot.selectors.includes("#EnterInteriorButton"), 10_000, "castle main page");
+    const castleMainSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "org.tavall.control.ui.CastleMainPage" && snapshot.selectors.includes("#EnterInteriorButton"), 10_000, "castle main page");
     pages.push({ key: castleMainSnapshot.key, title: null, snapshot: castleMainSnapshot });
     assertions.push("returned-to-castle-main");
 
     sendAction(bot, "OpenResources");
-    const resourcesSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleResourcesPage" && snapshot.selectors.includes("#FoodCount.Text"), 10_000, "resources page");
+    const resourcesSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "org.tavall.control.ui.CastleResourcesPage" && snapshot.selectors.includes("#FoodCount.Text"), 10_000, "resources page");
     pages.push({ key: resourcesSnapshot.key, title: null, snapshot: resourcesSnapshot });
     assertions.push("resources-opened-from-ui");
 
@@ -270,7 +270,7 @@ async function main() {
       5_000,
       "demotion completion"
     );
-    pages.push({ key: "com.tavall.resourcegame.ui.CastleUpgradesPage", title: null, snapshot: upgradesSnapshot });
+    pages.push({ key: "org.tavall.control.ui.CastleUpgradesPage", title: null, snapshot: upgradesSnapshot });
     assertions.push("demote-button-updates-state");
 
     const result = {

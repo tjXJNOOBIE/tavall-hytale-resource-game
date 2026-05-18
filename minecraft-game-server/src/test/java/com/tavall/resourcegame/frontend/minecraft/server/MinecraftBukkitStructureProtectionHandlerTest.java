@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.frontend.minecraft.server.protection.MinecraftBukkitStructureProtectionHandler;
+import org.tavall.minecraft.server.protection.MinecraftBukkitStructureProtectionHandler;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.junit.jupiter.api.Test;

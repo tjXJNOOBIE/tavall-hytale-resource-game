@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.api.internal.frontend.transport;
+package org.tavall.api.minecraft.frontend.transport;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
-import com.tavall.resourcegame.api.internal.permissions.RankResponse;
-import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.interaction.InteractionResult;
+import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.api.minecraft.permissions.RankResponse;
+import org.tavall.api.minecraft.player.PlayerDataResponse;
 
 import java.util.Objects;
 

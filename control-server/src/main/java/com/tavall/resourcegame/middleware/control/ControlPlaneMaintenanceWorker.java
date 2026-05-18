@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.clock.AgingTickResult;
-import com.tavall.resourcegame.middleware.clock.KingdomClockTickResult;
+import org.tavall.control.clock.AgingTickResult;
+import org.tavall.control.clock.KingdomClockTickResult;
 
 import java.time.Instant;
 import java.util.List;

@@ -1,16 +1,16 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.frontend.minecraft.server.protection.IMinecraftBukkitStructureProtectionHandler;
-import com.tavall.resourcegame.frontend.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
-import com.tavall.resourcegame.frontend.minecraft.server.json.IMinecraftBukkitJsonHandler;
-import com.tavall.resourcegame.frontend.minecraft.server.json.IMinecraftBukkitJsonMapper;
-import com.tavall.resourcegame.frontend.minecraft.server.logging.IMinecraftBukkitLogger;
-import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotClientHandler;
-import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotHandler;
-import com.tavall.resourcegame.frontend.minecraft.server.snapshot.IMinecraftBukkitSnapshotSubmitHandler;
-import com.tavall.resourcegame.frontend.minecraft.server.tasks.IMinecraftBukkitTaskScheduler;
-import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitServerView;
-import com.tavall.resourcegame.frontend.minecraft.server.visual.IMinecraftBukkitVisualHandler;
+import org.tavall.minecraft.server.protection.IMinecraftBukkitStructureProtectionHandler;
+import org.tavall.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
+import org.tavall.minecraft.server.json.IMinecraftBukkitJsonHandler;
+import org.tavall.minecraft.server.json.IMinecraftBukkitJsonMapper;
+import org.tavall.minecraft.server.logging.IMinecraftBukkitLogger;
+import org.tavall.minecraft.server.snapshot.IMinecraftBukkitSnapshotClientHandler;
+import org.tavall.minecraft.server.snapshot.IMinecraftBukkitSnapshotHandler;
+import org.tavall.minecraft.server.snapshot.IMinecraftBukkitSnapshotSubmitHandler;
+import org.tavall.minecraft.server.tasks.IMinecraftBukkitTaskScheduler;
+import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
+import org.tavall.minecraft.server.visual.IMinecraftBukkitVisualHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
 public interface IMinecraftBukkitServerDomainGenerated {

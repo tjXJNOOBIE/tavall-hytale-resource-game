@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.troop.Troop;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.troop.Troop;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

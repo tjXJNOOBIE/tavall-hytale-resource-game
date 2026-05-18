@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.common.CanonicalLocation;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.common.MetadataMaps;
 
 import java.util.List;
 import java.util.Map;

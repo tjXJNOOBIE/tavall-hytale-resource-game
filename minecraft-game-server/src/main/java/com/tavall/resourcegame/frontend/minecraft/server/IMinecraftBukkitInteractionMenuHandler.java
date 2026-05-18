@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.interaction.InteractionMenuModel;
+import org.tavall.api.minecraft.interaction.InteractionMenuModel;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 import org.bukkit.event.Listener;
 import org.bukkit.entity.Player;

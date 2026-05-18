@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
+import org.tavall.control.IControlServerDomain;
+import org.tavall.control.runtime.ControlCommandResult;
 
 public final class WebControlPanelCommandHandler implements IWebControlPanelCommandHandler, IControlServerDomain {
     public ControlCommandResult submitCommandLine(String commandLine, boolean dryRun) {

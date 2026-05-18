@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshotResult;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
+import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
+import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshotResult;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
 
 import java.time.Instant;
 import java.util.Comparator;

@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.controlserver.api;
+package org.tavall.control.api;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
+import org.tavall.control.IControlServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.punishment.PunishmentRepository;
-import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
+import org.tavall.control.punishment.PunishmentRepository;
+import org.tavall.api.minecraft.permissions.PunishRequest;
+import org.tavall.api.minecraft.permissions.PunishResponse;
 
 import java.time.Instant;
 

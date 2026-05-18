@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.KingdomClockState;
+import org.tavall.control.domain.KingdomClockState;
 
 public interface IKingdomClockService extends IDependencyInjectableInterface {
     KingdomClockState snapshot();

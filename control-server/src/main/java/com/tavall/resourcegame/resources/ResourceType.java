@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.resources;
+package org.tavall.control.resources;
 
 /**
  * Resource types for the starter economy.

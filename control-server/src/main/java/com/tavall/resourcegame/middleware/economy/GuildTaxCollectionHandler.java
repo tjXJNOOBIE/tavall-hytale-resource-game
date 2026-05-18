@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.middleware.economy;
+package org.tavall.control.economy;
 
-import com.tavall.resourcegame.middleware.guild.GuildId;
-import com.tavall.resourcegame.middleware.guild.GuildJobBuffCalculationHandler;
-import com.tavall.resourcegame.middleware.guild.GuildJobDomain;
-import com.tavall.resourcegame.middleware.guild.GuildMemberProfile;
-import com.tavall.resourcegame.middleware.guild.IGuildDomain;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.middleware.node.MiddlewareResourceType;
+import org.tavall.control.guild.GuildId;
+import org.tavall.control.guild.GuildJobBuffCalculationHandler;
+import org.tavall.control.guild.GuildJobDomain;
+import org.tavall.control.guild.GuildMemberProfile;
+import org.tavall.control.guild.IGuildDomain;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.control.node.MiddlewareResourceType;
 
 import java.time.Instant;
 import java.util.Map;

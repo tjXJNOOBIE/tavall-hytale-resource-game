@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.frontend.minecraft.server.tasks;
+package org.tavall.minecraft.server.tasks;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitServerPlugin;
+import org.tavall.minecraft.server.MinecraftBukkitServerPlugin;
 
 public final class MinecraftBukkitTaskSchedulerHandler implements IMinecraftBukkitTaskScheduler, IDependencyInjectableConcrete {
     @Override

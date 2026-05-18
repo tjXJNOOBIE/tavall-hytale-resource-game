@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.frontend.minecraft.runtime;
+package org.tavall.minecraft.runtime;
 
-import com.tavall.resourcegame.frontend.minecraft.bridge.IMinecraftControlCommandClient;
-import com.tavall.resourcegame.frontend.minecraft.bridge.IMinecraftControlPlaneCommandBridge;
-import com.tavall.resourcegame.frontend.minecraft.bridge.IMinecraftFrontendCommandEnvelopeFactory;
-import com.tavall.resourcegame.frontend.minecraft.bridge.IMinecraftKdCommandEnvelopeBridge;
-import com.tavall.resourcegame.frontend.minecraft.permissions.IMinecraftVelocityCommandPermissionHandler;
-import com.tavall.resourcegame.frontend.minecraft.permissions.IMinecraftVelocityPermissionResolver;
-import com.tavall.resourcegame.frontend.minecraft.routing.IMinecraftKdCommandInputFormatterHandler;
-import com.tavall.resourcegame.frontend.minecraft.routing.IMinecraftVelocityCommandExecutionHandler;
-import com.tavall.resourcegame.frontend.minecraft.switching.IMinecraftVelocityInstanceSwitchGateway;
-import com.tavall.resourcegame.frontend.minecraft.switching.IMinecraftVelocityInstanceSwitchHandler;
+import org.tavall.minecraft.bridge.IMinecraftControlCommandClient;
+import org.tavall.minecraft.bridge.IMinecraftControlPlaneCommandBridge;
+import org.tavall.minecraft.bridge.IMinecraftFrontendCommandEnvelopeFactory;
+import org.tavall.minecraft.bridge.IMinecraftKdCommandEnvelopeBridge;
+import org.tavall.minecraft.permissions.IMinecraftVelocityCommandPermissionHandler;
+import org.tavall.minecraft.permissions.IMinecraftVelocityPermissionResolver;
+import org.tavall.minecraft.routing.IMinecraftKdCommandInputFormatterHandler;
+import org.tavall.minecraft.routing.IMinecraftVelocityCommandExecutionHandler;
+import org.tavall.minecraft.switching.IMinecraftVelocityInstanceSwitchGateway;
+import org.tavall.minecraft.switching.IMinecraftVelocityInstanceSwitchHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 
 public interface IMinecraftFrontendDomainGenerated {

@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.node;
+package org.tavall.control.node;
 
-import com.tavall.resourcegame.middleware.guild.GuildJobBuffCalculationHandler;
-import com.tavall.resourcegame.middleware.guild.GuildJobDomain;
-import com.tavall.resourcegame.middleware.guild.GuildMemberProfile;
+import org.tavall.control.guild.GuildJobBuffCalculationHandler;
+import org.tavall.control.guild.GuildJobDomain;
+import org.tavall.control.guild.GuildMemberProfile;
 
 public final class ResourceProductionTickHandler implements IResourceNodeDomain {
     public ResourceProductionTickHandler() {

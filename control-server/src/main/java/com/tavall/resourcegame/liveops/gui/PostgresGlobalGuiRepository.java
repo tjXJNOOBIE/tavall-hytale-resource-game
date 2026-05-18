@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.liveops.gui;
+package org.tavall.control.liveops.gui;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.liveops.ILiveOpsDomain;
-import com.tavall.resourcegame.liveops.config.LiveConfigValidationException;
+import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.config.LiveConfigValidationException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

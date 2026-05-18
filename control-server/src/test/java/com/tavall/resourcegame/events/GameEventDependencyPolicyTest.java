@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.events;
+package org.tavall.control.events;
 
 import org.junit.jupiter.api.Test;
 

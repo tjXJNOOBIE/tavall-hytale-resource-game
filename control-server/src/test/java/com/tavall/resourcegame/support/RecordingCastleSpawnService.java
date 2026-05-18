@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tavall.resourcegame.dependency.interfaces.ICastleSpawnService;
-import com.tavall.resourcegame.domain.CastleLocationData;
+import org.tavall.control.dependency.interfaces.ICastleSpawnService;
+import org.tavall.control.domain.CastleLocationData;
 
 import java.util.Map;
 import java.util.UUID;

@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.domain.AgingState;
-import com.tavall.resourcegame.domain.CitizenMetaData;
-import com.tavall.resourcegame.domain.PopulationSummary;
-import com.tavall.resourcegame.domain.TroopMetaData;
+import org.tavall.control.domain.AgingState;
+import org.tavall.control.domain.CitizenMetaData;
+import org.tavall.control.domain.PopulationSummary;
+import org.tavall.control.domain.TroopMetaData;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

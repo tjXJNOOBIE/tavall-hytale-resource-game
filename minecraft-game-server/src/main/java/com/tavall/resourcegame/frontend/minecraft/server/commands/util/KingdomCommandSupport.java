@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.frontend.minecraft.server.commands.util;
+package org.tavall.minecraft.server.commands.util;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftVisualRenderRequest;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
-import com.tavall.resourcegame.api.internal.ui.UiPageType;
-import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
+import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.troop;
+package org.tavall.control.troop;
 
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
+import org.tavall.control.common.CanonicalLocation;
 
 public final class TroopMovementHandler implements ITroopDomain {
     public TroopMovementHandler() {

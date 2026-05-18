@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 public final class CitizenValidationException extends RuntimeException {
     public CitizenValidationException(String message) {

@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.domain.FocusedWorldTarget;
+import org.tavall.control.domain.FocusedWorldTarget;
 
 /**
  * Scored target candidate used by focus resolution.

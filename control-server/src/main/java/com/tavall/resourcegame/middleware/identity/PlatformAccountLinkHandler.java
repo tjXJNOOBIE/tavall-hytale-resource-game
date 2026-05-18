@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.identity;
+package org.tavall.control.identity;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.security.ISecurityDomain;
-import com.tavall.resourcegame.middleware.security.TokenHasher;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.security.ISecurityDomain;
+import org.tavall.control.security.TokenHasher;
 
 import java.security.SecureRandom;
 import java.time.Duration;

@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.middleware.companion;
+package org.tavall.control.companion;
 
-import com.tavall.resourcegame.middleware.control.CommandExecutionState;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
-import com.tavall.resourcegame.persistence.PostgresCompanionRepository;
-import com.tavall.resourcegame.persistence.PostgresConnectionProvider;
+import org.tavall.control.runtime.CommandExecutionState;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.ControlCommandValidationException;
+import org.tavall.control.persistence.PostgresCompanionRepository;
+import org.tavall.control.persistence.PostgresConnectionProvider;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;

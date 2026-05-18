@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlPermission;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlPermission;
 
 import java.util.UUID;
 

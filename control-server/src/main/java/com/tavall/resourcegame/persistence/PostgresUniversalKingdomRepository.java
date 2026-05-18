@@ -1,20 +1,20 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.CoordinateConversionParameters;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.EditableParameterDefinition;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.EditableParameterValue;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.InstanceSwitchRequest;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.KingdomBorderDefinition;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.KingdomId;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.KingdomInstanceRoutingProfile;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.KingdomStorageNamespace;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.PlatformInstance;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.PlayerKingdomLocation;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.PlayerKingdomTransition;
-import com.tavall.resourcegame.middleware.kingdom.UniversalKingdomSimulationSystem.UniversalKingdom;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.runtime.ControlCommandValidationException;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.CoordinateConversionParameters;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.EditableParameterDefinition;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.EditableParameterValue;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.InstanceSwitchRequest;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.KingdomBorderDefinition;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.KingdomId;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.KingdomInstanceRoutingProfile;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.KingdomStorageNamespace;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.PlatformInstance;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.PlayerKingdomLocation;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.PlayerKingdomTransition;
+import org.tavall.control.kingdom.UniversalKingdomSimulationSystem.UniversalKingdom;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

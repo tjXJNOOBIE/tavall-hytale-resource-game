@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.controlserver.api;
+package org.tavall.control.api;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
+import org.tavall.control.IControlServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.middleware.identity.PlatformAccountBinding;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerAccount;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
-import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
-import com.tavall.resourcegame.api.internal.player.PlayerPlatformBindingView;
+import org.tavall.control.runtime.ControlCommandRuntime;
+import org.tavall.control.identity.PlatformAccountBinding;
+import org.tavall.control.identity.UniversalPlayerAccount;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.api.minecraft.player.PlayerDataRequest;
+import org.tavall.api.minecraft.player.PlayerDataResponse;
+import org.tavall.api.minecraft.player.PlayerPlatformBindingView;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;

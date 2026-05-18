@@ -1,16 +1,16 @@
-package com.tavall.resourcegame.cache;
+package org.tavall.control.cache;
 
-import com.tavall.resourcegame.domain.AgingState;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.domain.CitizenMetaData;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PopulationSummary;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.domain.TroopMetaData;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.player.cache.PlayerGameStateCache;
-import com.tavall.resourcegame.services.JsonMapperProvider;
+import org.tavall.control.domain.AgingState;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.domain.CitizenMetaData;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PopulationSummary;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.domain.TroopMetaData;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.player.cache.PlayerGameStateCache;
+import org.tavall.control.services.JsonMapperProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

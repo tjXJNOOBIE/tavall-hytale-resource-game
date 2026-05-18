@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.PlayerGameState;
 
 import java.time.Instant;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.petition;
+package org.tavall.control.petition;
 
 public final class GuildPetitionFundingHandler implements IPetitionDomain {
     public GuildPetitionFundingHandler() {

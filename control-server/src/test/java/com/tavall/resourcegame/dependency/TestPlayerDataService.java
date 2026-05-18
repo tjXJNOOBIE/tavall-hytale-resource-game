@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.dependency;
+package org.tavall.control.dependency;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerDataService;
-import com.tavall.resourcegame.services.PlayerSession;
+import org.tavall.control.dependency.interfaces.IPlayerDataService;
+import org.tavall.control.services.PlayerSession;
 
 import java.util.concurrent.CompletableFuture;
 

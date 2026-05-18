@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.runtime;
+package org.tavall.minecraft.runtime;
 
 import java.util.UUID;
 

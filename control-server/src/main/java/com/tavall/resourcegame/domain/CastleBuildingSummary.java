@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
-import com.tavall.resourcegame.population.PromotionCost;
+import org.tavall.control.population.PromotionCost;
 
 /**
  * Read model for UI, command, and visual refresh around a specific building instance.

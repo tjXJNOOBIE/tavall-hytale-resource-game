@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.permissions;
+package org.tavall.api.minecraft.permissions;
 
 import java.util.Objects;
 

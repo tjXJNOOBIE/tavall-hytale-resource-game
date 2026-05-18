@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;

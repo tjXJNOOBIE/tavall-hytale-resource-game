@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.economy;
+package org.tavall.control.economy;
 
-import com.tavall.resourcegame.middleware.common.HighRiskAction;
-import com.tavall.resourcegame.middleware.guild.GuildId;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.middleware.security.HighRiskActionChallengeHandler;
+import org.tavall.control.common.HighRiskAction;
+import org.tavall.control.guild.GuildId;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.control.security.HighRiskActionChallengeHandler;
 
 import java.util.Map;
 

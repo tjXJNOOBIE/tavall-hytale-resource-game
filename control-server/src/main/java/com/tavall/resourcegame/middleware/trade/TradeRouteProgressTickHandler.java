@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.trade;
+package org.tavall.control.trade;
 
-import com.tavall.resourcegame.middleware.guild.GuildJobBuffCalculationHandler;
-import com.tavall.resourcegame.middleware.guild.GuildJobDomain;
-import com.tavall.resourcegame.middleware.guild.GuildMemberProfile;
-import com.tavall.resourcegame.middleware.guild.IGuildDomain;
+import org.tavall.control.guild.GuildJobBuffCalculationHandler;
+import org.tavall.control.guild.GuildJobDomain;
+import org.tavall.control.guild.GuildMemberProfile;
+import org.tavall.control.guild.IGuildDomain;
 
 public final class TradeRouteProgressTickHandler implements ITradeDomain, IGuildDomain {
     public TradeRouteProgressTickHandler() {

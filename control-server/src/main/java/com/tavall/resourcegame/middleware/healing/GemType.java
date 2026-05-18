@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
+import org.tavall.control.asset.GlobalAssetId;
 
 public enum GemType {
     PEARL(GemDomain.PROTECTION, "resource.gem.pearl"),

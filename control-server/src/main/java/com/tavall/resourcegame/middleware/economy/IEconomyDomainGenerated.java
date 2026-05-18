@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.economy;
+package org.tavall.control.economy;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.security.HighRiskActionChallengeHandler;
-import com.tavall.resourcegame.middleware.security.InMemoryTwoFactorRepository;
+import org.tavall.control.security.HighRiskActionChallengeHandler;
+import org.tavall.control.security.InMemoryTwoFactorRepository;
 
 public interface IEconomyDomainGenerated {
     default EconomyRepository getEconomyRepository() {

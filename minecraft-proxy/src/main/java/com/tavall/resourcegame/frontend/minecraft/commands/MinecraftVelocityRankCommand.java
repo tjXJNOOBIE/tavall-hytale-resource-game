@@ -1,13 +1,13 @@
-package com.tavall.resourcegame.frontend.minecraft.commands;
+package org.tavall.minecraft.commands;
 
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
-import com.tavall.resourcegame.api.internal.permissions.RankRequest;
-import com.tavall.resourcegame.api.internal.permissions.RankResponse;
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionRole;
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject;
-import com.tavall.resourcegame.frontend.minecraft.commands.util.MinecraftVelocityProxyCommandSupport;
-import com.tavall.resourcegame.frontend.minecraft.routing.MinecraftVelocityCommandResult;
-import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.permissions.RankRequest;
+import org.tavall.api.minecraft.permissions.RankResponse;
+import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
+import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
+import org.tavall.minecraft.commands.util.MinecraftVelocityProxyCommandSupport;
+import org.tavall.minecraft.routing.MinecraftVelocityCommandResult;
+import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;

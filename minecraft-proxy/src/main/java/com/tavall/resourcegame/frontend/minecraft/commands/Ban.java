@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.frontend.minecraft.commands;
+package org.tavall.minecraft.commands;
 
-import com.tavall.resourcegame.api.internal.permissions.PunishRecord;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
-import com.tavall.resourcegame.frontend.minecraft.commands.util.MinecraftVelocityPunishmentCommandSupport;
-import com.tavall.resourcegame.frontend.minecraft.routing.MinecraftVelocityCommandResult;
-import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
+import org.tavall.api.minecraft.permissions.PunishRecord;
+import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.minecraft.commands.util.MinecraftVelocityPunishmentCommandSupport;
+import org.tavall.minecraft.routing.MinecraftVelocityCommandResult;
+import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;

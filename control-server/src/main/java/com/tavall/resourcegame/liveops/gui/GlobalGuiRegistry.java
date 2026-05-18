@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.liveops.gui;
+package org.tavall.control.liveops.gui;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.tavall.resourcegame.liveops.ILiveOpsDomain;
-import com.tavall.resourcegame.liveops.config.LiveConfigValidationException;
+import org.tavall.control.liveops.ILiveOpsDomain;
+import org.tavall.control.liveops.config.LiveConfigValidationException;
 
 import java.util.Collection;
 import java.util.Comparator;

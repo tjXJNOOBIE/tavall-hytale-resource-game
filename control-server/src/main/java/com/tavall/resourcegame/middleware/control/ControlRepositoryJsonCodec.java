@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
+import org.tavall.control.common.GamePlatform;
 
 import java.io.IOException;
 import java.util.ArrayList;

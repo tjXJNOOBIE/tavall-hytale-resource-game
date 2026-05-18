@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.event.RecordingDomainEventPublisher;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.event.RecordingDomainEventPublisher;
+import org.tavall.control.identity.UniversalPlayerId;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.economy;
+package org.tavall.control.economy;
 
-import com.tavall.resourcegame.middleware.guild.GuildId;
-import com.tavall.resourcegame.middleware.node.MiddlewareResourceType;
+import org.tavall.control.guild.GuildId;
+import org.tavall.control.node.MiddlewareResourceType;
 
 import java.util.EnumMap;
 import java.util.Map;

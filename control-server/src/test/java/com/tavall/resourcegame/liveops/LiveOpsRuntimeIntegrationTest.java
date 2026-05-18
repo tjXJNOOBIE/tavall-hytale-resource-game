@@ -1,15 +1,15 @@
-package com.tavall.resourcegame.liveops;
+package org.tavall.control.liveops;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.events.core.GameEventType;
-import com.tavall.resourcegame.events.dispatch.GameEventDispatchRuntime;
-import com.tavall.resourcegame.events.dispatch.GameEventDispatchRuntimeFactory;
-import com.tavall.resourcegame.liveops.config.GameSystemToggle;
-import com.tavall.resourcegame.liveops.config.LiveConfigChangeRequest;
-import com.tavall.resourcegame.liveops.config.LiveConfigDisabledException;
-import com.tavall.resourcegame.liveops.config.LiveConfigRolloutStrategy;
-import com.tavall.resourcegame.liveops.config.LiveConfigType;
-import com.tavall.resourcegame.liveops.gui.GlobalGuiChangeRequest;
+import org.tavall.control.events.core.GameEventType;
+import org.tavall.control.events.dispatch.GameEventDispatchRuntime;
+import org.tavall.control.events.dispatch.GameEventDispatchRuntimeFactory;
+import org.tavall.control.liveops.config.GameSystemToggle;
+import org.tavall.control.liveops.config.LiveConfigChangeRequest;
+import org.tavall.control.liveops.config.LiveConfigDisabledException;
+import org.tavall.control.liveops.config.LiveConfigRolloutStrategy;
+import org.tavall.control.liveops.config.LiveConfigType;
+import org.tavall.control.liveops.gui.GlobalGuiChangeRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.domain.CastleEconomySnapshot;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.domain.CastleEconomySnapshot;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.resources.ResourceType;
 
 import java.util.Comparator;
 import java.util.EnumMap;

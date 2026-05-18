@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.frontend;
+package org.tavall.api.minecraft.frontend;
 
 import java.util.List;
 import java.util.Optional;

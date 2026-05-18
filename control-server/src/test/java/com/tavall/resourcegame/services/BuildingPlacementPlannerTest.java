@@ -1,16 +1,16 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PlayerProfile;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.support.InMemoryPlayerGameStateStore;
-import com.tavall.resourcegame.support.StubInteriorInstanceService;
+import org.tavall.control.cache.JacksonCacheCodec;
+import org.tavall.control.cache.SemanticCacheFactory;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerProfile;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.support.InMemoryPlayerGameStateStore;
+import org.tavall.control.support.StubInteriorInstanceService;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public final class BuildingPlacementPlannerTest {
     @Test
     void returnsDeterministicSurfaceAndInteriorAnchorsWhenBuildingsDoNotExist() {
-        com.tavall.resourcegame.interior.InteriorLayoutService layoutService = new com.tavall.resourcegame.interior.InteriorLayoutService();
+        org.tavall.control.interior.InteriorLayoutService layoutService = new org.tavall.control.interior.InteriorLayoutService();
         PlayerSessionStore sessionStore = new PlayerSessionStore();
         PlayerGameStateService gameStateService = gameStateService("building-placement-planner-state-a");
         StubInteriorInstanceService interiorInstanceService = new StubInteriorInstanceService();
@@ -53,7 +53,7 @@ public final class BuildingPlacementPlannerTest {
 
     @Test
     void returnsExistingBuildingLocationWhenBuildingAlreadyPlaced() {
-        com.tavall.resourcegame.interior.InteriorLayoutService layoutService = new com.tavall.resourcegame.interior.InteriorLayoutService();
+        org.tavall.control.interior.InteriorLayoutService layoutService = new org.tavall.control.interior.InteriorLayoutService();
         PlayerSessionStore sessionStore = new PlayerSessionStore();
         PlayerGameStateService gameStateService = gameStateService("building-placement-planner-state-b");
         StubInteriorInstanceService interiorInstanceService = new StubInteriorInstanceService();

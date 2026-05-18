@@ -1,17 +1,17 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.controlserver.ControlServerDependencyModule;
+import org.tavall.control.ControlServerDependencyModule;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.cloud.CloudAgentHeartbeatPayload;
-import com.tavall.resourcegame.middleware.cloud.CloudCommand;
-import com.tavall.resourcegame.middleware.cloud.CloudCommandResult;
-import com.tavall.resourcegame.middleware.cloud.CloudCommandStatus;
-import com.tavall.resourcegame.middleware.cloud.CloudCommandType;
-import com.tavall.resourcegame.middleware.cloud.CloudNode;
-import com.tavall.resourcegame.middleware.cloud.CloudNodeCapability;
-import com.tavall.resourcegame.middleware.cloud.CloudNodeStatus;
-import com.tavall.resourcegame.middleware.cloud.CloudRepository;
-import com.tavall.resourcegame.middleware.cloud.NodeArchitecture;
+import org.tavall.control.cloud.CloudAgentHeartbeatPayload;
+import org.tavall.control.cloud.CloudCommand;
+import org.tavall.control.cloud.CloudCommandResult;
+import org.tavall.control.cloud.CloudCommandStatus;
+import org.tavall.control.cloud.CloudCommandType;
+import org.tavall.control.cloud.CloudNode;
+import org.tavall.control.cloud.CloudNodeCapability;
+import org.tavall.control.cloud.CloudNodeStatus;
+import org.tavall.control.cloud.CloudRepository;
+import org.tavall.control.cloud.NodeArchitecture;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.companion;
+package org.tavall.control.companion;
 
 public final class CompanionStatsService {
     public CompanionStats calculateCompanionStats(CompanionData companionData) {

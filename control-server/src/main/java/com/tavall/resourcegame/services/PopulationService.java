@@ -1,21 +1,21 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleSiteVisualService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerGameStateService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IPopulationService;
-import com.tavall.resourcegame.dependency.interfaces.IResourceService;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeService;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeVisualService;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.domain.AgingState;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PopulationSummary;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.population.PromotionCost;
-import com.tavall.resourcegame.ui.UpgradeActionState;
+import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
+import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IPopulationService;
+import org.tavall.control.dependency.interfaces.IResourceService;
+import org.tavall.control.dependency.interfaces.IResourceNodeService;
+import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.domain.AgingState;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PopulationSummary;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.population.PromotionCost;
+import org.tavall.control.ui.UpgradeActionState;
 
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 

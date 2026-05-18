@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandSurface;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationState;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandSurface;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.clock;
+package org.tavall.control.clock;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.event.DomainEventPublisher;
-import com.tavall.resourcegame.middleware.event.RecordingDomainEventPublisher;
+import org.tavall.control.event.DomainEventPublisher;
+import org.tavall.control.event.RecordingDomainEventPublisher;
 
 import java.time.Clock;
 

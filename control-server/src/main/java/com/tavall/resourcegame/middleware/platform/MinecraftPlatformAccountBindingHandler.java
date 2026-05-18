@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.middleware.platform;
+package org.tavall.control.platform;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.identity.PlatformAccountBinding;
-import com.tavall.resourcegame.middleware.identity.PlatformAccountLinkHandler;
-import com.tavall.resourcegame.middleware.identity.PlatformLinkChallengeCreated;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.identity.PlatformAccountBinding;
+import org.tavall.control.identity.PlatformAccountLinkHandler;
+import org.tavall.control.identity.PlatformLinkChallengeCreated;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.time.Duration;
 import java.time.Instant;

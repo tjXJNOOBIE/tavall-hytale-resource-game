@@ -1,5 +1,5 @@
 name: TavallResourceGameServer
-main: com.tavall.resourcegame.frontend.minecraft.server.MinecraftBukkitServerPlugin
+main: org.tavall.minecraft.server.MinecraftBukkitServerPlugin
 version: 0.1.0-SNAPSHOT
 description: Bukkit server-surface adapter for Tavall Resource Game.
 author: Tavall

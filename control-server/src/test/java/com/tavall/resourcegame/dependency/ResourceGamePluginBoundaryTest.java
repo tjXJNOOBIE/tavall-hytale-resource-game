@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.dependency;
+package org.tavall.control.dependency;
 
 import org.junit.jupiter.api.Test;
 

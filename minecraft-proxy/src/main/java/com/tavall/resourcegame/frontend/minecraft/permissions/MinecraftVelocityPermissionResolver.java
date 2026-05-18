@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.frontend.minecraft.permissions;
+package org.tavall.minecraft.permissions;
 
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionRole;
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject;
-import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
-import com.tavall.resourcegame.frontend.minecraft.runtime.IMinecraftFrontendDomain;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
+import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
+import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
+import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
+import org.tavall.minecraft.runtime.IMinecraftFrontendDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Set;

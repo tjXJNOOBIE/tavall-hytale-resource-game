@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.cache;
+package org.tavall.control.cache;
 
-import com.tavall.resourcegame.config.CacheConfig;
+import org.tavall.control.config.CacheConfig;
 import org.tavall.abstractcache.semantic.SemanticCache;
 import org.tavall.abstractcache.semantic.SemanticCacheBuilder;
 import org.tavall.abstractcache.semantic.model.CacheTier;

@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.events.middleware;
+package org.tavall.control.events.middleware;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.events.core.GameEventContext;
-import com.tavall.resourcegame.events.core.GameEventResult;
+import org.tavall.control.events.core.GameEventContext;
+import org.tavall.control.events.core.GameEventResult;
 
 import java.util.logging.Logger;
 

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.domain;
+package org.tavall.control.domain;
 
 /**
  * Point-in-time persistence and cache metrics for operator/debug surfaces.

@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.frontend.minecraft.runtime;
+package org.tavall.minecraft.runtime;
 
 import com.google.inject.Inject;
-import com.tavall.resourcegame.frontend.minecraft.runtime.bootstrap.MinecraftVelocityBootstrap;
-import com.tavall.resourcegame.frontend.minecraft.switching.ProxyServerSwitchGateway;
+import org.tavall.minecraft.runtime.bootstrap.MinecraftVelocityBootstrap;
+import org.tavall.minecraft.switching.ProxyServerSwitchGateway;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;

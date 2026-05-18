@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.castle;
+package org.tavall.control.castle;
 
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 public final class CastleOwnershipValidationHandler implements ICastleDomain {
     public void requireOwner(Castle castle, UniversalPlayerId actorPlayerId) {

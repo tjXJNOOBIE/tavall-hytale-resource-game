@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.frontend.minecraft.server.snapshot;
+package org.tavall.minecraft.server.snapshot;
 
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftPlayerRuntimeSnapshot;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
-import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitServerDomain;
-import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitPlayerView;
-import com.tavall.resourcegame.frontend.minecraft.server.view.MinecraftBukkitServerView;
+import org.tavall.api.minecraft.MinecraftPlayerRuntimeSnapshot;
+import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
+import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.minecraft.server.view.MinecraftBukkitPlayerView;
+import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.ArrayList;

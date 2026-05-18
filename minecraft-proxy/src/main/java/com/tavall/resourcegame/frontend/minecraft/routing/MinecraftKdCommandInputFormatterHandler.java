@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.routing;
+package org.tavall.minecraft.routing;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendKdCommandInputFormatter;
+import org.tavall.api.minecraft.frontend.FrontendKdCommandInputFormatter;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.List;

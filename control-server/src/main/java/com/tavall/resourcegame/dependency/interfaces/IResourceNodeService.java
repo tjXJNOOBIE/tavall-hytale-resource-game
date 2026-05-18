@@ -1,13 +1,13 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.domain.CastleEconomySnapshot;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.domain.ResourceNodePillageResult;
-import com.tavall.resourcegame.domain.ResourceNodeSummary;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.domain.CastleEconomySnapshot;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.domain.ResourceNodePillageResult;
+import org.tavall.control.domain.ResourceNodeSummary;
+import org.tavall.control.resources.ResourceType;
 
 import java.time.Instant;
 import java.util.List;

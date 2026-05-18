@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.player;
+package org.tavall.api.minecraft.player;
 
 import java.util.Map;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.commands.source;
+package org.tavall.minecraft.commands.source;
 
 import com.velocitypowered.api.command.CommandSource;
 

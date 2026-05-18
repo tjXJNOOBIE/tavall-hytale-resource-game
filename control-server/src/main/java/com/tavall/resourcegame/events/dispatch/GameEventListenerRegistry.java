@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.events.dispatch;
+package org.tavall.control.events.dispatch;
 
-import com.tavall.resourcegame.events.core.GameEventType;
+import org.tavall.control.events.core.GameEventType;
 
 import java.util.ArrayList;
 import java.util.EnumMap;

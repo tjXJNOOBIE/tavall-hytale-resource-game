@@ -1,23 +1,23 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PlayerProfile;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.resources.ResourceType;
-import com.tavall.resourcegame.support.InMemoryPlayerGameStateStore;
-import com.tavall.resourcegame.support.NoopCastleBuildingService;
-import com.tavall.resourcegame.support.RecordingCastleBuildingVisualService;
-import com.tavall.resourcegame.support.RecordingCastleSiteVisualService;
-import com.tavall.resourcegame.support.RecordingResourceNodeVisualService;
-import com.tavall.resourcegame.support.RecordingUiNavigator;
-import com.tavall.resourcegame.support.StubInteriorInstanceService;
-import com.tavall.resourcegame.support.TestAwait;
+import org.tavall.control.cache.JacksonCacheCodec;
+import org.tavall.control.cache.SemanticCacheFactory;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerProfile;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.resources.ResourceType;
+import org.tavall.control.support.InMemoryPlayerGameStateStore;
+import org.tavall.control.support.NoopCastleBuildingService;
+import org.tavall.control.support.RecordingCastleBuildingVisualService;
+import org.tavall.control.support.RecordingCastleSiteVisualService;
+import org.tavall.control.support.RecordingResourceNodeVisualService;
+import org.tavall.control.support.RecordingUiNavigator;
+import org.tavall.control.support.StubInteriorInstanceService;
+import org.tavall.control.support.TestAwait;
 import com.hypixel.hytale.math.vector.Vector3d;
 import org.junit.jupiter.api.Test;
 
@@ -122,7 +122,7 @@ public final class CastleEconomySimulationServiceTest {
                 sessionStore,
                 gameStateService,
                 new StubInteriorInstanceService(),
-                new com.tavall.resourcegame.interior.InteriorLayoutService(),
+                new org.tavall.control.interior.InteriorLayoutService(),
                 mapperProvider.mapper()
         );
         ResourceNodeService resourceNodeService = new ResourceNodeService(sessionStore, gameStateService, mapperProvider.mapper(), new CastleEconomyPlanner());
@@ -157,7 +157,7 @@ public final class CastleEconomySimulationServiceTest {
                 playerId,
                 BuildingType.FARMSTEAD,
                 new StubInteriorInstanceService().worldNameFor(playerId),
-                new com.tavall.resourcegame.interior.InteriorLayoutService()
+                new org.tavall.control.interior.InteriorLayoutService()
                         .createLayoutForCastle(seededState.castleLocation())
                         .buildingAnchor(BuildingType.FARMSTEAD),
                 start

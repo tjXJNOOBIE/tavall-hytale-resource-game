@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
+import org.tavall.control.common.GamePlatform;
 
 import java.util.List;
 

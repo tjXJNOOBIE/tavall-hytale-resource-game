@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -7,18 +7,18 @@ import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tavall.resourcegame.config.CastleAssetConfig;
+import org.tavall.control.config.CastleAssetConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleSiteVisualService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.world.CastleSiteLayout;
-import com.tavall.resourcegame.world.CastleSiteLayoutService;
-import com.tavall.resourcegame.world.CastleSiteStructureService;
-import com.tavall.resourcegame.world.CastleSiteVisualRefs;
-import com.tavall.resourcegame.world.ProtectedStructureType;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.world.CastleSiteLayout;
+import org.tavall.control.world.CastleSiteLayoutService;
+import org.tavall.control.world.CastleSiteStructureService;
+import org.tavall.control.world.CastleSiteVisualRefs;
+import org.tavall.control.world.ProtectedStructureType;
+import org.tavall.control.tasks.WorldTasks;
 
 import java.util.Map;
 import java.util.UUID;

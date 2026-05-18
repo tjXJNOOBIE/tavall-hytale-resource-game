@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.guild;
+package org.tavall.control.guild;
 
 public final class GuildActionValidationHandler implements IGuildDomain {
     public GuildActionValidationHandler() {

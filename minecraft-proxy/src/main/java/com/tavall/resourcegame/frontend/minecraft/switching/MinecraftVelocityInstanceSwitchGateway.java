@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.switching;
+package org.tavall.minecraft.switching;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 

@@ -67,7 +67,7 @@ Latest verified runtime:
 | `minecraft-ffa` | Port `25566` open |
 | `minecraft-switch` | Port `25567` open |
 | `minecraft-kingdom` | Port `25568` open |
-| `cloud-agent` | Optional session exists when the remote control runtime can launch `com.tavall.resourcegame.middleware.cloud.CloudAgentApplication` from the consolidated `control-server` jar |
+| `cloud-agent` | Optional session exists when the remote control runtime can launch `org.tavall.control.cloud.CloudAgentApplication` from the consolidated `control-server` jar |
 | Minecraft command flow | `/server kingdom`, `/tavallserver snapshot`, `/tavallserver visual title ...`, `/tavallserver interact ...`, `/kd clock state kingdom-1`, and `/kingdom citizens summary kingdom-1` completed |
 | Hytale ingress flow | `HYTALE` `/kd clock state kingdom-1` envelope completed through `minecraft-control` |
 | Updated Hytale plugin | Rebuilt `tavall-hytale-resource-game.jar` deployed to `/srv/hytale/HytaleDevServer/Server/mods` and verified after tmux restart |

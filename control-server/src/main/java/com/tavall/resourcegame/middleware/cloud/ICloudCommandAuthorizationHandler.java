@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.middleware.authority.AuthorizationResult;
+import org.tavall.control.authority.AuthorizationResult;
 
 import java.time.Instant;
 import java.util.UUID;

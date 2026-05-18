@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.player.cache;
+package org.tavall.control.player.cache;
 
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.cache.JacksonCacheCodec;
+import org.tavall.control.cache.SemanticCacheFactory;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.domain.PlayerGameState;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.abstractcache.cache.enums.CacheDomain;
 import org.tavall.abstractcache.cache.enums.CacheSource;

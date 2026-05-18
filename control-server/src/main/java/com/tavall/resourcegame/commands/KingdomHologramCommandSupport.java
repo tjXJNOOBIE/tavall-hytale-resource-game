@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.commands;
+package org.tavall.control.commands;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -10,8 +10,8 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.tasks.WorldTasks;
 
 import java.util.ArrayList;
 import java.util.List;

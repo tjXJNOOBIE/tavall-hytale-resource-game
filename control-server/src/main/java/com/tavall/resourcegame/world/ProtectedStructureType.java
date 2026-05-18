@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.world;
+package org.tavall.control.world;
 
 /**
  * Identifies the gameplay structure category that owns a protected block.

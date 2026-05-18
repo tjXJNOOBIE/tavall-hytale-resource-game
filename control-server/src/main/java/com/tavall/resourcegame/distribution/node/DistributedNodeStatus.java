@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.distribution.node;
+package org.tavall.control.distribution.node;
 
 public enum DistributedNodeStatus {
     STARTING,

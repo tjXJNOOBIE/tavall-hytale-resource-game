@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server.logging;
+package org.tavall.minecraft.server.logging;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 

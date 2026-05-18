@@ -1,21 +1,21 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.domain.BuildingMutationResult;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.DebugModeState;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PlayerProfile;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.population.PromotionCost;
-import com.tavall.resourcegame.support.InMemoryPlayerGameStateStore;
-import com.tavall.resourcegame.support.StubInteriorInstanceService;
-import com.tavall.resourcegame.support.TestAwait;
+import org.tavall.control.cache.JacksonCacheCodec;
+import org.tavall.control.cache.SemanticCacheFactory;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.domain.BuildingMutationResult;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.DebugModeState;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerProfile;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.population.PromotionCost;
+import org.tavall.control.support.InMemoryPlayerGameStateStore;
+import org.tavall.control.support.StubInteriorInstanceService;
+import org.tavall.control.support.TestAwait;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -43,7 +43,7 @@ public final class CastleBuildingServiceTest {
                 sessionStore,
                 gameStateService,
                 new StubInteriorInstanceService(),
-                new com.tavall.resourcegame.interior.InteriorLayoutService(),
+                new org.tavall.control.interior.InteriorLayoutService(),
                 mapperProvider.mapper()
         );
 
@@ -63,7 +63,7 @@ public final class CastleBuildingServiceTest {
         ));
 
         String interiorWorld = new StubInteriorInstanceService().worldNameFor(playerId);
-        Vector3d buildPosition = new com.tavall.resourcegame.interior.InteriorLayoutService()
+        Vector3d buildPosition = new org.tavall.control.interior.InteriorLayoutService()
                 .createLayoutForCastle(initialState.castleLocation())
                 .buildingAnchor(BuildingType.FARMSTEAD);
         BuildingMutationResult placement = buildingService.placeBuilding(playerId, BuildingType.FARMSTEAD, interiorWorld, buildPosition, start);
@@ -104,7 +104,7 @@ public final class CastleBuildingServiceTest {
     @Test
     void workshopAndBarracksAffectFutureBuildSpeedAndPromotionCost() {
         JsonMapperProvider mapperProvider = new JsonMapperProvider();
-        com.tavall.resourcegame.interior.InteriorLayoutService layoutService = new com.tavall.resourcegame.interior.InteriorLayoutService();
+        org.tavall.control.interior.InteriorLayoutService layoutService = new org.tavall.control.interior.InteriorLayoutService();
         InMemoryPlayerGameStateStore gameStateStore = new InMemoryPlayerGameStateStore();
         PlayerGameStateService gameStateService = new PlayerGameStateService(
                 gameStateStore,
@@ -195,7 +195,7 @@ public final class CastleBuildingServiceTest {
                 sessionStore,
                 gameStateService,
                 new StubInteriorInstanceService(),
-                new com.tavall.resourcegame.interior.InteriorLayoutService(),
+                new org.tavall.control.interior.InteriorLayoutService(),
                 mapperProvider.mapper()
         );
 
@@ -239,7 +239,7 @@ public final class CastleBuildingServiceTest {
         );
         PlayerSessionStore sessionStore = new PlayerSessionStore();
         StubInteriorInstanceService interiorInstanceService = new StubInteriorInstanceService();
-        com.tavall.resourcegame.interior.InteriorLayoutService layoutService = new com.tavall.resourcegame.interior.InteriorLayoutService();
+        org.tavall.control.interior.InteriorLayoutService layoutService = new org.tavall.control.interior.InteriorLayoutService();
         CastleBuildingService buildingService = new CastleBuildingService(
                 sessionStore,
                 gameStateService,
@@ -304,7 +304,7 @@ public final class CastleBuildingServiceTest {
                 sessionStore,
                 gameStateService,
                 interiorInstanceService,
-                new com.tavall.resourcegame.interior.InteriorLayoutService(),
+                new org.tavall.control.interior.InteriorLayoutService(),
                 mapperProvider.mapper()
         );
 
@@ -329,7 +329,7 @@ public final class CastleBuildingServiceTest {
                 playerId,
                 BuildingType.FARMSTEAD,
                 interiorInstanceService.worldNameFor(playerId),
-                new com.tavall.resourcegame.interior.InteriorLayoutService()
+                new org.tavall.control.interior.InteriorLayoutService()
                         .createLayoutForCastle(indexed.castleLocation(), gameStateService.interiorInstanceIndex(indexed))
                         .buildingAnchor(BuildingType.FARMSTEAD),
                 now.plusSeconds(2)

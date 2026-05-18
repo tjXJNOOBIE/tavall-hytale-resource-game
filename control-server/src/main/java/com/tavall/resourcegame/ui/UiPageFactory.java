@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
 
 /**
  * Factory for UI pages.

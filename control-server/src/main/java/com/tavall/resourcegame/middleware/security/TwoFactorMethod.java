@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.security;
+package org.tavall.control.security;
 
 public enum TwoFactorMethod {
     TOTP

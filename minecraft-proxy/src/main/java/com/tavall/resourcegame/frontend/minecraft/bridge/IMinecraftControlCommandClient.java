@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.bridge;
+package org.tavall.minecraft.bridge;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendControlCommandClient;
+import org.tavall.api.minecraft.frontend.FrontendControlCommandClient;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 
 public interface IMinecraftControlCommandClient extends FrontendControlCommandClient, IDependencyInjectableInterface {

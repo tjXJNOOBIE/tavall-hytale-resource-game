@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.controlserver.web;
+package org.tavall.control.web;
 
-import com.tavall.resourcegame.middleware.cloud.CloudAgentHeartbeatPayload;
-import com.tavall.resourcegame.middleware.cloud.CloudCommand;
-import com.tavall.resourcegame.middleware.cloud.CloudCommandResult;
-import com.tavall.resourcegame.middleware.cloud.ICloudControlDomain;
+import org.tavall.control.cloud.CloudAgentHeartbeatPayload;
+import org.tavall.control.cloud.CloudCommand;
+import org.tavall.control.cloud.CloudCommandResult;
+import org.tavall.control.cloud.ICloudControlDomain;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

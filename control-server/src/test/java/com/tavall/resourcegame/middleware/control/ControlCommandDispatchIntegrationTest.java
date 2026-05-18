@@ -1,17 +1,17 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.healing.GemType;
-import com.tavall.resourcegame.middleware.healing.HealingItemType;
-import com.tavall.resourcegame.middleware.healing.HealingMode;
-import com.tavall.resourcegame.middleware.healing.HealingState;
-import com.tavall.resourcegame.middleware.healing.WoundSeverity;
-import com.tavall.resourcegame.middleware.healing.WoundType;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.middleware.troop.Troop;
-import com.tavall.resourcegame.middleware.troop.TroopId;
-import com.tavall.resourcegame.middleware.troop.TroopRegistrationHandler;
+import org.tavall.control.common.CanonicalLocation;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.healing.GemType;
+import org.tavall.control.healing.HealingItemType;
+import org.tavall.control.healing.HealingMode;
+import org.tavall.control.healing.HealingState;
+import org.tavall.control.healing.WoundSeverity;
+import org.tavall.control.healing.WoundType;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.control.troop.Troop;
+import org.tavall.control.troop.TroopId;
+import org.tavall.control.troop.TroopRegistrationHandler;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -10,13 +10,13 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerDataService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.dependency.interfaces.IVisualVerificationControlHandler;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.tasks.WorldTasks;
-import com.tavall.resourcegame.ui.UiPageType;
+import org.tavall.control.dependency.interfaces.IPlayerDataService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.dependency.interfaces.IVisualVerificationControlHandler;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.tasks.WorldTasks;
+import org.tavall.control.ui.UiPageType;
 
 import java.io.IOException;
 import java.io.Reader;

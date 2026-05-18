@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.world;
+package org.tavall.control.world;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 

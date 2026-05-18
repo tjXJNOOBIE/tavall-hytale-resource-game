@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
-import com.tavall.resourcegame.domain.AgingState;
-import com.tavall.resourcegame.domain.CitizenMetaData;
-import com.tavall.resourcegame.domain.TroopMetaData;
+import org.tavall.control.domain.AgingState;
+import org.tavall.control.domain.CitizenMetaData;
+import org.tavall.control.domain.TroopMetaData;
 
 import java.time.Instant;
 

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.commands;
+package org.tavall.control.commands;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
@@ -8,22 +8,22 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleBuildingVisualService;
-import com.tavall.resourcegame.dependency.interfaces.IFocusedWorldInteractionService;
-import com.tavall.resourcegame.dependency.interfaces.IPlacementModeService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerTeleportService;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.domain.BuildingMutationResult;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.domain.CastleBuildingSummary;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.services.BuildingPlacementPlanner;
-import com.tavall.resourcegame.services.PlayerSession;
-import com.tavall.resourcegame.ui.UiPageType;
-import com.tavall.resourcegame.world.BuildingPlacementStageStructureService;
+import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
+import org.tavall.control.dependency.interfaces.IFocusedWorldInteractionService;
+import org.tavall.control.dependency.interfaces.IPlacementModeService;
+import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.domain.BuildingMutationResult;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.domain.CastleBuildingSummary;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.services.BuildingPlacementPlanner;
+import org.tavall.control.services.PlayerSession;
+import org.tavall.control.ui.UiPageType;
+import org.tavall.control.world.BuildingPlacementStageStructureService;
 
 import java.time.Instant;
 import java.util.List;
@@ -335,14 +335,14 @@ public final class KingdomBuildingCommandSupport implements IDependencyInjectabl
     }
 
     private String missingStageWorldMessage(BuildingType buildingType) {
-        if (buildingType.areaType() == com.tavall.resourcegame.domain.BuildingAreaType.CASTLE_INTERIOR) {
+        if (buildingType.areaType() == org.tavall.control.domain.BuildingAreaType.CASTLE_INTERIOR) {
             return "Interior world is not ready. Enter /kd interior first, then stage " + buildingType.displayName() + ".";
         }
         return "Castle world is not ready for staging " + buildingType.displayName() + '.';
     }
 
     private String wrongAreaStageMessage(BuildingType buildingType) {
-        if (buildingType.areaType() == com.tavall.resourcegame.domain.BuildingAreaType.CASTLE_INTERIOR) {
+        if (buildingType.areaType() == org.tavall.control.domain.BuildingAreaType.CASTLE_INTERIOR) {
             return "Enter /kd interior before staging " + buildingType.displayName() + '.';
         }
         return "Move to the castle surface first with /kd castle goto, then stage " + buildingType.displayName() + '.';

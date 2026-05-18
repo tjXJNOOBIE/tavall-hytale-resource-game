@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.interaction;
+package org.tavall.api.minecraft.interaction;
 
 import org.junit.jupiter.api.Test;
 

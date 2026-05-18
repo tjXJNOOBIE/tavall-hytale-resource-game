@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
-import com.tavall.resourcegame.config.DatabaseConfig;
+import org.tavall.control.config.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

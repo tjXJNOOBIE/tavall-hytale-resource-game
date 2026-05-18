@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.InteriorSessionData;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PopulationSummary;
-import com.tavall.resourcegame.domain.ResourceInventory;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.InteriorSessionData;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PopulationSummary;
+import org.tavall.control.domain.ResourceInventory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

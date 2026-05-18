@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.castle;
+package org.tavall.control.castle;
 
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.identity.UniversalPlayerId;
 
 import java.util.List;
 import java.util.Optional;

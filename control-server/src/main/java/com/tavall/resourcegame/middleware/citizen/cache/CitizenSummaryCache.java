@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.middleware.citizen.cache;
+package org.tavall.control.citizen.cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.middleware.citizen.CitizenSummaryBundle;
-import com.tavall.resourcegame.middleware.citizen.CitizenSummaryScope;
+import org.tavall.control.cache.JacksonCacheCodec;
+import org.tavall.control.cache.SemanticCacheFactory;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.citizen.CitizenSummaryBundle;
+import org.tavall.control.citizen.CitizenSummaryScope;
 import org.tavall.abstractcache.cache.enums.CacheDomain;
 import org.tavall.abstractcache.cache.enums.CacheSource;
 import org.tavall.abstractcache.cache.enums.CacheVersion;

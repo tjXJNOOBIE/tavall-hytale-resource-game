@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.frontend.minecraft.server.snapshot;
+package org.tavall.minecraft.server.snapshot;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.api.internal.minecraft.MinecraftServerRuntimeSnapshot;
-import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
+import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;

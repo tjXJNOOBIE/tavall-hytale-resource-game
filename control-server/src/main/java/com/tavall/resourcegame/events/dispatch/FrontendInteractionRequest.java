@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.events.dispatch;
+package org.tavall.control.events.dispatch;
 
 import java.time.Instant;
 import java.util.Map;

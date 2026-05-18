@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerGameState;
 
 /**
  * Derives visible crowd, convoy, and stockpile counts for the castle-site scene.

@@ -1,21 +1,21 @@
-package com.tavall.resourcegame.distribution;
+package org.tavall.control.distribution;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tjxjnoobie.api.dependency.IDependencyModule;
-import com.tavall.resourcegame.distribution.health.IRemoteHealthCheckHandler;
-import com.tavall.resourcegame.distribution.health.RemoteHealthCheckHandler;
-import com.tavall.resourcegame.distribution.node.INodeHeartbeatHandler;
-import com.tavall.resourcegame.distribution.node.INodeRegistryHandler;
-import com.tavall.resourcegame.distribution.node.NodeHeartbeatHandler;
-import com.tavall.resourcegame.distribution.node.NodeRegistryHandler;
-import com.tavall.resourcegame.distribution.remote.DistributedTestRunnerHandler;
-import com.tavall.resourcegame.distribution.remote.IDistributedTestRunnerHandler;
-import com.tavall.resourcegame.distribution.remote.IRemoteCommandHandler;
-import com.tavall.resourcegame.distribution.remote.IRemoteCommandPolicy;
-import com.tavall.resourcegame.distribution.remote.IRemoteEnvironmentProbeHandler;
-import com.tavall.resourcegame.distribution.remote.RemoteCommandHandler;
-import com.tavall.resourcegame.distribution.remote.RemoteCommandPolicy;
-import com.tavall.resourcegame.distribution.remote.RemoteEnvironmentProbeHandler;
+import org.tavall.control.distribution.health.IRemoteHealthCheckHandler;
+import org.tavall.control.distribution.health.RemoteHealthCheckHandler;
+import org.tavall.control.distribution.node.INodeHeartbeatHandler;
+import org.tavall.control.distribution.node.INodeRegistryHandler;
+import org.tavall.control.distribution.node.NodeHeartbeatHandler;
+import org.tavall.control.distribution.node.NodeRegistryHandler;
+import org.tavall.control.distribution.remote.DistributedTestRunnerHandler;
+import org.tavall.control.distribution.remote.IDistributedTestRunnerHandler;
+import org.tavall.control.distribution.remote.IRemoteCommandHandler;
+import org.tavall.control.distribution.remote.IRemoteCommandPolicy;
+import org.tavall.control.distribution.remote.IRemoteEnvironmentProbeHandler;
+import org.tavall.control.distribution.remote.RemoteCommandHandler;
+import org.tavall.control.distribution.remote.RemoteCommandPolicy;
+import org.tavall.control.distribution.remote.RemoteEnvironmentProbeHandler;
 
 import java.time.Clock;
 

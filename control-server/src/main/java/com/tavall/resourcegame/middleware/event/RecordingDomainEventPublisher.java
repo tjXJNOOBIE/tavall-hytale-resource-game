@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.event;
+package org.tavall.control.event;
 
 import java.util.ArrayList;
 import java.util.List;

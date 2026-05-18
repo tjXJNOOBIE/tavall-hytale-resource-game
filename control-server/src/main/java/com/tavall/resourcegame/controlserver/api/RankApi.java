@@ -1,16 +1,16 @@
-package com.tavall.resourcegame.controlserver.api;
+package org.tavall.control.api;
 
-import com.tavall.resourcegame.controlserver.IControlServerDomain;
+import org.tavall.control.IControlServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.control.ControlOperator;
-import com.tavall.resourcegame.middleware.control.ControlOperatorRepository;
-import com.tavall.resourcegame.middleware.control.ControlOperatorRole;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
-import com.tavall.resourcegame.api.internal.permissions.RankOperationType;
-import com.tavall.resourcegame.api.internal.permissions.RankRequest;
-import com.tavall.resourcegame.api.internal.permissions.RankResponse;
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionRole;
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject;
+import org.tavall.control.runtime.ControlOperator;
+import org.tavall.control.runtime.ControlOperatorRepository;
+import org.tavall.control.runtime.ControlOperatorRole;
+import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.api.minecraft.permissions.RankOperationType;
+import org.tavall.api.minecraft.permissions.RankRequest;
+import org.tavall.api.minecraft.permissions.RankResponse;
+import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
+import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -194,7 +194,7 @@ public final class RankApi implements IControlServerDomain, IDependencyInjectabl
                 .map(UUID::toString)
                 .orElse(operator.operatorId().toString());
         return new UniversalPermissionSubject(
-                com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform.MINECRAFT,
+                org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform.MINECRAFT,
                 platformAccountId,
                 operator.displayName(),
                 toUniversalRole(operator.role()),

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.world;
+package org.tavall.control.world;
 
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.resources.ResourceType;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

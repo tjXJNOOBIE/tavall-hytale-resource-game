@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
@@ -6,12 +6,12 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tavall.resourcegame.config.PopulationDisplayConfig;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.interior.InteriorLayout;
-import com.tavall.resourcegame.population.PopulationDisplayRefs;
-import com.tavall.resourcegame.domain.PopulationSummary;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.config.PopulationDisplayConfig;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.interior.InteriorLayout;
+import org.tavall.control.population.PopulationDisplayRefs;
+import org.tavall.control.domain.PopulationSummary;
+import org.tavall.control.tasks.WorldTasks;
 
 import java.util.EnumMap;
 import java.util.LinkedHashMap;

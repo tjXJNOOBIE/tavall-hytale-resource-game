@@ -74,4 +74,4 @@ The control plane uses scoped authority instead of server-name authority. A prin
 | 5 | Record an authorization audit entry for allow or deny. |
 | 6 | Only dispatch the command after validation and authorization pass. |
 
-Implementation lives under `com.tavall.resourcegame.middleware.authority`. Control commands are wired through `ControlAuthorizationHandler` from the runtime factory.
+Implementation lives under `org.tavall.control.authority`. Control commands are wired through `ControlAuthorizationHandler` from the runtime factory.

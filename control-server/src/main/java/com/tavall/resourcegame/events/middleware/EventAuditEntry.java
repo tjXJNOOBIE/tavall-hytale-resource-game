@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.events.middleware;
+package org.tavall.control.events.middleware;
 
-import com.tavall.resourcegame.events.core.EventSource;
-import com.tavall.resourcegame.events.core.GameEventType;
+import org.tavall.control.events.core.EventSource;
+import org.tavall.control.events.core.GameEventType;
 
 import java.time.Instant;
 import java.util.Map;

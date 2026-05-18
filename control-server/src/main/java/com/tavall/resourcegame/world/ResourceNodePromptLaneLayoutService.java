@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.world;
+package org.tavall.control.world;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tavall.resourcegame.domain.ResourceNodeData;
+import org.tavall.control.domain.ResourceNodeData;
 
 /**
  * Computes a deterministic standing lane for resource-node focus and selection.

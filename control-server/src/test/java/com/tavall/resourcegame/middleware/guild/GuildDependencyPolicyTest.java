@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.guild;
+package org.tavall.control.guild;
 
 import org.junit.jupiter.api.Test;
 

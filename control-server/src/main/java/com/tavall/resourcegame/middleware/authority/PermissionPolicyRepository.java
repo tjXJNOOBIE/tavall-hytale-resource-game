@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 

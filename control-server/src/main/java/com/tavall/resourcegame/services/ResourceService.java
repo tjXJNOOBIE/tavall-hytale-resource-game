@@ -1,14 +1,14 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleSiteVisualService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerGameStateService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IResourceService;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
+import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IResourceService;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.resources.ResourceType;
 
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 

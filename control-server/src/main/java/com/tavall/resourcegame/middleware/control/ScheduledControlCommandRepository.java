@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
 import java.time.Instant;
 import java.util.List;

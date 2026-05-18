@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.server.protection;
+package org.tavall.minecraft.server.protection;
 
-import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;

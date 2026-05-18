@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.guild;
+package org.tavall.control.guild;
 
-import com.tavall.resourcegame.middleware.common.HighRiskAction;
+import org.tavall.control.common.HighRiskAction;
 
 import java.util.Optional;
 import java.util.Set;

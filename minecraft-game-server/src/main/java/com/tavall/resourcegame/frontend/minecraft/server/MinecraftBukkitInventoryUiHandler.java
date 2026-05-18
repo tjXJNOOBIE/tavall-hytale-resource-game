@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.ui.UiActions;
-import com.tavall.resourcegame.api.internal.ui.UiPageType;
-import com.tavall.resourcegame.frontend.minecraft.server.commands.util.KingdomCommandSupport;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.ui.UiActions;
+import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.server.commands.util.KingdomCommandSupport;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -228,7 +228,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
 
     private String actionCommand(Player player, String command, String payload) {
         Optional<MinecraftBukkitInteractionTarget> target = getMinecraftBukkitInteractionSessionTracker().current(player.getUniqueId());
-        if (target.isPresent() && target.get().targetType() == com.tavall.resourcegame.api.internal.interaction.InteractionTargetType.BUILDING && command.contains("focus")) {
+        if (target.isPresent() && target.get().targetType() == org.tavall.api.minecraft.interaction.InteractionTargetType.BUILDING && command.contains("focus")) {
             return command.replace("focus", target.get().targetId());
         }
         return joinCommand(command, payload);

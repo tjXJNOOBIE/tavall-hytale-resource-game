@@ -1,13 +1,13 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tavall.resourcegame.config.CastleAssetConfig;
+import org.tavall.control.config.CastleAssetConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.ICastleSiteVisualService;
-import com.tavall.resourcegame.dependency.interfaces.ICastleSpawnService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
+import org.tavall.control.dependency.interfaces.ICastleSpawnService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.PlayerGameState;
 
 import java.util.Objects;
 import java.util.UUID;

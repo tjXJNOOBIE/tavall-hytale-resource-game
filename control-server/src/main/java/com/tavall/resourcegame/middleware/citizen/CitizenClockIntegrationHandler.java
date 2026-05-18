@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.clock.KingdomClockControlSystem;
-import com.tavall.resourcegame.middleware.clock.KingdomClockState;
-import com.tavall.resourcegame.middleware.clock.KingdomTimePhase;
+import org.tavall.control.clock.KingdomClockControlSystem;
+import org.tavall.control.clock.KingdomClockState;
+import org.tavall.control.clock.KingdomTimePhase;
 
 public final class CitizenClockIntegrationHandler implements ICitizenDomain, IDependencyInjectableConcrete {
     public CitizenClockIntegrationHandler() {

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
+import org.tavall.control.common.GamePlatform;
 
 import java.util.List;
 import java.util.Map;

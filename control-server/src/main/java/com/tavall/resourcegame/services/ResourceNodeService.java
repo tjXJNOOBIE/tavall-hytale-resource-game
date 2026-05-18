@@ -1,22 +1,22 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerGameStateService;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
-import com.tavall.resourcegame.dependency.interfaces.IResourceNodeService;
-import com.tavall.resourcegame.domain.GameStateMetadata;
-import com.tavall.resourcegame.domain.OnboardingProgress;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.ResourceInventory;
-import com.tavall.resourcegame.domain.CastleEconomySnapshot;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.domain.ResourceNodePillageResult;
-import com.tavall.resourcegame.domain.ResourceNodeSummary;
-import com.tavall.resourcegame.domain.CastleBuildingData;
-import com.tavall.resourcegame.resources.ResourceType;
+import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IResourceNodeService;
+import org.tavall.control.domain.GameStateMetadata;
+import org.tavall.control.domain.OnboardingProgress;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.ResourceInventory;
+import org.tavall.control.domain.CastleEconomySnapshot;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.domain.ResourceNodePillageResult;
+import org.tavall.control.domain.ResourceNodeSummary;
+import org.tavall.control.domain.CastleBuildingData;
+import org.tavall.control.resources.ResourceType;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;

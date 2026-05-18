@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.authority.AuthorityRepository;
-import com.tavall.resourcegame.middleware.authority.AuthorityScope;
-import com.tavall.resourcegame.middleware.authority.ControlAuthority;
-import com.tavall.resourcegame.middleware.authority.ControlAuthorityLevel;
-import com.tavall.resourcegame.middleware.control.ControlPermission;
+import org.tavall.control.authority.AuthorityRepository;
+import org.tavall.control.authority.AuthorityScope;
+import org.tavall.control.authority.ControlAuthority;
+import org.tavall.control.authority.ControlAuthorityLevel;
+import org.tavall.control.runtime.ControlPermission;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

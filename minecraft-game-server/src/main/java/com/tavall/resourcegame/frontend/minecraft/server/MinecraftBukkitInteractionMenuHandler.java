@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
-import com.tavall.resourcegame.api.internal.interaction.InteractionMenuElement;
-import com.tavall.resourcegame.api.internal.interaction.InteractionMenuModel;
-import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResultType;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
+import org.tavall.api.minecraft.interaction.InteractionMenuElement;
+import org.tavall.api.minecraft.interaction.InteractionMenuModel;
+import org.tavall.api.minecraft.interaction.InteractionRequest;
+import org.tavall.api.minecraft.interaction.InteractionResult;
+import org.tavall.api.minecraft.interaction.InteractionResultType;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -77,7 +77,7 @@ public final class MinecraftBukkitInteractionMenuHandler implements IMinecraftBu
     }
 
     private void handleAction(Player player, MinecraftBukkitInteractionMenuHolder holder, String action, String elementId, String payload) {
-        if (com.tavall.resourcegame.api.internal.ui.UiActions.CLOSE.equals(action)) {
+        if (org.tavall.api.minecraft.ui.UiActions.CLOSE.equals(action)) {
             player.closeInventory();
             return;
         }

@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.frontend.minecraft.bridge;
+package org.tavall.minecraft.bridge;
 
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 
 import java.util.List;

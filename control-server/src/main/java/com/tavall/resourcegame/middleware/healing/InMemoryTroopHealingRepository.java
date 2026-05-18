@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.troop.TroopId;
+import org.tavall.control.troop.TroopId;
 
 import java.util.Comparator;
 import java.util.List;

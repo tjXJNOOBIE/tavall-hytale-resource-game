@@ -1,11 +1,11 @@
-package org.tavall.hytale.resourcegame.domain.player;
+package org.tavall.minecraft.domain.player;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
-import org.tavall.hytale.resourcegame.domain.castle.CastleLocation;
-import org.tavall.hytale.resourcegame.domain.population.PopulationSummary;
-import org.tavall.hytale.resourcegame.domain.resource.ResourceInventory;
+import org.tavall.minecraft.domain.castle.CastleLocation;
+import org.tavall.minecraft.domain.population.PopulationSummary;
+import org.tavall.minecraft.domain.resource.ResourceInventory;
 
 /**
  * Durable per-player kingdom state separate from identity profile.

@@ -1,11 +1,11 @@
-package com.tavall.resourcegame.world;
+package org.tavall.control.world;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.tavall.resourcegame.domain.BuildingConstructionStage;
-import com.tavall.resourcegame.domain.BuildingType;
-import com.tavall.resourcegame.domain.CastleBuildingSummary;
+import org.tavall.control.domain.BuildingConstructionStage;
+import org.tavall.control.domain.BuildingType;
+import org.tavall.control.domain.CastleBuildingSummary;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -96,7 +96,7 @@ public final class CastleBuildingStructureService {
         if (buildingType == null) {
             return Math.min(3, safeLevel);
         }
-        if (buildingType.areaType() == com.tavall.resourcegame.domain.BuildingAreaType.CASTLE_SURFACE) {
+        if (buildingType.areaType() == org.tavall.control.domain.BuildingAreaType.CASTLE_SURFACE) {
             return Math.min(3, safeLevel);
         }
         return Math.min(4, safeLevel);

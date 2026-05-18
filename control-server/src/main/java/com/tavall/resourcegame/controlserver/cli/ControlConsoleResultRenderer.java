@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.controlserver.cli;
+package org.tavall.control.cli;
 
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.PlatformCommandResult;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.PlatformCommandResult;
 
 public final class ControlConsoleResultRenderer implements IControlConsoleResultRenderer {
     public String renderResult(ControlCommandResult result) {

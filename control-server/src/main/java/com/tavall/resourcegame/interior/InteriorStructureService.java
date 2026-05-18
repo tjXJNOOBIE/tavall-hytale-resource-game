@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.interior;
+package org.tavall.control.interior;
 
 import com.hypixel.hytale.server.core.universe.world.World;
 
@@ -10,8 +10,8 @@ public final class InteriorStructureService {
     private static final String PORTAL_BLOCK = "Metal_Iron";
     private static final int HALF_SIZE = 4;
     private static final int WALL_HEIGHT = 3;
-    private final com.tavall.resourcegame.world.StructureBlockPainter blockPainter
-            = new com.tavall.resourcegame.world.StructureBlockPainter();
+    private final org.tavall.control.world.StructureBlockPainter blockPainter
+            = new org.tavall.control.world.StructureBlockPainter();
 
     public void ensureStructure(World world, InteriorLayout layout) {
         int originX = floorToInt(layout.origin().getX());

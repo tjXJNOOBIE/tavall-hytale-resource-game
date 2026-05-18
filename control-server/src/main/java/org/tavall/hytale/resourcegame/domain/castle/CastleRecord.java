@@ -1,7 +1,7 @@
-package org.tavall.hytale.resourcegame.domain.castle;
+package org.tavall.minecraft.domain.castle;
 
 import java.util.UUID;
-import org.tavall.hytale.resourcegame.runtime.HytaleAssetId;
+import org.tavall.minecraft.runtime.HytaleAssetId;
 
 /**
  * Persistent castle record for each player owner.

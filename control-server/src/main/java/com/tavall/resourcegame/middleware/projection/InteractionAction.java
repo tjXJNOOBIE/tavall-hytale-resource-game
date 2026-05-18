@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
-import com.tavall.resourcegame.middleware.guild.GuildAuthorityTier;
-import com.tavall.resourcegame.middleware.guild.GuildPermission;
+import org.tavall.control.common.MetadataMaps;
+import org.tavall.control.guild.GuildAuthorityTier;
+import org.tavall.control.guild.GuildPermission;
 
 import java.util.Map;
 import java.util.Objects;

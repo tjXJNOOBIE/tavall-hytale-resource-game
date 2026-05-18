@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
 public final class HytaleCommandFanoutHandler {
     private final PlatformFrontendAdapter hytaleAdapter;

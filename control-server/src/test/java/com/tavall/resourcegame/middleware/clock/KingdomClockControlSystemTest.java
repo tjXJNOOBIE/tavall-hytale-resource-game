@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.clock;
+package org.tavall.control.clock;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.event.RecordingDomainEventPublisher;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.event.RecordingDomainEventPublisher;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;

@@ -1,18 +1,18 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tavall.resourcegame.cache.JacksonCacheCodec;
-import com.tavall.resourcegame.cache.SemanticCacheFactory;
-import com.tavall.resourcegame.config.CacheConfig;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.GameStateMetadata;
-import com.tavall.resourcegame.domain.OnboardingProgress;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.PlayerProfile;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.domain.ResourceNodePillageResult;
-import com.tavall.resourcegame.resources.ResourceType;
-import com.tavall.resourcegame.support.InMemoryPlayerGameStateStore;
+import org.tavall.control.cache.JacksonCacheCodec;
+import org.tavall.control.cache.SemanticCacheFactory;
+import org.tavall.control.config.CacheConfig;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.GameStateMetadata;
+import org.tavall.control.domain.OnboardingProgress;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.PlayerProfile;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.domain.ResourceNodePillageResult;
+import org.tavall.control.resources.ResourceType;
+import org.tavall.control.support.InMemoryPlayerGameStateStore;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

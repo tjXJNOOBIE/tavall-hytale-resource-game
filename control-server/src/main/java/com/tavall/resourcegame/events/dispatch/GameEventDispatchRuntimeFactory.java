@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.events.dispatch;
+package org.tavall.control.events.dispatch;
 
 public final class GameEventDispatchRuntimeFactory {
     private GameEventDispatchRuntimeFactory() {

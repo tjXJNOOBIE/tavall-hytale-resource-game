@@ -1,13 +1,13 @@
-package com.tavall.resourcegame.frontend.minecraft.commands.util;
+package org.tavall.minecraft.commands.util;
 
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionPolicy;
-import com.tavall.resourcegame.api.internal.permissions.UniversalPermissionSubject;
-import com.tavall.resourcegame.frontend.minecraft.commands.source.ConsoleVelocityCommandSource;
-import com.tavall.resourcegame.frontend.minecraft.commands.source.GenericVelocityCommandSource;
-import com.tavall.resourcegame.frontend.minecraft.runtime.IMinecraftFrontendDomain;
-import com.tavall.resourcegame.frontend.minecraft.runtime.IMinecraftVelocityProxyServer;
-import com.tavall.resourcegame.frontend.minecraft.commands.source.MinecraftVelocityCommandSource;
-import com.tavall.resourcegame.frontend.minecraft.commands.source.PlayerVelocityCommandSource;
+import org.tavall.api.minecraft.permissions.UniversalPermissionPolicy;
+import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
+import org.tavall.minecraft.commands.source.ConsoleVelocityCommandSource;
+import org.tavall.minecraft.commands.source.GenericVelocityCommandSource;
+import org.tavall.minecraft.runtime.IMinecraftFrontendDomain;
+import org.tavall.minecraft.runtime.IMinecraftVelocityProxyServer;
+import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
+import org.tavall.minecraft.commands.source.PlayerVelocityCommandSource;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import com.velocitypowered.api.command.SimpleCommand;

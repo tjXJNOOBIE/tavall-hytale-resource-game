@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server.protection;
+package org.tavall.minecraft.server.protection;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 import org.bukkit.Location;

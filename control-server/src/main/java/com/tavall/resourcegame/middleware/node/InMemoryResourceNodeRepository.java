@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.node;
+package org.tavall.control.node;
 
-import com.tavall.resourcegame.middleware.guild.GuildId;
+import org.tavall.control.guild.GuildId;
 
 import java.util.ArrayList;
 import java.util.List;

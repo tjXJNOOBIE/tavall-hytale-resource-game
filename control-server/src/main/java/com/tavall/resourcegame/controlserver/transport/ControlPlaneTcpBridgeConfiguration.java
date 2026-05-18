@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.controlserver.transport;
+package org.tavall.control.transport;
 
 import java.util.Map;
 import java.util.Objects;

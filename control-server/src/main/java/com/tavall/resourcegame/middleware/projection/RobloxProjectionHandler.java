@@ -1,20 +1,20 @@
-package com.tavall.resourcegame.middleware.projection;
+package org.tavall.control.projection;
 
-import com.tavall.resourcegame.middleware.castle.Castle;
-import com.tavall.resourcegame.middleware.citizen.CitizenDisplayAnchorProjection;
-import com.tavall.resourcegame.middleware.citizen.CitizenPopulationProjection;
-import com.tavall.resourcegame.middleware.clock.KingdomClockProjection;
-import com.tavall.resourcegame.middleware.clock.KingdomScheduleProjection;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.guild.GuildAuthorityTier;
-import com.tavall.resourcegame.middleware.guild.GuildKingdom;
-import com.tavall.resourcegame.middleware.guild.GuildPermission;
-import com.tavall.resourcegame.middleware.node.ResourceNode;
-import com.tavall.resourcegame.middleware.petition.Petition;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendActionCatalog;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendActionDescriptor;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendObjectKind;
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendPlatform;
+import org.tavall.control.castle.Castle;
+import org.tavall.control.citizen.CitizenDisplayAnchorProjection;
+import org.tavall.control.citizen.CitizenPopulationProjection;
+import org.tavall.control.clock.KingdomClockProjection;
+import org.tavall.control.clock.KingdomScheduleProjection;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.guild.GuildAuthorityTier;
+import org.tavall.control.guild.GuildKingdom;
+import org.tavall.control.guild.GuildPermission;
+import org.tavall.control.node.ResourceNode;
+import org.tavall.control.petition.Petition;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendActionCatalog;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendActionDescriptor;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendObjectKind;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 
 import java.util.List;
 import java.util.Map;

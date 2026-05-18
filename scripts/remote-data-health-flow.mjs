@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import { delay, ensureBotBaseline, resolveBotClientModuleUrl, writeJson, printStructured, captureWorldSnapshot } from "./bot-flow-helpers.mjs";
 
 function readSelectorValue(snapshot, selector) {
@@ -56,7 +56,7 @@ async function openUpgrades(bot, expected = null, timeoutMs = 15_000) {
     try {
       return await waitForSnapshot(
         bot,
-        (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleUpgradesPage" && matchesExpectedValues(snapshot, expected),
+        (snapshot) => snapshot.key === "org.tavall.control.ui.CastleUpgradesPage" && matchesExpectedValues(snapshot, expected),
         timeoutMs,
         "upgrades page snapshot"
       );
@@ -75,7 +75,7 @@ async function openDebug(bot, timeoutMs = 15_000) {
     try {
       return await waitForSnapshot(
         bot,
-        (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.DebugNavigatorPage"
+        (snapshot) => snapshot.key === "org.tavall.control.ui.DebugNavigatorPage"
           && readSelectorValue(snapshot, "#CacheStatus.Text") != null
           && readSelectorValue(snapshot, "#PersistenceStatus.Text") != null
           && readSelectorValue(snapshot, "#InteriorTutorialStatus.Text") != null
@@ -152,7 +152,7 @@ async function main() {
     });
     upgradesSnapshot = await waitForSnapshot(
       bot,
-      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleUpgradesPage"
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleUpgradesPage"
         && resourceAtLeast(snapshot, "#FoodCount.Text", 40)
         && resourceAtLeast(snapshot, "#WoodCount.Text", 25)
         && resourceAtLeast(snapshot, "#IronCount.Text", 10),
@@ -178,7 +178,7 @@ async function main() {
     upgradesSnapshot = await openUpgrades(bot);
     upgradesSnapshot = await waitForSnapshot(
       bot,
-      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleUpgradesPage"
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleUpgradesPage"
         && resourceAtLeast(snapshot, "#FoodCount.Text", baselineFood)
         && resourceAtLeast(snapshot, "#WoodCount.Text", baselineWood)
         && resourceAtLeast(snapshot, "#IronCount.Text", baselineIron),

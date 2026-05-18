@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.clock.KingdomClockControlSystem;
-import com.tavall.resourcegame.middleware.event.RecordingDomainEventPublisher;
-import com.tavall.resourcegame.middleware.identity.UniversalPlayerId;
+import org.tavall.control.clock.KingdomClockControlSystem;
+import org.tavall.control.event.RecordingDomainEventPublisher;
+import org.tavall.control.identity.UniversalPlayerId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

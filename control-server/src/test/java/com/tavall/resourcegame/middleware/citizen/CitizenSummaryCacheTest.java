@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.middleware.citizen.cache.CitizenSummaryCache;
-import com.tavall.resourcegame.services.JsonMapperProvider;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.citizen.cache.CitizenSummaryCache;
+import org.tavall.control.services.JsonMapperProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -18,7 +18,7 @@ final class CitizenSummaryCacheTest {
     void keepsSeparateMemoryAndSharedSummaryFlows() {
         CitizenSummaryCache cache = CitizenSummaryCache.openInMemory("test", new JsonMapperProvider().mapper());
         CitizenSummaryScope scope = CitizenSummaryScope.player(
-                com.tavall.resourcegame.middleware.identity.UniversalPlayerId.of(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"))
+                org.tavall.control.identity.UniversalPlayerId.of(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"))
         );
         Instant now = Instant.parse("2026-05-16T12:00:00Z");
         CitizenSummaryBundle summary = new CitizenSummaryBundle(

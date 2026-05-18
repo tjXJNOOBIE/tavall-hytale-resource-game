@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.distribution.node;
+package org.tavall.control.distribution.node;
 
 import java.time.Instant;
 import java.util.Map;

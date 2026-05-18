@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.security;
+package org.tavall.control.security;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

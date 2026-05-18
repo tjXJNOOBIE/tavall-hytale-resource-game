@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.authority;
+package org.tavall.control.authority;
 
 public enum ControlAuthorityLevel {
     C1_LOCAL_EXECUTOR(1, false),

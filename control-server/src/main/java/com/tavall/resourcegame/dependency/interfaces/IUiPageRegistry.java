@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.dependency.interfaces;
+package org.tavall.control.dependency.interfaces;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.ui.UiPageFactory;
-import com.tavall.resourcegame.ui.UiPageType;
+import org.tavall.control.ui.UiPageFactory;
+import org.tavall.control.ui.UiPageType;
 
 public interface IUiPageRegistry extends IDependencyInjectableInterface {
     void register(UiPageType type, UiPageFactory factory);

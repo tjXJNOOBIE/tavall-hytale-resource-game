@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.event;
+package org.tavall.control.event;
 
 import java.time.Instant;
 import java.util.Map;

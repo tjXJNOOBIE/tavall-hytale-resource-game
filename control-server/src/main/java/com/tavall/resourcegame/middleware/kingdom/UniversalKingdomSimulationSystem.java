@@ -1,16 +1,16 @@
-package com.tavall.resourcegame.middleware.kingdom;
+package org.tavall.control.kingdom;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
-import com.tavall.resourcegame.middleware.control.ControlCommand;
-import com.tavall.resourcegame.middleware.control.ControlCommandResult;
-import com.tavall.resourcegame.middleware.control.ControlCommandType;
-import com.tavall.resourcegame.middleware.control.ControlCommandValidationException;
-import com.tavall.resourcegame.middleware.control.CommandExecutionState;
-import com.tavall.resourcegame.middleware.event.DomainEventPublisher;
-import com.tavall.resourcegame.middleware.event.SimpleDomainEvent;
-import com.tavall.resourcegame.persistence.PostgresConnectionProvider;
-import com.tavall.resourcegame.persistence.PostgresUniversalKingdomRepository;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.common.MetadataMaps;
+import org.tavall.control.runtime.ControlCommand;
+import org.tavall.control.runtime.ControlCommandResult;
+import org.tavall.control.runtime.ControlCommandType;
+import org.tavall.control.runtime.ControlCommandValidationException;
+import org.tavall.control.runtime.CommandExecutionState;
+import org.tavall.control.event.DomainEventPublisher;
+import org.tavall.control.event.SimpleDomainEvent;
+import org.tavall.control.persistence.PostgresConnectionProvider;
+import org.tavall.control.persistence.PostgresUniversalKingdomRepository;
 
 import java.time.Instant;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.frontend.minecraft.server.resourcepack;
+package org.tavall.minecraft.server.resourcepack;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.api.internal.ui.UiPageType;
+import org.tavall.api.minecraft.ui.UiPageType;
 
 import java.nio.file.Path;
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tavall.resourcegame.domain.CastleLocationData;
-import com.tavall.resourcegame.domain.ResourceNodeData;
-import com.tavall.resourcegame.domain.ResourceNodeSummary;
-import com.tavall.resourcegame.world.VectorMath;
+import org.tavall.control.domain.CastleLocationData;
+import org.tavall.control.domain.ResourceNodeData;
+import org.tavall.control.domain.ResourceNodeSummary;
+import org.tavall.control.world.VectorMath;
 
 import java.time.Instant;
 import java.util.ArrayList;

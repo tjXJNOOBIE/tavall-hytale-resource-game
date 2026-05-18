@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.castle;
+package org.tavall.control.castle;
 
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 

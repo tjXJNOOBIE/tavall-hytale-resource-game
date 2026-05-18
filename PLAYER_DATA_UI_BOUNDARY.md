@@ -14,7 +14,7 @@ That includes the account/profile information needed by the existing kingdom acc
 
 The control-plane entry point is the `api` package:
 
-- `com.tavall.resourcegame.controlserver.api.PlayerDataApi`
+- `org.tavall.control.api.PlayerDataApi`
 
 The shared transport contracts live in the shared frontend contract package:
 

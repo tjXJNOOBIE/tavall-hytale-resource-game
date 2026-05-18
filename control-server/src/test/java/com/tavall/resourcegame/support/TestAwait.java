@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
 import java.time.Duration;
 import java.time.Instant;

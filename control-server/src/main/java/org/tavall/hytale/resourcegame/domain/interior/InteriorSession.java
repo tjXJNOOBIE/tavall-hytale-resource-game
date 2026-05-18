@@ -1,4 +1,4 @@
-package org.tavall.hytale.resourcegame.domain.interior;
+package org.tavall.minecraft.domain.interior;
 
 import java.util.UUID;
 

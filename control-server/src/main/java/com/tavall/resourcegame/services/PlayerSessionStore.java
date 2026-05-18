@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;

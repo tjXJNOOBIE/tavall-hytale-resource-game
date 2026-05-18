@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.distribution.health;
+package org.tavall.control.distribution.health;
 
 import java.time.Instant;
 import java.util.Map;

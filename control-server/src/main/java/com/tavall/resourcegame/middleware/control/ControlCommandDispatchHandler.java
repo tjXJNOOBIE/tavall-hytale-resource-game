@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.control;
+package org.tavall.control.runtime;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.middleware.authority.AuthorizationResult;
+import org.tavall.control.authority.AuthorizationResult;
 
 import java.time.Instant;
 import java.util.List;

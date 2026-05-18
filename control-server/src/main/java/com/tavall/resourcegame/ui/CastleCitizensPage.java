@@ -1,12 +1,12 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tavall.resourcegame.dependency.interfaces.IUiActionService;
-import com.tavall.resourcegame.domain.CastleEconomySnapshot;
-import com.tavall.resourcegame.domain.CitizenJobType;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.services.CastleEconomyPlanner;
+import org.tavall.control.dependency.interfaces.IUiActionService;
+import org.tavall.control.domain.CastleEconomySnapshot;
+import org.tavall.control.domain.CitizenJobType;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.services.CastleEconomyPlanner;
 
 import java.util.List;
 import java.util.Map;

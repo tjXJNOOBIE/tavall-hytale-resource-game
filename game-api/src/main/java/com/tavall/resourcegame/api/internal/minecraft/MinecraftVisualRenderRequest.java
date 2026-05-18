@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.api.internal.minecraft;
+package org.tavall.api.minecraft;
 
-import com.tavall.resourcegame.api.internal.frontend.ResourceGameFrontendSurfaceIdentity;
+import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
 
 import java.util.Map;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
 /**
  * Captures the active persistence stores selected during runtime bootstrap.

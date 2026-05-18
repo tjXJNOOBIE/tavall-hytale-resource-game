@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.middleware.identity;
+package org.tavall.control.identity;
 
-import com.tavall.resourcegame.middleware.common.GamePlatform;
-import com.tavall.resourcegame.middleware.common.MetadataMaps;
+import org.tavall.control.common.GamePlatform;
+import org.tavall.control.common.MetadataMaps;
 
 import java.time.Instant;
 import java.util.Map;

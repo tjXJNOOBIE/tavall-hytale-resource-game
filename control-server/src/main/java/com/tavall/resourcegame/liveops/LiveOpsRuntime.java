@@ -1,18 +1,18 @@
-package com.tavall.resourcegame.liveops;
+package org.tavall.control.liveops;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.events.dispatch.GameEventDispatchHandler;
-import com.tavall.resourcegame.liveops.config.FeatureFlagHandler;
-import com.tavall.resourcegame.liveops.config.GameRuleHandler;
-import com.tavall.resourcegame.liveops.config.InMemoryLiveConfigChangePublisher;
-import com.tavall.resourcegame.liveops.config.LiveConfigMutationHandler;
-import com.tavall.resourcegame.liveops.config.LiveConfigRegistry;
-import com.tavall.resourcegame.liveops.config.LiveConfigRepository;
-import com.tavall.resourcegame.liveops.config.SystemToggleHandler;
-import com.tavall.resourcegame.liveops.gui.GlobalGuiMutationHandler;
-import com.tavall.resourcegame.liveops.gui.GlobalGuiRegistry;
-import com.tavall.resourcegame.liveops.gui.GlobalGuiRepository;
-import com.tavall.resourcegame.liveops.gui.InMemoryGlobalGuiChangePublisher;
+import org.tavall.control.events.dispatch.GameEventDispatchHandler;
+import org.tavall.control.liveops.config.FeatureFlagHandler;
+import org.tavall.control.liveops.config.GameRuleHandler;
+import org.tavall.control.liveops.config.InMemoryLiveConfigChangePublisher;
+import org.tavall.control.liveops.config.LiveConfigMutationHandler;
+import org.tavall.control.liveops.config.LiveConfigRegistry;
+import org.tavall.control.liveops.config.LiveConfigRepository;
+import org.tavall.control.liveops.config.SystemToggleHandler;
+import org.tavall.control.liveops.gui.GlobalGuiMutationHandler;
+import org.tavall.control.liveops.gui.GlobalGuiRegistry;
+import org.tavall.control.liveops.gui.GlobalGuiRepository;
+import org.tavall.control.liveops.gui.InMemoryGlobalGuiChangePublisher;
 
 public final class LiveOpsRuntime implements ILiveOpsDomain, IDependencyInjectableConcrete {
     public LiveConfigRepository liveConfigRepository() {

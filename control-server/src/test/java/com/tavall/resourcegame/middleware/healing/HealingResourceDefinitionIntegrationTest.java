@@ -1,8 +1,8 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAssetResolutionHandler;
-import com.tavall.resourcegame.middleware.asset.InMemoryGlobalAssetRepository;
-import com.tavall.resourcegame.middleware.common.GamePlatform;
+import org.tavall.control.asset.GlobalAssetResolutionHandler;
+import org.tavall.control.asset.InMemoryGlobalAssetRepository;
+import org.tavall.control.common.GamePlatform;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;

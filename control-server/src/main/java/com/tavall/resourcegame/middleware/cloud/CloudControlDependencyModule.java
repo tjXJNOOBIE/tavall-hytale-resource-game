@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.cloud;
+package org.tavall.control.cloud;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tjxjnoobie.api.dependency.IDependencyModule;
-import com.tavall.resourcegame.middleware.authority.ControlAuthorityDependencyModule;
+import org.tavall.control.authority.ControlAuthorityDependencyModule;
 
 public final class CloudControlDependencyModule implements IDependencyModule {
     @Override

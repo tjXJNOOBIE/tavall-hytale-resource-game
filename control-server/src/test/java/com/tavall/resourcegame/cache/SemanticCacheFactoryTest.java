@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.cache;
+package org.tavall.control.cache;
 
-import com.tavall.resourcegame.config.CacheConfig;
+import org.tavall.control.config.CacheConfig;
 import org.junit.jupiter.api.Test;
 import org.tavall.abstractcache.semantic.SemanticCache;
 

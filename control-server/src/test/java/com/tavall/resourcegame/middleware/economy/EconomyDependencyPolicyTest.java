@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.middleware.economy;
+package org.tavall.control.economy;
 
 import org.junit.jupiter.api.Test;
 

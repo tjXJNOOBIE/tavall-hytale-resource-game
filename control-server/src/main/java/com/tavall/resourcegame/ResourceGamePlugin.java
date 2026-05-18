@@ -1,9 +1,9 @@
-package com.tavall.resourcegame;
+package org.tavall.control;
 
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import com.tavall.resourcegame.dependency.composition.domains.IResourceGameDomain;
-import com.tavall.resourcegame.controlserver.bootstrap.ControlServerBootstrap;
+import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.ControlServerBootstrap;
 
 import javax.annotation.Nonnull;
 

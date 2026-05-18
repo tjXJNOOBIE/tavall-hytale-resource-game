@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.dependency;
+package org.tavall.control.dependency;
 
-import com.tavall.resourcegame.dependency.interfaces.ICastleProximityPromptService;
+import org.tavall.control.dependency.interfaces.ICastleProximityPromptService;
 
 /**
  * Test stub for castle prompt access.

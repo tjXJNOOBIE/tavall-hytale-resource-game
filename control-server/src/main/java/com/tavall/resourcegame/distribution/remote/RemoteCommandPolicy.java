@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.distribution.remote;
+package org.tavall.control.distribution.remote;
 
 import java.util.ArrayList;
 import java.util.List;

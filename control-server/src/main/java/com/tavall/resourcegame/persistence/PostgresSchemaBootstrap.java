@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.persistence;
+package org.tavall.control.persistence;
 
 import java.io.IOException;
 import java.io.InputStream;

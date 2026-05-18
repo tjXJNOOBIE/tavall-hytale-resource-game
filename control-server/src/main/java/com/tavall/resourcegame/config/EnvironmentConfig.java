@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.config;
+package org.tavall.control.config;
 
 /**
  * Simple environment reader for service configuration.

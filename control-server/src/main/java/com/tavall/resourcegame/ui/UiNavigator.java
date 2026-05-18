@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.ui;
+package org.tavall.control.ui;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -10,12 +10,12 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.dependency.interfaces.IUiNavigator;
-import com.tavall.resourcegame.dependency.interfaces.IUiPageRegistry;
-import com.tavall.resourcegame.domain.PlayerGameState;
-import com.tavall.resourcegame.domain.TrackedUiState;
-import com.tavall.resourcegame.domain.UiNavigationContext;
-import com.tavall.resourcegame.tasks.WorldTasks;
+import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.dependency.interfaces.IUiPageRegistry;
+import org.tavall.control.domain.PlayerGameState;
+import org.tavall.control.domain.TrackedUiState;
+import org.tavall.control.domain.UiNavigationContext;
+import org.tavall.control.tasks.WorldTasks;
 
 import java.util.Objects;
 import java.util.Set;

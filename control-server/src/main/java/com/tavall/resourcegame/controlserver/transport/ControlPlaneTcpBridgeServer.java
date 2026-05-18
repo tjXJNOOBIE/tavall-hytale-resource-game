@@ -1,25 +1,25 @@
-package com.tavall.resourcegame.controlserver.transport;
+package org.tavall.control.transport;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tavall.resourcegame.controlserver.api.PlayerDataApi;
-import com.tavall.resourcegame.controlserver.api.RankApi;
-import com.tavall.resourcegame.controlserver.interaction.ControlPlaneInteractionService;
+import org.tavall.control.api.PlayerDataApi;
+import org.tavall.control.api.RankApi;
+import org.tavall.control.interaction.ControlPlaneInteractionService;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tavall.resourcegame.middleware.control.ControlCommandRuntime;
-import com.tavall.resourcegame.services.ControlPlaneTcpBridgeRequest;
-import com.tavall.resourcegame.services.ControlPlaneTcpBridgeRequestType;
-import com.tavall.resourcegame.services.JsonMapperProvider;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandEnvelope;
-import com.tavall.resourcegame.api.internal.frontend.FrontendCommandVerificationResult;
-import com.tavall.resourcegame.api.internal.interaction.InteractionRequest;
-import com.tavall.resourcegame.api.internal.interaction.InteractionResult;
-import com.tavall.resourcegame.api.internal.player.PlayerDataRequest;
-import com.tavall.resourcegame.api.internal.player.PlayerDataResponse;
-import com.tavall.resourcegame.api.internal.permissions.PunishRequest;
-import com.tavall.resourcegame.api.internal.permissions.PunishResponse;
-import com.tavall.resourcegame.api.internal.permissions.RankRequest;
-import com.tavall.resourcegame.api.internal.permissions.RankResponse;
+import org.tavall.control.runtime.ControlCommandRuntime;
+import org.tavall.control.services.ControlPlaneTcpBridgeRequest;
+import org.tavall.control.services.ControlPlaneTcpBridgeRequestType;
+import org.tavall.control.services.JsonMapperProvider;
+import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
+import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.api.minecraft.interaction.InteractionRequest;
+import org.tavall.api.minecraft.interaction.InteractionResult;
+import org.tavall.api.minecraft.player.PlayerDataRequest;
+import org.tavall.api.minecraft.player.PlayerDataResponse;
+import org.tavall.api.minecraft.permissions.PunishRequest;
+import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.api.minecraft.permissions.RankRequest;
+import org.tavall.api.minecraft.permissions.RankResponse;
 import com.tjxjnoobie.api.platform.global.console.Log;
 
 import java.io.BufferedReader;
@@ -190,7 +190,7 @@ public final class ControlPlaneTcpBridgeServer implements AutoCloseable {
     }
 
     private ControlPlaneTcpBridgeResponse handlePunishRequest(PunishRequest request) {
-        com.tavall.resourcegame.controlserver.api.PunishApi api = DependencyLoaderAccess.findInstance(com.tavall.resourcegame.controlserver.api.PunishApi.class);
+        org.tavall.control.api.PunishApi api = DependencyLoaderAccess.findInstance(org.tavall.control.api.PunishApi.class);
         PunishResponse result = api.inspect(request, Instant.now());
         return ControlPlaneTcpBridgeResponse.success(result);
     }

@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.services;
+package org.tavall.control.services;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import com.tavall.resourcegame.api.internal.frontend.IFrontendControlConfig;
+import org.tavall.api.minecraft.frontend.IFrontendControlConfig;
 
 import java.net.URI;
 import java.util.Map;

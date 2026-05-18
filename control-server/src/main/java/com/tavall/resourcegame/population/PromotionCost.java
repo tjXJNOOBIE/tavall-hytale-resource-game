@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.population;
+package org.tavall.control.population;
 
 /**
  * Cost data for promoting citizens into troops.

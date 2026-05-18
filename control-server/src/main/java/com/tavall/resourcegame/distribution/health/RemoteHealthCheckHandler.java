@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.distribution.health;
+package org.tavall.control.distribution.health;
 
-import com.tavall.resourcegame.distribution.remote.RemoteTarget;
+import org.tavall.control.distribution.remote.RemoteTarget;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;

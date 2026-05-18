@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.api.internal.frontend;
+package org.tavall.api.minecraft.frontend;
 
 public enum ResourceGameFrontendRuntime {
     HYTALE_NATIVE_JAVA,

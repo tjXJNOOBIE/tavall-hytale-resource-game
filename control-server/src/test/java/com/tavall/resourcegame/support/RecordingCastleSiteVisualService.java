@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.support;
+package org.tavall.control.support;
 
-import com.tavall.resourcegame.dependency.interfaces.ICastleSiteVisualService;
-import com.tavall.resourcegame.domain.PlayerGameState;
+import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
+import org.tavall.control.domain.PlayerGameState;
 
 import java.util.Map;
 import java.util.UUID;

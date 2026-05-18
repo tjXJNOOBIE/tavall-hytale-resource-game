@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.distribution.health;
+package org.tavall.control.distribution.health;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import com.tavall.resourcegame.distribution.remote.RemoteTarget;
+import org.tavall.control.distribution.remote.RemoteTarget;
 
 import java.time.Duration;
 

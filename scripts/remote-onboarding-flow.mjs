@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import { delay, ensureBotBaseline, resolveBotClientModuleUrl, writeJson, printStructured, captureWorldSnapshot } from "./bot-flow-helpers.mjs";
 
 function readSelectorValue(snapshot, selector) {
@@ -103,8 +103,8 @@ async function main() {
     let upgradesSnapshot = await openPageByCommand(
       bot,
       "/kingdom ui upgrades",
-      "com.tavall.resourcegame.ui.CastleUpgradesPage",
-      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleUpgradesPage"
+      "org.tavall.control.ui.CastleUpgradesPage",
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleUpgradesPage"
         && readSelectorValue(snapshot, "#TutorialStatus.Text") === "Step 1: confirm citizens and troops. Step 2: check the Food, Wood, and Iron cost. Step 3: promote once the route is ready.",
       15_000,
       "first upgrade tutorial",
@@ -118,8 +118,8 @@ async function main() {
     upgradesSnapshot = await openPageByCommand(
       bot,
       "/kingdom ui upgrades",
-      "com.tavall.resourcegame.ui.CastleUpgradesPage",
-      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleUpgradesPage"
+      "org.tavall.control.ui.CastleUpgradesPage",
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleUpgradesPage"
         && readSelectorValue(snapshot, "#CitizenCount.Text") === "11"
         && readSelectorValue(snapshot, "#TroopCount.Text") === "1"
         && readSelectorValue(snapshot, "#TutorialStatus.Text") === "Tutorial complete: use this page to convert citizens when resources allow.",
@@ -133,8 +133,8 @@ async function main() {
     upgradesSnapshot = await openPageByCommand(
       bot,
       "/kingdom ui upgrades",
-      "com.tavall.resourcegame.ui.CastleUpgradesPage",
-      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.CastleUpgradesPage"
+      "org.tavall.control.ui.CastleUpgradesPage",
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleUpgradesPage"
         && readSelectorValue(snapshot, "#TutorialStatus.Text") === "Tutorial complete: use this page to convert citizens when resources allow.",
       15_000,
       "upgrade tutorial remains cleared",
@@ -145,8 +145,8 @@ async function main() {
     let interiorSnapshot = await openPageByCommand(
       bot,
       "/kingdom ui interior",
-      "com.tavall.resourcegame.ui.InteriorMainPage",
-      (snapshot) => snapshot.key === "com.tavall.resourcegame.ui.InteriorMainPage"
+      "org.tavall.control.ui.InteriorMainPage",
+      (snapshot) => snapshot.key === "org.tavall.control.ui.InteriorMainPage"
         && readSelectorValue(snapshot, "#TutorialStatus.Text") === "Step 1: follow the tour markers. Step 2: inspect the citizen and troop anchors. Step 3: leave through the exit lane when you are done.",
       20_000,
       "first interior tutorial",

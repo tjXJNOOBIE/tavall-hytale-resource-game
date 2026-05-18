@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server.world;
+package org.tavall.minecraft.server.world;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.liveops.gui;
+package org.tavall.control.liveops.gui;
 
 import java.time.Instant;
 import java.util.UUID;

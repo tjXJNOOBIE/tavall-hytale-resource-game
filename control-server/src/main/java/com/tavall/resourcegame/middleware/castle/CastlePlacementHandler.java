@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.castle;
+package org.tavall.control.castle;
 
-import com.tavall.resourcegame.middleware.common.CanonicalLocation;
+import org.tavall.control.common.CanonicalLocation;
 
 public final class CastlePlacementHandler implements ICastleDomain {
     public CastlePlacementHandler() {

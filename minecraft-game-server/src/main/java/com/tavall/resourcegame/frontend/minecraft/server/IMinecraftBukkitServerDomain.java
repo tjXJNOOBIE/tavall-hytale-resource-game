@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.frontend.minecraft.server;
+package org.tavall.minecraft.server;
 
 public interface IMinecraftBukkitServerDomain extends IMinecraftBukkitServerDomainGenerated {
 }

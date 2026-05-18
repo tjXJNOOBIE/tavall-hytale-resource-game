@@ -1,7 +1,7 @@
-package com.tavall.resourcegame.frontend.minecraft.server.resourcepack;
+package org.tavall.minecraft.server.resourcepack;
 
-import com.tavall.resourcegame.api.internal.ui.UiPageType;
-import com.tavall.resourcegame.frontend.minecraft.server.IMinecraftBukkitServerDomain;
+import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;

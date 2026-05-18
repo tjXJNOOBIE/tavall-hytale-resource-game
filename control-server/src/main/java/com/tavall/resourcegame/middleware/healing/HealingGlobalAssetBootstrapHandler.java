@@ -1,9 +1,9 @@
-package com.tavall.resourcegame.middleware.healing;
+package org.tavall.control.healing;
 
-import com.tavall.resourcegame.middleware.asset.GlobalAsset;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetId;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetRepository;
-import com.tavall.resourcegame.middleware.asset.GlobalAssetType;
+import org.tavall.control.asset.GlobalAsset;
+import org.tavall.control.asset.GlobalAssetId;
+import org.tavall.control.asset.GlobalAssetRepository;
+import org.tavall.control.asset.GlobalAssetType;
 
 import java.time.Instant;
 import java.util.Map;

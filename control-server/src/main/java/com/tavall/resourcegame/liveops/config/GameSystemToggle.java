@@ -1,4 +1,4 @@
-package com.tavall.resourcegame.liveops.config;
+package org.tavall.control.liveops.config;
 
 public enum GameSystemToggle {
     CASTLE_PLACEMENT("castle.placement.enabled"),

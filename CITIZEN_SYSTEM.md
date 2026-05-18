@@ -3,7 +3,7 @@
 ## Architecture
 The canonical Citizen System lives in the plain Java control plane. Spring remains an optional admin surface, and game frontends consume projections or submit command envelopes.
 
-- Canonical records live under `com.tavall.resourcegame.middleware.citizen`.
+- Canonical records live under `org.tavall.control.citizen`.
 - The existing project job list is reused exactly from `CitizenJobType`: `IDLE`, `GATHERER`, `HUNTER`, `COOK`, `MINER`, `BLACKSMITH`, `ARCHITECT`, `GRUNT_BUILDER`, legacy `BUILDER`, `TRAINEE`, and `SOLDIER`.
 - Hytale's existing `PopulationService` remains the current runtime aggregate adapter for live UI/count commands; the new control-plane citizen records are the canonical per-citizen model to bridge into that runtime deliberately.
 - Frontends must not calculate age, job eligibility, troop state, or productivity locally.

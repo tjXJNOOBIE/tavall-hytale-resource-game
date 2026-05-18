@@ -1,6 +1,6 @@
-package com.tavall.resourcegame.middleware.citizen;
+package org.tavall.control.citizen;
 
-import com.tavall.resourcegame.domain.CitizenJobType;
+import org.tavall.control.domain.CitizenJobType;
 
 import java.time.Instant;
 import java.util.EnumMap;
