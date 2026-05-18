@@ -1,8 +1,10 @@
 package org.tavall.minecraft.routing;
 
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
+import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
+import org.tavall.minecraft.permissions.IMinecraftFrontendPermissionDependencyAccess;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
-import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
+import org.tavall.minecraft.switching.IMinecraftFrontendSwitchingDependencyAccess;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Arrays;
@@ -10,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class MinecraftVelocityCommandExecutionHandler implements IMinecraftVelocityCommandExecutionHandler, MinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftVelocityCommandExecutionHandler implements IMinecraftVelocityCommandExecutionHandler, IMinecraftFrontendBridgeDependencyAccess, IMinecraftFrontendPermissionDependencyAccess, IMinecraftFrontendRoutingDependencyAccess, IMinecraftFrontendSwitchingDependencyAccess, IDependencyInjectableConcrete {
     @Override
     public MinecraftVelocityCommandResult execute(
             MinecraftVelocityCommandSource source,

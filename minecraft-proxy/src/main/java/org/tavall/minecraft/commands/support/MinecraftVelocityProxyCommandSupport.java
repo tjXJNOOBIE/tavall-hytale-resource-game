@@ -4,11 +4,12 @@ import org.tavall.api.minecraft.permissions.UniversalPermissionPolicy;
 import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
 import org.tavall.minecraft.commands.source.ConsoleVelocityCommandSource;
 import org.tavall.minecraft.commands.source.GenericVelocityCommandSource;
-import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
+import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
+import org.tavall.minecraft.permissions.IMinecraftFrontendPermissionDependencyAccess;
 import org.tavall.minecraft.runtime.IMinecraftVelocityProxyServer;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import org.tavall.minecraft.commands.source.PlayerVelocityCommandSource;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.minecraft.switching.IMinecraftFrontendSwitchingDependencyAccess;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
@@ -18,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class MinecraftVelocityProxyCommandSupport implements MinecraftFrontendDomain, IDependencyInjectableConcrete {
+public abstract class MinecraftVelocityProxyCommandSupport implements IMinecraftFrontendBridgeDependencyAccess, IMinecraftFrontendPermissionDependencyAccess, IMinecraftFrontendSwitchingDependencyAccess, IDependencyInjectableConcrete {
     protected MinecraftVelocityCommandSource commandSource(SimpleCommand.Invocation invocation) {
         if (invocation.source() instanceof Player player) {
             return new PlayerVelocityCommandSource(player);
@@ -78,6 +79,6 @@ public abstract class MinecraftVelocityProxyCommandSupport implements MinecraftF
     }
 
     private Optional<IMinecraftVelocityProxyServer> resolveProxyServer() {
-        return DependencyLoaderAccess.findOptionalInstance(IMinecraftVelocityProxyServer.class);
+        return findMinecraftVelocityProxyServer();
     }
 }

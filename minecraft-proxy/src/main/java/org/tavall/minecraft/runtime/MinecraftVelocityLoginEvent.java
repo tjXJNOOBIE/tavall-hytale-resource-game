@@ -4,6 +4,7 @@ import org.tavall.api.minecraft.permissions.PunishOperationType;
 import org.tavall.api.minecraft.permissions.PunishRequest;
 import org.tavall.api.minecraft.permissions.PunishResponse;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
+import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.proxy.Player;
@@ -15,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class MinecraftVelocityLoginEvent implements MinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftVelocityLoginEvent implements IMinecraftFrontendBridgeDependencyAccess, IDependencyInjectableConcrete {
     @Subscribe
     public void onLogin(LoginEvent event) {
         handleLogin(event.getPlayer());

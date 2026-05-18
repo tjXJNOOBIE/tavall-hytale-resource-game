@@ -1,13 +1,12 @@
 package org.tavall.minecraft.bridge;
 
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
-import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.List;
 import java.util.Map;
 
-public final class MinecraftKdCommandEnvelopeBridge implements IMinecraftKdCommandEnvelopeBridge, MinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftKdCommandEnvelopeBridge implements IMinecraftKdCommandEnvelopeBridge, IMinecraftFrontendBridgeDependencyAccess, IDependencyInjectableConcrete {
     @Override
     public FrontendCommandEnvelope commandEnvelope(
             String platformAccountId,

@@ -2,14 +2,15 @@ package org.tavall.minecraft.permissions;
 
 import org.tavall.api.minecraft.permissions.UniversalPermissionPolicy;
 import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
+import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
-import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
+import org.tavall.minecraft.permissions.IMinecraftFrontendPermissionDependencyAccess;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Locale;
 import java.util.Set;
 
-public final class MinecraftVelocityCommandPermissionHandler implements IMinecraftVelocityCommandPermissionHandler, MinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftVelocityCommandPermissionHandler implements IMinecraftVelocityCommandPermissionHandler, IMinecraftFrontendBridgeDependencyAccess, IMinecraftFrontendPermissionDependencyAccess, IDependencyInjectableConcrete {
     private static final Set<String> ADMIN_OPERATIONS = Set.of(
             "create",
             "spawn",

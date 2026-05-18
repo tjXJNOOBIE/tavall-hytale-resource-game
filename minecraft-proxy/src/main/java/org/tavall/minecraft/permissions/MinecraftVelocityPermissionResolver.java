@@ -3,13 +3,13 @@ package org.tavall.minecraft.permissions;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
 import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
+import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
-import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Set;
 
-public final class MinecraftVelocityPermissionResolver implements IMinecraftVelocityPermissionResolver, MinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftVelocityPermissionResolver implements IMinecraftVelocityPermissionResolver, IMinecraftFrontendBridgeDependencyAccess, IDependencyInjectableConcrete {
     @Override
     public UniversalPermissionSubject resolveSubject(MinecraftVelocityCommandSource source) {
         return new UniversalPermissionSubject(

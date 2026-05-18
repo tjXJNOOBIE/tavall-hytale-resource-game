@@ -4,6 +4,7 @@ import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import org.tavall.api.minecraft.permissions.PunishOperationType;
 import org.tavall.api.minecraft.permissions.PunishRequest;
 import org.tavall.api.minecraft.permissions.PunishResponse;
+import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
@@ -15,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class MinecraftVelocityMuteChatEvent implements MinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftVelocityMuteChatEvent implements IMinecraftFrontendBridgeDependencyAccess, IDependencyInjectableConcrete {
     @Subscribe
     public void onPlayerChat(PlayerChatEvent event) {
         handleChat(event);

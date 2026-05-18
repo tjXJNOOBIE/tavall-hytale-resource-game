@@ -2,14 +2,13 @@ package org.tavall.minecraft.bridge;
 
 import org.tavall.api.minecraft.frontend.FrontendCommandSurface;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
-import org.tavall.minecraft.runtime.MinecraftFrontendDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import com.tjxjnoobie.api.platform.global.console.Log;
 
 import java.util.List;
 import java.util.Map;
 
-public final class MinecraftControlPlaneCommandBridge implements IMinecraftControlPlaneCommandBridge, MinecraftFrontendDomain, IDependencyInjectableConcrete {
+public final class MinecraftControlPlaneCommandBridge implements IMinecraftControlPlaneCommandBridge, IMinecraftFrontendBridgeDependencyAccess, IDependencyInjectableConcrete {
     @Override
     public FrontendCommandVerificationResult submitKdCommand(
             String platformAccountId,
