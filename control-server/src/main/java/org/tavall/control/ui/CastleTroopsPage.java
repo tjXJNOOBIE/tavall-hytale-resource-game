@@ -3,7 +3,6 @@ package org.tavall.control.ui;
 import org.tavall.api.minecraft.ui.UiActions;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 
@@ -16,8 +15,8 @@ import java.util.Map;
 public final class CastleTroopsPage extends BaseUiPage {
     private static final String PAGE_DOCUMENT = "Pages/castle-troops.html";
 
-    public CastleTroopsPage(Player player, UiNavigationContext context, PlayerGameState state, IUiActionHandler actionHandler) {
-        super(player, context, state, actionHandler, PAGE_DOCUMENT, templateData(context, state), bindings());
+    public CastleTroopsPage(Player player, UiNavigationContext context, PlayerGameState state) {
+        super(player, context, state, PAGE_DOCUMENT, templateData(context, state), bindings());
     }
 
     private static Map<String, ?> templateData(UiNavigationContext context, PlayerGameState state) {

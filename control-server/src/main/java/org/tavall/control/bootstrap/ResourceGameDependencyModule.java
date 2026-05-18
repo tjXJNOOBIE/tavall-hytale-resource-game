@@ -49,7 +49,6 @@ import org.tavall.control.resource.IResourceNodeHandler;
 import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
 import org.tavall.control.resource.IResourceHandler;
-import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.ui.IUiPageRegistry;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
@@ -139,7 +138,6 @@ import org.tavall.control.ui.DebugUiCommandBindings;
 import org.tavall.control.ui.FarmsteadMenuPage;
 import org.tavall.control.ui.InteriorMainPage;
 import org.tavall.control.ui.ResourceNodePage;
-import org.tavall.control.ui.UiActionHandler;
 import org.tavall.control.ui.UiNavigator;
 import org.tavall.control.ui.UiPageRegistry;
 import org.tavall.control.ui.UiPageType;
@@ -372,8 +370,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                 uiNavigator,
                 farmsteadMenuHandler
         );
-        UiActionHandler uiActionHandler = new UiActionHandler();
-        registerUiPages(pageRegistry, uiActionHandler, infrastructureHealthHandler, gameStateHandler, economyPlanner, resourceNodeHandler, buildingHandler);
+        registerUiPages(pageRegistry, infrastructureHealthHandler, gameStateHandler, populationHandler, economyPlanner, resourceNodeHandler, buildingHandler);
         KingdomPlacementCommandSupport placementCommandSupport = new KingdomPlacementCommandSupport();
         KingdomBuildingCommandSupport buildingCommandSupport = new KingdomBuildingCommandSupport(
                 buildingHandler,
@@ -460,7 +457,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         registerSingleton(IPopulationHandler.class, populationHandler);
         registerSingleton(IInteriorInstanceHandler.class, interiorInstanceHandler);
         registerSingleton(IInteriorWorldHandler.class, interiorWorldHandler);
-        registerSingleton(IUiActionHandler.class, uiActionHandler);
         registerSingleton(IFarmsteadMenuHandler.class, farmsteadMenuHandler);
         registerSingleton(FarmsteadStewardSpawner.class, farmsteadStewardSpawner);
         registerSingleton(IIpHashHandler.class, ipHashHandler);
@@ -494,34 +490,27 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
 
     private void registerUiPages(
             IUiPageRegistry registry,
-            IUiActionHandler actionHandler,
             IInfrastructureHealthHandler infrastructureHealthHandler,
             IPlayerGameStateHandler gameStateHandler,
+            IPopulationHandler populationHandler,
             CastleEconomyPlanner economyPlanner,
             IResourceNodeHandler resourceNodeHandler,
             ICastleBuildingHandler buildingHandler
     ) {
-        registry.register(UiPageType.CASTLE_MAIN, (player, context, state) -> new CastleMainPage(player, context, state, actionHandler, economyPlanner));
-        registry.register(UiPageType.CASTLE_INFO, (player, context, state) -> new CastleInfoPage(player, context, state, actionHandler));
-        registry.register(UiPageType.CASTLE_CITIZENS, (player, context, state) -> new CastleCitizensPage(player, context, state, actionHandler, economyPlanner));
-        registry.register(UiPageType.CASTLE_TROOPS, (player, context, state) -> new CastleTroopsPage(player, context, state, actionHandler));
-        registry.register(UiPageType.CASTLE_RESOURCES, (player, context, state) -> new CastleResourcesPage(player, context, state, actionHandler, economyPlanner));
-        registry.register(UiPageType.CASTLE_UPGRADES, (player, context, state) -> new CastleUpgradesPage(player, context, state, actionHandler));
-        registry.register(UiPageType.CASTLE_BUILDINGS, (player, context, state) -> new CastleBuildingsPage(player, context, state, actionHandler, buildingHandler));
-        registry.register(UiPageType.FARMSTEAD_MENU, (player, context, state) -> new FarmsteadMenuPage(player, context, state, actionHandler, buildingHandler));
-        registry.register(UiPageType.RESOURCE_NODE_DETAIL, (player, context, state) -> new ResourceNodePage(player, context, state, actionHandler, resourceNodeHandler));
-        registry.register(UiPageType.BUILDING_DETAIL, (player, context, state) -> new BuildingDetailPage(player, context, state, actionHandler, buildingHandler));
-        registry.register(UiPageType.INTERIOR_MAIN, (player, context, state) -> new InteriorMainPage(player, context, state, actionHandler));
+        registry.register(UiPageType.CASTLE_MAIN, (player, context, state) -> new CastleMainPage(player, context, state, economyPlanner));
+        registry.register(UiPageType.CASTLE_INFO, (player, context, state) -> new CastleInfoPage(player, context, state));
+        registry.register(UiPageType.CASTLE_CITIZENS, (player, context, state) -> new CastleCitizensPage(player, context, state, economyPlanner));
+        registry.register(UiPageType.CASTLE_TROOPS, (player, context, state) -> new CastleTroopsPage(player, context, state));
+        registry.register(UiPageType.CASTLE_RESOURCES, (player, context, state) -> new CastleResourcesPage(player, context, state, economyPlanner));
+        registry.register(UiPageType.CASTLE_UPGRADES, (player, context, state) -> new CastleUpgradesPage(player, context, state, populationHandler, gameStateHandler));
+        registry.register(UiPageType.CASTLE_BUILDINGS, (player, context, state) -> new CastleBuildingsPage(player, context, state, buildingHandler));
+        registry.register(UiPageType.FARMSTEAD_MENU, (player, context, state) -> new FarmsteadMenuPage(player, context, state, buildingHandler));
+        registry.register(UiPageType.RESOURCE_NODE_DETAIL, (player, context, state) -> new ResourceNodePage(player, context, state, resourceNodeHandler));
+        registry.register(UiPageType.BUILDING_DETAIL, (player, context, state) -> new BuildingDetailPage(player, context, state, buildingHandler));
+        registry.register(UiPageType.INTERIOR_MAIN, (player, context, state) -> new InteriorMainPage(player, context, state, gameStateHandler));
         registry.register(
                 UiPageType.DEBUG_NAVIGATOR,
-                (player, context, state) -> new DebugNavigatorPage(
-                        player,
-                        context,
-                        state,
-                        actionHandler,
-                        infrastructureHealthHandler,
-                        gameStateHandler
-                )
+                (player, context, state) -> new DebugNavigatorPage(player, context, state, infrastructureHealthHandler, gameStateHandler)
         );
         registry.register(
                 UiPageType.DEBUG_PLACEMENT,
@@ -529,7 +518,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         player,
                         context,
                         state,
-                        actionHandler,
                         infrastructureHealthHandler,
                         gameStateHandler,
                         "Pages/debug-placement.html",
@@ -542,7 +530,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         player,
                         context,
                         state,
-                        actionHandler,
                         infrastructureHealthHandler,
                         gameStateHandler,
                         "Pages/debug-interior.html",
@@ -555,7 +542,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         player,
                         context,
                         state,
-                        actionHandler,
                         infrastructureHealthHandler,
                         gameStateHandler,
                         "Pages/debug-buildings.html",
@@ -568,7 +554,6 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         player,
                         context,
                         state,
-                        actionHandler,
                         infrastructureHealthHandler,
                         gameStateHandler,
                         "Pages/debug-world.html",

@@ -1,10 +1,8 @@
 package org.tavall.control.ui;
-import org.tavall.control.player.PlayerGameStateHandler;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import org.tavall.control.runtime.IInfrastructureHealthHandler;
 import org.tavall.control.player.IPlayerGameStateHandler;
-import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.domain.InfrastructureHealthSnapshot;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
@@ -22,11 +20,10 @@ public final class DebugNavigatorPage extends BaseUiPage {
             Player player,
             UiNavigationContext context,
             PlayerGameState state,
-            IUiActionHandler actionHandler,
             IInfrastructureHealthHandler infrastructureHealthHandler,
             IPlayerGameStateHandler gameStateHandler
     ) {
-        super(player, context, state, actionHandler, PAGE_DOCUMENT, templateData(context, state, infrastructureHealthHandler, gameStateHandler), bindings());
+        super(player, context, state, PAGE_DOCUMENT, templateData(context, state, infrastructureHealthHandler, gameStateHandler), bindings());
     }
 
     static Map<String, ?> templateData(

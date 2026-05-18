@@ -4,7 +4,6 @@ import org.tavall.api.minecraft.ui.UiActions;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import org.tavall.control.castle.ICastleBuildingHandler;
-import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CastleBuildingSummary;
@@ -26,10 +25,9 @@ public final class CastleBuildingsPage extends BaseUiPage {
             Player player,
             UiNavigationContext context,
             PlayerGameState state,
-            IUiActionHandler actionHandler,
             ICastleBuildingHandler buildingHandler
     ) {
-        super(player, context, state, actionHandler, PAGE_DOCUMENT, templateData(player, context, state, buildingHandler), bindings());
+        super(player, context, state, PAGE_DOCUMENT, templateData(player, context, state, buildingHandler), bindings());
     }
 
     private static Map<String, ?> templateData(Player player, UiNavigationContext context, PlayerGameState state, ICastleBuildingHandler buildingHandler) {

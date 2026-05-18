@@ -3,7 +3,6 @@ package org.tavall.control.ui;
 import org.tavall.api.minecraft.ui.UiActions;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.domain.CastleEconomySnapshot;
 import org.tavall.control.domain.CitizenJobType;
 import org.tavall.control.domain.PlayerGameState;
@@ -23,10 +22,9 @@ public final class CastleCitizensPage extends BaseUiPage {
             Player player,
             UiNavigationContext context,
             PlayerGameState state,
-            IUiActionHandler actionHandler,
             CastleEconomyPlanner economyPlanner
     ) {
-        super(player, context, state, actionHandler, PAGE_DOCUMENT, templateData(context, state, economyPlanner), bindings());
+        super(player, context, state, PAGE_DOCUMENT, templateData(context, state, economyPlanner), bindings());
     }
 
     private static Map<String, ?> templateData(UiNavigationContext context, PlayerGameState state, CastleEconomyPlanner economyPlanner) {

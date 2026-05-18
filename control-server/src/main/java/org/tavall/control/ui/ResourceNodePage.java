@@ -4,7 +4,6 @@ import org.tavall.api.minecraft.ui.UiActions;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import org.tavall.control.resource.IResourceNodeHandler;
-import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceNodeData;
 import org.tavall.control.domain.ResourceNodeSummary;
@@ -24,10 +23,9 @@ public final class ResourceNodePage extends BaseUiPage {
             Player player,
             UiNavigationContext context,
             PlayerGameState state,
-            IUiActionHandler actionHandler,
             IResourceNodeHandler resourceNodeHandler
     ) {
-        super(player, context, state, actionHandler, PAGE_DOCUMENT, templateData(context, state, resourceNodeHandler), bindings());
+        super(player, context, state, PAGE_DOCUMENT, templateData(context, state, resourceNodeHandler), bindings());
     }
 
     private static Map<String, ?> templateData(UiNavigationContext context, PlayerGameState state, IResourceNodeHandler resourceNodeHandler) {

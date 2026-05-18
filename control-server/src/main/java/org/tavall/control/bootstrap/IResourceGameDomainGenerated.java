@@ -50,7 +50,6 @@ import org.tavall.control.resource.IResourceNodeInteractionHandler;
 import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
 import org.tavall.control.resource.IResourceHandler;
-import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.ui.IUiPageRegistry;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
@@ -237,10 +236,6 @@ public interface IResourceGameDomainGenerated {
 
     default IUiPageRegistry getUiPageRegistry() {
         return DependencyLoaderAccess.findInstance(IUiPageRegistry.class);
-    }
-
-    default IUiActionHandler getUiActionHandler() {
-        return DependencyLoaderAccess.findInstance(IUiActionHandler.class);
     }
 
     default IFarmsteadMenuHandler getFarmsteadMenuHandler() {

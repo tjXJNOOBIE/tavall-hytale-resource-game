@@ -18,7 +18,7 @@ public final class ResourceGameUiPageBuilder extends PageBuilder {
             String resourcePath,
             Map<String, ?> templateVariables,
             Collection<UiActionBinding> actionBindings,
-            BiConsumer<UiActionEventData, UIContext> actionHandler
+            BiConsumer<UiActionEventData, UIContext> pageActionHandler
     ) {
         ResourceGameUiPageBuilder builder = new ResourceGameUiPageBuilder();
         String templateHtml = UiPageMarkupDecorator.loadDecorated(Objects.requireNonNull(resourcePath, "resourcePath"));
@@ -28,7 +28,7 @@ public final class ResourceGameUiPageBuilder extends PageBuilder {
                     binding.elementId(),
                     CustomUIEventBindingType.Activating,
                     Void.class,
-                    (ignored, uiContext) -> actionHandler.accept(binding.eventData(), uiContext)
+                    (ignored, uiContext) -> pageActionHandler.accept(binding.eventData(), uiContext)
             );
         }
         return builder.definition();

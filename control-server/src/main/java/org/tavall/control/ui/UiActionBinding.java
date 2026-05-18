@@ -8,6 +8,8 @@ import java.util.Objects;
  * Maps one UI element activation to the existing UI action pipeline.
  */
 public record UiActionBinding(String elementId, String action, String payload) {
+    public static final String COMMAND_RETURN_SEPARATOR = "\u001F";
+
     public UiActionBinding {
         elementId = normalizeElementId(elementId);
         action = Objects.requireNonNull(action, "action");
@@ -31,7 +33,7 @@ public record UiActionBinding(String elementId, String action, String payload) {
     public static UiActionBinding action(String selectorOrElementId, String action, String payload, UiPageType returnPage) {
         String returnPayload = returnPage == null || payload == null || payload.isBlank()
                 ? payload
-                : returnPage.name() + UiActionHandler.COMMAND_RETURN_SEPARATOR + payload;
+                : returnPage.name() + COMMAND_RETURN_SEPARATOR + payload;
         return new UiActionBinding(selectorOrElementId, action, returnPayload);
     }
 
@@ -42,7 +44,7 @@ public record UiActionBinding(String elementId, String action, String payload) {
     public static UiActionBinding command(String selectorOrElementId, String commandLine, UiPageType returnPage) {
         String returnPayload = returnPage == null
                 ? commandLine
-                : returnPage.name() + UiActionHandler.COMMAND_RETURN_SEPARATOR + commandLine;
+                : returnPage.name() + COMMAND_RETURN_SEPARATOR + commandLine;
         return new UiActionBinding(selectorOrElementId, UiActions.RUN_COMMAND, returnPayload);
     }
 
