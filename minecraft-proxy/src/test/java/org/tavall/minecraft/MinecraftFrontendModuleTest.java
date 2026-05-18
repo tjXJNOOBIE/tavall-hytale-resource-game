@@ -998,8 +998,8 @@ public final class MinecraftFrontendModuleTest {
 
     @Test
     void velocityPluginRegistersProxyRuntimeBehindMinecraftInterface() throws Exception {
-        String pluginSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
-        String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
+        String pluginSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
+        String bootstrapSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
 
         assertTrue(pluginSource.contains("new MinecraftVelocityBootstrap(proxyServer, logger, config, new ProxyServerSwitchGateway()).initialize();"));
         assertFalse(pluginSource.contains("IMinecraftVelocityProxyServer.class"));

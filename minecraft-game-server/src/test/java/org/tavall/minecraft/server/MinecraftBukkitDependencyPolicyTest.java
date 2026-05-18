@@ -17,7 +17,7 @@ public final class MinecraftBukkitDependencyPolicyTest {
         Pattern constructorDependency = Pattern.compile("public\\s+MinecraftBukkit[A-Za-z0-9]+\\s*\\([^)]*[A-Z][A-Za-z0-9_<>?, ]+\\s+[a-z]");
         Pattern privateDependencyField = Pattern.compile("private\\s+final\\s+(MinecraftBukkit|Logger|URI|ObjectMapper).*;");
 
-        try (var paths = Files.walk(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server"))) {
+        try (var paths = Files.walk(Path.of("src/main/java/org/tavall/minecraft/server"))) {
             List<Path> files = paths
                     .filter(path -> {
                         String name = path.getFileName().toString();
@@ -40,11 +40,11 @@ public final class MinecraftBukkitDependencyPolicyTest {
 
     @Test
     void bukkitEntrypointAdaptsFrameworkObjectsBehindMinecraftInterfaces() throws IOException {
-        String pluginSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitServerPlugin.java"));
-        String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/bootstrap/MinecraftBukkitBootstrap.java"));
-        String commandClientSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitCommandClientHandler.java"));
-        String dependencyModuleSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitServerDependencyModule.java"));
-        String accountGuiSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/KingdomAccountGui.java"));
+        String pluginSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/server/MinecraftBukkitServerPlugin.java"));
+        String bootstrapSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/server/bootstrap/MinecraftBukkitBootstrap.java"));
+        String commandClientSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/server/MinecraftBukkitCommandClientHandler.java"));
+        String dependencyModuleSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/server/MinecraftBukkitServerDependencyModule.java"));
+        String accountGuiSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/server/KingdomAccountGui.java"));
         String controlServerDependencyModuleSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "org", "tavall", "control", "bootstrap", "ResourceGameDependencyModule.java"));
         String playerDataApiSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "org", "tavall", "control", "api", "PlayerDataApi.java"));
         String controlBridgeServerSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "org", "tavall", "control", "transport", "ControlPlaneTcpBridgeServer.java"));
@@ -93,8 +93,8 @@ public final class MinecraftBukkitDependencyPolicyTest {
 
     @Test
     void bukkitRawEventsUseDedicatedHandlersWithStableMonitorOrdering() throws IOException {
-        String interactSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitInteractionHandler.java"));
-        String joinSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitPlayerJoinHandler.java"));
+        String interactSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/server/MinecraftBukkitInteractionHandler.java"));
+        String joinSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/server/MinecraftBukkitPlayerJoinHandler.java"));
 
         assertTrue(interactSource.contains("@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)"));
         assertTrue(joinSource.contains("@EventHandler(priority = EventPriority.MONITOR)"));

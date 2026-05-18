@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public final class MinecraftFrontendDependencyPolicyTest {
     @Test
     void velocityEntrypointAdaptsProxyServerBehindMinecraftInterfaceToken() throws IOException {
-        String pluginSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
-        String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
+        String pluginSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
+        String bootstrapSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
 
         assertTrue(pluginSource.contains("@Inject"));
         assertTrue(pluginSource.contains("new MinecraftVelocityBootstrap(proxyServer, logger, config, new ProxyServerSwitchGateway()).initialize();"));
@@ -37,9 +37,9 @@ public final class MinecraftFrontendDependencyPolicyTest {
     @Test
     void velocityDoesNotExposeKingdomCommandsOnProxy() throws IOException {
         String pluginDescriptor = Files.readString(Path.of("src/main/resources/velocity-plugin.json"));
-        String pluginSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
-        String bootstrapSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
-        String commandSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/commands/MinecraftVelocitySimpleCommand.java"));
+        String pluginSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/runtime/MinecraftVelocityProxyPlugin.java"));
+        String bootstrapSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/runtime/bootstrap/MinecraftVelocityBootstrap.java"));
+        String commandSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/commands/MinecraftVelocitySimpleCommand.java"));
 
         assertTrue(pluginDescriptor.contains("\"main\": \"org.tavall.minecraft.runtime.MinecraftVelocityProxyPlugin\""));
         assertFalse(pluginSource.contains("metaBuilder(\"rank\")"));
@@ -64,15 +64,15 @@ public final class MinecraftFrontendDependencyPolicyTest {
     @Test
     void velocityApplicationLogicUsesGeneratedDefaultDependencies() throws IOException {
         List<Path> files = List.of(
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/bridge/MinecraftControlPlaneCommandBridge.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/bridge/MinecraftDirectControlCommandClient.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/commands/MinecraftVelocityRankCommand.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/bridge/MinecraftKdCommandEnvelopeBridge.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/routing/MinecraftVelocityCommandExecutionHandler.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/permissions/MinecraftVelocityCommandPermissionHandler.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/switching/MinecraftVelocityInstanceSwitchHandler.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/permissions/MinecraftVelocityPermissionResolver.java"),
-                Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/switching/ProxyServerSwitchGateway.java")
+                Path.of("src/main/java/org/tavall/minecraft/bridge/MinecraftControlPlaneCommandBridge.java"),
+                Path.of("src/main/java/org/tavall/minecraft/bridge/MinecraftDirectControlCommandClient.java"),
+                Path.of("src/main/java/org/tavall/minecraft/commands/MinecraftVelocityRankCommand.java"),
+                Path.of("src/main/java/org/tavall/minecraft/bridge/MinecraftKdCommandEnvelopeBridge.java"),
+                Path.of("src/main/java/org/tavall/minecraft/routing/MinecraftVelocityCommandExecutionHandler.java"),
+                Path.of("src/main/java/org/tavall/minecraft/permissions/MinecraftVelocityCommandPermissionHandler.java"),
+                Path.of("src/main/java/org/tavall/minecraft/switching/MinecraftVelocityInstanceSwitchHandler.java"),
+                Path.of("src/main/java/org/tavall/minecraft/permissions/MinecraftVelocityPermissionResolver.java"),
+                Path.of("src/main/java/org/tavall/minecraft/switching/ProxyServerSwitchGateway.java")
         );
         Pattern injectedConstructor = Pattern.compile("public\\s+[A-Za-z0-9]+\\s*\\([^)]*[A-Z][A-Za-z0-9_<>?, ]+\\s+[a-z]");
         Pattern cachedDependencyField = Pattern.compile("private\\s+final\\s+(I?Minecraft|ProxyServer|Logger|HttpClient|ObjectMapper).*;");
@@ -90,7 +90,7 @@ public final class MinecraftFrontendDependencyPolicyTest {
 
     @Test
     void velocityDependencyModuleUsesTcpControlBridgeClient() throws IOException {
-        String moduleSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/runtime/MinecraftFrontendDependencyModule.java"));
+        String moduleSource = Files.readString(Path.of("src/main/java/org/tavall/minecraft/runtime/MinecraftFrontendDependencyModule.java"));
 
         assertTrue(moduleSource.contains("FrontendTcpControlCommandClient"));
         assertFalse(moduleSource.contains("Frontend" + "HttpControlCommandClient"));
