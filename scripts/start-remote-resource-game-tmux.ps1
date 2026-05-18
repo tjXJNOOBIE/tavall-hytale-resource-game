@@ -31,6 +31,18 @@ function Invoke-Remote {
     }
 }
 
+function Get-SshHostName {
+    param([string]$ConfigPath, [string]$Alias)
+    $resolved = & ssh.exe -F $ConfigPath -G $Alias 2>$null | Where-Object { $_ -match '^hostname\s+' } | Select-Object -First 1
+    if ($resolved -match '^hostname\s+(.+)$') {
+        return $Matches[1].Trim()
+    }
+    return "127.0.0.1"
+}
+
+$RemoteHostName = Get-SshHostName -ConfigPath $SshConfigPath -Alias $SshAlias
+$ResourcePackUrl = "http://$($RemoteHostName):18182/resource-pack.zip"
+
 $remoteScript = @"
 set -euo pipefail
 
@@ -76,7 +88,7 @@ wait_for_port $ControlPort
 wait_for_port $MinecraftControlPort
 restart_tmux minecraft-ffa '$RemoteBackendDir' 'RESOURCE_GAME_MINECRAFT_SERVER_ID=minecraft-backend-ffa RESOURCE_GAME_MINECRAFT_PROXY_ID=velocity-proxy java -Xss1650k -Xmx1536M -jar spigot.jar nogui'
 restart_tmux minecraft-switch '$RemoteSwitchBackendDir' 'RESOURCE_GAME_MINECRAFT_SERVER_ID=minecraft-backend-switch RESOURCE_GAME_MINECRAFT_PROXY_ID=velocity-proxy java -Xss1650k -Xmx1024M -jar spigot.jar nogui'
-restart_tmux minecraft-kingdom '$RemoteKingdomBackendDir' 'RESOURCE_GAME_MINECRAFT_SERVER_ID=mc-kingdom-server-1 RESOURCE_GAME_MINECRAFT_PROXY_ID=velocity-proxy java -Xmx1536M -jar server.jar nogui'
+restart_tmux minecraft-kingdom '$RemoteKingdomBackendDir' 'RESOURCE_GAME_MINECRAFT_SERVER_ID=mc-kingdom-server-1 RESOURCE_GAME_MINECRAFT_PROXY_ID=velocity-proxy RESOURCE_GAME_MINECRAFT_RESOURCE_PACK_URL=$ResourcePackUrl java -Xmx1536M -jar server.jar nogui'
 restart_tmux minecraft-proxy '$RemoteProxyDir' 'RESOURCE_GAME_MINECRAFT_OWNER_USERNAMES=$VelocityOwnerUsernames RESOURCE_GAME_MINECRAFT_SERVER_ID=velocity-proxy RESOURCE_GAME_MINECRAFT_INSTANCE_SERVER_MAP=$InstanceServerMap bash ./start.sh'
 wait_for_port $FfaPort
 wait_for_port $SwitchPort

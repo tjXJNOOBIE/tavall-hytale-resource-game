@@ -89,6 +89,19 @@ function normalizeWindowTitle(titleValue) {
   return title || '[unknown window title]'
 }
 
+function summarizeWindowItem(item) {
+  if (!item) {
+    return ''
+  }
+  const parts = [
+    item.displayName ?? null,
+    item.name ?? null,
+    Array.isArray(item.lore) ? item.lore.join('\n') : null,
+    item.nbt ? normalizeMessage(item.nbt) : null
+  ]
+  return parts.filter(Boolean).join('\n')
+}
+
 async function waitForCommandResponse(messages, command, timeoutMs = 15000) {
   const startedLength = messages.length
   const startedAt = Date.now()
@@ -110,6 +123,8 @@ async function waitForCommandResponse(messages, command, timeoutMs = 15000) {
         message.includes('You were banned by ') ||
         message.includes('Simulation tooling is not enabled on this proxy.') ||
         message.includes('Rank command failed') ||
+        message.includes('command.failed') ||
+        message.includes('An unexpected error occurred trying to execute that command') ||
         message.includes('Connected to') ||
         message.includes('already connected') ||
       message.includes('Kingdom Commands') ||
@@ -476,6 +491,30 @@ bot.on('spawn', () => {
   log('spawn event received')
 })
 
+const resourcePackPromise = new Promise((resolve, reject) => {
+  const timeout = setTimeout(() => reject(new Error('Timed out waiting for Minecraft resource pack request')), 30000)
+  bot.once('resourcePack', (url, hashOrUuid, uuidMaybe) => {
+    clearTimeout(timeout)
+    log(`resource-pack requested url=${url} hashOrUuid=${hashOrUuid ?? '[none]'} uuid=${uuidMaybe ?? '[none]'}`)
+    try {
+      bot.acceptResourcePack()
+      log('resource-pack accepted')
+    } catch (error) {
+      reject(error)
+      return
+    }
+    resolve({ url, hashOrUuid, uuidMaybe })
+  })
+  bot.once('kicked', reason => {
+    clearTimeout(timeout)
+    reject(new Error(`Kicked before resource pack request: ${normalizeMessage(reason)}`))
+  })
+  bot.once('error', error => {
+    clearTimeout(timeout)
+    reject(error)
+  })
+})
+
 try {
   await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => reject(new Error('Timed out waiting for Minecraft proxy login')), 30000)
@@ -493,6 +532,7 @@ try {
       reject(error)
     })
   })
+  await resourcePackPromise
 
   await sleep(2000)
   try {
@@ -531,6 +571,13 @@ try {
         return ''
       })
       response = await Promise.race([uiWindowPromise, safeCommandResponsePromise])
+      if (normalizedPrepared.startsWith('/kd ui') && bot.currentWindow) {
+        const headerSummary = summarizeWindowItem(bot.currentWindow.slots?.[4])
+        if (!headerSummary.includes('Minecraft assets:') || !headerSummary.includes('ui_icon_kingdom_castle')) {
+          throw new Error(`Resource-pack-backed UI header missing asset markers: ${headerSummary || '[empty]'}`)
+        }
+        log(`resource-pack header ${headerSummary.replace(/\s+/g, ' ').trim()}`)
+      }
       try {
         const clickSlot = normalizedPrepared.startsWith('/kd npc') ? 12 : normalizedPrepared.startsWith('/kd building') ? 13 : 10
         await clickWindowSlot(bot, clickSlot)

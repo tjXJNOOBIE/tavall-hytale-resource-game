@@ -1,34 +1,65 @@
 package org.tavall.minecraft.server.resourcepack;
 
-import org.tavall.minecraft.framework.game.ui.UiScreenKey;
-import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
+import org.tavall.minecraft.server.IBukkitUtilDependencyAccess;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
-public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukkitResourcePackHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukkitResourcePackHandler, IBukkitUtilDependencyAccess, IDependencyInjectableConcrete {
+    private static final String DEFAULT_PACK_FILE_NAME = "pack.zip";
+    private static final String DEFAULT_PACK_PATH = "/resource-pack.zip";
+    private static final String DEFAULT_CONTENT_TYPE = "application/zip";
+
     private final Path explicitRoot;
+    private final String explicitResourcePackUrl;
+    private volatile HttpServer hostedPackServer;
+    private volatile byte[] hostedPackArchiveBytes;
+    private volatile byte[] hostedPackArchiveHash;
 
     public MinecraftBukkitResourcePackHandler() {
-        this(null);
+        this(null, null);
     }
 
     public static MinecraftBukkitResourcePackHandler forRoot(Path explicitRoot) {
-        return new MinecraftBukkitResourcePackHandler(explicitRoot);
+        return new MinecraftBukkitResourcePackHandler(explicitRoot, null);
     }
 
-    MinecraftBukkitResourcePackHandler(Path explicitRoot) {
+    public static MinecraftBukkitResourcePackHandler forRoot(Path explicitRoot, URI explicitResourcePackUrl) {
+        return new MinecraftBukkitResourcePackHandler(explicitRoot, explicitResourcePackUrl);
+    }
+
+    MinecraftBukkitResourcePackHandler(Path explicitRoot, URI explicitResourcePackUrl) {
         this.explicitRoot = explicitRoot;
+        this.explicitResourcePackUrl = explicitResourcePackUrl == null ? null : explicitResourcePackUrl.toString();
     }
 
     @Override
     public Path resourcePackRoot() {
         Path root = explicitRoot != null ? explicitRoot : Path.of(getMinecraftBukkitServerConfig().resourcePackPath());
         return root.toAbsolutePath().normalize();
+    }
+
+    @Override
+    public Path resourcePackArchive() {
+        return resourcePackRoot().resolve(DEFAULT_PACK_FILE_NAME);
     }
 
     @Override
@@ -84,19 +115,207 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
     }
 
     @Override
+    public String resourcePackUrl() {
+        URI uri = configuredResourcePackUrl();
+        return uri == null ? "" : uri.toString();
+    }
+
+    @Override
+    public String resourcePackPrompt() {
+        return getMinecraftBukkitServerConfig().resourcePackPrompt();
+    }
+
+    @Override
+    public boolean resourcePackForce() {
+        return getMinecraftBukkitServerConfig().resourcePackForce();
+    }
+
+    @Override
+    public int resourcePackFormat() {
+        return getMinecraftBukkitServerConfig().resourcePackFormat();
+    }
+
+    @Override
+    public byte[] resourcePackHash() {
+        ensurePackArchive();
+        return hostedPackArchiveHash == null ? new byte[0] : hostedPackArchiveHash.clone();
+    }
+
+    @Override
     public void ensureLayout() {
         try {
             Files.createDirectories(resourcePackRoot());
             Files.createDirectories(castleAssetsRoot());
             Files.createDirectories(buildingAssetsRoot());
+            ensurePackArchive();
         } catch (IOException exception) {
             throw new IllegalStateException("Unable to prepare resource pack layout at " + resourcePackRoot(), exception);
         }
     }
 
     @Override
+    public void startHostedPackServer() {
+        URI resourcePackUrl = configuredResourcePackUrl();
+        if (resourcePackUrl == null) {
+            return;
+        }
+        ensurePackArchive();
+        synchronized (this) {
+            if (hostedPackServer != null) {
+                return;
+            }
+            int port = resolvePort(resourcePackUrl);
+            String contextPath = resolveContextPath(resourcePackUrl);
+            try {
+                hostedPackServer = HttpServer.create(new InetSocketAddress(port), 0);
+                hostedPackServer.createContext(contextPath, this::handlePackRequest);
+                hostedPackServer.setExecutor(null);
+                hostedPackServer.start();
+                getMinecraftBukkitLogger().info("Resource pack HTTP server started at " + resourcePackUrl + " archive=" + resourcePackArchive());
+            } catch (IOException exception) {
+                throw new IllegalStateException("Unable to start resource pack HTTP server at " + resourcePackUrl, exception);
+            }
+        }
+    }
+
+    @Override
+    public void stopHostedPackServer() {
+        synchronized (this) {
+            if (hostedPackServer != null) {
+                hostedPackServer.stop(0);
+                hostedPackServer = null;
+            }
+        }
+    }
+
+    @Override
+    public void forceResourcePack(Player player) {
+        URI resourcePackUrl = configuredResourcePackUrl();
+        if (resourcePackUrl == null) {
+            return;
+        }
+        ensurePackArchive();
+        getMinecraftBukkitLogger().info("Sending forced resource pack to " + player.getName() + " url=" + resourcePackUrl);
+        player.setResourcePack(
+                resourcePackUrl.toString(),
+                resourcePackHash(),
+                Component.text(resourcePackPrompt()),
+                resourcePackForce()
+        );
+    }
+
+    @Override
     public String statusLine() {
-        return "root=" + resourcePackRoot() + ", castles=" + castleAssetsRoot() + ", buildings=" + buildingAssetsRoot();
+        return "root=" + resourcePackRoot()
+                + ", archive=" + resourcePackArchive()
+                + ", url=" + resourcePackUrl()
+                + ", castles=" + castleAssetsRoot()
+                + ", buildings=" + buildingAssetsRoot();
+    }
+
+    private void handlePackRequest(HttpExchange exchange) throws IOException {
+        try (exchange) {
+            if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(405, -1);
+                return;
+            }
+            byte[] bytes = ensurePackArchive();
+            exchange.getResponseHeaders().set("Content-Type", DEFAULT_CONTENT_TYPE);
+            exchange.getResponseHeaders().set("Content-Length", String.valueOf(bytes.length));
+            exchange.sendResponseHeaders(200, bytes.length);
+            try (OutputStream outputStream = exchange.getResponseBody()) {
+                outputStream.write(bytes);
+            }
+        }
+    }
+
+    private synchronized byte[] ensurePackArchive() {
+        if (hostedPackArchiveBytes != null && hostedPackArchiveHash != null) {
+            return hostedPackArchiveBytes.clone();
+        }
+        try {
+            Files.createDirectories(resourcePackRoot());
+            Path packArchive = resourcePackArchive();
+            if (Files.exists(packArchive)) {
+                hostedPackArchiveBytes = Files.readAllBytes(packArchive);
+            } else {
+                hostedPackArchiveBytes = createPackArchiveBytes();
+                Files.write(packArchive, hostedPackArchiveBytes);
+            }
+            hostedPackArchiveHash = sha1(hostedPackArchiveBytes);
+            return hostedPackArchiveBytes.clone();
+        } catch (IOException exception) {
+            throw new IllegalStateException("Unable to prepare resource pack archive at " + resourcePackArchive(), exception);
+        }
+    }
+
+    private byte[] createPackArchiveBytes() throws IOException {
+        java.io.ByteArrayOutputStream outputStream = new java.io.ByteArrayOutputStream();
+        try (ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream, StandardCharsets.UTF_8)) {
+            ZipEntry metadataEntry = new ZipEntry("pack.mcmeta");
+            zipOutputStream.putNextEntry(metadataEntry);
+            zipOutputStream.write(packMetadataJson().getBytes(StandardCharsets.UTF_8));
+            zipOutputStream.closeEntry();
+        }
+        return outputStream.toByteArray();
+    }
+
+    private String packMetadataJson() {
+        String description = escapeJson(getMinecraftBukkitServerConfig().resourcePackPrompt());
+        return "{\n"
+                + "  \"pack\": {\n"
+                + "    \"pack_format\": " + resourcePackFormat() + ",\n"
+                + "    \"description\": \"" + description + "\"\n"
+                + "  }\n"
+                + "}\n";
+    }
+
+    private URI configuredResourcePackUrl() {
+        if (explicitResourcePackUrl != null && !explicitResourcePackUrl.trim().isEmpty()) {
+            return URI.create(explicitResourcePackUrl.trim());
+        }
+        String configuredUrl = getMinecraftBukkitServerConfig().resourcePackUrl();
+        if (configuredUrl == null || configuredUrl.trim().isEmpty()) {
+            return null;
+        }
+        return URI.create(configuredUrl.trim());
+    }
+
+    private static int resolvePort(URI resourcePackUrl) {
+        int port = resourcePackUrl.getPort();
+        if (port > 0) {
+            return port;
+        }
+        return "https".equalsIgnoreCase(resourcePackUrl.getScheme()) ? 443 : 80;
+    }
+
+    private static String resolveContextPath(URI resourcePackUrl) {
+        String path = resourcePackUrl.getPath();
+        if (path == null || path.trim().isEmpty() || "/".equals(path.trim())) {
+            return DEFAULT_PACK_PATH;
+        }
+        if (!path.startsWith("/")) {
+            return "/" + path;
+        }
+        return path;
+    }
+
+    private static byte[] sha1(byte[] bytes) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            return messageDigest.digest(bytes);
+        } catch (NoSuchAlgorithmException exception) {
+            throw new IllegalStateException("SHA-1 digest unavailable.", exception);
+        }
+    }
+
+    private static String escapeJson(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 
     private List<String> previewAssetFiles(Path root) {

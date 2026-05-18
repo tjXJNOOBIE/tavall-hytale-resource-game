@@ -9,10 +9,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 /**
  * Keeps player-join event work bounded to local visuals and async backend snapshot handoff.
  */
-public final class MinecraftBukkitPlayerJoinHandler implements IMinecraftBukkitPlayerJoinHandler, MinecraftBukkitServerDomain, IDependencyInjectableConcrete {
+public final class MinecraftBukkitPlayerJoinHandler implements IMinecraftBukkitPlayerJoinHandler, IBukkitUtilDependencyAccess, IDependencyInjectableConcrete {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        getMinecraftBukkitResourcePackHandler().forceResourcePack(player);
         getMinecraftBukkitVisualHandler().renderJoinVisual(player, getMinecraftBukkitServerConfig().serverId());
         getMinecraftBukkitTaskScheduler().runAsync(getMinecraftBukkitSnapshotSubmitHandler()::submitSnapshotQuietly);
     }

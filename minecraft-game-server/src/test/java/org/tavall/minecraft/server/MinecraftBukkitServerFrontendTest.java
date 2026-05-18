@@ -59,12 +59,20 @@ final class MinecraftBukkitServerFrontendTest {
         environment.put("RESOURCE_GAME_MINECRAFT_PROXY_ID", "velocity-proxy");
         environment.put("RESOURCE_GAME_MINECRAFT_SNAPSHOT_INTERVAL_TICKS", "40");
         environment.put("RESOURCE_GAME_MINECRAFT_RESOURCE_PACK_PATH", "resource-pack/custom-assets/");
+        environment.put("RESOURCE_GAME_MINECRAFT_RESOURCE_PACK_URL", "http://127.0.0.1:18182/resource-pack.zip");
+        environment.put("RESOURCE_GAME_MINECRAFT_RESOURCE_PACK_PROMPT", "Force the resource pack.");
+        environment.put("RESOURCE_GAME_MINECRAFT_RESOURCE_PACK_FORCE", "true");
+        environment.put("RESOURCE_GAME_MINECRAFT_RESOURCE_PACK_FORMAT", "34");
         MinecraftBukkitServerConfig config = MinecraftBukkitServerConfig.fromEnvironment(environment);
 
         assertEquals("ffa", config.serverId());
         assertEquals("velocity-proxy", config.proxyId());
         assertEquals(40L, config.snapshotIntervalTicks());
         assertEquals("resource-pack/custom-assets/", config.resourcePackPath());
+        assertEquals("http://127.0.0.1:18182/resource-pack.zip", config.resourcePackUrl());
+        assertEquals("Force the resource pack.", config.resourcePackPrompt());
+        assertTrue(config.resourcePackForce());
+        assertEquals(34, config.resourcePackFormat());
     }
 
     @Test
@@ -73,6 +81,9 @@ final class MinecraftBukkitServerFrontendTest {
         MinecraftBukkitServerConfig config = MinecraftBukkitServerConfig.fromEnvironment(environment);
 
         assertEquals("resource-pack/", config.resourcePackPath());
+        assertEquals("", config.resourcePackUrl());
+        assertTrue(config.resourcePackForce());
+        assertEquals(34, config.resourcePackFormat());
     }
 
     @Test

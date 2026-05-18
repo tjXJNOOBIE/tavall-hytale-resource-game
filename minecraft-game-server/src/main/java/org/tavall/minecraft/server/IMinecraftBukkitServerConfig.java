@@ -10,4 +10,12 @@ public interface IMinecraftBukkitServerConfig extends IDependencyInjectableInter
     long snapshotIntervalTicks();
 
     String resourcePackPath();
+
+    String resourcePackUrl();
+
+    String resourcePackPrompt();
+
+    boolean resourcePackForce();
+
+    int resourcePackFormat();
 }

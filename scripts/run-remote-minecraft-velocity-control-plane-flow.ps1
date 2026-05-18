@@ -69,6 +69,18 @@ function Invoke-Checked {
     }
 }
 
+function Get-SshHostName {
+    param([string]$ConfigPath, [string]$Alias)
+    $resolved = & ssh.exe -F $ConfigPath -G $Alias 2>$null | Where-Object { $_ -match '^hostname\s+' } | Select-Object -First 1
+    if ($resolved -match '^hostname\s+(.+)$') {
+        return $Matches[1].Trim()
+    }
+    return "127.0.0.1"
+}
+
+$RemoteHostName = Get-SshHostName -ConfigPath $SshConfigPath -Alias $SshAlias
+$ResourcePackUrl = "http://$($RemoteHostName):18182/resource-pack.zip"
+
 if (-not (Test-Path $PluginJarPath)) {
     throw "Minecraft Velocity plugin jar not found at $PluginJarPath"
 }
@@ -406,7 +418,7 @@ if ss -ltn | grep -q ':$KingdomBackendPort '; then
 fi
 JAVA_BIN=java
 tmux kill-session -t minecraft-kingdom 2>/dev/null || true
-tmux new-session -d -s minecraft-kingdom -c '$RemoteKingdomBackendDir' "env RESOURCE_GAME_MINECRAFT_SERVER_ID='$RemoteKingdomBackendName' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' RESOURCE_GAME_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' java -Xmx1536M -jar server.jar nogui 2>&1 | tee -a logs/resource-game-kingdom-backend.out.log"
+tmux new-session -d -s minecraft-kingdom -c '$RemoteKingdomBackendDir' "env RESOURCE_GAME_MINECRAFT_SERVER_ID='$RemoteKingdomBackendName' RESOURCE_GAME_MINECRAFT_PROXY_ID='velocity-proxy' RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' RESOURCE_GAME_CONTROL_INGRESS_URL='tcp://127.0.0.1:$ControlPort' RESOURCE_GAME_MINECRAFT_RESOURCE_PACK_URL='$ResourcePackUrl' java -Xmx1536M -jar server.jar nogui 2>&1 | tee -a logs/resource-game-kingdom-backend.out.log"
 for i in `$(seq 1 60); do
   if ss -ltn | grep -q ':$KingdomBackendPort '; then
     break

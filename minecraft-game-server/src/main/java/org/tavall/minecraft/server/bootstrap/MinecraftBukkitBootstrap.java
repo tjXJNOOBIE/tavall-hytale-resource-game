@@ -44,6 +44,7 @@ public final class MinecraftBukkitBootstrap {
         new MinecraftBukkitServerDependencyModule().registerDependencies();
         registerListeners();
         plugin.getMinecraftBukkitResourcePackHandler().ensureLayout();
+        plugin.getMinecraftBukkitResourcePackHandler().startHostedPackServer();
         registerCommands();
         startSnapshotHeartbeat();
         plugin.getLogger().info("Tavall Resource Game Bukkit server frontend enabled. serverId=" + plugin.getMinecraftBukkitServerConfig().serverId()
@@ -57,6 +58,10 @@ public final class MinecraftBukkitBootstrap {
                 snapshotHeartbeat.cancel();
             } catch (Throwable ignored) {
             }
+        }
+        try {
+            plugin.getMinecraftBukkitResourcePackHandler().stopHostedPackServer();
+        } catch (Throwable ignored) {
         }
         plugin.getLogger().info("Tavall Resource Game Bukkit server frontend disabled.");
     }
