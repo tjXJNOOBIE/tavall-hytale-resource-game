@@ -1,8 +1,8 @@
 package org.tavall.control.runtime;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
-import org.tavall.control.dependency.interfaces.IFrontendCommandVerificationService;
+import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.runtime.IFrontendCommandVerificationService;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.frontend.FrontendKdCommandInputFormatter;
@@ -45,3 +45,5 @@ public final class FrontendCommandVerificationHandler implements IFrontendComman
         return Map.copyOf(metadata);
     }
 }
+
+

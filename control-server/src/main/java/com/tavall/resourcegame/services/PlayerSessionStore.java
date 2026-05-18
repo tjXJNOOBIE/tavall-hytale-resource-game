@@ -2,7 +2,7 @@ package org.tavall.control.player;
 import org.tavall.control.player.PlayerSession;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.player.IPlayerSessionStore;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
@@ -30,3 +30,4 @@ public final class PlayerSessionStore implements IPlayerSessionStore, IDependenc
         return java.util.List.copyOf(sessions.values());
     }
 }
+

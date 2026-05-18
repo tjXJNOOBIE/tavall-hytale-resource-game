@@ -1,7 +1,7 @@
 package org.tavall.control.world;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IFocusedWorldOverrideService;
+import org.tavall.control.world.IFocusedWorldOverrideService;
 import org.tavall.control.domain.FocusedWorldOverride;
 import org.tavall.control.domain.FocusedWorldTarget;
 
@@ -80,3 +80,4 @@ public final class FocusedWorldOverrideService implements IFocusedWorldOverrideS
         return Optional.of(override.target());
     }
 }
+

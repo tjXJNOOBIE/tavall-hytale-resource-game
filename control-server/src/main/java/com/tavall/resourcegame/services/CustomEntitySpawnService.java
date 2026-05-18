@@ -15,11 +15,11 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.ICustomEntitySpawnService;
-import org.tavall.control.dependency.interfaces.IFarmsteadMenuService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.runtime.ICustomEntitySpawnService;
+import org.tavall.control.farmstead.ui.IFarmsteadMenuService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CitizenJobType;
 import org.tavall.control.domain.CustomEntitySpawnRole;
@@ -288,3 +288,4 @@ public final class CustomEntitySpawnService implements ICustomEntitySpawnService
         return throwable.getMessage();
     }
 }
+

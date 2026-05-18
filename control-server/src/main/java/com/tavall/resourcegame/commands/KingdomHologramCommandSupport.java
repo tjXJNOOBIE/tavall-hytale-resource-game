@@ -11,7 +11,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 import org.tavall.control.tasks.WorldTasks;
 
 import java.util.ArrayList;
@@ -151,3 +151,4 @@ public final class KingdomHologramCommandSupport implements IResourceGameDomain,
         remove.run();
     }
 }
+

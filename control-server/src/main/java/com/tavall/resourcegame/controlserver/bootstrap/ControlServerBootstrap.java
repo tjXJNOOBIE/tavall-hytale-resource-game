@@ -9,7 +9,7 @@ import org.tavall.control.ResourceGameControlServerModule;
 import org.tavall.control.cli.ControlConsoleInputHandler;
 import org.tavall.control.transport.ControlPlaneTcpBridgeConfiguration;
 import org.tavall.control.transport.ControlPlaneTcpBridgeServer;
-import org.tavall.control.dependency.modules.ResourceGameDependencyModule;
+import org.tavall.control.bootstrap.ResourceGameDependencyModule;
 import org.tavall.control.interactions.OpenFarmsteadInteraction;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
@@ -143,3 +143,4 @@ public final class ControlServerBootstrap {
         }
     }
 }
+

@@ -10,14 +10,14 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
-import org.tavall.control.dependency.interfaces.ICastlePlacementService;
-import org.tavall.control.dependency.interfaces.IPlacementModeService;
-import org.tavall.control.dependency.interfaces.IPlacementPreviewService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
+import org.tavall.control.castle.ICastlePlacementService;
+import org.tavall.control.building.IPlacementModeService;
+import org.tavall.control.building.IPlacementPreviewService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.resource.IResourceNodeService;
+import org.tavall.control.resource.IResourceNodeVisualService;
 import org.tavall.control.domain.BuildingMutationResult;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleLocationData;
@@ -307,3 +307,4 @@ public final class PlacementModeService implements IPlacementModeService, IDepen
         return request.resourceType() + " node placed #" + nodes.size() + " " + latestNode.nodeId().toString().substring(0, 8) + ".";
     }
 }
+

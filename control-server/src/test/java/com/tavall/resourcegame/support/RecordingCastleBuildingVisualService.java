@@ -2,7 +2,7 @@ package org.tavall.control.support;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
 import org.tavall.control.domain.PlayerGameState;
 
 import java.util.Map;
@@ -47,3 +47,4 @@ public final class RecordingCastleBuildingVisualService implements ICastleBuildi
         return refreshCount.getOrDefault(playerId, 0);
     }
 }
+

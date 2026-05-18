@@ -3,8 +3,8 @@ package org.tavall.control.resource;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
-import org.tavall.control.dependency.interfaces.IResourceNodePromptLaneService;
+import org.tavall.control.player.IPlayerTeleportService;
+import org.tavall.control.resource.IResourceNodePromptLaneService;
 import org.tavall.control.domain.ResourceNodeData;
 import org.tavall.control.tasks.WorldTasks;
 import org.tavall.control.world.ResourceNodePromptLaneLayout;
@@ -44,3 +44,4 @@ public final class ResourceNodePromptLaneService implements IResourceNodePromptL
         });
     }
 }
+

@@ -1,7 +1,7 @@
 package org.tavall.control.support;
 
 import com.hypixel.hytale.server.core.universe.world.World;
-import org.tavall.control.dependency.interfaces.IInteriorInstanceService;
+import org.tavall.control.interior.IInteriorInstanceService;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -32,3 +32,4 @@ public final class StubInteriorInstanceService implements IInteriorInstanceServi
     public void pruneTransientWorlds() {
     }
 }
+

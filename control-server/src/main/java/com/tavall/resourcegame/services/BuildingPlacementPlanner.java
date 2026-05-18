@@ -3,9 +3,9 @@ import org.tavall.control.player.PlayerGameStateService;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.IInteriorInstanceService;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.interior.IInteriorInstanceService;
+import org.tavall.control.player.IPlayerGameStateService;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CastleBuildingSummary;
@@ -95,3 +95,4 @@ public final class BuildingPlacementPlanner implements IDependencyInjectableConc
         return layout.buildingAnchor(buildingType);
     }
 }
+

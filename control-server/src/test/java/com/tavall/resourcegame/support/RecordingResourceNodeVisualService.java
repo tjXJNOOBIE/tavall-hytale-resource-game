@@ -2,7 +2,7 @@ package org.tavall.control.support;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.resource.IResourceNodeVisualService;
 import org.tavall.control.domain.PlayerGameState;
 
 import java.util.Map;
@@ -47,3 +47,4 @@ public final class RecordingResourceNodeVisualService implements IResourceNodeVi
         return refreshCount.getOrDefault(playerId, 0);
     }
 }
+

@@ -3,7 +3,7 @@ import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 
 import org.tavall.control.cache.JacksonCacheCodec;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerProfileService;
+import org.tavall.control.player.IPlayerProfileService;
 import org.tavall.control.domain.PlayerProfile;
 import org.tavall.control.player.cache.PlayerProfileCache;
 import org.tavall.control.persistence.PlayerProfileStore;
@@ -133,3 +133,4 @@ public final class PlayerProfileService implements IPlayerProfileService, IDepen
         }
     }
 }
+

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.control.cache.JacksonCacheCodec;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerGameStateService;
 import org.tavall.control.domain.AgingState;
 import org.tavall.control.domain.AccountProgression;
 import org.tavall.control.domain.CastleLocationData;
@@ -477,3 +477,4 @@ public final class PlayerGameStateService implements IPlayerGameStateService, ID
         return state.updatedAt() == null ? Instant.now() : state.updatedAt();
     }
 }
+

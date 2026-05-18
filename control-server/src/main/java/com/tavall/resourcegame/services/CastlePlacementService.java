@@ -4,13 +4,13 @@ import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
-import org.tavall.control.dependency.interfaces.ICastlePlacementService;
-import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
-import org.tavall.control.dependency.interfaces.ICastleSpawnService;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
+import org.tavall.control.castle.ICastlePlacementService;
+import org.tavall.control.castle.ICastleSiteVisualService;
+import org.tavall.control.castle.ICastleSpawnService;
+import org.tavall.control.player.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.resource.IResourceNodeVisualService;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.PlayerGameState;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
@@ -68,3 +68,4 @@ public final class CastlePlacementService implements ICastlePlacementService, ID
         return updatedState;
     }
 }
+

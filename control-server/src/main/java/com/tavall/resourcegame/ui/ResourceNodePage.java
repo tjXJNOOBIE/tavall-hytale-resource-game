@@ -1,8 +1,8 @@
 package org.tavall.control.ui;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
-import org.tavall.control.dependency.interfaces.IUiActionService;
+import org.tavall.control.resource.IResourceNodeService;
+import org.tavall.control.ui.IUiActionService;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceNodeData;
 import org.tavall.control.domain.ResourceNodeSummary;
@@ -77,3 +77,4 @@ public final class ResourceNodePage extends BaseUiPage {
         );
     }
 }
+

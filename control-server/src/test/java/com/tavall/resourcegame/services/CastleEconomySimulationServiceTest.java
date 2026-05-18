@@ -1,7 +1,7 @@
 package org.tavall.control.castle;
 import org.tavall.control.castle.CastleEconomyPlanner;
 import org.tavall.control.player.PlayerGameStateService;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import org.tavall.control.resource.ResourceNodeService;
 import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
@@ -180,3 +180,4 @@ public final class CastleEconomySimulationServiceTest {
         assertEquals(updated.resources().food(), siteVisualService.lastState(playerId).resources().food());
     }
 }
+

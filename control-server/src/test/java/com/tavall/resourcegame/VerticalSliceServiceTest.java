@@ -9,7 +9,7 @@ import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PlayerProfile;
 import org.tavall.control.population.PromotionCost;
 import org.tavall.control.resources.ResourceType;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import org.tavall.control.castle.CastleEconomyPlanner;
 import org.tavall.control.player.PlayerGameStateService;
 import org.tavall.control.player.PlayerProfileService;
@@ -17,7 +17,7 @@ import org.tavall.control.player.PlayerSession;
 import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.population.PopulationService;
 import org.tavall.control.resource.ResourceNodeService;
-import org.tavall.control.runtime.ResourceService;
+import org.tavall.control.resource.ResourceService;
 import org.tavall.control.support.RecordingCastleSiteVisualService;
 import org.tavall.control.support.InMemoryPlayerGameStateStore;
 import org.tavall.control.support.InMemoryPlayerProfileStore;
@@ -217,3 +217,4 @@ public final class VerticalSliceServiceTest {
         assertEquals("Cost per promotion: 4 Food, 2 Wood, 1 Iron.", populationService.promotionCostSummary(readyState));
     }
 }
+

@@ -1,7 +1,7 @@
 package org.tavall.control.support;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import org.tavall.control.dependency.interfaces.ICastleSpawnService;
+import org.tavall.control.castle.ICastleSpawnService;
 import org.tavall.control.domain.CastleLocationData;
 
 import java.util.Map;
@@ -27,3 +27,4 @@ public final class RecordingCastleSpawnService implements ICastleSpawnService {
         return replacedLocations.get(playerId);
     }
 }
+

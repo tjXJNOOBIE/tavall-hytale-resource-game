@@ -1,7 +1,7 @@
 package org.tavall.control.ui;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import org.tavall.control.dependency.interfaces.IUiActionService;
+import org.tavall.control.ui.IUiActionService;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 
@@ -38,3 +38,4 @@ public final class CastleInfoPage extends BaseUiPage {
         );
     }
 }
+

@@ -8,12 +8,12 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
-import org.tavall.control.dependency.interfaces.IFocusedWorldInteractionService;
-import org.tavall.control.dependency.interfaces.IPlacementModeService;
-import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
+import org.tavall.control.world.IFocusedWorldInteractionService;
+import org.tavall.control.building.IPlacementModeService;
+import org.tavall.control.player.IPlayerTeleportService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.BuildingMutationResult;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
@@ -374,3 +374,4 @@ public final class KingdomBuildingCommandSupport implements IDependencyInjectabl
         );
     }
 }
+

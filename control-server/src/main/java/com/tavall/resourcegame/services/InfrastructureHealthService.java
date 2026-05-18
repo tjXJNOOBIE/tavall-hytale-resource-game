@@ -4,7 +4,7 @@ import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 import org.tavall.control.config.CacheConfig;
 import org.tavall.control.config.DatabaseConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IInfrastructureHealthService;
+import org.tavall.control.runtime.IInfrastructureHealthService;
 import org.tavall.control.domain.InfrastructureHealthSnapshot;
 import org.tavall.control.domain.InfrastructureMetricsSnapshot;
 import redis.clients.jedis.JedisPooled;
@@ -96,3 +96,4 @@ public final class InfrastructureHealthService implements IInfrastructureHealthS
         }
     }
 }
+

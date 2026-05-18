@@ -1,7 +1,7 @@
 package org.tavall.control.ui;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import org.tavall.control.dependency.interfaces.IUiActionService;
+import org.tavall.control.ui.IUiActionService;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.resources.ResourceType;
@@ -41,3 +41,4 @@ public final class CastleResourcesPage extends BaseUiPage {
         return List.of(HyUiActionBinding.action("#BackButton", UiActions.OPEN_CASTLE_MAIN));
     }
 }
+

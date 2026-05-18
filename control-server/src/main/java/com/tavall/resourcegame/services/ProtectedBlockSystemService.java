@@ -4,7 +4,7 @@ import org.tavall.control.protection.StructureProtectionService;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IProtectedBlockSystemService;
+import org.tavall.control.protection.IProtectedBlockSystemService;
 
 import java.util.Objects;
 import java.util.concurrent.ScheduledFuture;
@@ -76,3 +76,4 @@ public final class ProtectedBlockSystemService implements IProtectedBlockSystemS
         registered = false;
     }
 }
+

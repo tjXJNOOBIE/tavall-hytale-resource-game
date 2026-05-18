@@ -1,7 +1,7 @@
 package org.tavall.control.dependency;
 
 import com.hypixel.hytale.server.core.universe.world.World;
-import org.tavall.control.dependency.interfaces.IKingdomClockService;
+import org.tavall.control.clock.IKingdomClockService;
 import org.tavall.control.domain.KingdomClockState;
 
 import java.time.Instant;
@@ -31,3 +31,4 @@ public final class TestKingdomClockService implements IKingdomClockService {
     public void shutdown() {
     }
 }
+

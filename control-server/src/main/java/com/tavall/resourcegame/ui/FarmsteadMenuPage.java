@@ -1,8 +1,8 @@
 package org.tavall.control.ui;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.IUiActionService;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.ui.IUiActionService;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CastleBuildingSummary;
@@ -65,3 +65,4 @@ public final class FarmsteadMenuPage extends BaseUiPage {
         return "Level " + summary.completedLevel() + " | Ready to upgrade";
     }
 }
+

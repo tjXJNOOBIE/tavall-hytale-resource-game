@@ -10,8 +10,8 @@ import com.hypixel.hytale.server.core.command.system.CommandManager;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
-import org.tavall.control.dependency.interfaces.IUiActionService;
+import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.ui.IUiActionService;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.BuildingMutationResult;
 import org.tavall.control.domain.CastleBuildingData;
@@ -816,3 +816,5 @@ public final class UiActionService implements IResourceGameDomain, IUiActionServ
         return payload.substring(separatorIndex + COMMAND_RETURN_SEPARATOR.length());
     }
 }
+
+

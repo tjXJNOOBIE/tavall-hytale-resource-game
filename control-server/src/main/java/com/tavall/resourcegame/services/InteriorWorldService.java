@@ -19,13 +19,13 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
-import org.tavall.control.dependency.interfaces.IInteriorInstanceService;
-import org.tavall.control.dependency.interfaces.IInteriorWorldService;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleBuildingVisualService;
+import org.tavall.control.interior.IInteriorInstanceService;
+import org.tavall.control.interior.IInteriorWorldService;
+import org.tavall.control.player.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.player.IPlayerTeleportService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.InteriorSessionData;
 import org.tavall.control.domain.PlayerGameState;
@@ -1090,3 +1090,4 @@ public final class InteriorWorldService implements IInteriorWorldService, IDepen
     private record TransitionToken(long sequence, TransitionKind kind, Instant startedAt) {
     }
 }
+

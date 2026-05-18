@@ -10,7 +10,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.tavall.control.dependency.interfaces.IUiActionService;
+import org.tavall.control.ui.IUiActionService;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 
@@ -158,3 +158,4 @@ public abstract class BaseUiPage extends HyUIPage {
         return UiActionEventData.actionWithPayload(data.action, payload);
     }
 }
+

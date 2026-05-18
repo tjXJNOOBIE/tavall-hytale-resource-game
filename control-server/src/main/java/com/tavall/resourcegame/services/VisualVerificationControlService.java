@@ -12,10 +12,10 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerDataService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
-import org.tavall.control.dependency.interfaces.IVisualVerificationControlHandler;
+import org.tavall.control.player.IPlayerDataService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.visual.IVisualVerificationControlHandler;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.tasks.WorldTasks;
 import org.tavall.control.ui.UiPageType;
@@ -337,3 +337,4 @@ public final class VisualVerificationControlService implements IDependencyInject
         return current == null ? new RuntimeException("unknown") : current;
     }
 }
+

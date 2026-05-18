@@ -5,7 +5,7 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 import org.tavall.control.domain.FocusedWorldTarget;
 import org.tavall.control.domain.FocusedWorldTargetType;
 
@@ -60,3 +60,4 @@ public final class KingdomInteractionCommandSupport implements IResourceGameDoma
                 + String.format(Locale.ROOT, "%.2f", target.alignmentScore());
     }
 }
+

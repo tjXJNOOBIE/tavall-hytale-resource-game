@@ -2,7 +2,7 @@ package org.tavall.control.citizen;
 
 import org.tavall.control.domain.CitizenJobType;
 import org.tavall.control.citizen.cache.CitizenSummaryCache;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -58,3 +58,4 @@ final class CitizenSummaryCacheTest {
         assertFalse(cache.readMemory(scope).isPresent());
     }
 }
+

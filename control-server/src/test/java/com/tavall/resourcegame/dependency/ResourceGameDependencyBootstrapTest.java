@@ -1,7 +1,7 @@
 package org.tavall.control.dependency;
 
 import org.tavall.control.ResourceGamePlugin;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ public final class ResourceGameDependencyBootstrapTest {
 
     @Test
     void pluginBootstrapRegistersCoreFrontendControlBridge() throws IOException {
-        String source = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/dependency/modules/ResourceGameDependencyModule.java"));
+        String source = Files.readString(Path.of("src/main/java/org/tavall/control/bootstrap/ResourceGameDependencyModule.java"));
 
         assertTrue(source.contains("IFrontendControlConfig.class"));
         assertTrue(source.contains("IFrontendControlCommandClient.class"));
@@ -49,3 +49,4 @@ public final class ResourceGameDependencyBootstrapTest {
         assertTrue(source.contains("FrontendTcpControlCommandClient"));
     }
 }
+

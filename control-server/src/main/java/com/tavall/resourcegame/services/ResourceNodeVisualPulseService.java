@@ -4,9 +4,9 @@ import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualPulseService;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.resource.IResourceNodeVisualPulseService;
+import org.tavall.control.resource.IResourceNodeVisualService;
 
 import java.util.Objects;
 import java.util.concurrent.ScheduledFuture;
@@ -60,3 +60,4 @@ public final class ResourceNodeVisualPulseService implements IResourceNodeVisual
         }
     }
 }
+

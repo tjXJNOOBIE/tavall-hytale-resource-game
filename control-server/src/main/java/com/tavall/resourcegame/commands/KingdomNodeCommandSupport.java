@@ -7,14 +7,14 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IFocusedWorldInteractionService;
-import org.tavall.control.dependency.interfaces.IFocusedWorldOverrideService;
-import org.tavall.control.dependency.interfaces.IPlacementModeService;
-import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
-import org.tavall.control.dependency.interfaces.IResourceNodePromptLaneService;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.world.IFocusedWorldInteractionService;
+import org.tavall.control.world.IFocusedWorldOverrideService;
+import org.tavall.control.building.IPlacementModeService;
+import org.tavall.control.player.IPlayerTeleportService;
+import org.tavall.control.resource.IResourceNodePromptLaneService;
+import org.tavall.control.resource.IResourceNodeService;
+import org.tavall.control.resource.IResourceNodeVisualService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceNodeData;
 import org.tavall.control.domain.ResourceNodePillageResult;
@@ -348,3 +348,4 @@ public final class KingdomNodeCommandSupport implements IDependencyInjectableCon
         );
     }
 }
+

@@ -4,7 +4,7 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 import org.tavall.control.domain.CustomEntitySpawnRole;
 
 import java.util.List;
@@ -40,3 +40,4 @@ public final class KingdomEntityCommandSupport implements IResourceGameDomain, I
         context.sendMessage(Message.raw("Usage: /kd entity spawn <" + CustomEntitySpawnRole.commandChoices() + "> | clear | list").color("yellow"));
     }
 }
+

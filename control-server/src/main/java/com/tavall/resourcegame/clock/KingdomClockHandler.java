@@ -4,7 +4,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.HytaleServer;
 import org.tavall.control.config.KingdomClockConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IKingdomClockService;
+import org.tavall.control.clock.IKingdomClockService;
 import org.tavall.control.domain.KingdomClockState;
 import com.hypixel.hytale.server.core.modules.time.WorldTimeResource;
 import com.hypixel.hytale.server.core.universe.Universe;
@@ -95,3 +95,4 @@ public final class KingdomClockHandler implements IKingdomClockService, IDepende
         }
     }
 }
+

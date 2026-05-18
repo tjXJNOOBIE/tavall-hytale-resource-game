@@ -8,9 +8,9 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleInteractionService;
-import org.tavall.control.dependency.interfaces.ICastleProximityPromptService;
-import org.tavall.control.dependency.interfaces.IPlacementModeService;
+import org.tavall.control.castle.ICastleInteractionService;
+import org.tavall.control.castle.ICastleProximityPromptService;
+import org.tavall.control.building.IPlacementModeService;
 import org.tavall.control.tasks.WorldTasks;
 
 import java.util.Objects;
@@ -115,3 +115,4 @@ public final class CastleProximityPromptService implements ICastleProximityPromp
         focusedPlayers.add(playerId);
     }
 }
+

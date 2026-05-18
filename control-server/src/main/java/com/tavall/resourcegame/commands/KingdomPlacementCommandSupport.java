@@ -7,7 +7,7 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.PlacementRequest;
 import org.tavall.control.domain.PlacementResult;
@@ -150,3 +150,4 @@ public final class KingdomPlacementCommandSupport implements IResourceGameDomain
         );
     }
 }
+

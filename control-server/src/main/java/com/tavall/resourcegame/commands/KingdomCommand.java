@@ -12,7 +12,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.universe.Universe;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 import org.tavall.control.domain.AccountProgression;
 import org.tavall.control.domain.DebugModeState;
 import org.tavall.control.domain.InfrastructureHealthSnapshot;
@@ -674,3 +674,4 @@ public final class KingdomCommand extends AbstractAsyncCommand implements IResou
         return throwable.getMessage();
     }
 }
+

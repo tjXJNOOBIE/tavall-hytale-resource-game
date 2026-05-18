@@ -10,7 +10,7 @@ import org.tavall.control.domain.PlayerProfile;
 import org.tavall.control.domain.PopulationSummary;
 import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.domain.TroopMetaData;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -109,3 +109,4 @@ final class JacksonCacheCodecTest {
         assertEquals(state.updatedAt(), decoded.updatedAt());
     }
 }
+

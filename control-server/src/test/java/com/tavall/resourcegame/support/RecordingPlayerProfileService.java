@@ -1,6 +1,6 @@
 package org.tavall.control.support;
 
-import org.tavall.control.dependency.interfaces.IPlayerProfileService;
+import org.tavall.control.player.IPlayerProfileService;
 import org.tavall.control.domain.PlayerProfile;
 
 import java.time.Instant;
@@ -39,4 +39,5 @@ public final class RecordingPlayerProfileService implements IPlayerProfileServic
         return persistedProfile.get();
     }
 }
+
 

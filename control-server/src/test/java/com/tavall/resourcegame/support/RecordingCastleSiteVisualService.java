@@ -1,6 +1,6 @@
 package org.tavall.control.support;
 
-import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
+import org.tavall.control.castle.ICastleSiteVisualService;
 import org.tavall.control.domain.PlayerGameState;
 
 import java.util.Map;
@@ -39,3 +39,4 @@ public final class RecordingCastleSiteVisualService implements ICastleSiteVisual
         return refreshCount.getOrDefault(playerId, 0);
     }
 }
+

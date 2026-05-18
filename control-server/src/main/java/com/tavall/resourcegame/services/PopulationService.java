@@ -5,15 +5,15 @@ import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IPopulationService;
-import org.tavall.control.dependency.interfaces.IResourceService;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.castle.ICastleSiteVisualService;
+import org.tavall.control.player.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.population.IPopulationService;
+import org.tavall.control.resource.IResourceService;
+import org.tavall.control.resource.IResourceNodeService;
+import org.tavall.control.resource.IResourceNodeVisualService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.AgingState;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PopulationSummary;
@@ -214,3 +214,4 @@ public final class PopulationService implements IPopulationService, IDependencyI
         return updated;
     }
 }
+

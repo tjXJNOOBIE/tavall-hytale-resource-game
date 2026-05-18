@@ -3,7 +3,7 @@ package org.tavall.control.dependency;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
-import org.tavall.control.dependency.interfaces.IPlayerDataService;
+import org.tavall.control.player.IPlayerDataService;
 import org.tavall.control.player.PlayerSession;
 
 import java.util.concurrent.CompletableFuture;

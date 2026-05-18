@@ -1,6 +1,6 @@
 package org.tavall.control.building;
 import org.tavall.control.player.PlayerGameStateService;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import org.tavall.control.castle.CastleBuildingService;
 import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
@@ -132,3 +132,4 @@ public final class BuildingPlacementPlannerTest {
         assertEquals(expectedZ, actual.getZ(), 0.0001D);
     }
 }
+

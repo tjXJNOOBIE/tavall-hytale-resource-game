@@ -5,9 +5,9 @@ import org.tavall.control.player.PlayerSession;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import org.tavall.control.config.CastleAssetConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
-import org.tavall.control.dependency.interfaces.ICastleSpawnService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.castle.ICastleSiteVisualService;
+import org.tavall.control.castle.ICastleSpawnService;
+import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.PlayerGameState;
 
@@ -65,3 +65,4 @@ public final class CastleSpawnService implements ICastleSpawnService, IDependenc
         return updatedState;
     }
 }
+

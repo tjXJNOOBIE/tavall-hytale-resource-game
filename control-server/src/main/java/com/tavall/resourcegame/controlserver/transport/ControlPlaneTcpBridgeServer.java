@@ -9,7 +9,7 @@ import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import org.tavall.control.transport.ControlPlaneTcpBridgeRequest;
 import org.tavall.control.transport.ControlPlaneTcpBridgeRequestType;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.interaction.InteractionRequest;
@@ -230,3 +230,4 @@ public final class ControlPlaneTcpBridgeServer implements AutoCloseable {
         return message;
     }
 }
+

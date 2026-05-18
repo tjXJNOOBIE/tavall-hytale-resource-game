@@ -1,6 +1,6 @@
 package org.tavall.control.support;
 
-import org.tavall.control.dependency.interfaces.IIpHashService;
+import org.tavall.control.player.IIpHashService;
 
 public final class NoopIpHashService implements IIpHashService {
     @Override
@@ -8,4 +8,5 @@ public final class NoopIpHashService implements IIpHashService {
         return "";
     }
 }
+
 

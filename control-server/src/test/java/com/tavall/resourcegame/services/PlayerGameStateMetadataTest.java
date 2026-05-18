@@ -1,6 +1,6 @@
 package org.tavall.control.player;
 import org.tavall.control.player.PlayerGameStateService;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 
 import org.tavall.control.cache.JacksonCacheCodec;
 import org.tavall.control.cache.SemanticCacheFactory;
@@ -262,3 +262,4 @@ public final class PlayerGameStateMetadataTest {
         assertTrue(store.snapshot(78L).map(service::debugModeState).orElse(DebugModeState.disabled()).levelRestrictionsIgnored());
     }
 }
+

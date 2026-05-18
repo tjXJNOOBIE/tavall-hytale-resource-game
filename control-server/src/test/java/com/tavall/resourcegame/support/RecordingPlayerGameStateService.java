@@ -1,7 +1,7 @@
 package org.tavall.control.support;
 import org.tavall.control.player.PlayerGameStateService;
 
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerGameStateService;
 import org.tavall.control.domain.AccountProgression;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.DebugModeState;
@@ -109,3 +109,4 @@ public final class RecordingPlayerGameStateService implements IPlayerGameStateSe
         return persistedState.get();
     }
 }
+

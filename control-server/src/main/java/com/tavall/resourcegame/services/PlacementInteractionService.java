@@ -3,8 +3,8 @@ package org.tavall.control.building;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlacementInteractionService;
-import org.tavall.control.dependency.interfaces.IPlacementModeService;
+import org.tavall.control.building.IPlacementInteractionService;
+import org.tavall.control.building.IPlacementModeService;
 import org.tavall.control.domain.PlacementResult;
 
 import java.util.Objects;
@@ -34,3 +34,4 @@ public final class PlacementInteractionService implements IPlacementInteractionS
         }
     }
 }
+

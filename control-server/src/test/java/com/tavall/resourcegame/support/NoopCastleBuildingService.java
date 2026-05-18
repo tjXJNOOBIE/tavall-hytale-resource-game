@@ -1,7 +1,7 @@
 package org.tavall.control.support;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.castle.ICastleBuildingService;
 import org.tavall.control.domain.BuildingConstructionStage;
 import org.tavall.control.domain.BuildingLevelProfile;
 import org.tavall.control.domain.BuildingMutationResult;
@@ -100,3 +100,4 @@ public final class NoopCastleBuildingService implements ICastleBuildingService {
         return 1.0D;
     }
 }
+

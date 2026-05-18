@@ -4,10 +4,10 @@ import org.tavall.control.player.PlayerSessionStore;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.IFarmsteadMenuService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.farmstead.ui.IFarmsteadMenuService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.UiNavigationContext;
@@ -59,3 +59,4 @@ public final class FarmsteadMenuService implements IFarmsteadMenuService, IDepen
         return true;
     }
 }
+

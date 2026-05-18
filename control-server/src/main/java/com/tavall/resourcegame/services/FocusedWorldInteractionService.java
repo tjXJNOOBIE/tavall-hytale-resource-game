@@ -7,13 +7,13 @@ import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.ICastleInteractionService;
-import org.tavall.control.dependency.interfaces.IFocusedWorldInteractionService;
-import org.tavall.control.dependency.interfaces.IFocusedWorldOverrideService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.castle.ICastleInteractionService;
+import org.tavall.control.world.IFocusedWorldInteractionService;
+import org.tavall.control.world.IFocusedWorldOverrideService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.resource.IResourceNodeService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.FocusedWorldTarget;
 import org.tavall.control.domain.FocusedWorldTargetType;
 import org.tavall.control.domain.PlayerGameState;
@@ -133,3 +133,4 @@ public final class FocusedWorldInteractionService implements IFocusedWorldIntera
         return Optional.of(focusedTarget);
     }
 }
+

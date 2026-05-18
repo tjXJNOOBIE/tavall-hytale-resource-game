@@ -2,7 +2,7 @@ package org.tavall.control.dependency;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
-import org.tavall.control.dependency.interfaces.ICastleInteractionService;
+import org.tavall.control.castle.ICastleInteractionService;
 
 /**
  * Test stub for castle interaction access.

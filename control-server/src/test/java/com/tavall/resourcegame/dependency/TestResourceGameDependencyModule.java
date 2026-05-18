@@ -1,10 +1,10 @@
 package org.tavall.control.dependency;
 
-import org.tavall.control.dependency.interfaces.ICastleInteractionService;
-import org.tavall.control.dependency.interfaces.ICastleProximityPromptService;
-import org.tavall.control.dependency.interfaces.IDebugCommandService;
-import org.tavall.control.dependency.interfaces.IKingdomClockService;
-import org.tavall.control.dependency.interfaces.IPlayerDataService;
+import org.tavall.control.castle.ICastleInteractionService;
+import org.tavall.control.castle.ICastleProximityPromptService;
+import org.tavall.control.runtime.IDebugCommandService;
+import org.tavall.control.clock.IKingdomClockService;
+import org.tavall.control.player.IPlayerDataService;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tjxjnoobie.api.dependency.IDependencyModule;
 
@@ -47,3 +47,4 @@ public final class TestResourceGameDependencyModule implements IDependencyModule
         return kingdomClockService;
     }
 }
+

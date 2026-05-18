@@ -1,6 +1,6 @@
 package org.tavall.control.player;
 import org.tavall.control.player.PlayerGameStateService;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 
 import org.tavall.control.cache.JacksonCacheCodec;
@@ -72,3 +72,4 @@ public final class PlayerPersistenceMetricsIntegrationTest {
         assertTrue(snapshot.cacheHitRate() > 0.0D);
     }
 }
+

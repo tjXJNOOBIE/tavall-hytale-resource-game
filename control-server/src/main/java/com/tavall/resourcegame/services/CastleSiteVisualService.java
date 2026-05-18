@@ -13,8 +13,8 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.tavall.control.config.CastleAssetConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
+import org.tavall.control.castle.ICastleSiteVisualService;
+import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.world.CastleSiteLayout;
@@ -253,3 +253,4 @@ public final class CastleSiteVisualService implements ICastleSiteVisualService, 
         return (int) Math.floor(value);
     }
 }
+

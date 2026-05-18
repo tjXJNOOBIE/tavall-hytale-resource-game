@@ -6,15 +6,15 @@ import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
-import org.tavall.control.dependency.interfaces.ICastleEconomySimulationService;
-import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
+import org.tavall.control.castle.ICastleEconomySimulationService;
+import org.tavall.control.castle.ICastleSiteVisualService;
+import org.tavall.control.player.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.resource.IResourceNodeService;
+import org.tavall.control.resource.IResourceNodeVisualService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.CastleEconomySnapshot;
 import org.tavall.control.domain.CitizenMetaData;
 import org.tavall.control.domain.PlayerGameState;
@@ -125,3 +125,4 @@ public final class CastleEconomySimulationService implements ICastleEconomySimul
         LOGGER.fine(() -> "Economy tick applied for " + session.playerId());
     }
 }
+

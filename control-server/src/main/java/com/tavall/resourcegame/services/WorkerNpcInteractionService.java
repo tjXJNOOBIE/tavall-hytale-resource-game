@@ -8,9 +8,9 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
-import org.tavall.control.dependency.interfaces.IWorkerNpcInteractionService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.npc.IWorkerNpcInteractionService;
 import org.tavall.control.domain.CitizenJobType;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.ui.UiPageType;
@@ -88,3 +88,4 @@ public final class WorkerNpcInteractionService implements IWorkerNpcInteractionS
         return workerType.name() + " anchor selected. This stationary NPC remains while task copies leave through the portal.";
     }
 }
+

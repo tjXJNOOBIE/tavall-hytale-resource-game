@@ -3,8 +3,8 @@ package org.tavall.control.castle;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastlePromptLaneService;
-import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
+import org.tavall.control.castle.ICastlePromptLaneService;
+import org.tavall.control.player.IPlayerTeleportService;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.tasks.WorldTasks;
 import org.tavall.control.world.CastlePromptLaneLayout;
@@ -43,3 +43,4 @@ public final class CastlePromptLaneService implements ICastlePromptLaneService, 
         });
     }
 }
+

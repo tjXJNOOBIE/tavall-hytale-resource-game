@@ -14,7 +14,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -172,3 +172,4 @@ public final class OpenFarmsteadInteraction extends SimpleInstantInteraction imp
         }
     }
 }
+

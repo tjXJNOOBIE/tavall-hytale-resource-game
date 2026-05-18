@@ -9,9 +9,9 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import org.tavall.control.config.CastleAssetConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleInteractionService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleInteractionService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.ui.UiPageType;
@@ -90,3 +90,4 @@ public final class CastleInteractionService implements ICastleInteractionService
         return new Vector3d(castleLocation.x(), castleLocation.y(), castleLocation.z());
     }
 }
+

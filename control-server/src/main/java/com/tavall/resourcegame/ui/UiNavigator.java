@@ -10,8 +10,8 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
-import org.tavall.control.dependency.interfaces.IUiPageRegistry;
+import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.ui.IUiPageRegistry;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.TrackedUiState;
 import org.tavall.control.domain.UiNavigationContext;
@@ -267,3 +267,4 @@ public final class UiNavigator implements IUiNavigator, IDependencyInjectableCon
     }
 
 }
+

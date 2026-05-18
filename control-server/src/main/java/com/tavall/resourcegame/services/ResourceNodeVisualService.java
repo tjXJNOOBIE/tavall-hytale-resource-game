@@ -10,8 +10,8 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
+import org.tavall.control.resource.IResourceNodeService;
+import org.tavall.control.resource.IResourceNodeVisualService;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceNodeData;
 import org.tavall.control.domain.ResourceNodeSummary;
@@ -191,3 +191,4 @@ public final class ResourceNodeVisualService implements IResourceNodeVisualServi
         return "node:" + nodeId;
     }
 }
+

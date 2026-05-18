@@ -7,11 +7,11 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IBuildingInteractionService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
-import org.tavall.control.dependency.interfaces.IFocusedWorldInteractionService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.building.IBuildingInteractionService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
+import org.tavall.control.world.IFocusedWorldInteractionService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.ui.UiPageType;
 
@@ -74,3 +74,4 @@ public final class BuildingInteractionService implements IBuildingInteractionSer
         return true;
     }
 }
+

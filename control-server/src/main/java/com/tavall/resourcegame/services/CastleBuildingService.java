@@ -6,9 +6,9 @@ import org.tavall.control.player.PlayerSession;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
-import org.tavall.control.dependency.interfaces.IInteriorInstanceService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
+import org.tavall.control.bootstrap.IResourceGameDomain;
+import org.tavall.control.interior.IInteriorInstanceService;
+import org.tavall.control.castle.ICastleBuildingService;
 import org.tavall.control.domain.AgingState;
 import org.tavall.control.domain.AccountProgression;
 import org.tavall.control.domain.BuildingAreaType;
@@ -647,3 +647,5 @@ public final class CastleBuildingService implements IResourceGameDomain, ICastle
         return discount.foodCost() + "F/" + discount.woodCost() + "W/" + discount.ironCost() + "I";
     }
 }
+
+

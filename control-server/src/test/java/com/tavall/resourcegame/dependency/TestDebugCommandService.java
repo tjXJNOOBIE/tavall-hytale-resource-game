@@ -1,7 +1,7 @@
 package org.tavall.control.dependency;
 
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
-import org.tavall.control.dependency.interfaces.IDebugCommandService;
+import org.tavall.control.runtime.IDebugCommandService;
 
 import java.util.List;
 

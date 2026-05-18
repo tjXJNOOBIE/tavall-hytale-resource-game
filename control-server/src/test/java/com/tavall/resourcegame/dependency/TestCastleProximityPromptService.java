@@ -1,6 +1,6 @@
 package org.tavall.control.dependency;
 
-import org.tavall.control.dependency.interfaces.ICastleProximityPromptService;
+import org.tavall.control.castle.ICastleProximityPromptService;
 
 /**
  * Test stub for castle prompt access.

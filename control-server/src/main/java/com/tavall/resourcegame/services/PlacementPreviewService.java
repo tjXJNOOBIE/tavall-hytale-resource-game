@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlacementPreviewService;
+import org.tavall.control.building.IPlacementPreviewService;
 import org.tavall.control.domain.PlacementRequest;
 import org.tavall.control.tasks.WorldTasks;
 
@@ -120,3 +120,4 @@ public final class PlacementPreviewService implements IPlacementPreviewService, 
         return worldLabelService.spawnLabel(player.getWorld(), new Vector3d(x, y, z), text);
     }
 }
+

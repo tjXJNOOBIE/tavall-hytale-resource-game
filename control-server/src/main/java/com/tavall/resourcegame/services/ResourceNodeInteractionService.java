@@ -5,11 +5,11 @@ import org.tavall.control.player.PlayerSession;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IFocusedWorldInteractionService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeInteractionService;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.world.IFocusedWorldInteractionService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.resource.IResourceNodeInteractionService;
+import org.tavall.control.resource.IResourceNodeVisualService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.ui.UiPageType;
 
@@ -64,3 +64,4 @@ public final class ResourceNodeInteractionService implements IResourceNodeIntera
         );
     }
 }
+

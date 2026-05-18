@@ -26,8 +26,8 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CastleBuildingSummary;
 import org.tavall.control.domain.PlayerGameState;
@@ -354,3 +354,4 @@ public final class CastleBuildingVisualService implements ICastleBuildingVisualS
         return "building:" + buildingId;
     }
 }
+

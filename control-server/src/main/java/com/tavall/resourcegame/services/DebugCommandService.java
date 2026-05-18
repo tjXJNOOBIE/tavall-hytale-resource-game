@@ -5,27 +5,27 @@ import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastlePromptLaneService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
-import org.tavall.control.dependency.interfaces.ICastleSiteVisualService;
-import org.tavall.control.dependency.interfaces.ICastleSpawnService;
-import org.tavall.control.dependency.interfaces.ICastleEconomySimulationService;
-import org.tavall.control.dependency.interfaces.IDebugCommandService;
-import org.tavall.control.dependency.interfaces.IFocusedWorldOverrideService;
-import org.tavall.control.dependency.interfaces.IFrontendCommandVerificationService;
-import org.tavall.control.dependency.interfaces.IInfrastructureHealthService;
-import org.tavall.control.dependency.interfaces.IInteriorWorldService;
-import org.tavall.control.dependency.interfaces.IPlacementModeService;
-import org.tavall.control.dependency.interfaces.IPlayerDataService;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
-import org.tavall.control.dependency.interfaces.IPopulationService;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
-import org.tavall.control.dependency.interfaces.IResourceService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastlePromptLaneService;
+import org.tavall.control.castle.ICastleBuildingService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
+import org.tavall.control.castle.ICastleSiteVisualService;
+import org.tavall.control.castle.ICastleSpawnService;
+import org.tavall.control.castle.ICastleEconomySimulationService;
+import org.tavall.control.runtime.IDebugCommandService;
+import org.tavall.control.world.IFocusedWorldOverrideService;
+import org.tavall.control.runtime.IFrontendCommandVerificationService;
+import org.tavall.control.runtime.IInfrastructureHealthService;
+import org.tavall.control.interior.IInteriorWorldService;
+import org.tavall.control.building.IPlacementModeService;
+import org.tavall.control.player.IPlayerDataService;
+import org.tavall.control.player.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.player.IPlayerTeleportService;
+import org.tavall.control.population.IPopulationService;
+import org.tavall.control.resource.IResourceNodeService;
+import org.tavall.control.resource.IResourceNodeVisualService;
+import org.tavall.control.resource.IResourceService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.commands.KingdomInteractionCommandSupport;
 import org.tavall.control.commands.KingdomBuildingCommandSupport;
 import org.tavall.control.commands.KingdomCommand;
@@ -128,3 +128,4 @@ public final class DebugCommandService implements IDebugCommandService, IDepende
         return List.of(kingdom);
  }
 }
+

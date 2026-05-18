@@ -1,8 +1,8 @@
 package org.tavall.control.transport;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
@@ -277,3 +277,5 @@ public final class FrontendTcpControlCommandClient implements IFrontendControlCo
         return message;
     }
 }
+
+

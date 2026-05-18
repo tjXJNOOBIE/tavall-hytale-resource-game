@@ -1,7 +1,7 @@
 package org.tavall.control.ui;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IUiPageRegistry;
+import org.tavall.control.ui.IUiPageRegistry;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -20,3 +20,4 @@ public final class UiPageRegistry implements IUiPageRegistry, IDependencyInjecta
         return factories.get(type);
     }
 }
+

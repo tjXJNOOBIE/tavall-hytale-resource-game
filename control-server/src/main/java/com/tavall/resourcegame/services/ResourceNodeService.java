@@ -9,9 +9,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeService;
+import org.tavall.control.player.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.resource.IResourceNodeService;
 import org.tavall.control.domain.GameStateMetadata;
 import org.tavall.control.domain.OnboardingProgress;
 import org.tavall.control.domain.PlayerGameState;
@@ -521,3 +521,4 @@ public final class ResourceNodeService implements IResourceNodeService, IDepende
         return " | ttl " + remainingMinutes + "m";
     }
 }
+

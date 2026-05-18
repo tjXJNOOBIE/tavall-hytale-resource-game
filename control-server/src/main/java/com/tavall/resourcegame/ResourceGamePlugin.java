@@ -2,7 +2,7 @@ package org.tavall.control;
 
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import org.tavall.control.dependency.composition.domains.IResourceGameDomain;
+import org.tavall.control.bootstrap.IResourceGameDomain;
 import org.tavall.control.bootstrap.ControlServerBootstrap;
 
 import javax.annotation.Nonnull;
@@ -29,3 +29,4 @@ public class ResourceGamePlugin extends JavaPlugin implements IResourceGameDomai
         bootstrap.shutdown(this);
     }
 }
+

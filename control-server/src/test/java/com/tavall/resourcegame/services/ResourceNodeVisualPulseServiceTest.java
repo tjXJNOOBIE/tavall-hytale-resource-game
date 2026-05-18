@@ -1,6 +1,6 @@
 package org.tavall.control.resource;
 import org.tavall.control.player.PlayerGameStateService;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
 
@@ -45,3 +45,4 @@ public final class ResourceNodeVisualPulseServiceTest {
         assertEquals(state, visualService.lastState(playerId));
     }
 }
+

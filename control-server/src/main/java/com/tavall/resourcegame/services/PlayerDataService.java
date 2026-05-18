@@ -13,17 +13,17 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.ICastleSpawnService;
-import org.tavall.control.dependency.interfaces.IIpHashService;
-import org.tavall.control.dependency.interfaces.IInteriorInstanceService;
-import org.tavall.control.dependency.interfaces.IKingdomClockService;
-import org.tavall.control.dependency.interfaces.ICastleBuildingVisualService;
-import org.tavall.control.dependency.interfaces.IPlayerDataService;
-import org.tavall.control.dependency.interfaces.IPlayerGameStateService;
-import org.tavall.control.dependency.interfaces.IPlayerProfileService;
-import org.tavall.control.dependency.interfaces.IPlayerSessionStore;
-import org.tavall.control.dependency.interfaces.IResourceNodeVisualService;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.castle.ICastleSpawnService;
+import org.tavall.control.player.IIpHashService;
+import org.tavall.control.interior.IInteriorInstanceService;
+import org.tavall.control.clock.IKingdomClockService;
+import org.tavall.control.castle.ICastleBuildingVisualService;
+import org.tavall.control.player.IPlayerDataService;
+import org.tavall.control.player.IPlayerGameStateService;
+import org.tavall.control.player.IPlayerProfileService;
+import org.tavall.control.player.IPlayerSessionStore;
+import org.tavall.control.resource.IResourceNodeVisualService;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PlayerProfile;
@@ -236,3 +236,4 @@ public final class PlayerDataService implements IPlayerDataService, IDependencyI
     }
 
 }
+

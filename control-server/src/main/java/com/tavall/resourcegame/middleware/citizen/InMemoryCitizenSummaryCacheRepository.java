@@ -1,7 +1,7 @@
 package org.tavall.control.citizen;
 
 import org.tavall.control.citizen.cache.CitizenSummaryCache;
-import org.tavall.control.runtime.JsonMapperProvider;
+import org.tavall.control.transport.JsonMapperProvider;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
 import java.util.Optional;
@@ -63,3 +63,4 @@ public final class InMemoryCitizenSummaryCacheRepository implements CitizenSumma
         return cache.isSharedDirty(scope);
     }
 }
+

@@ -1,7 +1,7 @@
 package org.tavall.control.support;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import org.tavall.control.dependency.interfaces.IUiNavigator;
+import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.ui.UiPageType;
@@ -41,3 +41,4 @@ public final class RecordingUiNavigator implements IUiNavigator {
         return refreshedStates.get(playerId);
     }
 }
+

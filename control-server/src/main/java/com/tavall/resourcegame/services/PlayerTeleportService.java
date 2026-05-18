@@ -13,7 +13,7 @@ import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
-import org.tavall.control.dependency.interfaces.IPlayerTeleportService;
+import org.tavall.control.player.IPlayerTeleportService;
 import org.tavall.control.tasks.WorldTasks;
 import java.util.concurrent.TimeUnit;
 
@@ -167,3 +167,4 @@ public final class PlayerTeleportService implements IPlayerTeleportService, IDep
     }
 
 }
+
