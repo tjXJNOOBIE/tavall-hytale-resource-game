@@ -10,56 +10,56 @@ import org.tavall.control.config.KingdomClockConfig;
 import org.tavall.control.config.PopulationDisplayConfig;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import com.tjxjnoobie.api.dependency.IDependencyModule;
-import org.tavall.control.building.IBuildingInteractionService;
-import org.tavall.control.castle.ICastleBuildingService;
-import org.tavall.control.castle.ICastleBuildingVisualService;
-import org.tavall.control.castle.ICastleInteractionService;
-import org.tavall.control.castle.ICastleEconomySimulationService;
-import org.tavall.control.castle.ICastlePromptLaneService;
-import org.tavall.control.castle.ICastleProximityPromptService;
-import org.tavall.control.castle.ICastlePlacementService;
-import org.tavall.control.castle.ICastleSiteVisualService;
-import org.tavall.control.castle.ICastleSpawnService;
-import org.tavall.control.runtime.ICustomEntitySpawnService;
-import org.tavall.control.runtime.IDebugCommandService;
-import org.tavall.control.world.IFocusedWorldInteractionService;
-import org.tavall.control.world.IFocusedWorldOverrideService;
-import org.tavall.control.farmstead.ui.IFarmsteadMenuService;
-import org.tavall.control.runtime.IFrontendCommandVerificationService;
+import org.tavall.control.building.IBuildingInteractionHandler;
+import org.tavall.control.castle.ICastleBuildingHandler;
+import org.tavall.control.castle.ICastleBuildingVisualHandler;
+import org.tavall.control.castle.ICastleInteractionHandler;
+import org.tavall.control.castle.ICastleEconomySimulationHandler;
+import org.tavall.control.castle.ICastlePromptLaneHandler;
+import org.tavall.control.castle.ICastleProximityPromptHandler;
+import org.tavall.control.castle.ICastlePlacementHandler;
+import org.tavall.control.castle.ICastleSiteVisualHandler;
+import org.tavall.control.castle.ICastleSpawnHandler;
+import org.tavall.control.runtime.ICustomEntitySpawnHandler;
+import org.tavall.control.runtime.IDebugCommandHandler;
+import org.tavall.control.world.IFocusedWorldInteractionHandler;
+import org.tavall.control.world.IFocusedWorldOverrideHandler;
+import org.tavall.control.farmstead.ui.IFarmsteadMenuHandler;
+import org.tavall.control.runtime.IFrontendCommandVerificationHandler;
 import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
 import org.tavall.api.minecraft.frontend.IFrontendControlConfig;
-import org.tavall.control.runtime.IInfrastructureHealthService;
-import org.tavall.control.interior.IInteriorInstanceService;
-import org.tavall.control.interior.IInteriorWorldService;
-import org.tavall.control.player.IIpHashService;
-import org.tavall.control.clock.IKingdomClockService;
-import org.tavall.control.building.IPlacementInteractionService;
-import org.tavall.control.building.IPlacementModeService;
-import org.tavall.control.building.IPlacementPreviewService;
-import org.tavall.control.player.IPlayerDataService;
-import org.tavall.control.player.IPlayerGameStateService;
-import org.tavall.control.player.IPlayerProfileService;
+import org.tavall.control.runtime.IInfrastructureHealthHandler;
+import org.tavall.control.interior.IInteriorInstanceHandler;
+import org.tavall.control.interior.IInteriorWorldHandler;
+import org.tavall.control.player.IIpHashHandler;
+import org.tavall.control.clock.IKingdomClockHandler;
+import org.tavall.control.building.IPlacementInteractionHandler;
+import org.tavall.control.building.IPlacementModeHandler;
+import org.tavall.control.building.IPlacementPreviewHandler;
+import org.tavall.control.player.IPlayerDataHandler;
+import org.tavall.control.player.IPlayerGameStateHandler;
+import org.tavall.control.player.IPlayerProfileHandler;
 import org.tavall.control.player.IPlayerSessionStore;
-import org.tavall.control.player.IPlayerTeleportService;
-import org.tavall.control.population.IPopulationService;
-import org.tavall.control.protection.IProtectedBlockSystemService;
-import org.tavall.control.resource.IResourceNodeInteractionService;
-import org.tavall.control.resource.IResourceNodePromptLaneService;
-import org.tavall.control.resource.IResourceNodeService;
-import org.tavall.control.resource.IResourceNodeVisualPulseService;
-import org.tavall.control.resource.IResourceNodeVisualService;
-import org.tavall.control.resource.IResourceService;
-import org.tavall.control.ui.IUiActionService;
+import org.tavall.control.player.IPlayerTeleportHandler;
+import org.tavall.control.population.IPopulationHandler;
+import org.tavall.control.protection.IProtectedBlockSystemHandler;
+import org.tavall.control.resource.IResourceNodeInteractionHandler;
+import org.tavall.control.resource.IResourceNodePromptLaneHandler;
+import org.tavall.control.resource.IResourceNodeHandler;
+import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
+import org.tavall.control.resource.IResourceNodeVisualHandler;
+import org.tavall.control.resource.IResourceHandler;
+import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.ui.IUiPageRegistry;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
-import org.tavall.control.npc.IWorkerNpcInteractionService;
+import org.tavall.control.npc.IWorkerNpcInteractionHandler;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PlayerProfile;
 import org.tavall.control.farmstead.npc.FarmsteadStewardSpawner;
-import org.tavall.control.farmstead.ui.FarmsteadMenuService;
-import org.tavall.control.interior.InteriorLayoutService;
-import org.tavall.control.interior.InteriorStructureService;
+import org.tavall.control.farmstead.ui.FarmsteadMenuHandler;
+import org.tavall.control.interior.InteriorLayoutHandler;
+import org.tavall.control.interior.InteriorStructureHandler;
 import org.tavall.control.persistence.InMemoryPlayerGameStateStore;
 import org.tavall.control.persistence.InMemoryPlayerProfileStore;
 import org.tavall.control.persistence.PersistenceStoreBootstrap;
@@ -72,59 +72,59 @@ import org.tavall.control.persistence.ResolvedPersistenceStores;
 import org.tavall.control.player.cache.PlayerProfileCache;
 import org.tavall.control.player.cache.PlayerGameStateCache;
 import org.tavall.control.population.PromotionCost;
-import org.tavall.control.castle.CastleInteractionService;
-import org.tavall.control.building.BuildingInteractionService;
+import org.tavall.control.castle.CastleInteractionHandler;
+import org.tavall.control.building.BuildingInteractionHandler;
 import org.tavall.control.building.BuildingPlacementPlanner;
-import org.tavall.control.castle.CastleBuildingService;
-import org.tavall.control.castle.CastleBuildingVisualService;
+import org.tavall.control.castle.CastleBuildingHandler;
+import org.tavall.control.castle.CastleBuildingVisualHandler;
 import org.tavall.control.castle.CastleEconomyPlanner;
-import org.tavall.control.castle.CastleEconomySimulationService;
-import org.tavall.control.castle.CastlePromptLaneService;
-import org.tavall.control.castle.CastleProximityPromptService;
-import org.tavall.control.castle.CastlePlacementService;
+import org.tavall.control.castle.CastleEconomySimulationHandler;
+import org.tavall.control.castle.CastlePromptLaneHandler;
+import org.tavall.control.castle.CastleProximityPromptHandler;
+import org.tavall.control.castle.CastlePlacementPlanner;
 import org.tavall.control.castle.CastleSiteScenePlanner;
-import org.tavall.control.castle.CastleSiteVisualService;
-import org.tavall.control.castle.CastleSpawnService;
-import org.tavall.control.runtime.CustomEntitySpawnService;
-import org.tavall.control.runtime.DebugCommandService;
-import org.tavall.control.world.FocusedWorldInteractionService;
-import org.tavall.control.world.FocusedWorldOverrideService;
+import org.tavall.control.castle.CastleSiteVisualHandler;
+import org.tavall.control.castle.CastleSpawnHandler;
+import org.tavall.control.runtime.CustomEntitySpawnHandler;
+import org.tavall.control.runtime.DebugCommandHandler;
+import org.tavall.control.world.FocusedWorldInteractionHandler;
+import org.tavall.control.world.FocusedWorldOverrideHandler;
 import org.tavall.control.world.FocusedWorldTargetPlanner;
 import org.tavall.control.runtime.FrontendCommandVerificationHandler;
 import org.tavall.control.transport.FrontendControlConfig;
 import org.tavall.control.transport.FrontendTcpControlCommandClient;
-import org.tavall.control.interior.InteriorInstanceService;
-import org.tavall.control.interior.InteriorTourMarkerService;
-import org.tavall.control.interior.InteriorWorldService;
-import org.tavall.control.player.IpHashService;
-import org.tavall.control.runtime.InfrastructureHealthService;
+import org.tavall.control.interior.InteriorInstanceHandler;
+import org.tavall.control.interior.InteriorTourMarkerHandler;
+import org.tavall.control.interior.InteriorWorldHandler;
+import org.tavall.control.player.IpHashHandler;
+import org.tavall.control.runtime.InfrastructureHealthHandler;
 import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 import org.tavall.control.transport.JsonMapperProvider;
 import org.tavall.control.npc.NpcRoleResolver;
 import org.tavall.control.npc.NpcVisualSpawner;
-import org.tavall.control.building.PlacementInteractionService;
-import org.tavall.control.building.PlacementModeService;
-import org.tavall.control.building.PlacementPreviewService;
-import org.tavall.control.player.PlayerDataService;
-import org.tavall.control.player.PlayerGameStateService;
-import org.tavall.control.player.PlayerProfileService;
+import org.tavall.control.building.PlacementInteractionHandler;
+import org.tavall.control.building.PlacementModeHandler;
+import org.tavall.control.building.PlacementPreviewHandler;
+import org.tavall.control.player.PlayerDataHandler;
+import org.tavall.control.player.PlayerGameStateHandler;
+import org.tavall.control.player.PlayerProfileHandler;
 import org.tavall.control.player.PlayerSessionStore;
-import org.tavall.control.player.PlayerTeleportService;
+import org.tavall.control.player.PlayerTeleportHandler;
 import org.tavall.control.population.PopulationDisplayGateway;
-import org.tavall.control.population.PopulationDisplayService;
-import org.tavall.control.protection.ProtectedBlockSystemService;
-import org.tavall.control.population.PopulationService;
-import org.tavall.control.resource.ResourceNodeInteractionService;
-import org.tavall.control.resource.ResourceNodePromptLaneService;
+import org.tavall.control.population.PopulationDisplayHandler;
+import org.tavall.control.protection.ProtectedBlockSystemHandler;
+import org.tavall.control.population.PopulationHandler;
+import org.tavall.control.resource.ResourceNodeInteractionHandler;
+import org.tavall.control.resource.ResourceNodePromptLaneHandler;
 import org.tavall.control.resource.ResourceNodeRoutePlanner;
-import org.tavall.control.resource.ResourceNodeService;
-import org.tavall.control.resource.ResourceNodeVisualPulseService;
-import org.tavall.control.resource.ResourceNodeVisualService;
-import org.tavall.control.resource.ResourceService;
-import org.tavall.control.protection.StructureProtectionService;
-import org.tavall.control.visual.VisualVerificationControlService;
-import org.tavall.control.npc.WorkerNpcInteractionService;
-import org.tavall.control.world.WorldLabelService;
+import org.tavall.control.resource.ResourceNodeHandler;
+import org.tavall.control.resource.ResourceNodeVisualPulseHandler;
+import org.tavall.control.resource.ResourceNodeVisualHandler;
+import org.tavall.control.resource.ResourceHandler;
+import org.tavall.control.protection.StructureProtectionHandler;
+import org.tavall.control.visual.VisualVerificationControlHandler;
+import org.tavall.control.npc.WorkerNpcInteractionHandler;
+import org.tavall.control.world.WorldLabelHandler;
 import org.tavall.control.ui.CastleCitizensPage;
 import org.tavall.control.ui.CastleBuildingsPage;
 import org.tavall.control.ui.CastleInfoPage;
@@ -139,20 +139,20 @@ import org.tavall.control.ui.DebugUiCommandBindings;
 import org.tavall.control.ui.FarmsteadMenuPage;
 import org.tavall.control.ui.InteriorMainPage;
 import org.tavall.control.ui.ResourceNodePage;
-import org.tavall.control.ui.UiActionService;
+import org.tavall.control.ui.UiActionHandler;
 import org.tavall.control.ui.UiNavigator;
 import org.tavall.control.ui.UiPageRegistry;
 import org.tavall.control.ui.UiPageType;
 import org.tavall.control.world.CastleEntityRegistry;
-import org.tavall.control.world.CastleBuildingStructureService;
-import org.tavall.control.world.BuildingPlacementStageStructureService;
-import org.tavall.control.world.CastleSiteLayoutService;
-import org.tavall.control.world.CastleSiteStructureService;
-import org.tavall.control.world.CastlePromptLaneLayoutService;
-import org.tavall.control.world.CastlePromptLaneStructureService;
-import org.tavall.control.world.ResourceNodePromptLaneLayoutService;
-import org.tavall.control.world.ResourceNodePromptLaneStructureService;
-import org.tavall.control.world.ResourceNodeStructureService;
+import org.tavall.control.world.CastleBuildingStructureHandler;
+import org.tavall.control.world.BuildingPlacementStageStructureHandler;
+import org.tavall.control.world.CastleSiteLayoutHandler;
+import org.tavall.control.world.CastleSiteStructureHandler;
+import org.tavall.control.world.CastlePromptLaneLayoutHandler;
+import org.tavall.control.world.CastlePromptLaneStructureHandler;
+import org.tavall.control.world.ResourceNodePromptLaneLayoutHandler;
+import org.tavall.control.world.ResourceNodePromptLaneStructureHandler;
+import org.tavall.control.world.ResourceNodeStructureHandler;
 import org.tavall.control.commands.KingdomInteractionCommandSupport;
 import org.tavall.control.commands.KingdomBuildingCommandSupport;
 import org.tavall.control.commands.KingdomNodeCommandSupport;
@@ -187,12 +187,12 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
         PlayerGameStateStore gameStateStore = persistenceStores.gameStateStore();
 
         PlayerSessionStore sessionStore = new PlayerSessionStore();
-        PlayerProfileService profileService = new PlayerProfileService(
+        PlayerProfileHandler profileHandler = new PlayerProfileHandler(
                 profileStore,
                 profileCache,
                 InfrastructureMetricsRecorder.defaultRecorder()
         );
-        PlayerGameStateService gameStateService = new PlayerGameStateService(
+        PlayerGameStateHandler gameStateHandler = new PlayerGameStateHandler(
                 gameStateStore,
                 gameStateCache,
                 mapperProvider.mapper(),
@@ -201,326 +201,326 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
 
         CastleAssetConfig castleAssetConfig = CastleAssetConfig.defaults();
         PopulationDisplayConfig populationDisplayConfig = PopulationDisplayConfig.defaults();
-        InteriorLayoutService interiorLayoutService = new InteriorLayoutService();
-        InteriorStructureService interiorStructureService = new InteriorStructureService();
-        InfrastructureHealthService infrastructureHealthService = new InfrastructureHealthService(cacheConfig, databaseConfig);
+        InteriorLayoutHandler interiorLayoutHandler = new InteriorLayoutHandler();
+        InteriorStructureHandler interiorStructureHandler = new InteriorStructureHandler();
+        InfrastructureHealthHandler infrastructureHealthHandler = new InfrastructureHealthHandler(cacheConfig, databaseConfig);
         CastleEconomyPlanner economyPlanner = new CastleEconomyPlanner();
-        WorldLabelService worldLabelService = new WorldLabelService();
+        WorldLabelHandler worldLabelHandler = new WorldLabelHandler();
         NpcVisualSpawner npcVisualSpawner = new NpcVisualSpawner();
         NpcRoleResolver npcRoleResolver = new NpcRoleResolver();
         FarmsteadStewardSpawner farmsteadStewardSpawner = new FarmsteadStewardSpawner(npcVisualSpawner, npcRoleResolver);
-        StructureProtectionService structureProtectionService = new StructureProtectionService();
-        ProtectedBlockSystemService protectedBlockSystemService = new ProtectedBlockSystemService(structureProtectionService);
-        InteriorInstanceService interiorInstanceService = new InteriorInstanceService();
-        CastleBuildingService buildingService = new CastleBuildingService();
-        CastleBuildingVisualService buildingVisualService = new CastleBuildingVisualService(
-                buildingService,
-                new CastleBuildingStructureService(),
-                worldLabelService,
-                structureProtectionService
+        StructureProtectionHandler structureProtectionHandler = new StructureProtectionHandler();
+        ProtectedBlockSystemHandler protectedBlockSystemHandler = new ProtectedBlockSystemHandler(structureProtectionHandler);
+        InteriorInstanceHandler interiorInstanceHandler = new InteriorInstanceHandler();
+        CastleBuildingHandler buildingHandler = new CastleBuildingHandler();
+        CastleBuildingVisualHandler buildingVisualHandler = new CastleBuildingVisualHandler(
+                buildingHandler,
+                new CastleBuildingStructureHandler(),
+                worldLabelHandler,
+                structureProtectionHandler
         );
-        BuildingPlacementStageStructureService buildingPlacementStageStructureService = new BuildingPlacementStageStructureService();
+        BuildingPlacementStageStructureHandler buildingPlacementStageStructureHandler = new BuildingPlacementStageStructureHandler();
         BuildingPlacementPlanner buildingPlacementPlanner = new BuildingPlacementPlanner(
-                buildingService,
-                interiorInstanceService,
-                gameStateService,
-                interiorLayoutService
+                buildingHandler,
+                interiorInstanceHandler,
+                gameStateHandler,
+                interiorLayoutHandler
         );
-        ResourceNodeService resourceNodeService = new ResourceNodeService(sessionStore, gameStateService, mapperProvider.mapper(), economyPlanner);
+        ResourceNodeHandler resourceNodeHandler = new ResourceNodeHandler(sessionStore, gameStateHandler, mapperProvider.mapper(), economyPlanner);
         ResourceNodeRoutePlanner resourceNodeRoutePlanner = new ResourceNodeRoutePlanner();
-        ResourceNodeVisualService resourceNodeVisualService = new ResourceNodeVisualService(
-                resourceNodeService,
-                new ResourceNodeStructureService(),
-                worldLabelService,
-                structureProtectionService
+        ResourceNodeVisualHandler resourceNodeVisualHandler = new ResourceNodeVisualHandler(
+                resourceNodeHandler,
+                new ResourceNodeStructureHandler(),
+                worldLabelHandler,
+                structureProtectionHandler
         );
-        ResourceNodeVisualPulseService resourceNodeVisualPulseService = new ResourceNodeVisualPulseService(sessionStore, resourceNodeVisualService);
-        CastleSiteVisualService castleSiteVisualService = new CastleSiteVisualService(
+        ResourceNodeVisualPulseHandler resourceNodeVisualPulseHandler = new ResourceNodeVisualPulseHandler(sessionStore, resourceNodeVisualHandler);
+        CastleSiteVisualHandler castleSiteVisualHandler = new CastleSiteVisualHandler(
                 castleAssetConfig,
-                new CastleSiteLayoutService(),
-                new CastleSiteStructureService(castleAssetConfig),
-                worldLabelService,
-                structureProtectionService,
+                new CastleSiteLayoutHandler(),
+                new CastleSiteStructureHandler(castleAssetConfig),
+                worldLabelHandler,
+                structureProtectionHandler,
                 sessionStore
         );
 
-        CastleSpawnService castleSpawnService = new CastleSpawnService(castleAssetConfig, sessionStore, castleSiteVisualService);
-        PopulationDisplayService populationDisplayService = new PopulationDisplayService(populationDisplayConfig, worldLabelService);
-        InteriorTourMarkerService interiorTourMarkerService = new InteriorTourMarkerService(worldLabelService);
-        PlayerTeleportService playerTeleportService = new PlayerTeleportService();
-        IpHashService ipHashService = new IpHashService();
-        PlacementPreviewService placementPreviewService = new PlacementPreviewService(worldLabelService);
-        CastlePromptLaneService castlePromptLaneService = new CastlePromptLaneService(
-                new CastlePromptLaneLayoutService(),
-                new CastlePromptLaneStructureService(),
-                playerTeleportService
+        CastleSpawnHandler castleSpawnHandler = new CastleSpawnHandler(castleAssetConfig, sessionStore, castleSiteVisualHandler);
+        PopulationDisplayHandler populationDisplayHandler = new PopulationDisplayHandler(populationDisplayConfig, worldLabelHandler);
+        InteriorTourMarkerHandler interiorTourMarkerHandler = new InteriorTourMarkerHandler(worldLabelHandler);
+        PlayerTeleportHandler playerTeleportHandler = new PlayerTeleportHandler();
+        IpHashHandler ipHashHandler = new IpHashHandler();
+        PlacementPreviewHandler placementPreviewHandler = new PlacementPreviewHandler(worldLabelHandler);
+        CastlePromptLaneHandler castlePromptLaneHandler = new CastlePromptLaneHandler(
+                new CastlePromptLaneLayoutHandler(),
+                new CastlePromptLaneStructureHandler(),
+                playerTeleportHandler
         );
-        ResourceNodePromptLaneService resourceNodePromptLaneService = new ResourceNodePromptLaneService(
-                new ResourceNodePromptLaneLayoutService(),
-                new ResourceNodePromptLaneStructureService(),
-                playerTeleportService
+        ResourceNodePromptLaneHandler resourceNodePromptLaneHandler = new ResourceNodePromptLaneHandler(
+                new ResourceNodePromptLaneLayoutHandler(),
+                new ResourceNodePromptLaneStructureHandler(),
+                playerTeleportHandler
         );
         UiPageRegistry pageRegistry = new UiPageRegistry();
         UiNavigator uiNavigator = new UiNavigator(pageRegistry);
-        WorkerNpcInteractionService workerNpcInteractionService = new WorkerNpcInteractionService(populationDisplayService, sessionStore, uiNavigator);
-        ResourceService resourceService = new ResourceService(sessionStore, gameStateService, castleSiteVisualService, uiNavigator);
-        PopulationService populationService = new PopulationService(
+        WorkerNpcInteractionHandler workerNpcInteractionHandler = new WorkerNpcInteractionHandler(populationDisplayHandler, sessionStore, uiNavigator);
+        ResourceHandler resourceHandler = new ResourceHandler(sessionStore, gameStateHandler, castleSiteVisualHandler, uiNavigator);
+        PopulationHandler populationHandler = new PopulationHandler(
                 sessionStore,
-                gameStateService,
-                resourceService,
-                castleSiteVisualService,
-                populationDisplayService,
+                gameStateHandler,
+                resourceHandler,
+                castleSiteVisualHandler,
+                populationDisplayHandler,
                 PromotionCost.defaultCost(),
-                buildingService,
-                resourceNodeService,
-                resourceNodeVisualService,
+                buildingHandler,
+                resourceNodeHandler,
+                resourceNodeVisualHandler,
                 uiNavigator
         );
-        CastleEconomySimulationService castleEconomySimulationService = new CastleEconomySimulationService(
+        CastleEconomySimulationHandler castleEconomySimulationHandler = new CastleEconomySimulationHandler(
                 sessionStore,
-                gameStateService,
-                buildingService,
-                buildingVisualService,
-                castleSiteVisualService,
+                gameStateHandler,
+                buildingHandler,
+                buildingVisualHandler,
+                castleSiteVisualHandler,
                 economyPlanner,
-                resourceNodeService,
-                resourceNodeVisualService,
+                resourceNodeHandler,
+                resourceNodeVisualHandler,
                 uiNavigator
         );
-        CastlePlacementService castlePlacementService = new CastlePlacementService(
+        CastlePlacementPlanner castlePlacementPlanner = new CastlePlacementPlanner(
                 sessionStore,
-                gameStateService,
-                castleSpawnService,
-                castleSiteVisualService,
-                buildingVisualService,
-                resourceNodeVisualService
+                gameStateHandler,
+                castleSpawnHandler,
+                castleSiteVisualHandler,
+                buildingVisualHandler,
+                resourceNodeVisualHandler
         );
-        PlacementModeService placementModeService = new PlacementModeService(
+        PlacementModeHandler placementModeHandler = new PlacementModeHandler(
                 sessionStore,
-                placementPreviewService,
-                buildingService,
-                buildingVisualService,
-                castlePlacementService,
-                resourceNodeService,
-                resourceNodeVisualService
+                placementPreviewHandler,
+                buildingHandler,
+                buildingVisualHandler,
+                castlePlacementPlanner,
+                resourceNodeHandler,
+                resourceNodeVisualHandler
         );
-        PlacementInteractionService placementInteractionService = new PlacementInteractionService(placementModeService);
-        InteriorWorldService interiorWorldService = new InteriorWorldService(
+        PlacementInteractionHandler placementInteractionHandler = new PlacementInteractionHandler(placementModeHandler);
+        InteriorWorldHandler interiorWorldHandler = new InteriorWorldHandler(
                 sessionStore,
-                gameStateService,
-                interiorInstanceService,
-                interiorLayoutService,
-                interiorStructureService,
-                interiorTourMarkerService,
-                playerTeleportService,
-                populationDisplayService,
-                buildingVisualService,
+                gameStateHandler,
+                interiorInstanceHandler,
+                interiorLayoutHandler,
+                interiorStructureHandler,
+                interiorTourMarkerHandler,
+                playerTeleportHandler,
+                populationDisplayHandler,
+                buildingVisualHandler,
                 uiNavigator
         );
-        FarmsteadMenuService farmsteadMenuService = new FarmsteadMenuService(sessionStore, buildingService, uiNavigator);
+        FarmsteadMenuHandler farmsteadMenuHandler = new FarmsteadMenuHandler(sessionStore, buildingHandler, uiNavigator);
 
-        KingdomClockHandler clockService = new KingdomClockHandler(clockConfig);
-        PlayerDataService playerDataService = new PlayerDataService(
-                profileService,
-                gameStateService,
+        KingdomClockHandler clockHandler = new KingdomClockHandler(clockConfig);
+        PlayerDataHandler playerDataHandler = new PlayerDataHandler(
+                profileHandler,
+                gameStateHandler,
                 sessionStore,
-                castleSpawnService,
-                interiorInstanceService,
-                ipHashService,
-                clockService,
-                resourceNodeVisualService,
-                buildingVisualService,
-                populationDisplayService,
-                interiorTourMarkerService,
+                castleSpawnHandler,
+                interiorInstanceHandler,
+                ipHashHandler,
+                clockHandler,
+                resourceNodeVisualHandler,
+                buildingVisualHandler,
+                populationDisplayHandler,
+                interiorTourMarkerHandler,
                 uiNavigator
         );
-        VisualVerificationControlService visualVerificationControlService = new VisualVerificationControlService(
-                playerDataService,
+        VisualVerificationControlHandler visualVerificationControlHandler = new VisualVerificationControlHandler(
+                playerDataHandler,
                 sessionStore,
                 uiNavigator
         );
-        CastleInteractionService castleInteractionService = new CastleInteractionService(
+        CastleInteractionHandler castleInteractionHandler = new CastleInteractionHandler(
                 sessionStore,
                 uiNavigator,
                 castleAssetConfig
         );
-        FocusedWorldOverrideService focusedWorldOverrideService = new FocusedWorldOverrideService();
+        FocusedWorldOverrideHandler focusedWorldOverrideHandler = new FocusedWorldOverrideHandler();
         FocusedWorldTargetPlanner focusedWorldTargetPlanner = new FocusedWorldTargetPlanner();
-        FocusedWorldInteractionService focusedWorldInteractionService = new FocusedWorldInteractionService(
+        FocusedWorldInteractionHandler focusedWorldInteractionHandler = new FocusedWorldInteractionHandler(
                 sessionStore,
-                buildingService,
-                castleInteractionService,
-                focusedWorldOverrideService,
-                resourceNodeService,
+                buildingHandler,
+                castleInteractionHandler,
+                focusedWorldOverrideHandler,
+                resourceNodeHandler,
                 uiNavigator,
                 focusedWorldTargetPlanner
         );
-        CastleProximityPromptService castleProximityPromptService = new CastleProximityPromptService(castleInteractionService, placementModeService);
-        ResourceNodeInteractionService resourceNodeInteractionService = new ResourceNodeInteractionService(
+        CastleProximityPromptHandler castleProximityPromptHandler = new CastleProximityPromptHandler(castleInteractionHandler, placementModeHandler);
+        ResourceNodeInteractionHandler resourceNodeInteractionHandler = new ResourceNodeInteractionHandler(
                 sessionStore,
-                resourceNodeVisualService,
-                focusedWorldInteractionService,
+                resourceNodeVisualHandler,
+                focusedWorldInteractionHandler,
                 uiNavigator
         );
-        BuildingInteractionService buildingInteractionService = new BuildingInteractionService(sessionStore, buildingVisualService, focusedWorldInteractionService, uiNavigator);
-        CustomEntitySpawnService customEntitySpawnService = new CustomEntitySpawnService(
+        BuildingInteractionHandler buildingInteractionHandler = new BuildingInteractionHandler(sessionStore, buildingVisualHandler, focusedWorldInteractionHandler, uiNavigator);
+        CustomEntitySpawnHandler customEntitySpawnHandler = new CustomEntitySpawnHandler(
                 npcVisualSpawner,
                 farmsteadStewardSpawner,
                 npcRoleResolver,
                 sessionStore,
-                buildingService,
+                buildingHandler,
                 uiNavigator,
-                farmsteadMenuService
+                farmsteadMenuHandler
         );
-        UiActionService uiActionService = new UiActionService();
-        registerUiPages(pageRegistry, uiActionService, infrastructureHealthService, gameStateService, economyPlanner, resourceNodeService, buildingService);
+        UiActionHandler uiActionHandler = new UiActionHandler();
+        registerUiPages(pageRegistry, uiActionHandler, infrastructureHealthHandler, gameStateHandler, economyPlanner, resourceNodeHandler, buildingHandler);
         KingdomPlacementCommandSupport placementCommandSupport = new KingdomPlacementCommandSupport();
         KingdomBuildingCommandSupport buildingCommandSupport = new KingdomBuildingCommandSupport(
-                buildingService,
-                buildingVisualService,
+                buildingHandler,
+                buildingVisualHandler,
                 uiNavigator,
-                playerTeleportService,
-                placementModeService,
-                focusedWorldInteractionService,
+                playerTeleportHandler,
+                placementModeHandler,
+                focusedWorldInteractionHandler,
                 buildingPlacementPlanner,
-                buildingPlacementStageStructureService
+                buildingPlacementStageStructureHandler
         );
         KingdomNodeCommandSupport nodeCommandSupport = new KingdomNodeCommandSupport(
-                resourceNodeService,
-                resourceNodeVisualService,
+                resourceNodeHandler,
+                resourceNodeVisualHandler,
                 uiNavigator,
-                playerTeleportService,
-                placementModeService,
-                resourceNodePromptLaneService,
-                focusedWorldInteractionService,
-                focusedWorldOverrideService
+                playerTeleportHandler,
+                placementModeHandler,
+                resourceNodePromptLaneHandler,
+                focusedWorldInteractionHandler,
+                focusedWorldOverrideHandler
         );
         KingdomInteractionCommandSupport interactionCommandSupport = new KingdomInteractionCommandSupport();
         KingdomHologramCommandSupport hologramCommandSupport = new KingdomHologramCommandSupport();
         KingdomEntityCommandSupport entityCommandSupport = new KingdomEntityCommandSupport();
         FrontendControlConfig frontendControlConfig = FrontendControlConfig.fromEnvironment(System.getenv());
-        FrontendCommandVerificationHandler frontendCommandVerificationService = new FrontendCommandVerificationHandler();
-        DebugCommandService debugCommandService = new DebugCommandService(
+        FrontendCommandVerificationHandler frontendCommandVerificationHandler = new FrontendCommandVerificationHandler();
+        DebugCommandHandler debugCommandHandler = new DebugCommandHandler(
                 sessionStore,
                 uiNavigator,
-                populationService,
-                resourceService,
-                interiorWorldService,
-                castleSpawnService,
-                castlePromptLaneService,
-                focusedWorldOverrideService,
-                playerDataService,
-                gameStateService,
-                infrastructureHealthService,
-                buildingService,
-                buildingVisualService,
-                resourceNodeService,
-                resourceNodeVisualService,
-                castleSiteVisualService,
-                castleEconomySimulationService,
-                playerTeleportService,
-                placementModeService,
+                populationHandler,
+                resourceHandler,
+                interiorWorldHandler,
+                castleSpawnHandler,
+                castlePromptLaneHandler,
+                focusedWorldOverrideHandler,
+                playerDataHandler,
+                gameStateHandler,
+                infrastructureHealthHandler,
+                buildingHandler,
+                buildingVisualHandler,
+                resourceNodeHandler,
+                resourceNodeVisualHandler,
+                castleSiteVisualHandler,
+                castleEconomySimulationHandler,
+                playerTeleportHandler,
+                placementModeHandler,
                 buildingCommandSupport,
                 nodeCommandSupport,
                 placementCommandSupport,
                 interactionCommandSupport,
                 hologramCommandSupport,
                 entityCommandSupport,
-                frontendCommandVerificationService
+                frontendCommandVerificationHandler
         );
 
-        registerSingleton(IPlayerProfileService.class, profileService);
+        registerSingleton(IPlayerProfileHandler.class, profileHandler);
         registerSingleton(PlayerProfileCache.class, profileCache);
         registerSingleton(PlayerGameStateCache.class, gameStateCache);
         registerSingleton(com.fasterxml.jackson.databind.ObjectMapper.class, mapperProvider.mapper());
         registerSingleton(IFrontendControlConfig.class, frontendControlConfig);
         registerSingleton(IFrontendControlCommandClient.class, new FrontendTcpControlCommandClient());
-        registerSingleton(IPlayerGameStateService.class, gameStateService);
+        registerSingleton(IPlayerGameStateHandler.class, gameStateHandler);
         registerSingleton(IPlayerSessionStore.class, sessionStore);
-        registerSingleton(ICastleBuildingService.class, buildingService);
-        registerSingleton(ICastleBuildingVisualService.class, buildingVisualService);
-        registerSingleton(InteriorLayoutService.class, interiorLayoutService);
+        registerSingleton(ICastleBuildingHandler.class, buildingHandler);
+        registerSingleton(ICastleBuildingVisualHandler.class, buildingVisualHandler);
+        registerSingleton(InteriorLayoutHandler.class, interiorLayoutHandler);
         registerSingleton(CastleEconomyPlanner.class, economyPlanner);
-        registerSingleton(BuildingPlacementStageStructureService.class, buildingPlacementStageStructureService);
+        registerSingleton(BuildingPlacementStageStructureHandler.class, buildingPlacementStageStructureHandler);
         registerSingleton(BuildingPlacementPlanner.class, buildingPlacementPlanner);
-        registerSingleton(ICastleEconomySimulationService.class, castleEconomySimulationService);
-        registerSingleton(ICastleSiteVisualService.class, castleSiteVisualService);
-        registerSingleton(IResourceNodeService.class, resourceNodeService);
-        registerSingleton(IResourceNodeVisualService.class, resourceNodeVisualService);
-        registerSingleton(IResourceNodeVisualPulseService.class, resourceNodeVisualPulseService);
-        registerSingleton(ICastleSpawnService.class, castleSpawnService);
-        registerSingleton(PopulationDisplayGateway.class, populationDisplayService);
-        registerSingleton(IPlayerTeleportService.class, playerTeleportService);
-        registerSingleton(ICastlePlacementService.class, castlePlacementService);
-        registerSingleton(ICastlePromptLaneService.class, castlePromptLaneService);
-        registerSingleton(IResourceNodePromptLaneService.class, resourceNodePromptLaneService);
+        registerSingleton(ICastleEconomySimulationHandler.class, castleEconomySimulationHandler);
+        registerSingleton(ICastleSiteVisualHandler.class, castleSiteVisualHandler);
+        registerSingleton(IResourceNodeHandler.class, resourceNodeHandler);
+        registerSingleton(IResourceNodeVisualHandler.class, resourceNodeVisualHandler);
+        registerSingleton(IResourceNodeVisualPulseHandler.class, resourceNodeVisualPulseHandler);
+        registerSingleton(ICastleSpawnHandler.class, castleSpawnHandler);
+        registerSingleton(PopulationDisplayGateway.class, populationDisplayHandler);
+        registerSingleton(IPlayerTeleportHandler.class, playerTeleportHandler);
+        registerSingleton(ICastlePlacementHandler.class, castlePlacementPlanner);
+        registerSingleton(ICastlePromptLaneHandler.class, castlePromptLaneHandler);
+        registerSingleton(IResourceNodePromptLaneHandler.class, resourceNodePromptLaneHandler);
         registerSingleton(IUiPageRegistry.class, pageRegistry);
         registerSingleton(IUiNavigator.class, uiNavigator);
-        registerSingleton(IResourceService.class, resourceService);
-        registerSingleton(IPopulationService.class, populationService);
-        registerSingleton(IInteriorInstanceService.class, interiorInstanceService);
-        registerSingleton(IInteriorWorldService.class, interiorWorldService);
-        registerSingleton(IUiActionService.class, uiActionService);
-        registerSingleton(IFarmsteadMenuService.class, farmsteadMenuService);
+        registerSingleton(IResourceHandler.class, resourceHandler);
+        registerSingleton(IPopulationHandler.class, populationHandler);
+        registerSingleton(IInteriorInstanceHandler.class, interiorInstanceHandler);
+        registerSingleton(IInteriorWorldHandler.class, interiorWorldHandler);
+        registerSingleton(IUiActionHandler.class, uiActionHandler);
+        registerSingleton(IFarmsteadMenuHandler.class, farmsteadMenuHandler);
         registerSingleton(FarmsteadStewardSpawner.class, farmsteadStewardSpawner);
-        registerSingleton(IIpHashService.class, ipHashService);
-        registerSingleton(IKingdomClockService.class, clockService);
-        registerSingleton(IPlayerDataService.class, playerDataService);
-        registerSingleton(IVisualVerificationControlHandler.class, visualVerificationControlService);
-        registerSingleton(ICastleInteractionService.class, castleInteractionService);
-        registerSingleton(IFocusedWorldOverrideService.class, focusedWorldOverrideService);
-        registerSingleton(IFocusedWorldInteractionService.class, focusedWorldInteractionService);
-        registerSingleton(ICastleProximityPromptService.class, castleProximityPromptService);
-        registerSingleton(IPlacementPreviewService.class, placementPreviewService);
-        registerSingleton(IPlacementModeService.class, placementModeService);
-        registerSingleton(IPlacementInteractionService.class, placementInteractionService);
-        registerSingleton(IResourceNodeInteractionService.class, resourceNodeInteractionService);
-        registerSingleton(IBuildingInteractionService.class, buildingInteractionService);
-        registerSingleton(ICustomEntitySpawnService.class, customEntitySpawnService);
-        registerSingleton(IWorkerNpcInteractionService.class, workerNpcInteractionService);
+        registerSingleton(IIpHashHandler.class, ipHashHandler);
+        registerSingleton(IKingdomClockHandler.class, clockHandler);
+        registerSingleton(IPlayerDataHandler.class, playerDataHandler);
+        registerSingleton(IVisualVerificationControlHandler.class, visualVerificationControlHandler);
+        registerSingleton(ICastleInteractionHandler.class, castleInteractionHandler);
+        registerSingleton(IFocusedWorldOverrideHandler.class, focusedWorldOverrideHandler);
+        registerSingleton(IFocusedWorldInteractionHandler.class, focusedWorldInteractionHandler);
+        registerSingleton(ICastleProximityPromptHandler.class, castleProximityPromptHandler);
+        registerSingleton(IPlacementPreviewHandler.class, placementPreviewHandler);
+        registerSingleton(IPlacementModeHandler.class, placementModeHandler);
+        registerSingleton(IPlacementInteractionHandler.class, placementInteractionHandler);
+        registerSingleton(IResourceNodeInteractionHandler.class, resourceNodeInteractionHandler);
+        registerSingleton(IBuildingInteractionHandler.class, buildingInteractionHandler);
+        registerSingleton(ICustomEntitySpawnHandler.class, customEntitySpawnHandler);
+        registerSingleton(IWorkerNpcInteractionHandler.class, workerNpcInteractionHandler);
         registerSingleton(KingdomBuildingCommandSupport.class, buildingCommandSupport);
         registerSingleton(KingdomNodeCommandSupport.class, nodeCommandSupport);
         registerSingleton(KingdomPlacementCommandSupport.class, placementCommandSupport);
         registerSingleton(KingdomInteractionCommandSupport.class, interactionCommandSupport);
         registerSingleton(KingdomHologramCommandSupport.class, hologramCommandSupport);
         registerSingleton(KingdomEntityCommandSupport.class, entityCommandSupport);
-        registerSingleton(IFrontendCommandVerificationService.class, frontendCommandVerificationService);
-        registerSingleton(IDebugCommandService.class, debugCommandService);
-        registerSingleton(IInfrastructureHealthService.class, infrastructureHealthService);
-        registerSingleton(WorldLabelService.class, worldLabelService);
-        registerSingleton(StructureProtectionService.class, structureProtectionService);
-        registerSingleton(IProtectedBlockSystemService.class, protectedBlockSystemService);
+        registerSingleton(IFrontendCommandVerificationHandler.class, frontendCommandVerificationHandler);
+        registerSingleton(IDebugCommandHandler.class, debugCommandHandler);
+        registerSingleton(IInfrastructureHealthHandler.class, infrastructureHealthHandler);
+        registerSingleton(WorldLabelHandler.class, worldLabelHandler);
+        registerSingleton(StructureProtectionHandler.class, structureProtectionHandler);
+        registerSingleton(IProtectedBlockSystemHandler.class, protectedBlockSystemHandler);
     }
 
     private void registerUiPages(
             IUiPageRegistry registry,
-            IUiActionService actionService,
-            IInfrastructureHealthService infrastructureHealthService,
-            IPlayerGameStateService gameStateService,
+            IUiActionHandler actionHandler,
+            IInfrastructureHealthHandler infrastructureHealthHandler,
+            IPlayerGameStateHandler gameStateHandler,
             CastleEconomyPlanner economyPlanner,
-            IResourceNodeService resourceNodeService,
-            ICastleBuildingService buildingService
+            IResourceNodeHandler resourceNodeHandler,
+            ICastleBuildingHandler buildingHandler
     ) {
-        registry.register(UiPageType.CASTLE_MAIN, (player, context, state) -> new CastleMainPage(player, context, state, actionService, economyPlanner));
-        registry.register(UiPageType.CASTLE_INFO, (player, context, state) -> new CastleInfoPage(player, context, state, actionService));
-        registry.register(UiPageType.CASTLE_CITIZENS, (player, context, state) -> new CastleCitizensPage(player, context, state, actionService, economyPlanner));
-        registry.register(UiPageType.CASTLE_TROOPS, (player, context, state) -> new CastleTroopsPage(player, context, state, actionService));
-        registry.register(UiPageType.CASTLE_RESOURCES, (player, context, state) -> new CastleResourcesPage(player, context, state, actionService, economyPlanner));
-        registry.register(UiPageType.CASTLE_UPGRADES, (player, context, state) -> new CastleUpgradesPage(player, context, state, actionService));
-        registry.register(UiPageType.CASTLE_BUILDINGS, (player, context, state) -> new CastleBuildingsPage(player, context, state, actionService, buildingService));
-        registry.register(UiPageType.FARMSTEAD_MENU, (player, context, state) -> new FarmsteadMenuPage(player, context, state, actionService, buildingService));
-        registry.register(UiPageType.RESOURCE_NODE_DETAIL, (player, context, state) -> new ResourceNodePage(player, context, state, actionService, resourceNodeService));
-        registry.register(UiPageType.BUILDING_DETAIL, (player, context, state) -> new BuildingDetailPage(player, context, state, actionService, buildingService));
-        registry.register(UiPageType.INTERIOR_MAIN, (player, context, state) -> new InteriorMainPage(player, context, state, actionService));
+        registry.register(UiPageType.CASTLE_MAIN, (player, context, state) -> new CastleMainPage(player, context, state, actionHandler, economyPlanner));
+        registry.register(UiPageType.CASTLE_INFO, (player, context, state) -> new CastleInfoPage(player, context, state, actionHandler));
+        registry.register(UiPageType.CASTLE_CITIZENS, (player, context, state) -> new CastleCitizensPage(player, context, state, actionHandler, economyPlanner));
+        registry.register(UiPageType.CASTLE_TROOPS, (player, context, state) -> new CastleTroopsPage(player, context, state, actionHandler));
+        registry.register(UiPageType.CASTLE_RESOURCES, (player, context, state) -> new CastleResourcesPage(player, context, state, actionHandler, economyPlanner));
+        registry.register(UiPageType.CASTLE_UPGRADES, (player, context, state) -> new CastleUpgradesPage(player, context, state, actionHandler));
+        registry.register(UiPageType.CASTLE_BUILDINGS, (player, context, state) -> new CastleBuildingsPage(player, context, state, actionHandler, buildingHandler));
+        registry.register(UiPageType.FARMSTEAD_MENU, (player, context, state) -> new FarmsteadMenuPage(player, context, state, actionHandler, buildingHandler));
+        registry.register(UiPageType.RESOURCE_NODE_DETAIL, (player, context, state) -> new ResourceNodePage(player, context, state, actionHandler, resourceNodeHandler));
+        registry.register(UiPageType.BUILDING_DETAIL, (player, context, state) -> new BuildingDetailPage(player, context, state, actionHandler, buildingHandler));
+        registry.register(UiPageType.INTERIOR_MAIN, (player, context, state) -> new InteriorMainPage(player, context, state, actionHandler));
         registry.register(
                 UiPageType.DEBUG_NAVIGATOR,
                 (player, context, state) -> new DebugNavigatorPage(
                         player,
                         context,
                         state,
-                        actionService,
-                        infrastructureHealthService,
-                        gameStateService
+                        actionHandler,
+                        infrastructureHealthHandler,
+                        gameStateHandler
                 )
         );
         registry.register(
@@ -529,9 +529,9 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         player,
                         context,
                         state,
-                        actionService,
-                        infrastructureHealthService,
-                        gameStateService,
+                        actionHandler,
+                        infrastructureHealthHandler,
+                        gameStateHandler,
                         "Pages/debug-placement.html",
                         DebugUiCommandBindings.placement()
                 )
@@ -542,9 +542,9 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         player,
                         context,
                         state,
-                        actionService,
-                        infrastructureHealthService,
-                        gameStateService,
+                        actionHandler,
+                        infrastructureHealthHandler,
+                        gameStateHandler,
                         "Pages/debug-interior.html",
                         DebugUiCommandBindings.interior()
                 )
@@ -555,9 +555,9 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         player,
                         context,
                         state,
-                        actionService,
-                        infrastructureHealthService,
-                        gameStateService,
+                        actionHandler,
+                        infrastructureHealthHandler,
+                        gameStateHandler,
                         "Pages/debug-buildings.html",
                         DebugUiCommandBindings.buildings()
                 )
@@ -568,9 +568,9 @@ public final class ResourceGameDependencyModule implements IDependencyModule {
                         player,
                         context,
                         state,
-                        actionService,
-                        infrastructureHealthService,
-                        gameStateService,
+                        actionHandler,
+                        infrastructureHealthHandler,
+                        gameStateHandler,
                         "Pages/debug-world.html",
                         DebugUiCommandBindings.world()
                 )

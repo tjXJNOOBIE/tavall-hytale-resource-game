@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server;
 
 import org.tavall.api.minecraft.ui.UiPageType;
-import org.tavall.minecraft.server.commands.util.KingdomCommandSupport;
+import org.tavall.minecraft.server.commands.support.KingdomCommandSupport;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

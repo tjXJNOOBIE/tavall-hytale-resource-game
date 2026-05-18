@@ -1,7 +1,7 @@
 package org.tavall.minecraft.commands;
 
 import org.tavall.minecraft.routing.MinecraftVelocityCommandResult;
-import org.tavall.minecraft.commands.util.MinecraftVelocityProxyCommandSupport;
+import org.tavall.minecraft.commands.support.MinecraftVelocityProxyCommandSupport;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import net.kyori.adventure.text.Component;

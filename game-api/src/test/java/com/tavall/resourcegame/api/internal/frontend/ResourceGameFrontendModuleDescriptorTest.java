@@ -10,23 +10,23 @@ public final class ResourceGameFrontendModuleDescriptorTest {
     @Test
     void descriptorPreservesPlatformAdapterBoundary() {
         ResourceGameFrontendModuleDescriptor descriptor = new ResourceGameFrontendModuleDescriptor(
-                "hytale-frontend",
-                ResourceGameFrontendPlatform.HYTALE,
-                ResourceGameFrontendRuntime.HYTALE_NATIVE_JAVA,
+                "minecraft-frontend",
+                ResourceGameFrontendPlatform.MINECRAFT,
+                ResourceGameFrontendRuntime.MINECRAFT_JAVA_PLUGIN,
                 "FrontendCommandIngressHandler",
                 false
         );
 
-        assertEquals("HYTALE", descriptor.platformKey());
+        assertEquals("MINECRAFT", descriptor.platformKey());
         assertFalse(descriptor.ownsCanonicalGameplayState());
     }
 
     @Test
     void descriptorRejectsBlankCommandPipelineEntryPoint() {
         assertThrows(IllegalArgumentException.class, () -> new ResourceGameFrontendModuleDescriptor(
-                "hytale-frontend",
-                ResourceGameFrontendPlatform.HYTALE,
-                ResourceGameFrontendRuntime.HYTALE_NATIVE_JAVA,
+                "minecraft-frontend",
+                ResourceGameFrontendPlatform.MINECRAFT,
+                ResourceGameFrontendRuntime.MINECRAFT_JAVA_PLUGIN,
                 " ",
                 false
         ));

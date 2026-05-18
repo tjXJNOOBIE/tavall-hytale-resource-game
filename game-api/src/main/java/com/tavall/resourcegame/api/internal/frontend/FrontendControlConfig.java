@@ -26,7 +26,6 @@ public final class FrontendControlConfig implements IFrontendControlConfig, IDep
                 URI.create(firstNonBlank(
                         safeEnvironment.get("RESOURCE_GAME_MINECRAFT_CONTROL_INGRESS_URL"),
                         safeEnvironment.get("RESOURCE_GAME_MINECRAFT_CONTROL_BRIDGE_URL"),
-                        safeEnvironment.get("RESOURCE_GAME_HYTALE_CONTROL_INGRESS_URL"),
                         safeEnvironment.get("RESOURCE_GAME_CONTROL_INGRESS_URL"),
                         safeEnvironment.get("TAVALL_CONTROL_INGRESS_URL"),
                         safeEnvironment.get("RESOURCE_GAME_CONTROL_BRIDGE_URL"),
@@ -35,9 +34,8 @@ public final class FrontendControlConfig implements IFrontendControlConfig, IDep
                 )),
                 firstNonBlank(
                         safeEnvironment.get("RESOURCE_GAME_MINECRAFT_SERVER_ID"),
-                        safeEnvironment.get("RESOURCE_GAME_HYTALE_SERVER_ID"),
-                        safeEnvironment.get("TAVALL_HYTALE_SERVER_ID"),
-                        "hytale-single-server"
+                        safeEnvironment.get("TAVALL_MINECRAFT_SERVER_ID"),
+                        "minecraft-single-server"
                 )
         );
     }

@@ -12,15 +12,15 @@ class FrontendCommandEnvelopeTest {
     @Test
     void commandEnvelopeCarriesPlatformCommandInput() {
         FrontendCommandEnvelope envelope = FrontendCommandEnvelope.command(
-                ResourceGameFrontendPlatform.HYTALE,
-                "hytale-player-1",
+                ResourceGameFrontendPlatform.MINECRAFT,
+                "minecraft-player-1",
                 "ScoutOne",
                 "/kd castle info",
                 "corr-1",
                 Map.of("worldId", "test-world")
         );
 
-        assertEquals(ResourceGameFrontendPlatform.HYTALE, envelope.platform());
+        assertEquals(ResourceGameFrontendPlatform.MINECRAFT, envelope.platform());
         assertEquals(FrontendCommandSurface.COMMAND, envelope.surface());
         assertEquals("/kd castle info", envelope.rawInput());
         assertEquals("test-world", envelope.sourceMetadata().get("worldId"));

@@ -3,7 +3,7 @@ package org.tavall.minecraft.server;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.ui.UiActions;
 import org.tavall.api.minecraft.ui.UiPageType;
-import org.tavall.minecraft.server.commands.util.KingdomCommandSupport;
+import org.tavall.minecraft.server.commands.support.KingdomCommandSupport;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -303,7 +303,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             for (String line : assetPreview(pageType)) {
                 lore.add(ChatColor.DARK_GRAY + line);
             }
-            lore.add(ChatColor.DARK_GRAY + "Hytale assets: " + String.join(", ", pageAssets(pageType)));
+            lore.add(ChatColor.DARK_GRAY + "Minecraft assets: " + String.join(", ", pageAssets(pageType)));
             meta.setLore(lore);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             item.setItemMeta(meta);

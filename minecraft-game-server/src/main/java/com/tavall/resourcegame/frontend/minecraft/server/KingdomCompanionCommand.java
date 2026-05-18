@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server;
 
-import org.tavall.minecraft.server.commands.util.KingdomCommandSupport;
+import org.tavall.minecraft.server.commands.support.KingdomCommandSupport;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

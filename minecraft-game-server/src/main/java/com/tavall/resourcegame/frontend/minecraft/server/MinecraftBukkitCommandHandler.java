@@ -7,7 +7,7 @@ import org.tavall.api.minecraft.interaction.InteractionTargetType;
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
 import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
-import org.tavall.minecraft.server.commands.util.KingdomCommandSupport;
+import org.tavall.minecraft.server.commands.support.KingdomCommandSupport;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

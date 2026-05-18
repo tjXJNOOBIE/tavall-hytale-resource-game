@@ -1,5 +1,5 @@
 package org.tavall.control.bootstrap;
-import org.tavall.control.player.PlayerGameStateService;
+import org.tavall.control.player.PlayerGameStateHandler;
 import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
 
@@ -11,76 +11,76 @@ import org.tavall.control.commands.KingdomInteractionCommandSupport;
 import org.tavall.control.commands.KingdomNodeCommandSupport;
 import org.tavall.control.commands.KingdomPlacementCommandSupport;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import org.tavall.control.building.IBuildingInteractionService;
-import org.tavall.control.castle.ICastleBuildingService;
-import org.tavall.control.castle.ICastleBuildingVisualService;
-import org.tavall.control.castle.ICastleInteractionService;
-import org.tavall.control.castle.ICastleEconomySimulationService;
-import org.tavall.control.castle.ICastlePlacementService;
-import org.tavall.control.castle.ICastlePromptLaneService;
-import org.tavall.control.castle.ICastleProximityPromptService;
-import org.tavall.control.castle.ICastleSiteVisualService;
-import org.tavall.control.castle.ICastleSpawnService;
-import org.tavall.control.runtime.ICustomEntitySpawnService;
-import org.tavall.control.runtime.IDebugCommandService;
-import org.tavall.control.farmstead.ui.IFarmsteadMenuService;
-import org.tavall.control.world.IFocusedWorldInteractionService;
-import org.tavall.control.world.IFocusedWorldOverrideService;
-import org.tavall.control.runtime.IFrontendCommandVerificationService;
+import org.tavall.control.building.IBuildingInteractionHandler;
+import org.tavall.control.castle.ICastleBuildingHandler;
+import org.tavall.control.castle.ICastleBuildingVisualHandler;
+import org.tavall.control.castle.ICastleInteractionHandler;
+import org.tavall.control.castle.ICastleEconomySimulationHandler;
+import org.tavall.control.castle.ICastlePlacementHandler;
+import org.tavall.control.castle.ICastlePromptLaneHandler;
+import org.tavall.control.castle.ICastleProximityPromptHandler;
+import org.tavall.control.castle.ICastleSiteVisualHandler;
+import org.tavall.control.castle.ICastleSpawnHandler;
+import org.tavall.control.runtime.ICustomEntitySpawnHandler;
+import org.tavall.control.runtime.IDebugCommandHandler;
+import org.tavall.control.farmstead.ui.IFarmsteadMenuHandler;
+import org.tavall.control.world.IFocusedWorldInteractionHandler;
+import org.tavall.control.world.IFocusedWorldOverrideHandler;
+import org.tavall.control.runtime.IFrontendCommandVerificationHandler;
 import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
 import org.tavall.api.minecraft.frontend.IFrontendControlConfig;
-import org.tavall.control.runtime.IInfrastructureHealthService;
-import org.tavall.control.interior.IInteriorInstanceService;
-import org.tavall.control.interior.IInteriorWorldService;
-import org.tavall.control.player.IIpHashService;
-import org.tavall.control.clock.IKingdomClockService;
-import org.tavall.control.building.IPlacementInteractionService;
-import org.tavall.control.building.IPlacementModeService;
-import org.tavall.control.building.IPlacementPreviewService;
-import org.tavall.control.player.IPlayerDataService;
-import org.tavall.control.player.IPlayerGameStateService;
-import org.tavall.control.player.IPlayerProfileService;
+import org.tavall.control.runtime.IInfrastructureHealthHandler;
+import org.tavall.control.interior.IInteriorInstanceHandler;
+import org.tavall.control.interior.IInteriorWorldHandler;
+import org.tavall.control.player.IIpHashHandler;
+import org.tavall.control.clock.IKingdomClockHandler;
+import org.tavall.control.building.IPlacementInteractionHandler;
+import org.tavall.control.building.IPlacementModeHandler;
+import org.tavall.control.building.IPlacementPreviewHandler;
+import org.tavall.control.player.IPlayerDataHandler;
+import org.tavall.control.player.IPlayerGameStateHandler;
+import org.tavall.control.player.IPlayerProfileHandler;
 import org.tavall.control.player.IPlayerSessionStore;
-import org.tavall.control.player.IPlayerTeleportService;
-import org.tavall.control.population.IPopulationService;
-import org.tavall.control.protection.IProtectedBlockSystemService;
-import org.tavall.control.resource.IResourceNodePromptLaneService;
-import org.tavall.control.resource.IResourceNodeService;
-import org.tavall.control.resource.IResourceNodeInteractionService;
-import org.tavall.control.resource.IResourceNodeVisualPulseService;
-import org.tavall.control.resource.IResourceNodeVisualService;
-import org.tavall.control.resource.IResourceService;
-import org.tavall.control.ui.IUiActionService;
+import org.tavall.control.player.IPlayerTeleportHandler;
+import org.tavall.control.population.IPopulationHandler;
+import org.tavall.control.protection.IProtectedBlockSystemHandler;
+import org.tavall.control.resource.IResourceNodePromptLaneHandler;
+import org.tavall.control.resource.IResourceNodeHandler;
+import org.tavall.control.resource.IResourceNodeInteractionHandler;
+import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
+import org.tavall.control.resource.IResourceNodeVisualHandler;
+import org.tavall.control.resource.IResourceHandler;
+import org.tavall.control.ui.IUiActionHandler;
 import org.tavall.control.ui.IUiNavigator;
 import org.tavall.control.ui.IUiPageRegistry;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
-import org.tavall.control.npc.IWorkerNpcInteractionService;
-import org.tavall.control.interior.InteriorLayoutService;
+import org.tavall.control.npc.IWorkerNpcInteractionHandler;
+import org.tavall.control.interior.InteriorLayoutHandler;
 import org.tavall.control.building.BuildingPlacementPlanner;
 import org.tavall.control.castle.CastleEconomyPlanner;
 import org.tavall.control.population.PopulationDisplayGateway;
-import org.tavall.control.world.WorldLabelService;
-import org.tavall.control.world.BuildingPlacementStageStructureService;
+import org.tavall.control.world.WorldLabelHandler;
+import org.tavall.control.world.BuildingPlacementStageStructureHandler;
 
 /**
  * Generated-domain equivalent for repo-local DI accessors.
  */
 public interface IResourceGameDomainGenerated {
-    default IPlayerDataService getPlayerDataService() {
-        return DependencyLoaderAccess.findInstance(IPlayerDataService.class);
+    default IPlayerDataHandler getPlayerDataHandler() {
+        return DependencyLoaderAccess.findInstance(IPlayerDataHandler.class);
     }
 
-    default IPlayerProfileService getPlayerProfileService() {
-        return DependencyLoaderAccess.findInstance(IPlayerProfileService.class);
+    default IPlayerProfileHandler getPlayerProfileHandler() {
+        return DependencyLoaderAccess.findInstance(IPlayerProfileHandler.class);
     }
 
-    default IPlayerGameStateService getPlayerGameStateService() {
-        return DependencyLoaderAccess.findInstance(IPlayerGameStateService.class);
+    default IPlayerGameStateHandler getPlayerGameStateHandler() {
+        return DependencyLoaderAccess.findInstance(IPlayerGameStateHandler.class);
     }
 
-    default IPlayerGameStateService registerPlayerGameStateService(IPlayerGameStateService playerGameStateService) {
-        DependencyLoaderAccess.registerInstance(IPlayerGameStateService.class, playerGameStateService);
-        return playerGameStateService;
+    default IPlayerGameStateHandler registerPlayerGameStateHandler(IPlayerGameStateHandler playerGameStateHandler) {
+        DependencyLoaderAccess.registerInstance(IPlayerGameStateHandler.class, playerGameStateHandler);
+        return playerGameStateHandler;
     }
 
     default IPlayerSessionStore getPlayerSessionStore() {
@@ -92,8 +92,8 @@ public interface IResourceGameDomainGenerated {
         return playerSessionStore;
     }
 
-    default IPlayerTeleportService getPlayerTeleportService() {
-        return DependencyLoaderAccess.findInstance(IPlayerTeleportService.class);
+    default IPlayerTeleportHandler getPlayerTeleportHandler() {
+        return DependencyLoaderAccess.findInstance(IPlayerTeleportHandler.class);
     }
 
     default ObjectMapper getObjectMapper() {
@@ -105,126 +105,126 @@ public interface IResourceGameDomainGenerated {
         return objectMapper;
     }
 
-    default ICastleInteractionService getCastleInteractionService() {
-        return DependencyLoaderAccess.findInstance(ICastleInteractionService.class);
+    default ICastleInteractionHandler getCastleInteractionHandler() {
+        return DependencyLoaderAccess.findInstance(ICastleInteractionHandler.class);
     }
 
-    default ICastleBuildingService getCastleBuildingService() {
-        return DependencyLoaderAccess.findInstance(ICastleBuildingService.class);
+    default ICastleBuildingHandler getCastleBuildingHandler() {
+        return DependencyLoaderAccess.findInstance(ICastleBuildingHandler.class);
     }
 
-    default ICastleBuildingVisualService getCastleBuildingVisualService() {
-        return DependencyLoaderAccess.findInstance(ICastleBuildingVisualService.class);
+    default ICastleBuildingVisualHandler getCastleBuildingVisualHandler() {
+        return DependencyLoaderAccess.findInstance(ICastleBuildingVisualHandler.class);
     }
 
-    default ICastlePlacementService getCastlePlacementService() {
-        return DependencyLoaderAccess.findInstance(ICastlePlacementService.class);
+    default ICastlePlacementHandler getCastlePlacementHandler() {
+        return DependencyLoaderAccess.findInstance(ICastlePlacementHandler.class);
     }
 
-    default ICastlePromptLaneService getCastlePromptLaneService() {
-        return DependencyLoaderAccess.findInstance(ICastlePromptLaneService.class);
+    default ICastlePromptLaneHandler getCastlePromptLaneHandler() {
+        return DependencyLoaderAccess.findInstance(ICastlePromptLaneHandler.class);
     }
 
-    default ICastleSiteVisualService getCastleSiteVisualService() {
-        return DependencyLoaderAccess.findInstance(ICastleSiteVisualService.class);
+    default ICastleSiteVisualHandler getCastleSiteVisualHandler() {
+        return DependencyLoaderAccess.findInstance(ICastleSiteVisualHandler.class);
     }
 
-    default ICastleSpawnService getCastleSpawnService() {
-        return DependencyLoaderAccess.findInstance(ICastleSpawnService.class);
+    default ICastleSpawnHandler getCastleSpawnHandler() {
+        return DependencyLoaderAccess.findInstance(ICastleSpawnHandler.class);
     }
 
-    default ICastleProximityPromptService getCastleProximityPromptService() {
-        return DependencyLoaderAccess.findInstance(ICastleProximityPromptService.class);
+    default ICastleProximityPromptHandler getCastleProximityPromptHandler() {
+        return DependencyLoaderAccess.findInstance(ICastleProximityPromptHandler.class);
     }
 
-    default ICastleEconomySimulationService getCastleEconomySimulationService() {
-        return DependencyLoaderAccess.findInstance(ICastleEconomySimulationService.class);
+    default ICastleEconomySimulationHandler getCastleEconomySimulationHandler() {
+        return DependencyLoaderAccess.findInstance(ICastleEconomySimulationHandler.class);
     }
 
     default CastleEconomyPlanner getCastleEconomyPlanner() {
         return DependencyLoaderAccess.findInstance(CastleEconomyPlanner.class);
     }
 
-    default IResourceNodeInteractionService getResourceNodeInteractionService() {
-        return DependencyLoaderAccess.findInstance(IResourceNodeInteractionService.class);
+    default IResourceNodeInteractionHandler getResourceNodeInteractionHandler() {
+        return DependencyLoaderAccess.findInstance(IResourceNodeInteractionHandler.class);
     }
 
-    default IResourceNodeService getResourceNodeService() {
-        return DependencyLoaderAccess.findInstance(IResourceNodeService.class);
+    default IResourceNodeHandler getResourceNodeHandler() {
+        return DependencyLoaderAccess.findInstance(IResourceNodeHandler.class);
     }
 
-    default IResourceNodeVisualService getResourceNodeVisualService() {
-        return DependencyLoaderAccess.findInstance(IResourceNodeVisualService.class);
+    default IResourceNodeVisualHandler getResourceNodeVisualHandler() {
+        return DependencyLoaderAccess.findInstance(IResourceNodeVisualHandler.class);
     }
 
-    default IResourceNodePromptLaneService getResourceNodePromptLaneService() {
-        return DependencyLoaderAccess.findInstance(IResourceNodePromptLaneService.class);
+    default IResourceNodePromptLaneHandler getResourceNodePromptLaneHandler() {
+        return DependencyLoaderAccess.findInstance(IResourceNodePromptLaneHandler.class);
     }
 
-    default IWorkerNpcInteractionService getWorkerNpcInteractionService() {
-        return DependencyLoaderAccess.findInstance(IWorkerNpcInteractionService.class);
+    default IWorkerNpcInteractionHandler getWorkerNpcInteractionHandler() {
+        return DependencyLoaderAccess.findInstance(IWorkerNpcInteractionHandler.class);
     }
 
-    default ICustomEntitySpawnService getCustomEntitySpawnService() {
-        return DependencyLoaderAccess.findInstance(ICustomEntitySpawnService.class);
+    default ICustomEntitySpawnHandler getCustomEntitySpawnHandler() {
+        return DependencyLoaderAccess.findInstance(ICustomEntitySpawnHandler.class);
     }
 
-    default IBuildingInteractionService getBuildingInteractionService() {
-        return DependencyLoaderAccess.findInstance(IBuildingInteractionService.class);
+    default IBuildingInteractionHandler getBuildingInteractionHandler() {
+        return DependencyLoaderAccess.findInstance(IBuildingInteractionHandler.class);
     }
 
     default BuildingPlacementPlanner getBuildingPlacementPlanner() {
         return DependencyLoaderAccess.findInstance(BuildingPlacementPlanner.class);
     }
 
-    default BuildingPlacementStageStructureService getBuildingPlacementStageStructureService() {
-        return DependencyLoaderAccess.findInstance(BuildingPlacementStageStructureService.class);
+    default BuildingPlacementStageStructureHandler getBuildingPlacementStageStructureHandler() {
+        return DependencyLoaderAccess.findInstance(BuildingPlacementStageStructureHandler.class);
     }
 
-    default IPlacementInteractionService getPlacementInteractionService() {
-        return DependencyLoaderAccess.findInstance(IPlacementInteractionService.class);
+    default IPlacementInteractionHandler getPlacementInteractionHandler() {
+        return DependencyLoaderAccess.findInstance(IPlacementInteractionHandler.class);
     }
 
-    default IResourceNodeVisualPulseService getResourceNodeVisualPulseService() {
-        return DependencyLoaderAccess.findInstance(IResourceNodeVisualPulseService.class);
+    default IResourceNodeVisualPulseHandler getResourceNodeVisualPulseHandler() {
+        return DependencyLoaderAccess.findInstance(IResourceNodeVisualPulseHandler.class);
     }
 
-    default IDebugCommandService getDebugCommandService() {
-        return DependencyLoaderAccess.findInstance(IDebugCommandService.class);
+    default IDebugCommandHandler getDebugCommandHandler() {
+        return DependencyLoaderAccess.findInstance(IDebugCommandHandler.class);
     }
 
-    default IInteriorInstanceService getInteriorInstanceService() {
-        return DependencyLoaderAccess.findInstance(IInteriorInstanceService.class);
+    default IInteriorInstanceHandler getInteriorInstanceHandler() {
+        return DependencyLoaderAccess.findInstance(IInteriorInstanceHandler.class);
     }
 
-    default IInteriorInstanceService registerInteriorInstanceService(IInteriorInstanceService interiorInstanceService) {
-        DependencyLoaderAccess.registerInstance(IInteriorInstanceService.class, interiorInstanceService);
-        return interiorInstanceService;
+    default IInteriorInstanceHandler registerInteriorInstanceHandler(IInteriorInstanceHandler interiorInstanceHandler) {
+        DependencyLoaderAccess.registerInstance(IInteriorInstanceHandler.class, interiorInstanceHandler);
+        return interiorInstanceHandler;
     }
 
-    default IInteriorWorldService getInteriorWorldService() {
-        return DependencyLoaderAccess.findInstance(IInteriorWorldService.class);
+    default IInteriorWorldHandler getInteriorWorldHandler() {
+        return DependencyLoaderAccess.findInstance(IInteriorWorldHandler.class);
     }
 
-    default InteriorLayoutService getInteriorLayoutService() {
-        return DependencyLoaderAccess.findInstance(InteriorLayoutService.class);
+    default InteriorLayoutHandler getInteriorLayoutHandler() {
+        return DependencyLoaderAccess.findInstance(InteriorLayoutHandler.class);
     }
 
-    default InteriorLayoutService registerInteriorLayoutService(InteriorLayoutService interiorLayoutService) {
-        DependencyLoaderAccess.registerInstance(InteriorLayoutService.class, interiorLayoutService);
-        return interiorLayoutService;
+    default InteriorLayoutHandler registerInteriorLayoutHandler(InteriorLayoutHandler interiorLayoutHandler) {
+        DependencyLoaderAccess.registerInstance(InteriorLayoutHandler.class, interiorLayoutHandler);
+        return interiorLayoutHandler;
     }
 
-    default IKingdomClockService getKingdomClockService() {
-        return DependencyLoaderAccess.findInstance(IKingdomClockService.class);
+    default IKingdomClockHandler getKingdomClockHandler() {
+        return DependencyLoaderAccess.findInstance(IKingdomClockHandler.class);
     }
 
-    default IResourceService getResourceService() {
-        return DependencyLoaderAccess.findInstance(IResourceService.class);
+    default IResourceHandler getResourceHandler() {
+        return DependencyLoaderAccess.findInstance(IResourceHandler.class);
     }
 
-    default IPopulationService getPopulationService() {
-        return DependencyLoaderAccess.findInstance(IPopulationService.class);
+    default IPopulationHandler getPopulationHandler() {
+        return DependencyLoaderAccess.findInstance(IPopulationHandler.class);
     }
 
     default PopulationDisplayGateway getPopulationDisplayGateway() {
@@ -239,48 +239,48 @@ public interface IResourceGameDomainGenerated {
         return DependencyLoaderAccess.findInstance(IUiPageRegistry.class);
     }
 
-    default IUiActionService getUiActionService() {
-        return DependencyLoaderAccess.findInstance(IUiActionService.class);
+    default IUiActionHandler getUiActionHandler() {
+        return DependencyLoaderAccess.findInstance(IUiActionHandler.class);
     }
 
-    default IFarmsteadMenuService getFarmsteadMenuService() {
-        return DependencyLoaderAccess.findInstance(IFarmsteadMenuService.class);
+    default IFarmsteadMenuHandler getFarmsteadMenuHandler() {
+        return DependencyLoaderAccess.findInstance(IFarmsteadMenuHandler.class);
     }
 
-    default IFocusedWorldOverrideService getFocusedWorldOverrideService() {
-        return DependencyLoaderAccess.findInstance(IFocusedWorldOverrideService.class);
+    default IFocusedWorldOverrideHandler getFocusedWorldOverrideHandler() {
+        return DependencyLoaderAccess.findInstance(IFocusedWorldOverrideHandler.class);
     }
 
-    default IFocusedWorldInteractionService getFocusedWorldInteractionService() {
-        return DependencyLoaderAccess.findInstance(IFocusedWorldInteractionService.class);
+    default IFocusedWorldInteractionHandler getFocusedWorldInteractionHandler() {
+        return DependencyLoaderAccess.findInstance(IFocusedWorldInteractionHandler.class);
     }
 
-    default IIpHashService getIpHashService() {
-        return DependencyLoaderAccess.findInstance(IIpHashService.class);
+    default IIpHashHandler getIpHashHandler() {
+        return DependencyLoaderAccess.findInstance(IIpHashHandler.class);
     }
 
-    default IInfrastructureHealthService getInfrastructureHealthService() {
-        return DependencyLoaderAccess.findInstance(IInfrastructureHealthService.class);
+    default IInfrastructureHealthHandler getInfrastructureHealthHandler() {
+        return DependencyLoaderAccess.findInstance(IInfrastructureHealthHandler.class);
     }
 
-    default IPlacementPreviewService getPlacementPreviewService() {
-        return DependencyLoaderAccess.findInstance(IPlacementPreviewService.class);
+    default IPlacementPreviewHandler getPlacementPreviewHandler() {
+        return DependencyLoaderAccess.findInstance(IPlacementPreviewHandler.class);
     }
 
-    default IPlacementModeService getPlacementModeService() {
-        return DependencyLoaderAccess.findInstance(IPlacementModeService.class);
+    default IPlacementModeHandler getPlacementModeHandler() {
+        return DependencyLoaderAccess.findInstance(IPlacementModeHandler.class);
     }
 
-    default IProtectedBlockSystemService getProtectedBlockSystemService() {
-        return DependencyLoaderAccess.findInstance(IProtectedBlockSystemService.class);
+    default IProtectedBlockSystemHandler getProtectedBlockSystemHandler() {
+        return DependencyLoaderAccess.findInstance(IProtectedBlockSystemHandler.class);
     }
 
     default IVisualVerificationControlHandler getVisualVerificationControlHandler() {
         return DependencyLoaderAccess.findInstance(IVisualVerificationControlHandler.class);
     }
 
-    default IFrontendCommandVerificationService getFrontendCommandVerificationService() {
-        return DependencyLoaderAccess.findInstance(IFrontendCommandVerificationService.class);
+    default IFrontendCommandVerificationHandler getFrontendCommandVerificationHandler() {
+        return DependencyLoaderAccess.findInstance(IFrontendCommandVerificationHandler.class);
     }
 
     default IFrontendControlConfig getFrontendControlConfig() {
@@ -315,8 +315,8 @@ public interface IResourceGameDomainGenerated {
         return DependencyLoaderAccess.findInstance(KingdomEntityCommandSupport.class);
     }
 
-    default WorldLabelService getWorldLabelService() {
-        return DependencyLoaderAccess.findInstance(WorldLabelService.class);
+    default WorldLabelHandler getWorldLabelHandler() {
+        return DependencyLoaderAccess.findInstance(WorldLabelHandler.class);
     }
 }
 

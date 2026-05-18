@@ -7,30 +7,10 @@ import java.util.Set;
 public final class ResourceGameFrontendActionCatalog {
     public List<ResourceGameFrontendActionDescriptor> actionsFor(ResourceGameFrontendPlatform platform, ResourceGameFrontendObjectKind objectKind) {
         return switch (platform) {
-            case HYTALE -> hytaleActionsFor(objectKind);
             case MINECRAFT -> minecraftActionsFor(objectKind);
             case ROBLOX -> robloxActionsFor(objectKind);
             case DISCORD -> discordActionsFor(objectKind);
             case ANDROID, PC -> List.of();
-        };
-    }
-
-    private List<ResourceGameFrontendActionDescriptor> hytaleActionsFor(ResourceGameFrontendObjectKind objectKind) {
-        return switch (objectKind) {
-            case CASTLE -> List.of(action("hytale.castle.open", "Open", "HYTALE_UI_ACTION"));
-            case RESOURCE_NODE -> List.of(action("hytale.node.interact", "Interact", "HYTALE_ENTITY_INTERACT"));
-            case GUILD -> List.of(action("hytale.guild.summary", "Summary", "HYTALE_UI_ACTION"));
-            case PETITION -> List.of(action("hytale.petition.bot_verify", "Bot Verify", "HYTALE_BOT_TEST_ACTION", "COUNCIL", Set.of("CREATE_PETITION")));
-            case PROPAGANDA_CAMPAIGN -> List.of(action("hytale.propaganda.summary", "Campaign", "HYTALE_UI_ACTION"));
-            case KINGDOM_CLOCK -> List.of(action("hytale.clock.view", "Clock", "HYTALE_UI_ACTION"));
-            case KINGDOM_SCHEDULE -> List.of(action("hytale.schedule.view", "Schedule", "HYTALE_UI_ACTION"));
-            case CITIZEN_POPULATION -> List.of(action("hytale.citizens.summary", "Citizens", "HYTALE_UI_ACTION"));
-            case CITIZEN_DISPLAY_ANCHOR -> List.of(action("hytale.citizens.anchor", "Anchor", "HYTALE_CUSTOM_ASSET_VISUAL"));
-            case COMPANION -> List.of(
-                    action("hytale.companion.overview", "Companion", "HYTALE_UI_ACTION"),
-                    action("hytale.companion.train", "Train", "HYTALE_UI_ACTION"),
-                    action("hytale.companion.wisdom", "Wisdom Well", "HYTALE_UI_ACTION")
-            );
         };
     }
 

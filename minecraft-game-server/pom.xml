@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.tavall.hytale</groupId>
-        <artifactId>tavall-hytale-resource-game</artifactId>
+        <groupId>com.tavall</groupId>
+        <artifactId>minecraft-main</artifactId>
         <version>0.1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>

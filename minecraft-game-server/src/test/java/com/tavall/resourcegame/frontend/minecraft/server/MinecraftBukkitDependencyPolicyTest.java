@@ -45,9 +45,9 @@ public final class MinecraftBukkitDependencyPolicyTest {
         String commandClientSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitCommandClientHandler.java"));
         String dependencyModuleSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/MinecraftBukkitServerDependencyModule.java"));
         String accountGuiSource = Files.readString(Path.of("src/main/java/com/tavall/resourcegame/frontend/minecraft/server/KingdomAccountGui.java"));
-        String controlServerDependencyModuleSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "com", "tavall", "resourcegame", "controlserver", "ControlServerDependencyModule.java"));
-        String playerDataApiSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "com", "tavall", "resourcegame", "controlserver", "api", "PlayerDataApi.java"));
-        String controlBridgeServerSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "com", "tavall", "resourcegame", "controlserver", "transport", "ControlPlaneTcpBridgeServer.java"));
+        String controlServerDependencyModuleSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "org", "tavall", "control", "bootstrap", "ResourceGameDependencyModule.java"));
+        String playerDataApiSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "org", "tavall", "control", "api", "PlayerDataApi.java"));
+        String controlBridgeServerSource = Files.readString(Path.of("..", "control-server", "src", "main", "java", "org", "tavall", "control", "transport", "ControlPlaneTcpBridgeServer.java"));
 
         assertTrue(pluginSource.contains("bootstrap = new MinecraftBukkitBootstrap(this);"));
         assertTrue(pluginSource.contains("bootstrap.initialize();"));
@@ -82,7 +82,9 @@ public final class MinecraftBukkitDependencyPolicyTest {
         assertTrue(accountGuiSource.contains("getMinecraftBukkitInteractionMenuHandler().open(player, toMenu(response), response.message())"));
         assertFalse(accountGuiSource.contains("accountRepository().saveAccount"));
         assertFalse(accountGuiSource.contains("platformAccountBindingRepository().savePlatformBinding"));
-        assertTrue(controlServerDependencyModuleSource.contains("PlayerDataApi.class"));
+        assertTrue(controlServerDependencyModuleSource.contains("FrontendTcpControlCommandClient"));
+        assertTrue(controlServerDependencyModuleSource.contains("PlayerProfileCache.open"));
+        assertTrue(controlServerDependencyModuleSource.contains("PlayerGameStateCache.open"));
         assertTrue(playerDataApiSource.contains("package org.tavall.control.api;"));
         assertTrue(playerDataApiSource.contains("runtime.accountRepository()"));
         assertTrue(playerDataApiSource.contains("runtime.platformAccountBindingRepository()"));

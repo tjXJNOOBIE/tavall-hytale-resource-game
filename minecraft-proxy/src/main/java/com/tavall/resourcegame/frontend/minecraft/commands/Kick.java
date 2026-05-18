@@ -2,7 +2,7 @@ package org.tavall.minecraft.commands;
 
 import org.tavall.api.minecraft.permissions.PunishRecord;
 import org.tavall.api.minecraft.permissions.PunishResponse;
-import org.tavall.minecraft.commands.util.MinecraftVelocityPunishmentCommandSupport;
+import org.tavall.minecraft.commands.support.MinecraftVelocityPunishmentCommandSupport;
 import org.tavall.minecraft.routing.MinecraftVelocityCommandResult;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import com.velocitypowered.api.command.SimpleCommand;

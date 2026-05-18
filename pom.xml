@@ -10,12 +10,12 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.tavall.hytale</groupId>
-    <artifactId>tavall-hytale-resource-game</artifactId>
+    <groupId>com.tavall</groupId>
+    <artifactId>minecraft-main</artifactId>
     <version>0.1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Tavall Hytale Resource Game Parent</name>
+    <name>Tavall Minecraft Main Parent</name>
     <description>Parent aggregator for Tavall Resource Game core, frontends, control plane, and app surfaces.</description>
 
     <properties>
