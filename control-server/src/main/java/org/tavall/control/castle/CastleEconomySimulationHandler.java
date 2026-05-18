@@ -14,7 +14,7 @@ import org.tavall.control.player.IPlayerGameStateHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceNodeHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.CastleEconomySnapshot;
 import org.tavall.control.domain.CitizenMetaData;
 import org.tavall.control.domain.PlayerGameState;
@@ -44,7 +44,7 @@ public final class CastleEconomySimulationHandler implements ICastleEconomySimul
     private final CastleEconomyPlanner planner;
     private final IResourceNodeHandler resourceNodeHandler;
     private final IResourceNodeVisualHandler resourceNodeVisualHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
     private ScheduledFuture<?> tickTask;
 
     public CastleEconomySimulationHandler(
@@ -56,7 +56,7 @@ public final class CastleEconomySimulationHandler implements ICastleEconomySimul
             CastleEconomyPlanner planner,
             IResourceNodeHandler resourceNodeHandler,
             IResourceNodeVisualHandler resourceNodeVisualHandler,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
         this.gameStateHandler = Objects.requireNonNull(gameStateHandler, "gameStateHandler");
@@ -125,4 +125,3 @@ public final class CastleEconomySimulationHandler implements ICastleEconomySimul
         LOGGER.fine(() -> "Economy tick applied for " + session.playerId());
     }
 }
-

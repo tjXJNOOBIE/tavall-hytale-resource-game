@@ -13,12 +13,12 @@ import org.tavall.control.world.IFocusedWorldInteractionHandler;
 import org.tavall.control.world.IFocusedWorldOverrideHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceNodeHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.FocusedWorldTarget;
 import org.tavall.control.domain.FocusedWorldTargetType;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.control.world.VectorMath;
 
 import java.util.Objects;
@@ -34,7 +34,7 @@ public final class FocusedWorldInteractionHandler implements IFocusedWorldIntera
     private final ICastleInteractionHandler castleInteractionHandler;
     private final IFocusedWorldOverrideHandler focusedWorldOverrideHandler;
     private final IResourceNodeHandler resourceNodeHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
     private final FocusedWorldTargetPlanner planner;
 
     public FocusedWorldInteractionHandler(
@@ -43,7 +43,7 @@ public final class FocusedWorldInteractionHandler implements IFocusedWorldIntera
             ICastleInteractionHandler castleInteractionHandler,
             IFocusedWorldOverrideHandler focusedWorldOverrideHandler,
             IResourceNodeHandler resourceNodeHandler,
-            IUiNavigator uiNavigator,
+            UIData uiNavigator,
             FocusedWorldTargetPlanner planner
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
@@ -117,7 +117,7 @@ public final class FocusedWorldInteractionHandler implements IFocusedWorldIntera
         }
         if (focusedTarget.type() == FocusedWorldTargetType.BUILDING) {
             uiNavigator.open(
-                    UiPageType.BUILDING_DETAIL,
+                    UiScreenKey.BUILDING_DETAIL,
                     player,
                     new UiNavigationContext(player.getUuid(), player.getDisplayName()).withSelectedBuildingId(focusedTarget.buildingId()),
                     session.gameState()
@@ -125,7 +125,7 @@ public final class FocusedWorldInteractionHandler implements IFocusedWorldIntera
             return Optional.of(focusedTarget);
         }
         uiNavigator.open(
-                UiPageType.RESOURCE_NODE_DETAIL,
+                UiScreenKey.RESOURCE_NODE_DETAIL,
                 player,
                 new UiNavigationContext(player.getUuid(), player.getDisplayName()).withSelectedNodeId(focusedTarget.nodeId()),
                 session.gameState()
@@ -133,4 +133,3 @@ public final class FocusedWorldInteractionHandler implements IFocusedWorldIntera
         return Optional.of(focusedTarget);
     }
 }
-

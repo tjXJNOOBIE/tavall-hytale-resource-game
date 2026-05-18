@@ -11,10 +11,10 @@ import org.tavall.control.config.CastleAssetConfig;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleInteractionHandler;
 import org.tavall.control.player.IPlayerSessionStore;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.control.world.VectorMath;
 
 import java.util.Objects;
@@ -25,12 +25,12 @@ import java.util.UUID;
  */
 public final class CastleInteractionHandler implements ICastleInteractionHandler, IDependencyInjectableConcrete {
     private final IPlayerSessionStore sessionStore;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
     private final CastleAssetConfig assetConfig;
 
     public CastleInteractionHandler(
             IPlayerSessionStore sessionStore,
-            IUiNavigator uiNavigator,
+            UIData uiNavigator,
             CastleAssetConfig assetConfig
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
@@ -78,7 +78,7 @@ public final class CastleInteractionHandler implements ICastleInteractionHandler
             return;
         }
         PlayerGameState state = session.gameState();
-        uiNavigator.open(UiPageType.CASTLE_MAIN, player, new UiNavigationContext(playerId, player.getDisplayName()), state);
+        uiNavigator.open(UiScreenKey.CASTLE_MAIN, player, new UiNavigationContext(playerId, player.getDisplayName()), state);
     }
 
     private Vector3d resolveCastlePosition(Player player) {
@@ -90,4 +90,3 @@ public final class CastleInteractionHandler implements ICastleInteractionHandler
         return new Vector3d(castleLocation.x(), castleLocation.y(), castleLocation.z());
     }
 }
-

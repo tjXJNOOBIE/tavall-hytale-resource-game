@@ -23,7 +23,7 @@ import org.tavall.control.player.IPlayerGameStateHandler;
 import org.tavall.control.player.IPlayerProfileHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PlayerProfile;
@@ -54,7 +54,7 @@ public final class PlayerDataHandler implements IPlayerDataHandler, IDependencyI
     private final ICastleBuildingVisualHandler buildingVisualHandler;
     private final PopulationDisplayGateway populationDisplayGateway;
     private final InteriorTourMarkerHandler interiorTourMarkerHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
 
     public PlayerDataHandler(
             IPlayerProfileHandler profileHandler,
@@ -68,7 +68,7 @@ public final class PlayerDataHandler implements IPlayerDataHandler, IDependencyI
             ICastleBuildingVisualHandler buildingVisualHandler,
             PopulationDisplayGateway populationDisplayGateway,
             InteriorTourMarkerHandler interiorTourMarkerHandler,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.profileHandler = Objects.requireNonNull(profileHandler, "profileHandler");
         this.gameStateHandler = Objects.requireNonNull(gameStateHandler, "gameStateHandler");
@@ -236,4 +236,3 @@ public final class PlayerDataHandler implements IPlayerDataHandler, IDependencyI
     }
 
 }
-

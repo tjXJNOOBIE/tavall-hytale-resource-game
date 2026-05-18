@@ -7,12 +7,12 @@ import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.farmstead.ui.IFarmsteadMenuHandler;
 import org.tavall.control.player.IPlayerSessionStore;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.player.PlayerSession;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -23,12 +23,12 @@ public final class FarmsteadMenuHandler implements IFarmsteadMenuHandler, IDepen
 
     private final IPlayerSessionStore sessionStore;
     private final ICastleBuildingHandler buildingHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
 
     public FarmsteadMenuHandler(
             IPlayerSessionStore sessionStore,
             ICastleBuildingHandler buildingHandler,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
         this.buildingHandler = Objects.requireNonNull(buildingHandler, "buildingHandler");
@@ -55,8 +55,7 @@ public final class FarmsteadMenuHandler implements IFarmsteadMenuHandler, IDepen
         }
         LOGGER.info(() -> "Opening Farmstead menu for " + player.getDisplayName()
                 + " selectedBuildingId=" + farmstead.map(CastleBuildingData::buildingId).map(Objects::toString).orElse("none") + ".");
-        uiNavigator.open(UiPageType.FARMSTEAD_MENU, player, context, session.gameState());
+        uiNavigator.open(UiScreenKey.FARMSTEAD_MENU, player, context, session.gameState());
         return true;
     }
 }
-

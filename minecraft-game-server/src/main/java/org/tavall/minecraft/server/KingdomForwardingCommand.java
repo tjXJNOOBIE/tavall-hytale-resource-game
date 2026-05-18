@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server;
 
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.minecraft.server.commands.support.KingdomCommandSupport;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +15,7 @@ abstract class KingdomForwardingCommand implements CommandExecutor, TabCompleter
 
     protected abstract String usage();
 
-    protected Optional<UiPageType> defaultPage() {
+    protected Optional<UiScreenKey> defaultPage() {
         return Optional.empty();
     }
 
@@ -26,7 +26,7 @@ abstract class KingdomForwardingCommand implements CommandExecutor, TabCompleter
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            Optional<UiPageType> defaultPage = defaultPage();
+            Optional<UiScreenKey> defaultPage = defaultPage();
             if (defaultPage.isPresent()) {
                 return KingdomCommandSupport.openPageIfPlayer(this, sender, defaultPage.get(), "");
             }

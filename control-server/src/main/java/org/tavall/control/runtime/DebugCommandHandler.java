@@ -25,7 +25,7 @@ import org.tavall.control.population.IPopulationHandler;
 import org.tavall.control.resource.IResourceNodeHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
 import org.tavall.control.resource.IResourceHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.commands.KingdomInteractionCommandSupport;
 import org.tavall.control.commands.KingdomBuildingCommandSupport;
 import org.tavall.control.commands.KingdomCommand;
@@ -41,7 +41,7 @@ import java.util.Objects;
  */
 public final class DebugCommandHandler implements IDebugCommandHandler, IDependencyInjectableConcrete {
     private final IPlayerSessionStore sessionStore;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
     private final IPopulationHandler populationHandler;
     private final IResourceHandler resourceHandler;
     private final IInteriorWorldHandler interiorWorldHandler;
@@ -69,7 +69,7 @@ public final class DebugCommandHandler implements IDebugCommandHandler, IDepende
 
     public DebugCommandHandler(
             IPlayerSessionStore sessionStore,
-            IUiNavigator uiNavigator,
+            UIData uiNavigator,
             IPopulationHandler populationHandler,
             IResourceHandler resourceHandler,
             IInteriorWorldHandler interiorWorldHandler,
@@ -128,4 +128,3 @@ public final class DebugCommandHandler implements IDebugCommandHandler, IDepende
         return List.of(kingdom);
  }
 }
-

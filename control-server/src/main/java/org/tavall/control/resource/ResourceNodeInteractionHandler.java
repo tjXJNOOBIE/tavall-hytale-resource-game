@@ -9,9 +9,9 @@ import org.tavall.control.world.IFocusedWorldInteractionHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceNodeInteractionHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -24,13 +24,13 @@ public final class ResourceNodeInteractionHandler implements IResourceNodeIntera
     private final IPlayerSessionStore sessionStore;
     private final IResourceNodeVisualHandler resourceNodeVisualHandler;
     private final IFocusedWorldInteractionHandler focusedWorldInteractionHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
 
     public ResourceNodeInteractionHandler(
             IPlayerSessionStore sessionStore,
             IResourceNodeVisualHandler resourceNodeVisualHandler,
             IFocusedWorldInteractionHandler focusedWorldInteractionHandler,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
         this.resourceNodeVisualHandler = Objects.requireNonNull(resourceNodeVisualHandler, "resourceNodeVisualHandler");
@@ -57,11 +57,10 @@ public final class ResourceNodeInteractionHandler implements IResourceNodeIntera
             return;
         }
         uiNavigator.open(
-                UiPageType.RESOURCE_NODE_DETAIL,
+                UiScreenKey.RESOURCE_NODE_DETAIL,
                 player,
                 new UiNavigationContext(playerId, player.getDisplayName()).withSelectedNodeId(nodeId.get()),
                 session.gameState()
         );
     }
 }
-

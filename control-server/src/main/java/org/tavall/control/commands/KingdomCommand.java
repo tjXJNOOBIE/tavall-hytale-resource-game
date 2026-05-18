@@ -24,7 +24,7 @@ import org.tavall.control.player.PlayerSession;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.time.Instant;
 import java.util.List;
@@ -147,15 +147,15 @@ public final class KingdomCommand extends AbstractAsyncCommand implements IResou
         UiNavigationContext navContext = new UiNavigationContext(player.getUuid(), player.getDisplayName());
         PlayerGameState state = session.gameState();
         if (tokens.size() == 1) {
-            getUiNavigator().open(UiPageType.DEBUG_NAVIGATOR, player, navContext, state);
+            getUIData().open(UiScreenKey.DEBUG_NAVIGATOR, player, navContext, state);
             return;
         }
-        UiPageType type = parseUiType(tokens.get(1));
+        UiScreenKey type = parseUiType(tokens.get(1));
         if (type == null) {
             context.sendMessage(Message.raw("Unknown UI type.").color("red"));
             return;
         }
-        getUiNavigator().open(type, player, navContext, state);
+        getUIData().open(type, player, navContext, state);
     }
 
     private void handleData(CommandContext context, Player player, PlayerSession session) {
@@ -227,7 +227,7 @@ public final class KingdomCommand extends AbstractAsyncCommand implements IResou
             }
             case "move" -> getKingdomPlacementCommandSupport().handle(context, player, List.of("place", "castle"));
             case "open" -> {
-                getUiNavigator().open(UiPageType.CASTLE_MAIN, player, new UiNavigationContext(player.getUuid(), player.getDisplayName()), state);
+                getUIData().open(UiScreenKey.CASTLE_MAIN, player, new UiNavigationContext(player.getUuid(), player.getDisplayName()), state);
                 context.sendMessage(Message.raw("Opened castle UI.").color("green"));
             }
             case "goto" -> {
@@ -616,24 +616,24 @@ public final class KingdomCommand extends AbstractAsyncCommand implements IResou
         return Runnable::run;
     }
 
-    private UiPageType parseUiType(String token) {
+    private UiScreenKey parseUiType(String token) {
         String normalized = token.toLowerCase(Locale.ROOT);
         return switch (normalized) {
-            case "castle", "main" -> UiPageType.CASTLE_MAIN;
-            case "info" -> UiPageType.CASTLE_INFO;
-            case "citizens" -> UiPageType.CASTLE_CITIZENS;
-            case "troops" -> UiPageType.CASTLE_TROOPS;
-            case "resources" -> UiPageType.CASTLE_RESOURCES;
-            case "upgrades" -> UiPageType.CASTLE_UPGRADES;
-            case "buildings", "building" -> UiPageType.CASTLE_BUILDINGS;
-            case "farmstead", "farmstead_menu" -> UiPageType.FARMSTEAD_MENU;
-            case "buildingdetail", "building_detail" -> UiPageType.BUILDING_DETAIL;
-            case "interior" -> UiPageType.INTERIOR_MAIN;
-            case "debug", "navigator", "command_center" -> UiPageType.DEBUG_NAVIGATOR;
-            case "debug_placement", "placement_debug", "placement" -> UiPageType.DEBUG_PLACEMENT;
-            case "debug_interior", "interior_debug" -> UiPageType.DEBUG_INTERIOR;
-            case "debug_buildings", "buildings_debug" -> UiPageType.DEBUG_BUILDINGS;
-            case "debug_world", "world_debug", "world" -> UiPageType.DEBUG_WORLD;
+            case "castle", "main" -> UiScreenKey.CASTLE_MAIN;
+            case "info" -> UiScreenKey.CASTLE_INFO;
+            case "citizens" -> UiScreenKey.CASTLE_CITIZENS;
+            case "troops" -> UiScreenKey.CASTLE_TROOPS;
+            case "resources" -> UiScreenKey.CASTLE_RESOURCES;
+            case "upgrades" -> UiScreenKey.CASTLE_UPGRADES;
+            case "buildings", "building" -> UiScreenKey.CASTLE_BUILDINGS;
+            case "farmstead", "farmstead_menu" -> UiScreenKey.FARMSTEAD_MENU;
+            case "buildingdetail", "building_detail" -> UiScreenKey.BUILDING_DETAIL;
+            case "interior" -> UiScreenKey.INTERIOR_MAIN;
+            case "debug", "navigator", "command_center" -> UiScreenKey.DEBUG_NAVIGATOR;
+            case "debug_placement", "placement_debug", "placement" -> UiScreenKey.DEBUG_PLACEMENT;
+            case "debug_interior", "interior_debug" -> UiScreenKey.DEBUG_INTERIOR;
+            case "debug_buildings", "buildings_debug" -> UiScreenKey.DEBUG_BUILDINGS;
+            case "debug_world", "world_debug", "world" -> UiScreenKey.DEBUG_WORLD;
             default -> null;
         };
     }
@@ -674,4 +674,3 @@ public final class KingdomCommand extends AbstractAsyncCommand implements IResou
         return throwable.getMessage();
     }
 }
-

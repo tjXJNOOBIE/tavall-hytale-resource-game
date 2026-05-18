@@ -3,7 +3,7 @@ package org.tavall.minecraft.server.commands.support;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
@@ -44,7 +44,7 @@ public final class KingdomCommandSupport {
         return true;
     }
 
-    public static boolean openPageIfPlayer(IMinecraftBukkitServerDomain domain, CommandSender sender, UiPageType pageType, String feedback) {
+    public static boolean openPageIfPlayer(IMinecraftBukkitServerDomain domain, CommandSender sender, UiScreenKey pageType, String feedback) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("This page requires a player sender.");
             return true;

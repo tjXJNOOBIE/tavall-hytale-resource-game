@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server;
 
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public final class KingdomInteriorCommand extends KingdomForwardingCommand {
     }
 
     @Override
-    protected Optional<UiPageType> defaultPage() {
-        return Optional.of(UiPageType.INTERIOR_MAIN);
+    protected Optional<UiScreenKey> defaultPage() {
+        return Optional.of(UiScreenKey.INTERIOR_MAIN);
     }
 }

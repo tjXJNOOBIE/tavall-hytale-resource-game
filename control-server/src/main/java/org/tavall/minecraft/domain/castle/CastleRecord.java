@@ -1,7 +1,7 @@
 package org.tavall.minecraft.domain.castle;
 
 import java.util.UUID;
-import org.tavall.minecraft.runtime.AssetId;
+import org.tavall.minecraft.framework.game.AssetId;
 
 /**
  * Persistent castle record for each player owner.

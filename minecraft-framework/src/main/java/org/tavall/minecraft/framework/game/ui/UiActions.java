@@ -1,4 +1,4 @@
-package org.tavall.api.minecraft.ui;
+package org.tavall.minecraft.framework.game.ui;
 
 public final class UiActions {
     public static final String OPEN_CASTLE_INFO = "OpenCastleInfo";

@@ -2,7 +2,7 @@ package org.tavall.minecraft.server;
 
 import com.tjxjnoobie.api.dependency.DependencyLoader;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
 import org.tavall.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
 import org.junit.jupiter.api.Test;
@@ -28,12 +28,12 @@ final class MinecraftBukkitInventoryUiHandlerTest {
 
         MinecraftBukkitInventoryUiHandler handler = new MinecraftBukkitInventoryUiHandler();
 
-        assertTrue(handler.assetPreview(UiPageType.CASTLE_MAIN).stream().anyMatch(line -> line.contains("castles")));
-        assertTrue(handler.assetPreview(UiPageType.CASTLE_MAIN).stream().anyMatch(line -> line.contains("castle_main.png")));
-        assertTrue(handler.assetPreview(UiPageType.CASTLE_MAIN).stream().anyMatch(line -> line.contains("castle_keep.png")));
-        assertTrue(handler.assetPreview(UiPageType.BUILDING_DETAIL).stream().anyMatch(line -> line.contains("buildings")));
-        assertTrue(handler.assetPreview(UiPageType.BUILDING_DETAIL).stream().anyMatch(line -> line.contains("building_detail.png")));
-        assertTrue(handler.assetPreview(UiPageType.BUILDING_DETAIL).stream().anyMatch(line -> line.contains("farmstead.png")));
-        assertTrue(handler.assetPreview(UiPageType.DEBUG_NAVIGATOR).isEmpty());
+        assertTrue(handler.assetPreview(UiScreenKey.CASTLE_MAIN).stream().anyMatch(line -> line.contains("castles")));
+        assertTrue(handler.assetPreview(UiScreenKey.CASTLE_MAIN).stream().anyMatch(line -> line.contains("castle_main.png")));
+        assertTrue(handler.assetPreview(UiScreenKey.CASTLE_MAIN).stream().anyMatch(line -> line.contains("castle_keep.png")));
+        assertTrue(handler.assetPreview(UiScreenKey.BUILDING_DETAIL).stream().anyMatch(line -> line.contains("buildings")));
+        assertTrue(handler.assetPreview(UiScreenKey.BUILDING_DETAIL).stream().anyMatch(line -> line.contains("building_detail.png")));
+        assertTrue(handler.assetPreview(UiScreenKey.BUILDING_DETAIL).stream().anyMatch(line -> line.contains("farmstead.png")));
+        assertTrue(handler.assetPreview(UiScreenKey.DEBUG_NAVIGATOR).isEmpty());
     }
 }

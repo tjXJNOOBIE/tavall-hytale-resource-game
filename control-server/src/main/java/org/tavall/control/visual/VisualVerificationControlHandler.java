@@ -14,11 +14,11 @@ import com.hypixel.hytale.protocol.packets.interface_.Page;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerDataHandler;
 import org.tavall.control.player.IPlayerSessionStore;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.tasks.WorldTasks;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -40,7 +40,7 @@ public final class VisualVerificationControlHandler implements IDependencyInject
 
     private final IPlayerDataHandler playerDataHandler;
     private final IPlayerSessionStore sessionStore;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
     private final Path requestPath;
     private final Path ackPath;
     private volatile String lastRequestId;
@@ -49,7 +49,7 @@ public final class VisualVerificationControlHandler implements IDependencyInject
     public VisualVerificationControlHandler(
             IPlayerDataHandler playerDataHandler,
             IPlayerSessionStore sessionStore,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.playerDataHandler = Objects.requireNonNull(playerDataHandler, "playerDataHandler");
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
@@ -103,7 +103,7 @@ public final class VisualVerificationControlHandler implements IDependencyInject
     private void handleRequest(String requestId, Properties request) {
         String requestedUi = request.getProperty("ui", "debug");
         boolean closeRequest = isCloseRequest(requestedUi);
-        UiPageType pageType = closeRequest ? null : parseUiPage(requestedUi);
+        UiScreenKey pageType = closeRequest ? null : parseUiPage(requestedUi);
         PlayerRef playerRef = resolvePlayerRef(request.getProperty("player", "*"));
         if (!closeRequest && pageType == null) {
             writeAck(requestId, "error", "Unknown UI page: " + requestedUi, null);
@@ -139,7 +139,7 @@ public final class VisualVerificationControlHandler implements IDependencyInject
         return "close".equals(normalized) || "none".equals(normalized) || "page_none".equals(normalized);
     }
 
-    private void handleRequestOnWorldThread(String requestId, UiPageType pageType, PlayerRef playerRef, World expectedWorld) {
+    private void handleRequestOnWorldThread(String requestId, UiScreenKey pageType, PlayerRef playerRef, World expectedWorld) {
         World currentWorld = resolveWorld(playerRef);
         if (currentWorld == null) {
             writeAck(requestId, "error", "Player world is not ready.", null);
@@ -167,7 +167,7 @@ public final class VisualVerificationControlHandler implements IDependencyInject
         });
     }
 
-    private void openUiOnPlayerWorld(String requestId, UiPageType pageType, PlayerRef playerRef) {
+    private void openUiOnPlayerWorld(String requestId, UiScreenKey pageType, PlayerRef playerRef) {
         World world = resolveWorld(playerRef);
         if (world == null) {
             writeAck(requestId, "error", "Player world is not ready.", null);
@@ -212,7 +212,7 @@ public final class VisualVerificationControlHandler implements IDependencyInject
         writeAck(requestId, "closed", "Page.None", player);
     }
 
-    private void openUi(String requestId, Player player, UiPageType pageType) {
+    private void openUi(String requestId, Player player, UiScreenKey pageType) {
         PlayerSession session = sessionStore.get(player.getUuid());
         if (session == null) {
             writeAck(requestId, "error", "Player session is not ready.", player);
@@ -261,24 +261,24 @@ public final class VisualVerificationControlHandler implements IDependencyInject
         return Universe.get().getWorld(playerRef.getWorldUuid());
     }
 
-    private UiPageType parseUiPage(String token) {
+    private UiScreenKey parseUiPage(String token) {
         String normalized = token == null ? "debug" : token.toLowerCase(Locale.ROOT).replace("-", "_").replace(" ", "_");
         return switch (normalized) {
-            case "castle", "main", "castle_main" -> UiPageType.CASTLE_MAIN;
-            case "info", "castle_info" -> UiPageType.CASTLE_INFO;
-            case "citizens", "castle_citizens" -> UiPageType.CASTLE_CITIZENS;
-            case "troops", "castle_troops" -> UiPageType.CASTLE_TROOPS;
-            case "resources", "castle_resources" -> UiPageType.CASTLE_RESOURCES;
-            case "upgrades", "castle_upgrades" -> UiPageType.CASTLE_UPGRADES;
-            case "buildings", "building", "castle_buildings" -> UiPageType.CASTLE_BUILDINGS;
-            case "farmstead", "farmstead_menu" -> UiPageType.FARMSTEAD_MENU;
-            case "building_detail", "buildingdetail" -> UiPageType.BUILDING_DETAIL;
-            case "interior", "interior_main" -> UiPageType.INTERIOR_MAIN;
-            case "debug", "debug_navigator", "navigator", "command_center" -> UiPageType.DEBUG_NAVIGATOR;
-            case "debug_placement", "placement_debug", "placement" -> UiPageType.DEBUG_PLACEMENT;
-            case "debug_interior", "interior_debug" -> UiPageType.DEBUG_INTERIOR;
-            case "debug_buildings", "buildings_debug" -> UiPageType.DEBUG_BUILDINGS;
-            case "debug_world", "world_debug", "world" -> UiPageType.DEBUG_WORLD;
+            case "castle", "main", "castle_main" -> UiScreenKey.CASTLE_MAIN;
+            case "info", "castle_info" -> UiScreenKey.CASTLE_INFO;
+            case "citizens", "castle_citizens" -> UiScreenKey.CASTLE_CITIZENS;
+            case "troops", "castle_troops" -> UiScreenKey.CASTLE_TROOPS;
+            case "resources", "castle_resources" -> UiScreenKey.CASTLE_RESOURCES;
+            case "upgrades", "castle_upgrades" -> UiScreenKey.CASTLE_UPGRADES;
+            case "buildings", "building", "castle_buildings" -> UiScreenKey.CASTLE_BUILDINGS;
+            case "farmstead", "farmstead_menu" -> UiScreenKey.FARMSTEAD_MENU;
+            case "building_detail", "buildingdetail" -> UiScreenKey.BUILDING_DETAIL;
+            case "interior", "interior_main" -> UiScreenKey.INTERIOR_MAIN;
+            case "debug", "debug_navigator", "navigator", "command_center" -> UiScreenKey.DEBUG_NAVIGATOR;
+            case "debug_placement", "placement_debug", "placement" -> UiScreenKey.DEBUG_PLACEMENT;
+            case "debug_interior", "interior_debug" -> UiScreenKey.DEBUG_INTERIOR;
+            case "debug_buildings", "buildings_debug" -> UiScreenKey.DEBUG_BUILDINGS;
+            case "debug_world", "world_debug", "world" -> UiScreenKey.DEBUG_WORLD;
             default -> null;
         };
     }
@@ -337,4 +337,3 @@ public final class VisualVerificationControlHandler implements IDependencyInject
         return current == null ? new RuntimeException("unknown") : current;
     }
 }
-

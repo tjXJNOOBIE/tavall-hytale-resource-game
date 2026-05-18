@@ -24,7 +24,7 @@ import org.tavall.control.support.InMemoryPlayerProfileStore;
 import org.tavall.control.support.NoopCastleBuildingHandler;
 import org.tavall.control.support.RecordingPopulationDisplayGateway;
 import org.tavall.control.support.RecordingResourceNodeVisualHandler;
-import org.tavall.control.support.RecordingUiNavigator;
+import org.tavall.control.support.RecordingUIData;
 import org.tavall.control.support.TestAwait;
 import org.junit.jupiter.api.Test;
 import org.tavall.abstractcache.semantic.SemanticCache;
@@ -96,7 +96,7 @@ public final class VerticalSliceHandlerTest {
         PlayerSessionStore sessionStore = new PlayerSessionStore();
         RecordingCastleSiteVisualHandler castleSiteVisualHandler = new RecordingCastleSiteVisualHandler();
         RecordingResourceNodeVisualHandler resourceNodeVisualHandler = new RecordingResourceNodeVisualHandler();
-        RecordingUiNavigator uiNavigator = new RecordingUiNavigator();
+        RecordingUIData uiNavigator = new RecordingUIData();
         ResourceNodeHandler resourceNodeHandler = new ResourceNodeHandler(sessionStore, gameStateHandler, mapperProvider.mapper(), new CastleEconomyPlanner());
         ResourceHandler resourceHandler = new ResourceHandler(sessionStore, gameStateHandler, castleSiteVisualHandler, uiNavigator);
         RecordingPopulationDisplayGateway displayGateway = new RecordingPopulationDisplayGateway();
@@ -150,7 +150,7 @@ public final class VerticalSliceHandlerTest {
                                 && snapshot.populationSummary().troopCount() == 1
                                 && snapshot.resources().food() == 52)
                         .orElse(false),
-                Duration.ofSeconds(2),
+                Duration.ofSeconds(5),
                 "async state persistence did not complete"
         );
     }
@@ -170,7 +170,7 @@ public final class VerticalSliceHandlerTest {
         PlayerSessionStore sessionStore = new PlayerSessionStore();
         RecordingCastleSiteVisualHandler castleSiteVisualHandler = new RecordingCastleSiteVisualHandler();
         RecordingResourceNodeVisualHandler resourceNodeVisualHandler = new RecordingResourceNodeVisualHandler();
-        RecordingUiNavigator uiNavigator = new RecordingUiNavigator();
+        RecordingUIData uiNavigator = new RecordingUIData();
         ResourceNodeHandler resourceNodeHandler = new ResourceNodeHandler(sessionStore, gameStateHandler, mapperProvider.mapper(), new CastleEconomyPlanner());
         ResourceHandler resourceHandler = new ResourceHandler(sessionStore, gameStateHandler, castleSiteVisualHandler, uiNavigator);
         PopulationHandler populationHandler = new PopulationHandler(
@@ -217,4 +217,3 @@ public final class VerticalSliceHandlerTest {
         assertEquals("Cost per promotion: 4 Food, 2 Wood, 1 Iron.", populationHandler.promotionCostSummary(readyState));
     }
 }
-

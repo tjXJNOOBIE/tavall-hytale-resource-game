@@ -8,7 +8,7 @@ import org.tavall.control.castle.ICastleSiteVisualHandler;
 import org.tavall.control.player.IPlayerGameStateHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.resources.ResourceType;
@@ -26,13 +26,13 @@ public final class ResourceHandler implements IResourceHandler, IDependencyInjec
     private final IPlayerSessionStore sessionStore;
     private final IPlayerGameStateHandler gameStateHandler;
     private final ICastleSiteVisualHandler castleSiteVisualHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
 
     public ResourceHandler(
             IPlayerSessionStore sessionStore,
             IPlayerGameStateHandler gameStateHandler,
             ICastleSiteVisualHandler castleSiteVisualHandler,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
         this.gameStateHandler = Objects.requireNonNull(gameStateHandler, "gameStateHandler");
@@ -81,5 +81,3 @@ public final class ResourceHandler implements IResourceHandler, IDependencyInjec
         return updatedState;
     }
 }
-
-

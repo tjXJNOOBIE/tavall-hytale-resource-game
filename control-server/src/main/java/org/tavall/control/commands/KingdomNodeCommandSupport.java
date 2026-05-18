@@ -14,14 +14,14 @@ import org.tavall.control.player.IPlayerTeleportHandler;
 import org.tavall.control.resource.IResourceNodePromptLaneHandler;
 import org.tavall.control.resource.IResourceNodeHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceNodeData;
 import org.tavall.control.domain.ResourceNodePillageResult;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.resources.ResourceType;
 import org.tavall.control.player.PlayerSession;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.time.Instant;
 import java.util.List;
@@ -37,7 +37,7 @@ import java.util.UUID;
 public final class KingdomNodeCommandSupport implements IDependencyInjectableConcrete {
     private final IResourceNodeHandler resourceNodeHandler;
     private final IResourceNodeVisualHandler resourceNodeVisualHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
     private final IPlayerTeleportHandler playerTeleportHandler;
     private final IPlacementModeHandler placementModeHandler;
     private final IResourceNodePromptLaneHandler promptLaneHandler;
@@ -47,7 +47,7 @@ public final class KingdomNodeCommandSupport implements IDependencyInjectableCon
     public KingdomNodeCommandSupport(
             IResourceNodeHandler resourceNodeHandler,
             IResourceNodeVisualHandler resourceNodeVisualHandler,
-            IUiNavigator uiNavigator,
+            UIData uiNavigator,
             IPlayerTeleportHandler playerTeleportHandler,
             IPlacementModeHandler placementModeHandler,
             IResourceNodePromptLaneHandler promptLaneHandler,
@@ -129,7 +129,7 @@ public final class KingdomNodeCommandSupport implements IDependencyInjectableCon
             return;
         }
         uiNavigator.open(
-                UiPageType.RESOURCE_NODE_DETAIL,
+                UiScreenKey.RESOURCE_NODE_DETAIL,
                 player,
                 new UiNavigationContext(player.getUuid(), player.getDisplayName()).withSelectedNodeId(node.get().nodeId()),
                 session.gameState()
@@ -348,4 +348,3 @@ public final class KingdomNodeCommandSupport implements IDependencyInjectableCon
         );
     }
 }
-

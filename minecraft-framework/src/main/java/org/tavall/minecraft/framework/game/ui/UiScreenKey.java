@@ -1,6 +1,6 @@
-package org.tavall.api.minecraft.ui;
+package org.tavall.minecraft.framework.game.ui;
 
-public enum UiPageType {
+public enum UiScreenKey {
     CASTLE_MAIN,
     CASTLE_INFO,
     CASTLE_CITIZENS,

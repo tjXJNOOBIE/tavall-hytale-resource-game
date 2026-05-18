@@ -3,7 +3,7 @@ package org.tavall.minecraft.server;
 import org.tavall.api.minecraft.interaction.InteractionRequest;
 import org.tavall.api.minecraft.interaction.InteractionResult;
 import org.tavall.api.minecraft.interaction.InteractionTargetType;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -33,7 +33,7 @@ public final class MinecraftBukkitInteractionHandler implements IMinecraftBukkit
         MinecraftBukkitInteractionTarget resolvedTarget = target.get();
         getMinecraftBukkitInteractionSessionTracker().remember(player.getUniqueId(), resolvedTarget);
         if ("castle".equalsIgnoreCase(resolvedTarget.metadata().getOrDefault("structureKind", ""))) {
-            getKingdomInventoryUiHandler().open(player, UiPageType.CASTLE_MAIN, resolvedTarget.displayName() + " overview.");
+            getKingdomInventoryUiHandler().open(player, UiScreenKey.CASTLE_MAIN, resolvedTarget.displayName() + " overview.");
             return;
         }
 

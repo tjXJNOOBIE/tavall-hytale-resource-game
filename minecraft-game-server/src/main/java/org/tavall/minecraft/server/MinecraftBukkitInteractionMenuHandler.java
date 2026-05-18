@@ -77,7 +77,7 @@ public final class MinecraftBukkitInteractionMenuHandler implements IMinecraftBu
     }
 
     private void handleAction(Player player, MinecraftBukkitInteractionMenuHolder holder, String action, String elementId, String payload) {
-        if (org.tavall.api.minecraft.ui.UiActions.CLOSE.equals(action)) {
+        if (org.tavall.minecraft.framework.game.ui.UiActions.CLOSE.equals(action)) {
             player.closeInventory();
             return;
         }

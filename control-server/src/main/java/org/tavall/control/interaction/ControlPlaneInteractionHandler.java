@@ -6,7 +6,7 @@ import org.tavall.api.minecraft.interaction.InteractionRequest;
 import org.tavall.api.minecraft.interaction.InteractionResult;
 import org.tavall.api.minecraft.interaction.InteractionResultType;
 import org.tavall.api.minecraft.interaction.InteractionTargetType;
-import org.tavall.api.minecraft.ui.UiActions;
+import org.tavall.minecraft.framework.game.ui.UiActions;
 
 import java.time.Instant;
 import java.util.ArrayList;

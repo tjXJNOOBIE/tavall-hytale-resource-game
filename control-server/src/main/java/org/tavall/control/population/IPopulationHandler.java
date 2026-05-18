@@ -2,7 +2,7 @@ package org.tavall.control.population;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.PlayerGameState;
-import org.tavall.control.ui.UpgradeActionState;
+import org.tavall.control.population.UpgradeActionState;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -28,4 +28,3 @@ public interface IPopulationHandler extends IDependencyInjectableInterface {
 
     PlayerGameState updateAging(UUID playerId, Instant now);
 }
-

@@ -50,7 +50,7 @@ import org.tavall.control.resource.IResourceNodeInteractionHandler;
 import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
 import org.tavall.control.resource.IResourceHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
 import org.tavall.control.npc.IWorkerNpcInteractionHandler;
 import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
@@ -234,8 +234,8 @@ public interface IResourceGameDomainGenerated {
         return DependencyLoaderAccess.findInstance(PopulationDisplayGateway.class);
     }
 
-    default IUiNavigator getUiNavigator() {
-        return DependencyLoaderAccess.findInstance(IUiNavigator.class);
+    default UIData getUIData() {
+        return DependencyLoaderAccess.findInstance(UIData.class);
     }
 
     default IFarmsteadMenuHandler getFarmsteadMenuHandler() {
@@ -314,4 +314,3 @@ public interface IResourceGameDomainGenerated {
         return DependencyLoaderAccess.findInstance(WorldLabelHandler.class);
     }
 }
-

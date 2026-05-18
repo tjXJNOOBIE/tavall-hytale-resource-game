@@ -6,7 +6,7 @@ import org.tavall.api.minecraft.interaction.InteractionTargetType;
 import org.tavall.api.minecraft.player.PlayerDataRequest;
 import org.tavall.api.minecraft.player.PlayerDataResponse;
 import org.tavall.api.minecraft.player.PlayerPlatformBindingView;
-import org.tavall.api.minecraft.ui.UiActions;
+import org.tavall.minecraft.framework.game.ui.UiActions;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

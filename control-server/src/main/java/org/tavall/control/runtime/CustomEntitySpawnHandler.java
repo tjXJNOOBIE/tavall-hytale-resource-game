@@ -19,14 +19,14 @@ import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.runtime.ICustomEntitySpawnHandler;
 import org.tavall.control.farmstead.ui.IFarmsteadMenuHandler;
 import org.tavall.control.player.IPlayerSessionStore;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CitizenJobType;
 import org.tavall.control.domain.CustomEntitySpawnRole;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.farmstead.npc.FarmsteadStewardSpawner;
 import org.tavall.control.tasks.WorldTasks;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.control.world.VectorMath;
 
 import java.util.Map;
@@ -50,7 +50,7 @@ public final class CustomEntitySpawnHandler implements ICustomEntitySpawnHandler
     private final NpcRoleResolver npcRoleResolver;
     private final IPlayerSessionStore sessionStore;
     private final ICastleBuildingHandler buildingHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
     private final IFarmsteadMenuHandler farmsteadMenuHandler;
     private final Map<UUID, Map<Ref<EntityStore>, CustomEntitySpawnRole>> refsByPlayer = new ConcurrentHashMap<>();
 
@@ -60,7 +60,7 @@ public final class CustomEntitySpawnHandler implements ICustomEntitySpawnHandler
             NpcRoleResolver npcRoleResolver,
             IPlayerSessionStore sessionStore,
             ICastleBuildingHandler buildingHandler,
-            IUiNavigator uiNavigator,
+            UIData uiNavigator,
             IFarmsteadMenuHandler farmsteadMenuHandler
     ) {
         this.npcVisualSpawner = Objects.requireNonNull(npcVisualSpawner, "npcVisualSpawner");
@@ -208,12 +208,12 @@ public final class CustomEntitySpawnHandler implements ICustomEntitySpawnHandler
         UiNavigationContext context = new UiNavigationContext(player.getUuid(), player.getDisplayName())
                 .withFeedback(role.displayName() + " selected.");
         if (building.isEmpty()) {
-            uiNavigator.open(UiPageType.CASTLE_BUILDINGS, player, context.withFeedback(role.displayName() + " selected. Place "
+            uiNavigator.open(UiScreenKey.CASTLE_BUILDINGS, player, context.withFeedback(role.displayName() + " selected. Place "
                     + role.buildingType().displayName() + " first."), session.gameState());
             return;
         }
         uiNavigator.open(
-                UiPageType.BUILDING_DETAIL,
+                UiScreenKey.BUILDING_DETAIL,
                 player,
                 context.withSelectedBuildingId(building.get().buildingId()),
                 session.gameState()
@@ -221,9 +221,9 @@ public final class CustomEntitySpawnHandler implements ICustomEntitySpawnHandler
     }
 
     private void openCitizenRole(Player player, PlayerSession session, CitizenJobType jobType) {
-        UiPageType pageType = jobType == CitizenJobType.SOLDIER || jobType == CitizenJobType.TRAINEE
-                ? UiPageType.CASTLE_TROOPS
-                : UiPageType.CASTLE_CITIZENS;
+        UiScreenKey pageType = jobType == CitizenJobType.SOLDIER || jobType == CitizenJobType.TRAINEE
+                ? UiScreenKey.CASTLE_TROOPS
+                : UiScreenKey.CASTLE_CITIZENS;
         uiNavigator.open(
                 pageType,
                 player,
@@ -288,4 +288,3 @@ public final class CustomEntitySpawnHandler implements ICustomEntitySpawnHandler
         return throwable.getMessage();
     }
 }
-

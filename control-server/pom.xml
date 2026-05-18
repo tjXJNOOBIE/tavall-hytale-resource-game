@@ -26,6 +26,11 @@
     <dependencies>
         <dependency>
             <groupId>com.tavall</groupId>
+            <artifactId>minecraft-framework</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tavall</groupId>
             <artifactId>game-api</artifactId>
             <version>${project.version}</version>
         </dependency>

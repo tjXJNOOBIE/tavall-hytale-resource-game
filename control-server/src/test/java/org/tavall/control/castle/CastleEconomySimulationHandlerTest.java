@@ -21,7 +21,7 @@ import org.tavall.control.support.NoopCastleBuildingHandler;
 import org.tavall.control.support.RecordingCastleBuildingVisualHandler;
 import org.tavall.control.support.RecordingCastleSiteVisualHandler;
 import org.tavall.control.support.RecordingResourceNodeVisualHandler;
-import org.tavall.control.support.RecordingUiNavigator;
+import org.tavall.control.support.RecordingUIData;
 import org.tavall.control.support.StubInteriorInstanceHandler;
 import org.tavall.control.support.TestAwait;
 import com.hypixel.hytale.math.vector.Vector3d;
@@ -49,7 +49,7 @@ public final class CastleEconomySimulationHandlerTest {
         RecordingCastleSiteVisualHandler visualHandler = new RecordingCastleSiteVisualHandler();
         RecordingCastleBuildingVisualHandler buildingVisualHandler = new RecordingCastleBuildingVisualHandler();
         RecordingResourceNodeVisualHandler resourceNodeVisualHandler = new RecordingResourceNodeVisualHandler();
-        RecordingUiNavigator uiNavigator = new RecordingUiNavigator();
+        RecordingUIData uiNavigator = new RecordingUIData();
         CastleEconomyPlanner planner = new CastleEconomyPlanner();
         ResourceNodeHandler resourceNodeHandler = new ResourceNodeHandler(sessionStore, gameStateHandler, mapperProvider.mapper(), new CastleEconomyPlanner());
         CastleEconomySimulationHandler simulationHandler = new CastleEconomySimulationHandler(
@@ -122,7 +122,7 @@ public final class CastleEconomySimulationHandlerTest {
         RecordingCastleSiteVisualHandler siteVisualHandler = new RecordingCastleSiteVisualHandler();
         RecordingCastleBuildingVisualHandler buildingVisualHandler = new RecordingCastleBuildingVisualHandler();
         RecordingResourceNodeVisualHandler resourceNodeVisualHandler = new RecordingResourceNodeVisualHandler();
-        RecordingUiNavigator uiNavigator = new RecordingUiNavigator();
+        RecordingUIData uiNavigator = new RecordingUIData();
         CastleEconomyPlanner planner = new CastleEconomyPlanner();
         CastleBuildingHandler buildingHandler = new CastleBuildingHandler(
                 sessionStore,
@@ -180,4 +180,3 @@ public final class CastleEconomySimulationHandlerTest {
         assertEquals(updated.resources().food(), siteVisualHandler.lastState(playerId).resources().food());
     }
 }
-

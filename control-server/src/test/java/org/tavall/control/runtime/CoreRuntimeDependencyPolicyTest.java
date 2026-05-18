@@ -12,7 +12,7 @@ final class CoreRuntimeDependencyPolicyTest {
     @Test
     void coreRuntimeFilesDoNotReachIntoDependencyLoaderDirectly() throws IOException {
         assertNoDirectLoaderAccess(Path.of("src/main/java/org/tavall/control/runtime"));
-        assertNoDirectLoaderAccess(Path.of("src/main/java/org/tavall/control/ui"));
+        assertNoDirectLoaderAccess(Path.of("src/main/java/org/tavall/control/api/UIData.java"));
     }
 
     /**
@@ -20,6 +20,11 @@ final class CoreRuntimeDependencyPolicyTest {
      * Tavall DI modules instead of being hard-bound to the global dependency loader.
      */
     private static void assertNoDirectLoaderAccess(Path packagePath) throws IOException {
+        if (packagePath.toString().endsWith(".java")) {
+            String source = Files.readString(packagePath);
+            assertFalse(source.contains("DependencyLoaderAccess."), packagePath + " should use generated/default DI accessors.");
+            return;
+        }
         try (var paths = Files.walk(packagePath)) {
             for (Path path : paths.filter(path -> path.toString().endsWith(".java")).toList()) {
                 if (path.getFileName().toString().equals("ControlCommandRuntimeFactory.java")

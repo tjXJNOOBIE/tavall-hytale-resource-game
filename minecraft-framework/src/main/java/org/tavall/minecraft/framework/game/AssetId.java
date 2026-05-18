@@ -1,4 +1,4 @@
-package org.tavall.minecraft.runtime;
+package org.tavall.minecraft.framework.game;
 
 import java.util.Objects;
 

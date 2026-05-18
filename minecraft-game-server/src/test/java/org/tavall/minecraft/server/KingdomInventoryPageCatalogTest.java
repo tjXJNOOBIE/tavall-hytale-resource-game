@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server;
 
-import org.tavall.api.minecraft.ui.UiActions;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiActions;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class KingdomInventoryPageCatalogTest {
     @Test
     void castleMainPageExposesTheExpectedInventoryAssets() {
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition definition = KingdomInventoryPageCatalog.definition(UiPageType.CASTLE_MAIN, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition definition = KingdomInventoryPageCatalog.definition(UiScreenKey.CASTLE_MAIN, "Ready.");
 
         assertEquals("Kingdom Castle", definition.title());
         assertEquals(27, definition.size());
@@ -23,7 +23,7 @@ final class KingdomInventoryPageCatalogTest {
 
     @Test
     void commandCenterPageExposesTheAdminHubLayout() {
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition definition = KingdomInventoryPageCatalog.definition(UiPageType.DEBUG_NAVIGATOR, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition definition = KingdomInventoryPageCatalog.definition(UiScreenKey.DEBUG_NAVIGATOR, "Ready.");
 
         assertEquals("Kingdom Command Center", definition.title());
         assertTrue(definition.buttons().stream().anyMatch(button -> UiActions.OPEN_CASTLE_MAIN.equals(button.action())));
@@ -33,15 +33,15 @@ final class KingdomInventoryPageCatalogTest {
 
     @Test
     void farmsteadAndNodePagesExposeTheNewInventoryFlows() {
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition farmstead = KingdomInventoryPageCatalog.definition(UiPageType.FARMSTEAD_MENU, "Ready.");
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition node = KingdomInventoryPageCatalog.definition(UiPageType.RESOURCE_NODE_DETAIL, "Ready.");
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition npc = KingdomInventoryPageCatalog.definition(UiPageType.NPC_MAIN, "Ready.");
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition building = KingdomInventoryPageCatalog.definition(UiPageType.BUILDING_DETAIL, "Ready.");
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugNavigator = KingdomInventoryPageCatalog.definition(UiPageType.DEBUG_NAVIGATOR, "Ready.");
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugPlacement = KingdomInventoryPageCatalog.definition(UiPageType.DEBUG_PLACEMENT, "Ready.");
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugInterior = KingdomInventoryPageCatalog.definition(UiPageType.DEBUG_INTERIOR, "Ready.");
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugBuildings = KingdomInventoryPageCatalog.definition(UiPageType.DEBUG_BUILDINGS, "Ready.");
-        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugWorld = KingdomInventoryPageCatalog.definition(UiPageType.DEBUG_WORLD, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition farmstead = KingdomInventoryPageCatalog.definition(UiScreenKey.FARMSTEAD_MENU, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition node = KingdomInventoryPageCatalog.definition(UiScreenKey.RESOURCE_NODE_DETAIL, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition npc = KingdomInventoryPageCatalog.definition(UiScreenKey.NPC_MAIN, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition building = KingdomInventoryPageCatalog.definition(UiScreenKey.BUILDING_DETAIL, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugNavigator = KingdomInventoryPageCatalog.definition(UiScreenKey.DEBUG_NAVIGATOR, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugPlacement = KingdomInventoryPageCatalog.definition(UiScreenKey.DEBUG_PLACEMENT, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugInterior = KingdomInventoryPageCatalog.definition(UiScreenKey.DEBUG_INTERIOR, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugBuildings = KingdomInventoryPageCatalog.definition(UiScreenKey.DEBUG_BUILDINGS, "Ready.");
+        KingdomInventoryPageCatalog.KingdomInventoryPageDefinition debugWorld = KingdomInventoryPageCatalog.definition(UiScreenKey.DEBUG_WORLD, "Ready.");
 
         assertTrue(farmstead.buttons().stream().anyMatch(button -> UiActions.BUILDING_PLACE.equals(button.action())));
         assertTrue(farmstead.buttons().stream().anyMatch(button -> UiActions.BUILDING_START_UPGRADE.equals(button.action())));

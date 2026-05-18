@@ -25,7 +25,7 @@ import org.tavall.control.interior.IInteriorWorldHandler;
 import org.tavall.control.player.IPlayerGameStateHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.player.IPlayerTeleportHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.InteriorSessionData;
 import org.tavall.control.domain.PlayerGameState;
@@ -35,7 +35,7 @@ import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 import org.tavall.control.interior.InteriorStructureHandler;
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 import org.tavall.control.tasks.WorldTasks;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -73,7 +73,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
     private final IPlayerTeleportHandler playerTeleportHandler;
     private final PopulationDisplayGateway displayHandler;
     private final ICastleBuildingVisualHandler buildingVisualHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
 
     public InteriorWorldHandler(
             IPlayerSessionStore sessionStore,
@@ -85,7 +85,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
             IPlayerTeleportHandler playerTeleportHandler,
             PopulationDisplayGateway displayHandler,
             ICastleBuildingVisualHandler buildingVisualHandler,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
         this.gameStateHandler = Objects.requireNonNull(gameStateHandler, "gameStateHandler");
@@ -321,7 +321,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
                 if (livePlayer.getWorld() != null && livePlayer.getWorld().getName().equals(world.getName())) {
                     safeTeleportToInterior(livePlayer, world, entryPosition);
                     livePlayer.sendMessage(Message.raw("Interior rebuilt.").color("green"));
-                    uiNavigator.open(UiPageType.INTERIOR_MAIN, livePlayer, new UiNavigationContext(playerId, livePlayer.getDisplayName()), state);
+                    uiNavigator.open(UiScreenKey.INTERIOR_MAIN, livePlayer, new UiNavigationContext(playerId, livePlayer.getDisplayName()), state);
                 }
             });
         });
@@ -442,7 +442,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
                 if (livePlayer.getWorld() != null && livePlayer.getWorld().getName().equals(world.getName())) {
                     safeTeleportToInterior(livePlayer, world, entryPosition);
                     livePlayer.sendMessage(Message.raw("Interior moved.").color("green"));
-                    uiNavigator.open(UiPageType.INTERIOR_MAIN, livePlayer, new UiNavigationContext(playerId, livePlayer.getDisplayName()), updatedState);
+                    uiNavigator.open(UiScreenKey.INTERIOR_MAIN, livePlayer, new UiNavigationContext(playerId, livePlayer.getDisplayName()), updatedState);
                     return;
                 }
                 livePlayer.sendMessage(Message.raw("Interior moved. Enter /kd interior to visit the new instance.").color("green"));
@@ -644,7 +644,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
                 LOGGER.at(Level.INFO).log("Interior exit complete for %s; opening castle UI.", livePlayer.getDisplayName());
                 completeTransition(playerId, transitionToken);
                 uiNavigator.open(
-                        UiPageType.CASTLE_MAIN,
+                        UiScreenKey.CASTLE_MAIN,
                         livePlayer,
                         new UiNavigationContext(playerId, livePlayer.getDisplayName()),
                         updated
@@ -860,7 +860,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
                 buildingVisualHandler.refreshBuildings(playerId, updatedState);
                 livePlayer.sendMessage(Message.raw("Interior ready. Building placement and interaction are now available.").color("green"));
                 completeTransition(playerId, transitionToken);
-                uiNavigator.open(UiPageType.INTERIOR_MAIN, livePlayer, context, updatedState);
+                uiNavigator.open(UiScreenKey.INTERIOR_MAIN, livePlayer, context, updatedState);
                 return;
             }
             if (retriesRemaining <= 0) {
@@ -1090,4 +1090,3 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
     private record TransitionToken(long sequence, TransitionKind kind, Instant startedAt) {
     }
 }
-

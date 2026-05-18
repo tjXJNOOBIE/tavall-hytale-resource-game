@@ -31,6 +31,7 @@
     </properties>
 
     <modules>
+        <module>minecraft-framework</module>
         <module>game-api</module>
         <module>control-server</module>
         <module>minecraft-proxy</module>

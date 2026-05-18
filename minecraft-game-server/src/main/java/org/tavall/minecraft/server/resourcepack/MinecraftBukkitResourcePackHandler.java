@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.resourcepack;
 
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.minecraft.server.IMinecraftBukkitServerDomain;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 
@@ -52,7 +52,7 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
     }
 
     @Override
-    public List<String> expectedCastleAssetFiles(UiPageType pageType) {
+    public List<String> expectedCastleAssetFiles(UiScreenKey pageType) {
         if (pageType == null) {
             return List.of();
         }
@@ -69,7 +69,7 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
     }
 
     @Override
-    public List<String> expectedBuildingAssetFiles(UiPageType pageType) {
+    public List<String> expectedBuildingAssetFiles(UiScreenKey pageType) {
         if (pageType == null) {
             return List.of();
         }

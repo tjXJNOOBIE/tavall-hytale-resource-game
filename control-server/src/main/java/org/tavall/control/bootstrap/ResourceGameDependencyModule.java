@@ -49,7 +49,7 @@ import org.tavall.control.resource.IResourceNodeHandler;
 import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
 import org.tavall.control.resource.IResourceHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.visual.IVisualVerificationControlHandler;
 import org.tavall.control.npc.IWorkerNpcInteractionHandler;
 import org.tavall.control.domain.PlayerGameState;
@@ -123,7 +123,7 @@ import org.tavall.control.protection.StructureProtectionHandler;
 import org.tavall.control.visual.VisualVerificationControlHandler;
 import org.tavall.control.npc.WorkerNpcInteractionHandler;
 import org.tavall.control.world.WorldLabelHandler;
-import org.tavall.control.ui.UiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.world.CastleEntityRegistry;
 import org.tavall.control.world.CastleBuildingStructureHandler;
 import org.tavall.control.world.BuildingPlacementStageStructureHandler;
@@ -241,7 +241,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule, IR
                 new ResourceNodePromptLaneStructureHandler(),
                 playerTeleportHandler
         );
-        UiNavigator uiNavigator = new UiNavigator();
+        UIData uiNavigator = new UIData();
         WorkerNpcInteractionHandler workerNpcInteractionHandler = new WorkerNpcInteractionHandler(populationDisplayHandler, sessionStore, uiNavigator);
         ResourceHandler resourceHandler = new ResourceHandler(sessionStore, gameStateHandler, castleSiteVisualHandler, uiNavigator);
         PopulationHandler populationHandler = new PopulationHandler(
@@ -432,7 +432,7 @@ public final class ResourceGameDependencyModule implements IDependencyModule, IR
         registerSingleton(ICastlePlacementHandler.class, castlePlacementPlanner);
         registerSingleton(ICastlePromptLaneHandler.class, castlePromptLaneHandler);
         registerSingleton(IResourceNodePromptLaneHandler.class, resourceNodePromptLaneHandler);
-        registerSingleton(IUiNavigator.class, uiNavigator);
+        registerSingleton(UIData.class, uiNavigator);
         registerSingleton(IResourceHandler.class, resourceHandler);
         registerSingleton(IPopulationHandler.class, populationHandler);
         registerSingleton(IInteriorInstanceHandler.class, interiorInstanceHandler);
@@ -470,4 +470,3 @@ public final class ResourceGameDependencyModule implements IDependencyModule, IR
 
 
 }
-

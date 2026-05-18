@@ -2,6 +2,7 @@ package org.tavall.control.dependency;
 
 import org.tavall.control.castle.ICastleInteractionHandler;
 import org.tavall.control.castle.ICastleProximityPromptHandler;
+import org.tavall.control.api.UIData;
 import org.tavall.control.runtime.IDebugCommandHandler;
 import org.tavall.control.clock.IKingdomClockHandler;
 import org.tavall.control.player.IPlayerDataHandler;
@@ -17,6 +18,7 @@ public final class TestResourceGameDependencyModule implements IDependencyModule
     private final TestCastleProximityPromptHandler castleProximityPromptHandler = new TestCastleProximityPromptHandler();
     private final TestDebugCommandHandler debugCommandHandler = new TestDebugCommandHandler();
     private final TestKingdomClockHandler kingdomClockHandler = new TestKingdomClockHandler();
+    private final UIData uiData = new UIData();
 
     @Override
     public void registerDependencies() {
@@ -25,6 +27,7 @@ public final class TestResourceGameDependencyModule implements IDependencyModule
         DependencyLoaderAccess.registerInstance(ICastleProximityPromptHandler.class, castleProximityPromptHandler);
         DependencyLoaderAccess.registerInstance(IDebugCommandHandler.class, debugCommandHandler);
         DependencyLoaderAccess.registerInstance(IKingdomClockHandler.class, kingdomClockHandler);
+        DependencyLoaderAccess.registerInstance(UIData.class, uiData);
     }
 
     public TestPlayerDataHandler playerDataHandler() {
@@ -46,5 +49,8 @@ public final class TestResourceGameDependencyModule implements IDependencyModule
     public TestKingdomClockHandler kingdomClockHandler() {
         return kingdomClockHandler;
     }
-}
 
+    public UIData uiData() {
+        return uiData;
+    }
+}

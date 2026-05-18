@@ -9,11 +9,11 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerSessionStore;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.npc.IWorkerNpcInteractionHandler;
 import org.tavall.control.domain.CitizenJobType;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -25,12 +25,12 @@ import java.util.UUID;
 public final class WorkerNpcInteractionHandler implements IWorkerNpcInteractionHandler, IDependencyInjectableConcrete {
     private final PopulationDisplayHandler populationDisplayHandler;
     private final IPlayerSessionStore sessionStore;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
 
     public WorkerNpcInteractionHandler(
             PopulationDisplayHandler populationDisplayHandler,
             IPlayerSessionStore sessionStore,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.populationDisplayHandler = Objects.requireNonNull(populationDisplayHandler, "populationDisplayHandler");
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
@@ -62,7 +62,7 @@ public final class WorkerNpcInteractionHandler implements IWorkerNpcInteractionH
         }
         if (populationDisplayHandler.isTroopAnchor(playerId, targetRef)) {
             uiNavigator.open(
-                    UiPageType.CASTLE_TROOPS,
+                    UiScreenKey.CASTLE_TROOPS,
                     player,
                     new UiNavigationContext(playerId, player.getDisplayName()).withFeedback("Troop anchor selected. Might is tier-weighted; current aggregate troops are tier 1."),
                     session.gameState()
@@ -73,9 +73,9 @@ public final class WorkerNpcInteractionHandler implements IWorkerNpcInteractionH
     }
 
     private void openWorkerPage(Player player, PlayerSession session, CitizenJobType workerType) {
-        UiPageType pageType = workerType == CitizenJobType.SOLDIER || workerType == CitizenJobType.TRAINEE
-                ? UiPageType.CASTLE_TROOPS
-                : UiPageType.CASTLE_CITIZENS;
+        UiScreenKey pageType = workerType == CitizenJobType.SOLDIER || workerType == CitizenJobType.TRAINEE
+                ? UiScreenKey.CASTLE_TROOPS
+                : UiScreenKey.CASTLE_CITIZENS;
         uiNavigator.open(
                 pageType,
                 player,
@@ -88,4 +88,3 @@ public final class WorkerNpcInteractionHandler implements IWorkerNpcInteractionH
         return workerType.name() + " anchor selected. This stationary NPC remains while task copies leave through the portal.";
     }
 }
-

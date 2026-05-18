@@ -13,7 +13,7 @@ import org.tavall.control.castle.ICastleBuildingVisualHandler;
 import org.tavall.control.world.IFocusedWorldInteractionHandler;
 import org.tavall.control.building.IPlacementModeHandler;
 import org.tavall.control.player.IPlayerTeleportHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.BuildingMutationResult;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
@@ -22,7 +22,7 @@ import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.control.building.BuildingPlacementPlanner;
 import org.tavall.control.player.PlayerSession;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.control.world.BuildingPlacementStageStructureHandler;
 
 import java.time.Instant;
@@ -38,7 +38,7 @@ import java.util.UUID;
 public final class KingdomBuildingCommandSupport implements IDependencyInjectableConcrete {
     private final ICastleBuildingHandler buildingHandler;
     private final ICastleBuildingVisualHandler buildingVisualHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
     private final IPlayerTeleportHandler playerTeleportHandler;
     private final IPlacementModeHandler placementModeHandler;
     private final IFocusedWorldInteractionHandler focusedWorldInteractionHandler;
@@ -48,7 +48,7 @@ public final class KingdomBuildingCommandSupport implements IDependencyInjectabl
     public KingdomBuildingCommandSupport(
             ICastleBuildingHandler buildingHandler,
             ICastleBuildingVisualHandler buildingVisualHandler,
-            IUiNavigator uiNavigator,
+            UIData uiNavigator,
             IPlayerTeleportHandler playerTeleportHandler,
             IPlacementModeHandler placementModeHandler,
             IFocusedWorldInteractionHandler focusedWorldInteractionHandler,
@@ -217,7 +217,7 @@ public final class KingdomBuildingCommandSupport implements IDependencyInjectabl
             return;
         }
         uiNavigator.open(
-                UiPageType.BUILDING_DETAIL,
+                UiScreenKey.BUILDING_DETAIL,
                 player,
                 new UiNavigationContext(player.getUuid(), player.getDisplayName()).withSelectedBuildingId(building.get().buildingId()),
                 session.gameState()
@@ -374,4 +374,3 @@ public final class KingdomBuildingCommandSupport implements IDependencyInjectabl
         );
     }
 }
-

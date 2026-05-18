@@ -1,4 +1,4 @@
-package org.tavall.control.ui;
+package org.tavall.control.population;
 
 import java.util.Objects;
 

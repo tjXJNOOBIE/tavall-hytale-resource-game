@@ -32,6 +32,7 @@ public final class ResourceGameDependencyBootstrapTest {
         assertSame(module.castleProximityPromptHandler(), domain.getCastleProximityPromptHandler());
         assertSame(module.debugCommandHandler(), domain.getDebugCommandHandler());
         assertSame(module.kingdomClockHandler(), domain.getKingdomClockHandler());
+        assertSame(module.uiData(), domain.getUIData());
     }
 
     @Test
@@ -48,10 +49,11 @@ public final class ResourceGameDependencyBootstrapTest {
         assertTrue(source.contains("IFrontendCommandVerificationHandler.class"));
         assertTrue(source.contains("FrontendCommandVerificationHandler"));
         assertTrue(source.contains("FrontendTcpControlCommandClient"));
+        assertFalse(source.contains("UiPageDefinition"));
+        assertFalse(source.contains("UiNavigator"));
         assertFalse(source.contains("IUiPageRegistry"));
         assertFalse(source.contains("UiPageRegistry"));
         assertFalse(source.contains("IUiActionHandler"));
         assertFalse(source.contains("UiActionHandler"));
     }
 }
-

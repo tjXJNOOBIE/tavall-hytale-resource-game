@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server.resourcepack;
 
 import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -17,9 +17,9 @@ public interface IMinecraftBukkitResourcePackHandler extends IDependencyInjectab
 
     List<String> buildingAssetFiles();
 
-    List<String> expectedCastleAssetFiles(UiPageType pageType);
+    List<String> expectedCastleAssetFiles(UiScreenKey pageType);
 
-    List<String> expectedBuildingAssetFiles(UiPageType pageType);
+    List<String> expectedBuildingAssetFiles(UiScreenKey pageType);
 
     void ensureLayout();
 

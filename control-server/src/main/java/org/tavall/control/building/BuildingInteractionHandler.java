@@ -11,9 +11,9 @@ import org.tavall.control.building.IBuildingInteractionHandler;
 import org.tavall.control.castle.ICastleBuildingVisualHandler;
 import org.tavall.control.world.IFocusedWorldInteractionHandler;
 import org.tavall.control.player.IPlayerSessionStore;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.UiNavigationContext;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -26,13 +26,13 @@ public final class BuildingInteractionHandler implements IBuildingInteractionHan
     private final IPlayerSessionStore sessionStore;
     private final ICastleBuildingVisualHandler buildingVisualHandler;
     private final IFocusedWorldInteractionHandler focusedWorldInteractionHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
 
     public BuildingInteractionHandler(
             IPlayerSessionStore sessionStore,
             ICastleBuildingVisualHandler buildingVisualHandler,
             IFocusedWorldInteractionHandler focusedWorldInteractionHandler,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
         this.buildingVisualHandler = Objects.requireNonNull(buildingVisualHandler, "buildingVisualHandler");
@@ -66,7 +66,7 @@ public final class BuildingInteractionHandler implements IBuildingInteractionHan
             return false;
         }
         uiNavigator.open(
-                UiPageType.BUILDING_DETAIL,
+                UiScreenKey.BUILDING_DETAIL,
                 player,
                 new UiNavigationContext(playerId, player.getDisplayName()).withSelectedBuildingId(buildingId.get()),
                 session.gameState()
@@ -74,4 +74,3 @@ public final class BuildingInteractionHandler implements IBuildingInteractionHan
         return true;
     }
 }
-

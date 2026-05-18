@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server;
 
-import org.tavall.api.minecraft.ui.UiActions;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiActions;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ final class KingdomInventoryPageCatalog {
     private KingdomInventoryPageCatalog() {
     }
 
-    static KingdomInventoryPageDefinition definition(UiPageType pageType, String feedback) {
+    static KingdomInventoryPageDefinition definition(UiScreenKey pageType, String feedback) {
         return switch (pageType) {
             case CASTLE_MAIN -> new KingdomInventoryPageDefinition(
                     "Kingdom Castle",

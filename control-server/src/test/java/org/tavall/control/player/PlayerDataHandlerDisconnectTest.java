@@ -24,7 +24,7 @@ import org.tavall.control.support.RecordingPlayerGameStateHandler;
 import org.tavall.control.support.RecordingPlayerProfileHandler;
 import org.tavall.control.support.RecordingPopulationDisplayGateway;
 import org.tavall.control.support.RecordingResourceNodeVisualHandler;
-import org.tavall.control.support.RecordingUiNavigator;
+import org.tavall.control.support.RecordingUIData;
 import org.tavall.control.support.TestAwait;
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +57,7 @@ public final class PlayerDataHandlerDisconnectTest {
         RecordingCastleBuildingVisualHandler buildingVisualHandler = new RecordingCastleBuildingVisualHandler();
         RecordingPopulationDisplayGateway populationDisplayGateway = new RecordingPopulationDisplayGateway();
         InteriorTourMarkerHandler tourMarkerHandler = new InteriorTourMarkerHandler(new WorldLabelHandler());
-        RecordingUiNavigator uiNavigator = new RecordingUiNavigator();
+        RecordingUIData uiNavigator = new RecordingUIData();
 
         CastleLocationData castleLocation = new CastleLocationData("surface-world", 0.5D, 64.0D, 0.5D);
         PopulationSummary populationSummary = new PopulationSummary(

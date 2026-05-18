@@ -13,13 +13,13 @@ import org.tavall.control.population.IPopulationHandler;
 import org.tavall.control.resource.IResourceHandler;
 import org.tavall.control.resource.IResourceNodeHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
-import org.tavall.control.ui.IUiNavigator;
+import org.tavall.control.api.UIData;
 import org.tavall.control.domain.AgingState;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PopulationSummary;
 import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.population.PromotionCost;
-import org.tavall.control.ui.UpgradeActionState;
+import org.tavall.control.population.UpgradeActionState;
 
 import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
 
@@ -40,7 +40,7 @@ public final class PopulationHandler implements IPopulationHandler, IDependencyI
     private final ICastleBuildingHandler buildingHandler;
     private final IResourceNodeHandler resourceNodeHandler;
     private final IResourceNodeVisualHandler resourceNodeVisualHandler;
-    private final IUiNavigator uiNavigator;
+    private final UIData uiNavigator;
 
     public PopulationHandler(
             IPlayerSessionStore sessionStore,
@@ -52,7 +52,7 @@ public final class PopulationHandler implements IPopulationHandler, IDependencyI
             ICastleBuildingHandler buildingHandler,
             IResourceNodeHandler resourceNodeHandler,
             IResourceNodeVisualHandler resourceNodeVisualHandler,
-            IUiNavigator uiNavigator
+            UIData uiNavigator
     ) {
         this.sessionStore = Objects.requireNonNull(sessionStore, "sessionStore");
         this.gameStateHandler = Objects.requireNonNull(gameStateHandler, "gameStateHandler");
@@ -214,4 +214,3 @@ public final class PopulationHandler implements IPopulationHandler, IDependencyI
         return updated;
     }
 }
-

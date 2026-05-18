@@ -1,8 +1,8 @@
 package org.tavall.minecraft.server;
 
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
-import org.tavall.api.minecraft.ui.UiActions;
-import org.tavall.api.minecraft.ui.UiPageType;
+import org.tavall.minecraft.framework.game.ui.UiActions;
+import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.minecraft.server.commands.support.KingdomCommandSupport;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
@@ -29,7 +29,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
     private static final NamespacedKey PAYLOAD_KEY = new NamespacedKey("tavall", "kingdom_payload");
 
     @Override
-    public void open(Player player, UiPageType pageType, String feedback) {
+    public void open(Player player, UiScreenKey pageType, String feedback) {
         KingdomInventoryPageCatalog.KingdomInventoryPageDefinition definition = KingdomInventoryPageCatalog.definition(pageType, feedback);
         KingdomInventoryUiHolder holder = new KingdomInventoryUiHolder(pageType, feedback);
         Inventory inventory = Bukkit.createInventory(holder, definition.size(), ChatColor.GOLD + definition.title());
@@ -63,45 +63,45 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
         handle(player, holder.pageType(), action, payload == null ? "" : payload);
     }
 
-    private void handle(Player player, UiPageType currentPage, String action, String payload) {
+    private void handle(Player player, UiScreenKey currentPage, String action, String payload) {
         if (UiActions.CLOSE.equals(action)) {
             player.closeInventory();
             return;
         }
         if (UiActions.OPEN_CASTLE_MAIN.equals(action)) {
-            open(player, UiPageType.CASTLE_MAIN, "Castle overview.");
+            open(player, UiScreenKey.CASTLE_MAIN, "Castle overview.");
             return;
         }
         if (UiActions.OPEN_CASTLE_INFO.equals(action)) {
-            open(player, UiPageType.CASTLE_INFO, "Castle record.");
+            open(player, UiScreenKey.CASTLE_INFO, "Castle record.");
             return;
         }
         if (UiActions.OPEN_CITIZENS.equals(action)) {
-            open(player, UiPageType.CASTLE_CITIZENS, "Citizens.");
+            open(player, UiScreenKey.CASTLE_CITIZENS, "Citizens.");
             return;
         }
         if (UiActions.OPEN_TROOPS.equals(action)) {
-            open(player, UiPageType.CASTLE_TROOPS, "Troops.");
+            open(player, UiScreenKey.CASTLE_TROOPS, "Troops.");
             return;
         }
         if (UiActions.OPEN_RESOURCES.equals(action)) {
-            open(player, UiPageType.CASTLE_RESOURCES, "Resources.");
+            open(player, UiScreenKey.CASTLE_RESOURCES, "Resources.");
             return;
         }
         if (UiActions.OPEN_UPGRADES.equals(action)) {
-            open(player, UiPageType.CASTLE_UPGRADES, "Upgrades.");
+            open(player, UiScreenKey.CASTLE_UPGRADES, "Upgrades.");
             return;
         }
         if (UiActions.OPEN_BUILDINGS.equals(action)) {
-            open(player, UiPageType.CASTLE_BUILDINGS, "Buildings.");
+            open(player, UiScreenKey.CASTLE_BUILDINGS, "Buildings.");
             return;
         }
         if (UiActions.OPEN_NPC_MAIN.equals(action)) {
-            open(player, UiPageType.NPC_MAIN, "NPC overview.");
+            open(player, UiScreenKey.NPC_MAIN, "NPC overview.");
             return;
         }
         if (UiActions.OPEN_BUILDING_MAIN.equals(action)) {
-            open(player, UiPageType.BUILDING_DETAIL, "Building overview.");
+            open(player, UiScreenKey.BUILDING_DETAIL, "Building overview.");
             return;
         }
         if (UiActions.OPEN_BUILDING_STORAGE.equals(action)) {
@@ -125,27 +125,27 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             return;
         }
         if (UiActions.OPEN_DEBUG.equals(action)) {
-            open(player, UiPageType.DEBUG_NAVIGATOR, "Debug control center.");
+            open(player, UiScreenKey.DEBUG_NAVIGATOR, "Debug control center.");
             return;
         }
         if (UiActions.OPEN_DEBUG_PLACEMENT.equals(action)) {
-            open(player, UiPageType.DEBUG_PLACEMENT, "Placement tools.");
+            open(player, UiScreenKey.DEBUG_PLACEMENT, "Placement tools.");
             return;
         }
         if (UiActions.OPEN_DEBUG_INTERIOR.equals(action)) {
-            open(player, UiPageType.DEBUG_INTERIOR, "Interior debug.");
+            open(player, UiScreenKey.DEBUG_INTERIOR, "Interior debug.");
             return;
         }
         if (UiActions.OPEN_DEBUG_BUILDINGS.equals(action)) {
-            open(player, UiPageType.DEBUG_BUILDINGS, "Building debug.");
+            open(player, UiScreenKey.DEBUG_BUILDINGS, "Building debug.");
             return;
         }
         if (UiActions.OPEN_DEBUG_WORLD.equals(action)) {
-            open(player, UiPageType.DEBUG_WORLD, "World tools.");
+            open(player, UiScreenKey.DEBUG_WORLD, "World tools.");
             return;
         }
         if (UiActions.ENTER_INTERIOR.equals(action)) {
-            open(player, UiPageType.INTERIOR_MAIN, "Interior.");
+            open(player, UiScreenKey.INTERIOR_MAIN, "Interior.");
             return;
         }
         if (UiActions.EXIT_INTERIOR.equals(action)) {
@@ -197,11 +197,11 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             return;
         }
         if (UiActions.PROMOTE.equals(action)) {
-            open(player, UiPageType.CASTLE_CITIZENS, "Select a citizen to promote.");
+            open(player, UiScreenKey.CASTLE_CITIZENS, "Select a citizen to promote.");
             return;
         }
         if (UiActions.DEMOTE.equals(action)) {
-            open(player, UiPageType.CASTLE_TROOPS, "Select a troop to demote.");
+            open(player, UiScreenKey.CASTLE_TROOPS, "Select a troop to demote.");
             return;
         }
         if (UiActions.CLOSE.equals(action)) {
@@ -291,7 +291,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
         return item;
     }
 
-    private ItemStack pageHeader(UiPageType pageType, String title, String feedback) {
+    private ItemStack pageHeader(UiScreenKey pageType, String title, String feedback) {
         ItemStack item = new ItemStack(headerMaterial(pageType));
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
@@ -311,15 +311,15 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
         return item;
     }
 
-    List<String> assetPreview(UiPageType pageType) {
+    List<String> assetPreview(UiScreenKey pageType) {
         ArrayList<String> lines = new ArrayList<String>();
-        if (pageType == UiPageType.CASTLE_MAIN
-                || pageType == UiPageType.CASTLE_INFO
-                || pageType == UiPageType.CASTLE_CITIZENS
-                || pageType == UiPageType.CASTLE_TROOPS
-                || pageType == UiPageType.CASTLE_RESOURCES
-                || pageType == UiPageType.CASTLE_UPGRADES
-                || pageType == UiPageType.CASTLE_BUILDINGS) {
+        if (pageType == UiScreenKey.CASTLE_MAIN
+                || pageType == UiScreenKey.CASTLE_INFO
+                || pageType == UiScreenKey.CASTLE_CITIZENS
+                || pageType == UiScreenKey.CASTLE_TROOPS
+                || pageType == UiScreenKey.CASTLE_RESOURCES
+                || pageType == UiScreenKey.CASTLE_UPGRADES
+                || pageType == UiScreenKey.CASTLE_BUILDINGS) {
             lines.add("Resource pack root: " + getMinecraftBukkitResourcePackHandler().castleAssetsRoot());
             List<String> expected = getMinecraftBukkitResourcePackHandler().expectedCastleAssetFiles(pageType);
             if (!expected.isEmpty()) {
@@ -329,7 +329,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             lines.add(files.isEmpty() ? "Castle assets: none yet." : "Castle assets: " + String.join(", ", files));
             return List.copyOf(lines);
         }
-        if (pageType == UiPageType.BUILDING_DETAIL || pageType == UiPageType.FARMSTEAD_MENU || pageType == UiPageType.NPC_MAIN) {
+        if (pageType == UiScreenKey.BUILDING_DETAIL || pageType == UiScreenKey.FARMSTEAD_MENU || pageType == UiScreenKey.NPC_MAIN) {
             lines.add("Resource pack root: " + getMinecraftBukkitResourcePackHandler().buildingAssetsRoot());
             List<String> expected = getMinecraftBukkitResourcePackHandler().expectedBuildingAssetFiles(pageType);
             if (!expected.isEmpty()) {
@@ -342,7 +342,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
         return List.of();
     }
 
-    private Material headerMaterial(UiPageType pageType) {
+    private Material headerMaterial(UiScreenKey pageType) {
         return switch (pageType) {
             case CASTLE_MAIN, CASTLE_INFO, CASTLE_CITIZENS, CASTLE_TROOPS, CASTLE_RESOURCES, CASTLE_UPGRADES, CASTLE_BUILDINGS ->
                     Material.BEACON;
@@ -353,7 +353,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
         };
     }
 
-    private List<String> pageAssets(UiPageType pageType) {
+    private List<String> pageAssets(UiScreenKey pageType) {
         return switch (pageType) {
             case CASTLE_MAIN -> List.of("ui_panel_castle_ledger_base", "ui_icon_kingdom_castle", "ui_divider_section_gold");
             case CASTLE_INFO -> List.of("ui_panel_castle_ledger_base", "ui_badge_status_blocked");
