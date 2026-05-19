@@ -3,7 +3,7 @@
     {
       "type": "bitmap",
       "file": "crownbound:font/kd_command_center",
-      "ascent": 12,
+      "ascent": 11,
       "height": 16,
       "chars": [
         "\ue001"

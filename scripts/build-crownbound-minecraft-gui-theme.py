@@ -17,6 +17,13 @@ OUT_FONT_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "font"
 OUT_FONT_TEXTURE_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "font"
 PREVIEW_PATH = REPO_ROOT / "temp" / "crownbound-kd-gui-preview.png"
 
+SLOT_SIZE = 18
+SLOT_VISUAL_SIZE = 17
+SLOT_ORIGIN_X = 8
+CHEST_SLOT_ORIGIN_Y = 18
+PLAYER_INVENTORY_ORIGIN_Y = 140
+PLAYER_INVENTORY_ROWS = 4
+
 GENERATED_ICON = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "item" / "ui" / "button_icon.png"
 GENERATED_TAB = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "item" / "ui" / "button_tab.png"
 GENERATED_PRIMARY = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "item" / "ui" / "button_primary.png"
@@ -103,16 +110,18 @@ def style_generic_54() -> Image.Image:
     base.alpha_composite(tab, (141, 2))
     base.alpha_composite(crest, (70, 1))
 
-    for x in range(15, 160, 26):
-        base.alpha_composite(primary, (x, 33))
+    for index in range(9):
+        base.alpha_composite(primary, (SLOT_ORIGIN_X + (index * SLOT_SIZE), 33))
 
-    for x in range(16, 160, 18):
-        for y in range(34, 124, 18):
-            draw.rectangle((x, y, x + 15, y + 15), outline=(110, 138, 159, 80), width=1)
+    for x in range(SLOT_ORIGIN_X, SLOT_ORIGIN_X + (9 * SLOT_SIZE), SLOT_SIZE):
+        for row in range(6):
+            y = CHEST_SLOT_ORIGIN_Y + (row * SLOT_SIZE)
+            draw.rectangle((x, y, x + SLOT_VISUAL_SIZE, y + SLOT_VISUAL_SIZE), outline=(110, 138, 159, 92), width=1)
 
-    for x in range(16, 160, 18):
-        for y in range(146, 218, 18):
-            draw.rectangle((x, y, x + 15, y + 15), outline=(88, 110, 126, 72), width=1)
+    for x in range(SLOT_ORIGIN_X, SLOT_ORIGIN_X + (9 * SLOT_SIZE), SLOT_SIZE):
+        for row in range(PLAYER_INVENTORY_ROWS):
+            y = PLAYER_INVENTORY_ORIGIN_Y + (row * SLOT_SIZE)
+            draw.rectangle((x, y, x + SLOT_VISUAL_SIZE, y + SLOT_VISUAL_SIZE), outline=(88, 110, 126, 72), width=1)
 
     return base
 
@@ -137,8 +146,8 @@ def style_inventory() -> Image.Image:
     crest = stretch_icon(GENERATED_ICON, (32, 32), 185)
     base.alpha_composite(crest, (72, 0))
     accent = stretch_icon(GENERATED_PRIMARY, (14, 14), 110)
-    for x in range(15, 160, 20):
-        base.alpha_composite(accent, (x, 35))
+    for index in range(9):
+        base.alpha_composite(accent, (SLOT_ORIGIN_X + (index * SLOT_SIZE), 35))
 
     return base
 
@@ -186,7 +195,7 @@ def write_font_provider() -> None:
             {
                 "type": "bitmap",
                 "file": "crownbound:font/kd_command_center",
-                "ascent": 12,
+                "ascent": 11,
                 "height": 16,
                 "chars": [
                     "\uE001"

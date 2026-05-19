@@ -12,7 +12,7 @@ The Minecraft server bootstrap creates these folders automatically when it start
 
 ## Bundled Pack
 
-When `distribution/crownbound_minecraft_resource_pack.zip` and `distribution/crownbound_minecraft_resource_pack.sha256.txt` exist, the server prefers that imported pack over generating a pack from the loose local asset tree.
+When `distribution/crownbound_minecraft_resource_pack.zip`, `distribution/crownbound_minecraft_resource_pack.sha256.txt`, and `distribution/crownbound_minecraft_resource_pack.sha1.txt` exist, the server prefers that imported pack over generating a pack from the loose local asset tree.
 
 The castle and building inventory screens also preview file names from these folders so artists and devs can see which local assets are available.
 

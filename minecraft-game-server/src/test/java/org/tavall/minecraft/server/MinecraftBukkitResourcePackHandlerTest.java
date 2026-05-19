@@ -80,7 +80,9 @@ final class MinecraftBukkitResourcePackHandlerTest {
         Path bundledArchive = distributionRoot.resolve("crownbound_minecraft_resource_pack.zip");
         createBundledArchive(bundledArchive);
         String checksum = sha256Hex(Files.readAllBytes(bundledArchive));
+        String bundledSha1 = sha1Hex(Files.readAllBytes(bundledArchive));
         Files.writeString(distributionRoot.resolve("crownbound_minecraft_resource_pack.sha256.txt"), checksum + "  crownbound_minecraft_resource_pack.zip");
+        Files.writeString(distributionRoot.resolve("crownbound_minecraft_resource_pack.sha1.txt"), bundledSha1 + "  crownbound_minecraft_resource_pack.zip");
         Files.writeString(localAssetRoot.resolve("button_primary.json"), "{\"model\":{\"type\":\"minecraft:model\",\"model\":\"crownbound:item/ui/button_primary\"}}");
         DependencyLoaderAccess.registerInstance(
                 IMinecraftBukkitServerConfig.class,

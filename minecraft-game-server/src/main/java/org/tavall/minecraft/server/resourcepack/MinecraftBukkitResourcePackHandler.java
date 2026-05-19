@@ -34,6 +34,7 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
     private static final String DEFAULT_BUNDLED_PACK_DIRECTORY = "distribution";
     private static final String DEFAULT_BUNDLED_PACK_FILE_NAME = "crownbound_minecraft_resource_pack.zip";
     private static final String DEFAULT_BUNDLED_CHECKSUM_FILE_NAME = "crownbound_minecraft_resource_pack.sha256.txt";
+    private static final String DEFAULT_BUNDLED_SHA1_FILE_NAME = "crownbound_minecraft_resource_pack.sha1.txt";
 
     private final Path explicitRoot;
     private final String explicitResourcePackUrl;
@@ -424,6 +425,18 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
         try {
             byte[] bundledBytes = Files.readAllBytes(bundledArchive);
             validateBundledPackChecksum(bundledBytes);
+            Path sha1Path = bundledPackSha1File();
+            if (Files.isRegularFile(sha1Path)) {
+                String checksumLine = Files.readString(sha1Path, StandardCharsets.UTF_8).trim();
+                if (!checksumLine.isBlank()) {
+                    String expectedHash = checksumLine.split("\\s+")[0].trim().toLowerCase();
+                    String actualHash = bytesToHex(sha1(bundledBytes));
+                    if (!actualHash.equals(expectedHash)) {
+                        throw new IllegalStateException("Bundled resource pack SHA-1 mismatch. expected=" + expectedHash + " actual=" + actualHash + " file=" + bundledPackArchive());
+                    }
+                    return hexToBytes(expectedHash);
+                }
+            }
             return sha1(bundledBytes);
         } catch (IOException exception) {
             throw new IllegalStateException("Unable to read bundled resource pack archive at " + bundledArchive, exception);
@@ -436,6 +449,10 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
 
     private Path bundledPackChecksumFile() {
         return resourcePackRoot().resolve(DEFAULT_BUNDLED_PACK_DIRECTORY).resolve(DEFAULT_BUNDLED_CHECKSUM_FILE_NAME);
+    }
+
+    private Path bundledPackSha1File() {
+        return resourcePackRoot().resolve(DEFAULT_BUNDLED_PACK_DIRECTORY).resolve(DEFAULT_BUNDLED_SHA1_FILE_NAME);
     }
 
     private static String escapeJson(String value) {
@@ -453,6 +470,26 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
             builder.append(String.format("%02x", value));
         }
         return builder.toString();
+    }
+
+    private static byte[] hexToBytes(String value) {
+        String normalized = value == null ? "" : value.trim();
+        if (normalized.isBlank()) {
+            return new byte[0];
+        }
+        if ((normalized.length() & 1) != 0) {
+            throw new IllegalStateException("Invalid hex checksum length: " + normalized.length());
+        }
+        byte[] bytes = new byte[normalized.length() / 2];
+        for (int index = 0; index < normalized.length(); index += 2) {
+            int high = Character.digit(normalized.charAt(index), 16);
+            int low = Character.digit(normalized.charAt(index + 1), 16);
+            if (high < 0 || low < 0) {
+                throw new IllegalStateException("Invalid hex checksum value: " + normalized);
+            }
+            bytes[index / 2] = (byte) ((high << 4) + low);
+        }
+        return bytes;
     }
 
     private List<String> previewAssetFiles(Path root) {
