@@ -17,6 +17,7 @@ OUT_FONT_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "font"
 OUT_FONT_TEXTURE_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "font"
 PREVIEW_PATH = REPO_ROOT / "temp" / "crownbound-kd-gui-preview.png"
 DEFAULT_GUI_TEMPLATE_PATH = Path(__file__).resolve().parent / "dev" / "default_gui_256.png"
+CHEST_VISIBLE_SIZE = (176, 222)
 
 SLOT_SIZE = 18
 SLOT_VISUAL_SIZE = 17
@@ -81,6 +82,15 @@ def load_custom_default_gui_template() -> Image.Image | None:
     return Image.open(DEFAULT_GUI_TEMPLATE_PATH).convert("RGBA")
 
 
+def remap_gui_template_to_chest_region(template: Image.Image) -> Image.Image:
+    # Minecraft only renders the 54-slot chest background from the top-left
+    # 176x222 region of generic_54.png, so keep the custom art inside that box.
+    mapped = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
+    visible = template.resize(CHEST_VISIBLE_SIZE, Image.Resampling.NEAREST)
+    mapped.alpha_composite(visible, (0, 0))
+    return mapped
+
+
 def glow(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], outline: str, width: int) -> None:
     for step in range(width, 0, -1):
         alpha = max(18, 72 - (step * 12))
@@ -95,7 +105,7 @@ def glow(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], outline: str
 def style_generic_54() -> Image.Image:
     custom_template = load_custom_default_gui_template()
     if custom_template is not None:
-        return custom_template
+        return remap_gui_template_to_chest_region(custom_template)
     base = recolor_grayscale(
         load_vanilla_texture("assets/minecraft/textures/gui/container/generic_54.png"),
         "#081019",
