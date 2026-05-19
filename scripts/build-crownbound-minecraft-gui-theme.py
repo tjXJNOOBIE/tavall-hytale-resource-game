@@ -16,10 +16,7 @@ OUT_SPRITE_ROOT = RESOURCE_PACK_ROOT / "assets" / "minecraft" / "textures" / "gu
 OUT_FONT_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "font"
 OUT_FONT_TEXTURE_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "font"
 PREVIEW_PATH = REPO_ROOT / "temp" / "crownbound-kd-gui-preview.png"
-DEFAULT_GUI_TEMPLATE_PATHS = [
-    Path(__file__).resolve().parent / "dev" / "default_gui_256.png",
-    Path(__file__).resolve().parent / "dev" / "default_gui.png",
-]
+DEFAULT_GUI_TEMPLATE_PATH = Path(__file__).resolve().parent / "dev" / "default_gui_256.png"
 
 SLOT_SIZE = 18
 SLOT_VISUAL_SIZE = 17
@@ -79,10 +76,9 @@ def stretch_icon(path: Path, size: tuple[int, int], alpha: int) -> Image.Image:
 
 
 def load_custom_default_gui_template() -> Image.Image | None:
-    for template_path in DEFAULT_GUI_TEMPLATE_PATHS:
-        if template_path.is_file():
-            return Image.open(template_path).convert("RGBA")
-    return None
+    if not DEFAULT_GUI_TEMPLATE_PATH.is_file():
+        return None
+    return Image.open(DEFAULT_GUI_TEMPLATE_PATH).convert("RGBA")
 
 
 def glow(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], outline: str, width: int) -> None:
@@ -99,7 +95,7 @@ def glow(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], outline: str
 def style_generic_54() -> Image.Image:
     custom_template = load_custom_default_gui_template()
     if custom_template is not None:
-        return custom_template.resize((256, 256), Image.Resampling.LANCZOS)
+        return custom_template
     base = recolor_grayscale(
         load_vanilla_texture("assets/minecraft/textures/gui/container/generic_54.png"),
         "#081019",
