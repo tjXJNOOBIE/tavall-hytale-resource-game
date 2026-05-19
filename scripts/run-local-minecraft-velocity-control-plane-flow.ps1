@@ -4,6 +4,7 @@ param(
     [int]$TunnelPort = 25569,
     [int]$RemoteProxyPort = 25565,
     [string]$RemoteProxyHost = "127.0.0.1",
+    [switch]$NoTunnel,
     [string]$MinecraftBotDir = "",
     [string]$ScenarioScriptPath = "",
     [string]$Username = "ResourceProxyBot",
@@ -109,11 +110,13 @@ function Invoke-LoggedCommand {
 
 $startedAt = (Get-Date).ToString("o")
 $tunnelProcess = $null
+$connectHost = $RemoteProxyHost
 try {
     Write-LogLine ("[{0}] Starting local Minecraft bot harness" -f $startedAt)
     Write-LogLine ("[{0}] SshAlias={1}" -f (Get-Date).ToString("o"), $SshAlias)
     Write-LogLine ("[{0}] TunnelPort={1}" -f (Get-Date).ToString("o"), $TunnelPort)
     Write-LogLine ("[{0}] RemoteProxy={1}:{2}" -f (Get-Date).ToString("o"), $RemoteProxyHost, $RemoteProxyPort)
+    Write-LogLine ("[{0}] NoTunnel={1}" -f (Get-Date).ToString("o"), [bool]$NoTunnel)
     Write-LogLine ("[{0}] MinecraftBotDir={1}" -f (Get-Date).ToString("o"), $MinecraftBotDir)
     Write-LogLine ("[{0}] ScenarioScriptPath={1}" -f (Get-Date).ToString("o"), $ScenarioScriptPath)
 
@@ -121,36 +124,51 @@ try {
         throw "Minecraft bot dependencies were not found at $MinecraftBotDir\nInstall them in tavall-java-game-tools/minecraft-bot first."
     }
 
-    $forwardArgs = @(
-        "-F", $SshConfigPath,
-        "-N",
-        "-L", "$TunnelPort`:$RemoteProxyHost`:$RemoteProxyPort",
-        $SshAlias
-    )
-    Write-LogLine ("[{0}] Opening SSH tunnel for local client probing." -f (Get-Date).ToString("o"))
-    $tunnelProcess = Start-Process -FilePath "ssh.exe" -ArgumentList $forwardArgs -PassThru
+    if ($NoTunnel) {
+        if ([string]::IsNullOrWhiteSpace($RemoteProxyHost) -or $RemoteProxyHost -eq "127.0.0.1") {
+            $resolvedHost = & ssh.exe -F $SshConfigPath -G $SshAlias 2>$null |
+                Where-Object { $_ -match '^hostname\s+' } |
+                ForEach-Object { ($_ -replace '^hostname\s+', '').Trim() } |
+                Select-Object -First 1
+            if ([string]::IsNullOrWhiteSpace($resolvedHost)) {
+                throw "Could not resolve remote proxy host for alias $SshAlias."
+            }
+            $connectHost = $resolvedHost
+        }
+        Write-LogLine ("[{0}] Connecting directly to remote proxy without tunnel: {1}:{2}" -f (Get-Date).ToString("o"), $connectHost, $RemoteProxyPort)
+    } else {
+        $forwardArgs = @(
+            "-F", $SshConfigPath,
+            "-N",
+            "-L", "$TunnelPort`:$RemoteProxyHost`:$RemoteProxyPort",
+            $SshAlias
+        )
+        Write-LogLine ("[{0}] Opening SSH tunnel for local client probing." -f (Get-Date).ToString("o"))
+        $tunnelProcess = Start-Process -FilePath "ssh.exe" -ArgumentList $forwardArgs -PassThru
 
-    $deadline = (Get-Date).AddSeconds(30)
-    do {
+        $deadline = (Get-Date).AddSeconds(30)
+        do {
+            $connection = Test-NetConnection -ComputerName 127.0.0.1 -Port $TunnelPort -WarningAction SilentlyContinue
+            if ($connection.TcpTestSucceeded) {
+                break
+            }
+            if ($tunnelProcess.HasExited) {
+                throw "SSH tunnel exited before opening local port $TunnelPort."
+            }
+            Start-Sleep -Milliseconds 500
+        } while ((Get-Date) -lt $deadline)
+
         $connection = Test-NetConnection -ComputerName 127.0.0.1 -Port $TunnelPort -WarningAction SilentlyContinue
-        if ($connection.TcpTestSucceeded) {
-            break
+        if (-not $connection.TcpTestSucceeded) {
+            throw "Timed out waiting for SSH tunnel to open local port $TunnelPort."
         }
-        if ($tunnelProcess.HasExited) {
-            throw "SSH tunnel exited before opening local port $TunnelPort."
-        }
-        Start-Sleep -Milliseconds 500
-    } while ((Get-Date) -lt $deadline)
-
-    $connection = Test-NetConnection -ComputerName 127.0.0.1 -Port $TunnelPort -WarningAction SilentlyContinue
-    if (-not $connection.TcpTestSucceeded) {
-        throw "Timed out waiting for SSH tunnel to open local port $TunnelPort."
+        $connectHost = "127.0.0.1"
     }
 
     $scenarioArgs = @(
         $ScenarioScriptPath,
-        "127.0.0.1",
-        $TunnelPort.ToString(),
+        $connectHost,
+        ($(if ($NoTunnel) { $RemoteProxyPort } else { $TunnelPort })).ToString(),
         $Username,
         $MinecraftVersion,
         $OutputDir
@@ -180,7 +198,9 @@ grep -nE 'Resource pack status from|Sending forced resource pack|Skipping local 
         completedAt = (Get-Date).ToString("o")
         sshAlias = $SshAlias
         tunnelPort = $TunnelPort
+        noTunnel = [bool]$NoTunnel
         remoteProxyHost = $RemoteProxyHost
+        connectHost = $connectHost
         remoteProxyPort = $RemoteProxyPort
         minecraftBotDir = $MinecraftBotDir
         scenarioScriptPath = $ScenarioScriptPath
