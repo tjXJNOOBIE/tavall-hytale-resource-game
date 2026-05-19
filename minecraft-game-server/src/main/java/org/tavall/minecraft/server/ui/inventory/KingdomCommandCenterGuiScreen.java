@@ -11,7 +11,7 @@ public final class KingdomCommandCenterGuiScreen extends GuiScreen {
     private final String feedback;
 
     public KingdomCommandCenterGuiScreen(CrownboundGuiItemFactory itemFactory, CommandCenterGuiActionHandler actions, String feedback) {
-        super(itemFactory.commandCenterTitle(), 45);
+        super(itemFactory.commandCenterTitle(), 54);
         this.itemFactory = itemFactory;
         this.actions = actions;
         this.feedback = feedback == null || feedback.isBlank() ? "Crownbound command center." : feedback;
@@ -34,6 +34,6 @@ public final class KingdomCommandCenterGuiScreen extends GuiScreen {
         setButton(new GuiButton(22, itemFactory.button(Material.MAP, "Scene Refresh", List.of("Refresh the kingdom scene in-world."), CrownboundGuiItemFactory.FAMILY_SUCCESS), context -> actions.refreshScene(context.player())));
         setButton(new GuiButton(23, itemFactory.button(Material.RECOVERY_COMPASS, "Debug Surfaces", List.of("Open the debug-focused UI screens."), CrownboundGuiItemFactory.FAMILY_ICON), context -> actions.openDebug(context.player())));
         setButton(new GuiButton(24, itemFactory.button(Material.WRITABLE_BOOK, "Tutorial Reset", List.of("Reset the tutorial state for this player."), CrownboundGuiItemFactory.FAMILY_SECONDARY), context -> actions.resetTutorial(context.player())));
-        setButton(new GuiButton(40, itemFactory.button(Material.BARRIER, "Close", List.of("Close the command center."), CrownboundGuiItemFactory.FAMILY_DANGER), context -> context.player().closeInventory()));
+        setButton(new GuiButton(53, itemFactory.button(Material.BARRIER, "Close", List.of("Close the command center."), CrownboundGuiItemFactory.FAMILY_DANGER), context -> context.player().closeInventory()));
     }
 }

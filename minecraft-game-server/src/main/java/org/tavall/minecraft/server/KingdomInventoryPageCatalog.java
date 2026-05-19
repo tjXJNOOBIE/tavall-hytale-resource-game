@@ -142,7 +142,7 @@ final class KingdomInventoryPageCatalog {
             );
             case DEBUG_NAVIGATOR -> new KingdomInventoryPageDefinition(
                     "Kingdom Command Center",
-                    45,
+                    54,
                     List.of(
                             button(10, Material.PLAYER_HEAD, "Account", UiActions.RUN_COMMAND, "kd ui account", true, "Open your player profile.", "debug_navigator.png", FAMILY_TAB),
                             button(11, Material.BEACON, "Castle", UiActions.OPEN_CASTLE_MAIN, "", true, "Open the castle overview.", "debug_navigator.png", FAMILY_TAB),
@@ -157,7 +157,7 @@ final class KingdomInventoryPageCatalog {
                             button(22, Material.MAP, "Scene Refresh", UiActions.DEBUG_SCENE_REFRESH, "", true, "Refresh the kingdom scene in-world.", "debug_navigator.png", FAMILY_SUCCESS),
                             button(23, Material.RECOVERY_COMPASS, "Debug Surfaces", UiActions.RUN_COMMAND, "kd ui debug", true, "Open the debug-focused UI screens.", "debug_navigator.png", FAMILY_ICON),
                             button(24, Material.WRITABLE_BOOK, "Tutorial Reset", UiActions.DEBUG_TUTORIAL_RESET, "", true, "Reset the tutorial state for this player.", "debug_navigator.png", FAMILY_SECONDARY),
-                            button(40, Material.BARRIER, "Close", UiActions.CLOSE, "", true, "Close the command center.", "debug_navigator.png", FAMILY_DANGER)
+                            button(53, Material.BARRIER, "Close", UiActions.CLOSE, "", true, "Close the command center.", "debug_navigator.png", FAMILY_DANGER)
                     ),
                     feedback == null || feedback.isBlank() ? "Crownbound command center." : feedback
             );

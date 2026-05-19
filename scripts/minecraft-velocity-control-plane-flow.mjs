@@ -15,6 +15,12 @@ const commands = (process.env.MINECRAFT_PROXY_COMMANDS || '/kd clock state kingd
   .split('|')
   .map(command => command.trim())
   .filter(Boolean)
+const texturePackResults = {
+  SUCCESSFULLY_LOADED: 0,
+  DECLINED: 1,
+  FAILED_DOWNLOAD: 2,
+  ACCEPTED: 3
+}
 
 const transcript = []
 
@@ -63,6 +69,56 @@ async function downloadResourcePack(url, outputDir) {
     sha256,
     filePath
   }
+}
+
+function resolveResourcePackEvent(resourcePackFirstArg, resourcePackSecondArg, resourcePackThirdArg) {
+  const firstText = normalizeMessage(resourcePackFirstArg).trim()
+  const secondText = normalizeMessage(resourcePackSecondArg).trim()
+  const thirdText = normalizeMessage(resourcePackThirdArg).trim()
+  const firstLooksLikeUrl = /^https?:\/\//i.test(firstText)
+  const secondLooksLikeUrl = /^https?:\/\//i.test(secondText)
+  const uuidLikePattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  const secondLooksLikeUuid = uuidLikePattern.test(secondText)
+  const firstLooksLikeUuid = uuidLikePattern.test(firstText)
+  if (firstLooksLikeUrl) {
+    return {
+      url: firstText,
+      token: secondText || thirdText || '[none]',
+      tokenKind: secondLooksLikeUuid || firstLooksLikeUuid ? 'uuid' : 'hash'
+    }
+  }
+  if (secondLooksLikeUrl) {
+    return {
+      url: secondText,
+      token: firstText || thirdText || '[none]',
+      tokenKind: firstLooksLikeUuid || secondLooksLikeUuid ? 'uuid' : 'hash'
+    }
+  }
+  return {
+    url: firstText || secondText || '[unknown]',
+    token: secondText || thirdText || '[none]',
+    tokenKind: 'hash'
+  }
+}
+
+function writeResourcePackReceive(bot, tokenKind, token, result) {
+  if (tokenKind === 'uuid' && bot.supportFeature('resourcePackUsesUUID')) {
+    bot._client.write('resource_pack_receive', {
+      uuid: token,
+      result
+    })
+    return
+  }
+  if (tokenKind === 'hash' && bot.supportFeature('resourcePackUsesHash')) {
+    bot._client.write('resource_pack_receive', {
+      hash: token,
+      result
+    })
+    return
+  }
+  bot._client.write('resource_pack_receive', {
+    result
+  })
 }
 
 function normalizeMessage(message) {
@@ -572,15 +628,22 @@ const resourcePackPromise = new Promise((resolve, reject) => {
   bot.once('resourcePack', (url, hashOrUuid, uuidMaybe) => {
     ;(async () => {
       clearTimeout(timeout)
-      log(`resource-pack requested url=${url} hashOrUuid=${hashOrUuid ?? '[none]'} uuid=${uuidMaybe ?? '[none]'}`)
+      const resourcePack = resolveResourcePackEvent(url, hashOrUuid, uuidMaybe)
+      log(`resource-pack requested url=${resourcePack.url} token=${resourcePack.token} tokenKind=${resourcePack.tokenKind}`)
       try {
-        bot.acceptResourcePack()
+        writeResourcePackReceive(bot, resourcePack.tokenKind, resourcePack.token, texturePackResults.ACCEPTED)
         log('resource-pack accepted')
       } catch (error) {
         reject(error)
         return
       }
-      const download = await downloadResourcePack(url, outputDir)
+      const download = await downloadResourcePack(resourcePack.url, outputDir)
+      try {
+        writeResourcePackReceive(bot, resourcePack.tokenKind, resourcePack.token, texturePackResults.SUCCESSFULLY_LOADED)
+      } catch (error) {
+        reject(error)
+        return
+      }
       log(`resource-pack downloaded status=${download.status} bytes=${download.bytes} sha256=${download.sha256}`)
       resolve({ url, hashOrUuid, uuidMaybe, ...download })
     })().catch(reject)
@@ -655,6 +718,10 @@ try {
         const currentWindow = await waitForCurrentWindow(bot)
         if (!currentWindow) {
           throw new Error('Resource-pack-backed UI window did not stay open long enough for inspection.')
+        }
+        log(`ui window shape inventoryStart=${currentWindow.inventoryStart ?? '[unknown]'} slots=${currentWindow.slots?.length ?? '[unknown]'} type=${currentWindow.type ?? '[unknown]'}`)
+        if (currentWindow.inventoryStart !== 54) {
+          throw new Error(`Resource-pack-backed UI window is not a 54-slot chest layout: inventoryStart=${currentWindow.inventoryStart ?? '[unknown]'} slots=${currentWindow.slots?.length ?? '[unknown]'}`)
         }
         const headerItem = await waitForWindowSlot(bot, 4)
         const accountItem = await waitForWindowSlot(bot, 10)

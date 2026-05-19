@@ -26,7 +26,7 @@ final class KingdomInventoryPageCatalogTest {
         KingdomInventoryPageCatalog.KingdomInventoryPageDefinition definition = KingdomInventoryPageCatalog.definition(UiScreenKey.DEBUG_NAVIGATOR, "Ready.");
 
         assertEquals("Kingdom Command Center", definition.title());
-        assertEquals(45, definition.size());
+        assertEquals(54, definition.size());
         assertTrue(definition.buttons().stream().anyMatch(button -> UiActions.OPEN_CASTLE_MAIN.equals(button.action())));
         assertTrue(definition.buttons().stream().anyMatch(button -> UiActions.OPEN_CITIZENS.equals(button.action())));
         assertTrue(definition.buttons().stream().anyMatch(button -> UiActions.RUN_COMMAND.equals(button.action()) && "kd ui account".equals(button.payload())));
