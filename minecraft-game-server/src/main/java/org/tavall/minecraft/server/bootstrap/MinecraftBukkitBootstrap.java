@@ -68,6 +68,7 @@ public final class MinecraftBukkitBootstrap {
 
     private void registerListeners() {
         plugin.getServer().getPluginManager().registerEvents(plugin.getMinecraftBukkitPlayerJoinHandler(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(plugin.getMinecraftBukkitResourcePackStatusHandler(), plugin);
         plugin.getServer().getPluginManager().registerEvents(plugin.getMinecraftBukkitInteractionHandler(), plugin);
         plugin.getServer().getPluginManager().registerEvents(plugin.getMinecraftBukkitInteractionMenuHandler(), plugin);
         plugin.getServer().getPluginManager().registerEvents(plugin.getMinecraftBukkitStructureProtectionHandler(), plugin);

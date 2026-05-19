@@ -59,6 +59,7 @@ public final class MinecraftBukkitServerDependencyModule {
         registerIfMissing(IMinecraftBukkitInteractionTargetResolver.class, new MinecraftBukkitInteractionTargetResolver());
         registerIfMissing(IMinecraftBukkitInteractionSessionTracker.class, new MinecraftBukkitInteractionSessionTracker());
         registerIfMissing(IMinecraftBukkitPlayerJoinHandler.class, new MinecraftBukkitPlayerJoinHandler());
+        registerIfMissing(IMinecraftBukkitResourcePackStatusHandler.class, new MinecraftBukkitResourcePackStatusHandler());
         registerIfMissing(IMinecraftBukkitTaskScheduler.class, new MinecraftBukkitTaskSchedulerHandler());
         registerIfMissing(IMinecraftBukkitSnapshotSubmitHandler.class, new MinecraftBukkitSnapshotSubmitHandler());
         registerIfMissing(IMinecraftBukkitLogger.class, new MinecraftBukkitLoggerHandler());
