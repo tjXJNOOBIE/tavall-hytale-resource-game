@@ -14,6 +14,7 @@ public final class MinecraftBukkitPlayerJoinHandler implements IMinecraftBukkitP
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         getMinecraftBukkitResourcePackHandler().forceResourcePack(player);
+        getMinecraftBukkitResourcePackStatusHandler().probeResourcePackStatus(player);
         getMinecraftBukkitVisualHandler().renderJoinVisual(player, getMinecraftBukkitServerConfig().serverId());
         getMinecraftBukkitTaskScheduler().runAsync(getMinecraftBukkitSnapshotSubmitHandler()::submitSnapshotQuietly);
     }

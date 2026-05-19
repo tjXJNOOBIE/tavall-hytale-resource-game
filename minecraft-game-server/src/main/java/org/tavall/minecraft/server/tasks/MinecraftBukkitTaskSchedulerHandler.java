@@ -10,4 +10,9 @@ public final class MinecraftBukkitTaskSchedulerHandler implements IMinecraftBukk
     public void runAsync(Runnable runnable) {
         Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getPlugin(MinecraftBukkitServerPlugin.class), runnable);
     }
+
+    @Override
+    public void runLater(Runnable runnable, long delayTicks) {
+        Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(MinecraftBukkitServerPlugin.class), runnable, Math.max(0L, delayTicks));
+    }
 }
