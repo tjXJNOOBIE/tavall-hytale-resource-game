@@ -699,7 +699,7 @@ try {
       ? waitForWindowOpen(
           bot,
           prepared,
-          normalizedPrepared.startsWith('/kd npc') ? 'NPC Interaction' : normalizedPrepared.startsWith('/kd building') ? 'Building Detail' : 'Kingdom Command Center'
+          normalizedPrepared.startsWith('/kd npc') ? 'NPC Interaction' : normalizedPrepared.startsWith('/kd building') ? 'Building Detail' : 'Command Center'
         ).catch(error => {
         log(`ui window error ${error instanceof Error ? error.message : normalizeMessage(error)}`)
         return null

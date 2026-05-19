@@ -57,8 +57,10 @@ $remoteScriptPath = "$RemoteHeadlessDir/$baseName.mjs"
 $remoteOutputDir = "/tmp/$baseName"
 $remoteBundledPackPath = "/tmp/$baseName-resource-pack.zip"
 $remoteBundledPackChecksumPath = "/tmp/$baseName-resource-pack.sha256.txt"
+$remoteBundledPackSha1Path = "/tmp/$baseName-resource-pack.sha1.txt"
 $runtimeResourcePackPath = Join-Path $logRoot "$baseName-resource-pack.zip"
 $runtimeResourcePackChecksumPath = Join-Path $logRoot "$baseName-resource-pack.sha256.txt"
+$runtimeResourcePackSha1Path = Join-Path $logRoot "$baseName-resource-pack.sha1.txt"
 
 function Write-LogLine {
     param([string]$Message)
@@ -136,10 +138,16 @@ Invoke-Checked -FilePath "cmd.exe" -Arguments @(
     "python `"$GuiThemeBuilderScriptPath`""
 ) -FailureMessage "Failed to build the Crownbound Minecraft GUI theme."
 
+Write-LogLine "[$((Get-Date).ToString("o"))] Validating Crownbound Minecraft GUI alignment."
+Invoke-Checked -FilePath "cmd.exe" -Arguments @(
+    "/c",
+    "python `"${PSScriptRoot}\validate-crownbound-minecraft-gui-alignment.py`" --texture `"$repoRoot\resource-pack\assets\minecraft\textures\gui\container\generic_54.png`" --tolerance 1.5 --report `"$logRoot\${baseName}-gui-alignment.json`""
+) -FailureMessage "Failed to validate the Crownbound Minecraft GUI alignment."
+
 Write-LogLine "[$((Get-Date).ToString("o"))] Building runtime resource pack archive."
 Invoke-Checked -FilePath "cmd.exe" -Arguments @(
     "/c",
-    "python `"$RuntimeResourcePackBuilderScriptPath`" --root `"$ResourcePackRootPath`" --bundle `"$BundledResourcePackPath`" --output `"$runtimeResourcePackPath`" --checksum `"$runtimeResourcePackChecksumPath`""
+    "python `"$RuntimeResourcePackBuilderScriptPath`" --root `"$ResourcePackRootPath`" --bundle `"$BundledResourcePackPath`" --output `"$runtimeResourcePackPath`" --checksum `"$runtimeResourcePackChecksumPath`" --sha1-checksum `"$runtimeResourcePackSha1Path`""
 ) -FailureMessage "Failed to build runtime resource pack archive."
 
 $runtimeResourcePackHash = ((Get-Content -Path $runtimeResourcePackChecksumPath -TotalCount 1) -split '\s+')[0].Trim().ToLowerInvariant()
@@ -205,6 +213,7 @@ Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPlu
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteKingdomBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to kingdom backend."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $runtimeResourcePackPath, "$SshAlias`:$remoteBundledPackPath") -FailureMessage "Failed to copy runtime resource pack."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $runtimeResourcePackChecksumPath, "$SshAlias`:$remoteBundledPackChecksumPath") -FailureMessage "Failed to copy runtime resource pack checksum."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $runtimeResourcePackSha1Path, "$SshAlias`:$remoteBundledPackSha1Path") -FailureMessage "Failed to copy runtime resource pack sha1 checksum."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $KingdomServerJarLocalPath, "$SshAlias`:$remoteKingdomServerJarPath.new") -FailureMessage "Failed to copy Paper kingdom backend jar."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ScenarioScriptPath, "$SshAlias`:$remoteScriptPath") -FailureMessage "Failed to copy Minecraft Velocity scenario script."
 
@@ -229,9 +238,11 @@ mv '$remoteKingdomBackendPluginPath.new' '$remoteKingdomBackendPluginPath'
 mkdir -p '$RemoteKingdomBackendDir/resource-pack/distribution'
 cp '$remoteBundledPackPath' '$RemoteKingdomBackendDir/resource-pack/distribution/crownbound_minecraft_resource_pack.zip'
 cp '$remoteBundledPackChecksumPath' '$RemoteKingdomBackendDir/resource-pack/distribution/crownbound_minecraft_resource_pack.sha256.txt'
+cp '$remoteBundledPackSha1Path' '$RemoteKingdomBackendDir/resource-pack/distribution/crownbound_minecraft_resource_pack.sha1.txt'
 sudo install -d -m 755 '$RemotePublicResourcePackDir'
 sudo install -m 644 '$remoteBundledPackPath' '$RemotePublicResourcePackDir/resource-pack.zip'
 sudo install -m 644 '$remoteBundledPackChecksumPath' '$RemotePublicResourcePackDir/resource-pack.sha256.txt'
+sudo install -m 644 '$remoteBundledPackSha1Path' '$RemotePublicResourcePackDir/resource-pack.sha1.txt'
 rm -f '$RemoteKingdomBackendDir/plugins/tavall-resource-game-minecraft-server-frontend.jar' 2>/dev/null || true
 if [ -f '$remoteKingdomServerJarPath' ]; then
   cp '$remoteKingdomServerJarPath' '$remoteKingdomServerJarPath.bak-$timestamp'

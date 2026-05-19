@@ -23,7 +23,7 @@ public final class CrownboundGuiItemFactory {
     public Component commandCenterTitle() {
         return Component.text()
                 .append(Component.text("\uE001").font(Key.key("crownbound", "gui")))
-                .append(Component.text(" Kingdom Command Center", NamedTextColor.GOLD))
+                .append(Component.text(" Command Center", NamedTextColor.GOLD))
                 .build();
     }
 
