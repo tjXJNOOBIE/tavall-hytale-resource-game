@@ -64,11 +64,14 @@ final class MinecraftBukkitResourcePackHandlerTest {
         Path root = Files.createTempDirectory("tavall-resource-pack-bundled");
         Path configuredRoot = root.resolve("resource-pack");
         Path distributionRoot = configuredRoot.resolve("distribution");
+        Path localAssetRoot = configuredRoot.resolve("assets/crownbound/items/ui");
         Files.createDirectories(distributionRoot);
+        Files.createDirectories(localAssetRoot);
         Path bundledArchive = distributionRoot.resolve("crownbound_minecraft_resource_pack.zip");
         createBundledArchive(bundledArchive);
         String checksum = sha256Hex(Files.readAllBytes(bundledArchive));
         Files.writeString(distributionRoot.resolve("crownbound_minecraft_resource_pack.sha256.txt"), checksum + "  crownbound_minecraft_resource_pack.zip");
+        Files.writeString(localAssetRoot.resolve("button_primary.json"), "{\"model\":{\"type\":\"minecraft:model\",\"model\":\"crownbound:item/ui/button_primary\"}}");
 
         MinecraftBukkitResourcePackHandler handler = MinecraftBukkitResourcePackHandler.forRoot(
                 configuredRoot,
@@ -88,6 +91,7 @@ final class MinecraftBukkitResourcePackHandlerTest {
         assertTrue(entries.contains("pack.mcmeta"));
         assertTrue(entries.contains("assets/crownbound/ui/buttons/button_primary.json"));
         assertTrue(entries.contains("assets/crownbound/textures/gui/buttons/button_primary.png"));
+        assertTrue(entries.contains("assets/crownbound/items/ui/button_primary.json"));
     }
 
     private static void createBundledArchive(Path archivePath) throws IOException {

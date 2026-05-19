@@ -2,6 +2,7 @@ import mineflayer from 'mineflayer'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import util from 'node:util'
 import { Vec3 } from 'vec3'
 
 const host = process.argv[2] || process.env.MINECRAFT_PROXY_HOST || '127.0.0.1'
@@ -37,6 +38,17 @@ async function downloadResourcePack(url, outputDir) {
     throw new Error(`Resource pack download did not return a zip archive: url=${url} bytes=${bytes.length}`)
   }
   const sha256 = createHash('sha256').update(bytes).digest('hex')
+  const expectedEntries = [
+    'assets/crownbound/items/ui/button_tab.json',
+    'assets/crownbound/items/ui/button_icon.json',
+    'assets/crownbound/models/item/ui/button_tab.json',
+    'assets/crownbound/textures/item/ui/button_tab.png'
+  ]
+  for (const entry of expectedEntries) {
+    if (!bytes.includes(Buffer.from(entry, 'utf8'))) {
+      throw new Error(`Resource pack archive is missing expected entry marker: ${entry}`)
+    }
+  }
   const filePath = path.join(outputDir, 'downloaded-resource-pack.zip')
   await fs.writeFile(filePath, bytes)
   return {
@@ -115,13 +127,50 @@ function summarizeWindowItem(item) {
   if (!item) {
     return ''
   }
+  const itemModel = item.componentMap?.get?.('item_model')?.data ?? null
+  const componentLore = Array.isArray(item.componentMap?.get?.('lore')?.data)
+    ? item.componentMap.get('lore').data.map(entry => normalizeMessage(entry))
+    : []
   const parts = [
     item.displayName ?? null,
     item.name ?? null,
     Array.isArray(item.lore) ? item.lore.join('\n') : null,
+    componentLore.length > 0 ? componentLore.join('\n') : null,
+    itemModel ? `item_model=${itemModel}` : null,
     item.nbt ? normalizeMessage(item.nbt) : null
   ]
   return parts.filter(Boolean).join('\n')
+}
+
+function assertWindowItemModel(item, expectedModel, label) {
+  const summary = summarizeWindowItem(item)
+  if (!summary.includes(expectedModel)) {
+    throw new Error(`${label} missing expected item_model ${expectedModel}: ${summary || '[empty]'}`)
+  }
+  log(`${label} item_model ${expectedModel}`)
+}
+
+async function waitForWindowSlot(bot, slot, timeoutMs = 4000) {
+  const startedAt = Date.now()
+  while (Date.now() - startedAt < timeoutMs) {
+    const item = bot.currentWindow?.slots?.[slot]
+    if (item) {
+      return item
+    }
+    await sleep(100)
+  }
+  return bot.currentWindow?.slots?.[slot] ?? null
+}
+
+async function waitForCurrentWindow(bot, timeoutMs = 4000) {
+  const startedAt = Date.now()
+  while (Date.now() - startedAt < timeoutMs) {
+    if (bot.currentWindow) {
+      return bot.currentWindow
+    }
+    await sleep(100)
+  }
+  return bot.currentWindow ?? null
 }
 
 async function waitForCommandResponse(messages, command, timeoutMs = 15000) {
@@ -597,12 +646,24 @@ try {
         return ''
       })
       response = await Promise.race([uiWindowPromise, safeCommandResponsePromise])
-      if (normalizedPrepared.startsWith('/kd ui') && bot.currentWindow) {
-        const headerSummary = summarizeWindowItem(bot.currentWindow.slots?.[4])
-        if (!headerSummary.includes('Minecraft assets:') || !headerSummary.includes('crownbound:gui/buttons/button_tab') || !headerSummary.includes('crownbound:ui/buttons/button_families.index.json')) {
-          throw new Error(`Resource-pack-backed UI header missing asset markers: ${headerSummary || '[empty]'}`)
+      if (normalizedPrepared.startsWith('/kd ui')) {
+        const currentWindow = await waitForCurrentWindow(bot)
+        if (!currentWindow) {
+          throw new Error('Resource-pack-backed UI window did not stay open long enough for inspection.')
+        }
+        const headerItem = await waitForWindowSlot(bot, 4)
+        const accountItem = await waitForWindowSlot(bot, 10)
+        log(`ui slot4 raw ${util.inspect(headerItem, { depth: 5, breakLength: 160 })}`)
+        log(`ui slot10 raw ${util.inspect(accountItem, { depth: 5, breakLength: 160 })}`)
+        const headerSummary = summarizeWindowItem(headerItem)
+        if (!headerSummary.includes('Command Center') && !headerSummary.includes('Nether Star')) {
+          throw new Error(`Resource-pack-backed UI header looked wrong: ${headerSummary || '[empty]'}`)
         }
         log(`resource-pack header ${headerSummary.replace(/\s+/g, ' ').trim()}`)
+        const accountSummary = summarizeWindowItem(accountItem)
+        log(`ui account summary ${accountSummary.replace(/\s+/g, ' ').trim()}`)
+        assertWindowItemModel(headerItem, 'crownbound:ui/button_icon', 'ui header')
+        assertWindowItemModel(accountItem, 'crownbound:ui/button_tab', 'ui account button')
       }
       try {
         const clickSlot = normalizedPrepared.startsWith('/kd npc') ? 12 : normalizedPrepared.startsWith('/kd building') ? 13 : 10

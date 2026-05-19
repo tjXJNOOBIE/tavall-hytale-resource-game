@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "crownbound:item/ui/button_success"
+  }
+}

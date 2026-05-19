@@ -28,6 +28,7 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
     private static final NamespacedKey ACTION_KEY = new NamespacedKey("tavall", "kingdom_action");
     private static final NamespacedKey PAYLOAD_KEY = new NamespacedKey("tavall", "kingdom_payload");
     private static final NamespacedKey BUTTON_FAMILY_KEY = new NamespacedKey("tavall", "kingdom_button_family");
+    private static final NamespacedKey KINGDOM_ASSET_KEY = new NamespacedKey("tavall", "kingdom_asset");
 
     @Override
     public void open(Player player, UiScreenKey pageType, String feedback) {
@@ -288,11 +289,15 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             if (enabled) {
                 meta.getPersistentDataContainer().set(ACTION_KEY, PersistentDataType.STRING, action);
             }
+            NamespacedKey itemModelKey = itemModelForFamily(buttonFamily);
+            if (itemModelKey != null) {
+                meta.setItemModel(itemModelKey);
+            }
             if (buttonFamily != null && !buttonFamily.isBlank()) {
                 meta.getPersistentDataContainer().set(BUTTON_FAMILY_KEY, PersistentDataType.STRING, buttonFamily);
             }
             if (assetKey != null && !assetKey.isBlank()) {
-                meta.getPersistentDataContainer().set(new NamespacedKey("tavall", "kingdom_asset"), PersistentDataType.STRING, assetKey);
+                meta.getPersistentDataContainer().set(KINGDOM_ASSET_KEY, PersistentDataType.STRING, assetKey);
             }
             if (payload != null && !payload.isBlank()) {
                 meta.getPersistentDataContainer().set(PAYLOAD_KEY, PersistentDataType.STRING, payload);
@@ -320,6 +325,11 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             lore.add(ChatColor.DARK_GRAY + "Minecraft assets: " + String.join(", ", pageAssets(pageType)));
             meta.setLore(lore);
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            NamespacedKey headerModelKey = itemModelForPage(pageType);
+            if (headerModelKey != null) {
+                meta.setItemModel(headerModelKey);
+            }
+            meta.getPersistentDataContainer().set(KINGDOM_ASSET_KEY, PersistentDataType.STRING, pageType.name().toLowerCase());
             item.setItemMeta(meta);
         }
         return item;
@@ -428,6 +438,33 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             case "tab" -> "Tab";
             case "icon" -> "Icon";
             default -> buttonFamily;
+        };
+    }
+
+    private NamespacedKey itemModelForFamily(String buttonFamily) {
+        if (buttonFamily == null || buttonFamily.isBlank()) {
+            return null;
+        }
+        return switch (buttonFamily) {
+            case "primary" -> new NamespacedKey("crownbound", "ui/button_primary");
+            case "secondary" -> new NamespacedKey("crownbound", "ui/button_secondary");
+            case "danger" -> new NamespacedKey("crownbound", "ui/button_danger");
+            case "success" -> new NamespacedKey("crownbound", "ui/button_success");
+            case "tab" -> new NamespacedKey("crownbound", "ui/button_tab");
+            case "icon" -> new NamespacedKey("crownbound", "ui/button_icon");
+            default -> null;
+        };
+    }
+
+    private NamespacedKey itemModelForPage(UiScreenKey pageType) {
+        return switch (pageType) {
+            case DEBUG_NAVIGATOR -> new NamespacedKey("crownbound", "ui/button_icon");
+            case CASTLE_MAIN, CASTLE_INFO, CASTLE_CITIZENS, CASTLE_TROOPS, CASTLE_RESOURCES, CASTLE_UPGRADES, CASTLE_BUILDINGS ->
+                    new NamespacedKey("crownbound", "ui/button_tab");
+            case FARMSTEAD_MENU, NPC_MAIN, RESOURCE_NODE_DETAIL, BUILDING_DETAIL, INTERIOR_MAIN ->
+                    new NamespacedKey("crownbound", "ui/button_primary");
+            case DEBUG_PLACEMENT, DEBUG_INTERIOR, DEBUG_BUILDINGS, DEBUG_WORLD ->
+                    new NamespacedKey("crownbound", "ui/button_secondary");
         };
     }
 }

@@ -20,6 +20,9 @@ param(
     [string]$ServerPluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/minecraft-game-server/target/minecraft-game-server-0.1.1-SNAPSHOT.jar",
     [string]$BundledResourcePackPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack/distribution/crownbound_minecraft_resource_pack.zip",
     [string]$BundledResourcePackChecksumPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack/distribution/crownbound_minecraft_resource_pack.sha256.txt",
+    [string]$ResourcePackRootPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack",
+    [string]$ResourcePackExtractorScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/extract-crownbound-minecraft-ui-item-models.py",
+    [string]$RuntimeResourcePackBuilderScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/build-crownbound-minecraft-runtime-pack.py",
     [string]$PublicResourcePackUrl = "https://docs.tavall.org/resource-game/minecraft/resource-pack.zip",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/minecraft-velocity-control-plane-flow.mjs",
     [int]$ControlPort = 19081,
@@ -53,6 +56,8 @@ $remoteScriptPath = "$RemoteHeadlessDir/$baseName.mjs"
 $remoteOutputDir = "/tmp/$baseName"
 $remoteBundledPackPath = "/tmp/$baseName-resource-pack.zip"
 $remoteBundledPackChecksumPath = "/tmp/$baseName-resource-pack.sha256.txt"
+$runtimeResourcePackPath = Join-Path $logRoot "$baseName-resource-pack.zip"
+$runtimeResourcePackChecksumPath = Join-Path $logRoot "$baseName-resource-pack.sha256.txt"
 
 function Write-LogLine {
     param([string]$Message)
@@ -89,6 +94,12 @@ if (-not (Test-Path $BundledResourcePackPath)) {
 if (-not (Test-Path $BundledResourcePackChecksumPath)) {
     throw "Bundled resource pack checksum not found at $BundledResourcePackChecksumPath"
 }
+if (-not (Test-Path $ResourcePackExtractorScriptPath)) {
+    throw "Resource pack extractor script not found at $ResourcePackExtractorScriptPath"
+}
+if (-not (Test-Path $RuntimeResourcePackBuilderScriptPath)) {
+    throw "Runtime resource pack builder script not found at $RuntimeResourcePackBuilderScriptPath"
+}
 if (-not (Test-Path $ControlServerJarPath)) {
     throw "Control server jar not found at $ControlServerJarPath"
 }
@@ -108,6 +119,27 @@ if (-not (Test-Path $KingdomServerJarLocalPath)) {
     Invoke-WebRequest -Uri "https://api.papermc.io/v2/projects/paper/versions/$KingdomMinecraftVersion/builds/$build/downloads/$download" -OutFile "$KingdomServerJarLocalPath.new"
     Move-Item -Force -Path "$KingdomServerJarLocalPath.new" -Destination $KingdomServerJarLocalPath
 }
+
+Write-LogLine "[$((Get-Date).ToString("o"))] Generating runtime Minecraft UI item textures."
+Invoke-Checked -FilePath "cmd.exe" -Arguments @(
+    "/c",
+    "python `"$ResourcePackExtractorScriptPath`""
+) -FailureMessage "Failed to generate runtime Minecraft UI item textures."
+
+Write-LogLine "[$((Get-Date).ToString("o"))] Building runtime resource pack archive."
+Invoke-Checked -FilePath "cmd.exe" -Arguments @(
+    "/c",
+    "python `"$RuntimeResourcePackBuilderScriptPath`" --root `"$ResourcePackRootPath`" --bundle `"$BundledResourcePackPath`" --output `"$runtimeResourcePackPath`" --checksum `"$runtimeResourcePackChecksumPath`""
+) -FailureMessage "Failed to build runtime resource pack archive."
+
+$runtimeResourcePackHash = ((Get-Content -Path $runtimeResourcePackChecksumPath -TotalCount 1) -split '\s+')[0].Trim().ToLowerInvariant()
+if ([string]::IsNullOrWhiteSpace($runtimeResourcePackHash)) {
+    throw "Runtime resource pack checksum was empty at $runtimeResourcePackChecksumPath"
+}
+$resourcePackUriBuilder = [System.UriBuilder]::new($PublicResourcePackUrl)
+$resourcePackUriBuilder.Query = "v=$runtimeResourcePackHash"
+$ResourcePackUrl = $resourcePackUriBuilder.Uri.AbsoluteUri
+Write-LogLine "[$((Get-Date).ToString("o"))] Using versioned public resource-pack URL: $ResourcePackUrl"
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Deploying resource-game control bridge."
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, "mkdir -p '$RemoteControlDir/logs'") -FailureMessage "Failed to prepare remote control directory."
@@ -161,8 +193,8 @@ Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $PluginJar
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to backend."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteSwitchBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to switch backend."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ServerPluginJarPath, "$SshAlias`:$remoteKingdomBackendPluginPath.new") -FailureMessage "Failed to copy Bukkit server plugin jar to kingdom backend."
-Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $BundledResourcePackPath, "$SshAlias`:$remoteBundledPackPath") -FailureMessage "Failed to copy bundled resource pack."
-Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $BundledResourcePackChecksumPath, "$SshAlias`:$remoteBundledPackChecksumPath") -FailureMessage "Failed to copy bundled resource pack checksum."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $runtimeResourcePackPath, "$SshAlias`:$remoteBundledPackPath") -FailureMessage "Failed to copy runtime resource pack."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $runtimeResourcePackChecksumPath, "$SshAlias`:$remoteBundledPackChecksumPath") -FailureMessage "Failed to copy runtime resource pack checksum."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $KingdomServerJarLocalPath, "$SshAlias`:$remoteKingdomServerJarPath.new") -FailureMessage "Failed to copy Paper kingdom backend jar."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ScenarioScriptPath, "$SshAlias`:$remoteScriptPath") -FailureMessage "Failed to copy Minecraft Velocity scenario script."
 
@@ -252,7 +284,7 @@ Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias,
 Write-LogLine "[$((Get-Date).ToString("o"))] Verifying public resource-pack URL."
 $publicResourcePackProbe = @"
 set -euo pipefail
-curl --fail --silent --show-error --location '$PublicResourcePackUrl' --output /tmp/$baseName-public-resource-pack.zip
+curl --fail --silent --show-error --location '$ResourcePackUrl' --output /tmp/$baseName-public-resource-pack.zip
 sha256sum /tmp/$baseName-public-resource-pack.zip
 "@
 Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, $publicResourcePackProbe) -FailureMessage "Failed to verify public resource-pack URL."

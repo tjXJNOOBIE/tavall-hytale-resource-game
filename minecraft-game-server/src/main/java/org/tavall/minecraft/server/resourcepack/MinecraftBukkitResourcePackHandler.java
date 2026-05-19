@@ -18,9 +18,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -248,17 +251,8 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
         try {
             Files.createDirectories(resourcePackRoot());
             Path packArchive = resourcePackArchive();
-            Path bundledArchive = bundledPackArchive();
-            if (Files.isRegularFile(bundledArchive)) {
-                hostedPackArchiveBytes = Files.readAllBytes(bundledArchive);
-                validateBundledPackChecksum(hostedPackArchiveBytes);
-                Files.write(packArchive, hostedPackArchiveBytes);
-            } else if (Files.exists(packArchive)) {
-                hostedPackArchiveBytes = Files.readAllBytes(packArchive);
-            } else {
-                hostedPackArchiveBytes = createPackArchiveBytes();
-                Files.write(packArchive, hostedPackArchiveBytes);
-            }
+            hostedPackArchiveBytes = createPackArchiveBytes();
+            Files.write(packArchive, hostedPackArchiveBytes);
             hostedPackArchiveHash = sha1(hostedPackArchiveBytes);
             return hostedPackArchiveBytes.clone();
         } catch (IOException exception) {
@@ -269,33 +263,73 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
     private byte[] createPackArchiveBytes() throws IOException {
         java.io.ByteArrayOutputStream outputStream = new java.io.ByteArrayOutputStream();
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream, StandardCharsets.UTF_8)) {
-            ZipEntry metadataEntry = new ZipEntry("pack.mcmeta");
-            zipOutputStream.putNextEntry(metadataEntry);
-            zipOutputStream.write(packMetadataJson().getBytes(StandardCharsets.UTF_8));
-            zipOutputStream.closeEntry();
-            zipResourcePackFiles(zipOutputStream);
+            List<Path> localFiles = localPackFiles();
+            Set<String> localEntryNames = new HashSet<String>();
+            for (Path file : localFiles) {
+                localEntryNames.add(resourcePackRoot().relativize(file).toString().replace('\\', '/'));
+            }
+
+            boolean wrotePackMetadata = false;
+            Path bundledArchive = bundledPackArchive();
+            if (Files.isRegularFile(bundledArchive)) {
+                byte[] bundledBytes = Files.readAllBytes(bundledArchive);
+                validateBundledPackChecksum(bundledBytes);
+                wrotePackMetadata = zipBundledArchiveEntries(zipOutputStream, bundledBytes, localEntryNames);
+            }
+
+            if (!wrotePackMetadata) {
+                ZipEntry metadataEntry = new ZipEntry("pack.mcmeta");
+                zipOutputStream.putNextEntry(metadataEntry);
+                zipOutputStream.write(packMetadataJson().getBytes(StandardCharsets.UTF_8));
+                zipOutputStream.closeEntry();
+            }
+            zipResourcePackFiles(zipOutputStream, localFiles);
         }
         return outputStream.toByteArray();
     }
 
-    private void zipResourcePackFiles(ZipOutputStream zipOutputStream) throws IOException {
+    private void zipResourcePackFiles(ZipOutputStream zipOutputStream, List<Path> files) throws IOException {
+        for (Path file : files) {
+            ZipEntry entry = new ZipEntry(resourcePackRoot().relativize(file).toString().replace('\\', '/'));
+            zipOutputStream.putNextEntry(entry);
+            Files.copy(file, zipOutputStream);
+            zipOutputStream.closeEntry();
+        }
+    }
+
+    private boolean zipBundledArchiveEntries(ZipOutputStream zipOutputStream, byte[] bundledBytes, Set<String> localOverrides) throws IOException {
+        boolean wrotePackMetadata = false;
+        try (ZipInputStream zipInputStream = new ZipInputStream(new java.io.ByteArrayInputStream(bundledBytes), StandardCharsets.UTF_8)) {
+            ZipEntry entry;
+            while ((entry = zipInputStream.getNextEntry()) != null) {
+                if (entry.isDirectory() || localOverrides.contains(entry.getName())) {
+                    continue;
+                }
+                ZipEntry outgoingEntry = new ZipEntry(entry.getName());
+                zipOutputStream.putNextEntry(outgoingEntry);
+                zipInputStream.transferTo(zipOutputStream);
+                zipOutputStream.closeEntry();
+                if ("pack.mcmeta".equals(entry.getName())) {
+                    wrotePackMetadata = true;
+                }
+            }
+        }
+        return wrotePackMetadata;
+    }
+
+    private List<Path> localPackFiles() throws IOException {
         if (!Files.exists(resourcePackRoot())) {
-            return;
+            return List.of();
         }
         try (Stream<Path> stream = Files.walk(resourcePackRoot())) {
-            List<Path> files = stream
+            return stream
                     .filter(Files::isRegularFile)
                     .filter(path -> !Objects.equals(path.getFileName().toString(), DEFAULT_PACK_FILE_NAME))
                     .filter(path -> !Objects.equals(path.getFileName().toString(), "README.md"))
                     .filter(path -> !Objects.equals(path.getFileName().toString(), ".gitkeep"))
+                    .filter(path -> !path.startsWith(resourcePackRoot().resolve(DEFAULT_BUNDLED_PACK_DIRECTORY)))
                     .sorted((left, right) -> resourcePackRoot().relativize(left).toString().compareTo(resourcePackRoot().relativize(right).toString()))
                     .toList();
-            for (Path file : files) {
-                ZipEntry entry = new ZipEntry(resourcePackRoot().relativize(file).toString().replace('\\', '/'));
-                zipOutputStream.putNextEntry(entry);
-                Files.copy(file, zipOutputStream);
-                zipOutputStream.closeEntry();
-            }
         }
     }
 
