@@ -22,6 +22,7 @@ param(
     [string]$BundledResourcePackChecksumPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack/distribution/crownbound_minecraft_resource_pack.sha256.txt",
     [string]$ResourcePackRootPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack",
     [string]$ResourcePackExtractorScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/extract-crownbound-minecraft-ui-item-models.py",
+    [string]$GuiThemeBuilderScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/build-crownbound-minecraft-gui-theme.py",
     [string]$RuntimeResourcePackBuilderScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/build-crownbound-minecraft-runtime-pack.py",
     [string]$PublicResourcePackUrl = "https://docs.tavall.org/resource-game/minecraft/resource-pack.zip",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/minecraft-velocity-control-plane-flow.mjs",
@@ -97,6 +98,9 @@ if (-not (Test-Path $BundledResourcePackChecksumPath)) {
 if (-not (Test-Path $ResourcePackExtractorScriptPath)) {
     throw "Resource pack extractor script not found at $ResourcePackExtractorScriptPath"
 }
+if (-not (Test-Path $GuiThemeBuilderScriptPath)) {
+    throw "GUI theme builder script not found at $GuiThemeBuilderScriptPath"
+}
 if (-not (Test-Path $RuntimeResourcePackBuilderScriptPath)) {
     throw "Runtime resource pack builder script not found at $RuntimeResourcePackBuilderScriptPath"
 }
@@ -125,6 +129,12 @@ Invoke-Checked -FilePath "cmd.exe" -Arguments @(
     "/c",
     "python `"$ResourcePackExtractorScriptPath`""
 ) -FailureMessage "Failed to generate runtime Minecraft UI item textures."
+
+Write-LogLine "[$((Get-Date).ToString("o"))] Building Crownbound Minecraft GUI theme assets."
+Invoke-Checked -FilePath "cmd.exe" -Arguments @(
+    "/c",
+    "python `"$GuiThemeBuilderScriptPath`""
+) -FailureMessage "Failed to build the Crownbound Minecraft GUI theme."
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Building runtime resource pack archive."
 Invoke-Checked -FilePath "cmd.exe" -Arguments @(
