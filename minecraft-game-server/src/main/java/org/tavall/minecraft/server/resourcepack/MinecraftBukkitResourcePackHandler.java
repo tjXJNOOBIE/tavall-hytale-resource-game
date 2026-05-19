@@ -144,6 +144,10 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
 
     @Override
     public byte[] resourcePackHash() {
+        URI resourcePackUrl = configuredResourcePackUrl();
+        if (resourcePackUrl != null && "https".equalsIgnoreCase(resourcePackUrl.getScheme())) {
+            return bundledPackHash();
+        }
         ensurePackArchive();
         return hostedPackArchiveHash == null ? new byte[0] : hostedPackArchiveHash.clone();
     }
@@ -205,11 +209,11 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
         if (resourcePackUrl == null) {
             return;
         }
-        ensurePackArchive();
-        getMinecraftBukkitLogger().info("Sending forced resource pack to " + player.getName() + " url=" + resourcePackUrl);
+        byte[] hash = resourcePackHash();
+        getMinecraftBukkitLogger().info("Sending forced resource pack to " + player.getName() + " url=" + resourcePackUrl + " hash=" + bytesToHex(hash));
         player.setResourcePack(
                 resourcePackUrl.toString(),
-                resourcePackHash(),
+                hash,
                 Component.text(resourcePackPrompt()),
                 resourcePackForce()
         );
@@ -412,6 +416,20 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
         }
     }
 
+    private byte[] bundledPackHash() {
+        Path bundledArchive = bundledPackArchive();
+        if (!Files.isRegularFile(bundledArchive)) {
+            return new byte[0];
+        }
+        try {
+            byte[] bundledBytes = Files.readAllBytes(bundledArchive);
+            validateBundledPackChecksum(bundledBytes);
+            return sha1(bundledBytes);
+        } catch (IOException exception) {
+            throw new IllegalStateException("Unable to read bundled resource pack archive at " + bundledArchive, exception);
+        }
+    }
+
     private Path bundledPackArchive() {
         return resourcePackRoot().resolve(DEFAULT_BUNDLED_PACK_DIRECTORY).resolve(DEFAULT_BUNDLED_PACK_FILE_NAME);
     }
@@ -427,6 +445,14 @@ public final class MinecraftBukkitResourcePackHandler implements IMinecraftBukki
         return value
                 .replace("\\", "\\\\")
                 .replace("\"", "\\\"");
+    }
+
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder builder = new StringBuilder(bytes.length * 2);
+        for (byte value : bytes) {
+            builder.append(String.format("%02x", value));
+        }
+        return builder.toString();
     }
 
     private List<String> previewAssetFiles(Path root) {

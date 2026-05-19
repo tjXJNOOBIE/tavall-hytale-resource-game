@@ -1,6 +1,8 @@
 package org.tavall.minecraft.server;
 
 import org.tavall.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
+import com.tjxjnoobie.api.dependency.DependencyLoader;
+import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,12 +24,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class MinecraftBukkitResourcePackHandlerTest {
     @Test
     void ensureLayoutCreatesCastleAndBuildingFolders() throws IOException {
+        DependencyLoader.getDependencyLoader().clear();
+        DependencyLoaderAccess.clear();
         Path root = Files.createTempDirectory("tavall-resource-pack");
         Path configuredRoot = root.resolve("resource-pack");
         Files.createDirectories(configuredRoot.resolve("castles"));
         Files.createDirectories(configuredRoot.resolve("buildings"));
         Files.writeString(configuredRoot.resolve("castles/castle_main.png"), "castle-main");
         Files.writeString(configuredRoot.resolve("buildings/farmstead.json"), "{\"asset\":\"farmstead\"}");
+        DependencyLoaderAccess.registerInstance(
+                IMinecraftBukkitServerConfig.class,
+                new MinecraftBukkitServerConfig("kingdom", "proxy", 200L, configuredRoot.toString())
+        );
         MinecraftBukkitResourcePackHandler handler = MinecraftBukkitResourcePackHandler.forRoot(
                 configuredRoot,
                 URI.create("http://127.0.0.1:18182/resource-pack.zip")
@@ -61,6 +69,8 @@ final class MinecraftBukkitResourcePackHandlerTest {
 
     @Test
     void ensureLayoutUsesBundledPackWhenPresent() throws IOException {
+        DependencyLoader.getDependencyLoader().clear();
+        DependencyLoaderAccess.clear();
         Path root = Files.createTempDirectory("tavall-resource-pack-bundled");
         Path configuredRoot = root.resolve("resource-pack");
         Path distributionRoot = configuredRoot.resolve("distribution");
@@ -72,10 +82,14 @@ final class MinecraftBukkitResourcePackHandlerTest {
         String checksum = sha256Hex(Files.readAllBytes(bundledArchive));
         Files.writeString(distributionRoot.resolve("crownbound_minecraft_resource_pack.sha256.txt"), checksum + "  crownbound_minecraft_resource_pack.zip");
         Files.writeString(localAssetRoot.resolve("button_primary.json"), "{\"model\":{\"type\":\"minecraft:model\",\"model\":\"crownbound:item/ui/button_primary\"}}");
+        DependencyLoaderAccess.registerInstance(
+                IMinecraftBukkitServerConfig.class,
+                new MinecraftBukkitServerConfig("kingdom", "proxy", 200L, configuredRoot.toString())
+        );
 
         MinecraftBukkitResourcePackHandler handler = MinecraftBukkitResourcePackHandler.forRoot(
                 configuredRoot,
-                URI.create("http://127.0.0.1:18182/resource-pack.zip")
+                URI.create("https://docs.tavall.org/resource-game/minecraft/resource-pack.zip")
         );
 
         handler.ensureLayout();
@@ -92,6 +106,7 @@ final class MinecraftBukkitResourcePackHandlerTest {
         assertTrue(entries.contains("assets/crownbound/ui/buttons/button_primary.json"));
         assertTrue(entries.contains("assets/crownbound/textures/gui/buttons/button_primary.png"));
         assertTrue(entries.contains("assets/crownbound/items/ui/button_primary.json"));
+        assertEquals(sha1Hex(Files.readAllBytes(bundledArchive)), toHex(handler.resourcePackHash()));
     }
 
     private static void createBundledArchive(Path archivePath) throws IOException {
@@ -121,5 +136,27 @@ final class MinecraftBukkitResourcePackHandlerTest {
         } catch (NoSuchAlgorithmException exception) {
             throw new IllegalStateException(exception);
         }
+    }
+
+    private static String sha1Hex(byte[] bytes) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            byte[] digest = messageDigest.digest(bytes);
+            StringBuilder builder = new StringBuilder(digest.length * 2);
+            for (byte digestByte : digest) {
+                builder.append(String.format("%02x", digestByte));
+            }
+            return builder.toString();
+        } catch (NoSuchAlgorithmException exception) {
+            throw new IllegalStateException(exception);
+        }
+    }
+
+    private static String toHex(byte[] bytes) {
+        StringBuilder builder = new StringBuilder(bytes.length * 2);
+        for (byte value : bytes) {
+            builder.append(String.format("%02x", value));
+        }
+        return builder.toString();
     }
 }
