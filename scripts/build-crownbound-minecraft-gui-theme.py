@@ -5,7 +5,7 @@ import os
 import zipfile
 from pathlib import Path
 
-from PIL import Image, ImageColor, ImageDraw
+from PIL import Image, ImageColor, ImageDraw, ImageFont
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -16,7 +16,6 @@ OUT_SPRITE_ROOT = RESOURCE_PACK_ROOT / "assets" / "minecraft" / "textures" / "gu
 OUT_FONT_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "font"
 OUT_FONT_TEXTURE_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "font"
 PREVIEW_PATH = REPO_ROOT / "temp" / "crownbound-kd-gui-preview.png"
-DEFAULT_GUI_TEMPLATE_PATH = Path(__file__).resolve().parent / "dev" / "default_gui_256.png"
 CHEST_VISIBLE_SIZE = (176, 222)
 
 SLOT_SIZE = 18
@@ -76,19 +75,17 @@ def stretch_icon(path: Path, size: tuple[int, int], alpha: int) -> Image.Image:
     return icon
 
 
-def load_custom_default_gui_template() -> Image.Image | None:
-    if not DEFAULT_GUI_TEMPLATE_PATH.is_file():
-        return None
-    return Image.open(DEFAULT_GUI_TEMPLATE_PATH).convert("RGBA")
-
-
-def remap_gui_template_to_chest_region(template: Image.Image) -> Image.Image:
-    # Minecraft only renders the 54-slot chest background from the top-left
-    # 176x222 region of generic_54.png, so keep the custom art inside that box.
-    mapped = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
-    visible = template.resize(CHEST_VISIBLE_SIZE, Image.Resampling.NEAREST)
-    mapped.alpha_composite(visible, (0, 0))
-    return mapped
+def draw_centered_title(base: Image.Image, text: str) -> None:
+    draw = ImageDraw.Draw(base, "RGBA")
+    font = ImageFont.load_default()
+    text_box = draw.textbbox((0, 0), text, font=font)
+    text_width = text_box[2] - text_box[0]
+    title_x = max(24, (176 - text_width) // 2)
+    title_y = 8
+    shadow = (30, 24, 14, 220)
+    gold = (240, 182, 46, 255)
+    draw.text((title_x + 1, title_y + 1), text, font=font, fill=shadow)
+    draw.text((title_x, title_y), text, font=font, fill=gold)
 
 
 def glow(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], outline: str, width: int) -> None:
@@ -103,9 +100,6 @@ def glow(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], outline: str
 
 
 def style_generic_54() -> Image.Image:
-    custom_template = load_custom_default_gui_template()
-    if custom_template is not None:
-        return remap_gui_template_to_chest_region(custom_template)
     base = recolor_grayscale(
         load_vanilla_texture("assets/minecraft/textures/gui/container/generic_54.png"),
         "#081019",
@@ -123,12 +117,10 @@ def style_generic_54() -> Image.Image:
     draw.line((7, 126, 168, 126), fill=(208, 175, 106, 190), width=1)
     draw.line((7, 129, 168, 129), fill=(47, 65, 85, 255), width=1)
 
-    tab = stretch_icon(GENERATED_TAB, (22, 22), 170)
     primary = stretch_icon(GENERATED_PRIMARY, (16, 16), 120)
-    crest = stretch_icon(GENERATED_ICON, (36, 36), 195)
-    base.alpha_composite(tab, (12, 2))
-    base.alpha_composite(tab, (141, 2))
-    base.alpha_composite(crest, (70, 1))
+    crest = stretch_icon(GENERATED_ICON, (28, 28), 205)
+    base.alpha_composite(crest, (74, 1))
+    draw_centered_title(base, "COMMAND CENTER")
 
     for index in range(9):
         base.alpha_composite(primary, (SLOT_ORIGIN_X + (index * SLOT_SIZE), 33))

@@ -1,6 +1,5 @@
 package org.tavall.minecraft.server.ui.inventory;
 
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -21,10 +20,7 @@ public final class CrownboundGuiItemFactory {
     public static final String FAMILY_ICON = "icon";
 
     public Component commandCenterTitle() {
-        return Component.text()
-                .append(Component.text("\uE001").font(Key.key("crownbound", "gui")))
-                .append(Component.text(" Command Center", NamedTextColor.GOLD))
-                .build();
+        return Component.text(" ");
     }
 
     public ItemStack header(String title, String feedback) {
