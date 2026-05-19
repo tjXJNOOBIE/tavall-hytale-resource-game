@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import zipfile
 from pathlib import Path
@@ -12,6 +13,8 @@ VANILLA_JAR = Path(os.path.expandvars(r"%APPDATA%\.minecraft\versions\1.21.4\1.2
 RESOURCE_PACK_ROOT = REPO_ROOT / "resource-pack"
 OUT_CONTAINER_ROOT = RESOURCE_PACK_ROOT / "assets" / "minecraft" / "textures" / "gui" / "container"
 OUT_SPRITE_ROOT = RESOURCE_PACK_ROOT / "assets" / "minecraft" / "textures" / "gui" / "sprites" / "container"
+OUT_FONT_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "font"
+OUT_FONT_TEXTURE_ROOT = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "font"
 PREVIEW_PATH = REPO_ROOT / "temp" / "crownbound-kd-gui-preview.png"
 
 GENERATED_ICON = RESOURCE_PACK_ROOT / "assets" / "crownbound" / "textures" / "item" / "ui" / "button_icon.png"
@@ -163,12 +166,45 @@ def style_slot_highlight_front() -> Image.Image:
     return image
 
 
+def style_title_glyph() -> Image.Image:
+    image = Image.new("RGBA", (32, 16), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image, "RGBA")
+    draw.rounded_rectangle((1, 2, 30, 14), radius=5, fill=(14, 22, 30, 235), outline=(208, 175, 106, 255), width=1)
+    draw.rounded_rectangle((3, 4, 28, 12), radius=4, outline=(66, 90, 112, 200), width=1)
+    crest = stretch_icon(GENERATED_ICON, (12, 12), 230)
+    tab = stretch_icon(GENERATED_TAB, (10, 10), 170)
+    image.alpha_composite(crest, (2, 2))
+    image.alpha_composite(tab, (20, 3))
+    draw.line((16, 4, 16, 12), fill=(208, 175, 106, 145), width=1)
+    return image
+
+
+def write_font_provider() -> None:
+    OUT_FONT_ROOT.mkdir(parents=True, exist_ok=True)
+    provider = {
+        "providers": [
+            {
+                "type": "bitmap",
+                "file": "crownbound:font/kd_command_center",
+                "ascent": 12,
+                "height": 16,
+                "chars": [
+                    "\uE001"
+                ]
+            }
+        ]
+    }
+    (OUT_FONT_ROOT / "gui.json").write_text(json.dumps(provider, indent=2) + "\n", encoding="utf-8")
+
+
 def build_preview(generic_54: Image.Image, inventory: Image.Image, slot: Image.Image) -> None:
     preview = Image.new("RGBA", (600, 340), (10, 13, 18, 255))
     preview.alpha_composite(generic_54.resize((352, 444), Image.Resampling.NEAREST), (12, -52))
     preview.alpha_composite(inventory.resize((352, 332), Image.Resampling.NEAREST), (236, 4))
     slot_preview = slot.resize((144, 144), Image.Resampling.NEAREST)
     preview.alpha_composite(slot_preview, (228, 180))
+    title_glyph = style_title_glyph().resize((192, 96), Image.Resampling.NEAREST)
+    preview.alpha_composite(title_glyph, (352, 16))
     PREVIEW_PATH.parent.mkdir(parents=True, exist_ok=True)
     preview.save(PREVIEW_PATH)
 
@@ -176,18 +212,22 @@ def build_preview(generic_54: Image.Image, inventory: Image.Image, slot: Image.I
 def main() -> None:
     OUT_CONTAINER_ROOT.mkdir(parents=True, exist_ok=True)
     OUT_SPRITE_ROOT.mkdir(parents=True, exist_ok=True)
+    OUT_FONT_TEXTURE_ROOT.mkdir(parents=True, exist_ok=True)
 
     generic_54 = style_generic_54()
     inventory = style_inventory()
     slot = style_slot()
     slot_highlight_back = style_slot_highlight_back()
     slot_highlight_front = style_slot_highlight_front()
+    title_glyph = style_title_glyph()
 
     generic_54.save(OUT_CONTAINER_ROOT / "generic_54.png")
     inventory.save(OUT_CONTAINER_ROOT / "inventory.png")
     slot.save(OUT_SPRITE_ROOT / "slot.png")
     slot_highlight_back.save(OUT_SPRITE_ROOT / "slot_highlight_back.png")
     slot_highlight_front.save(OUT_SPRITE_ROOT / "slot_highlight_front.png")
+    title_glyph.save(OUT_FONT_TEXTURE_ROOT / "kd_command_center.png")
+    write_font_provider()
 
     build_preview(generic_54, inventory, slot)
 
@@ -196,6 +236,8 @@ def main() -> None:
     print(f"wrote {(OUT_SPRITE_ROOT / 'slot.png')}")
     print(f"wrote {(OUT_SPRITE_ROOT / 'slot_highlight_back.png')}")
     print(f"wrote {(OUT_SPRITE_ROOT / 'slot_highlight_front.png')}")
+    print(f"wrote {(OUT_FONT_TEXTURE_ROOT / 'kd_command_center.png')}")
+    print(f"wrote {(OUT_FONT_ROOT / 'gui.json')}")
     print(f"wrote {PREVIEW_PATH}")
 
 

@@ -43,6 +43,8 @@ async function downloadResourcePack(url, outputDir) {
     'assets/crownbound/items/ui/button_icon.json',
     'assets/crownbound/models/item/ui/button_tab.json',
     'assets/crownbound/textures/item/ui/button_tab.png',
+    'assets/crownbound/font/gui.json',
+    'assets/crownbound/textures/font/kd_command_center.png',
     'assets/minecraft/textures/gui/container/generic_54.png',
     'assets/minecraft/textures/gui/container/inventory.png',
     'assets/minecraft/textures/gui/sprites/container/slot.png'

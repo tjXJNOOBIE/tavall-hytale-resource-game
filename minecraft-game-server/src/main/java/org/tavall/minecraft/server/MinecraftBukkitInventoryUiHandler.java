@@ -4,6 +4,13 @@ import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.minecraft.framework.game.ui.UiActions;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.minecraft.server.commands.support.KingdomCommandSupport;
+import org.tavall.minecraft.server.ui.inventory.CommandCenterGuiActionHandler;
+import org.tavall.minecraft.server.ui.inventory.CrownboundGuiItemFactory;
+import org.tavall.minecraft.server.ui.inventory.GuiButton;
+import org.tavall.minecraft.server.ui.inventory.GuiClickContext;
+import org.tavall.minecraft.server.ui.inventory.GuiManager;
+import org.tavall.minecraft.server.ui.inventory.GuiScreen;
+import org.tavall.minecraft.server.ui.inventory.KingdomCommandCenterGuiScreen;
 import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -29,9 +37,18 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
     private static final NamespacedKey PAYLOAD_KEY = new NamespacedKey("tavall", "kingdom_payload");
     private static final NamespacedKey BUTTON_FAMILY_KEY = new NamespacedKey("tavall", "kingdom_button_family");
     private static final NamespacedKey KINGDOM_ASSET_KEY = new NamespacedKey("tavall", "kingdom_asset");
+    private final GuiManager guiManager = new GuiManager();
+    private final CrownboundGuiItemFactory guiItemFactory = new CrownboundGuiItemFactory();
+    private final CommandCenterGuiActionHandler commandCenterActions = new CommandCenterGuiActionHandler();
 
     @Override
     public void open(Player player, UiScreenKey pageType, String feedback) {
+        if (pageType == UiScreenKey.DEBUG_NAVIGATOR) {
+            Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(MinecraftBukkitServerPlugin.class), () ->
+                    guiManager.openGui(player, new KingdomCommandCenterGuiScreen(guiItemFactory, commandCenterActions, feedback))
+            );
+            return;
+        }
         KingdomInventoryPageCatalog.KingdomInventoryPageDefinition definition = KingdomInventoryPageCatalog.definition(pageType, feedback);
         KingdomInventoryUiHolder holder = new KingdomInventoryUiHolder(pageType, feedback);
         Inventory inventory = Bukkit.createInventory(holder, definition.size(), ChatColor.GOLD + definition.title());
@@ -45,6 +62,22 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
+        if (event.getWhoClicked() instanceof Player player) {
+            GuiScreen screen = guiManager.getOpenScreen(player);
+            if (screen != null) {
+                event.setCancelled(true);
+                int slot = event.getRawSlot();
+                if (slot < 0 || slot >= screen.size()) {
+                    return;
+                }
+                GuiButton button = screen.getButton(slot);
+                if (button == null) {
+                    return;
+                }
+                button.click(new GuiClickContext(player, event, screen, slot));
+                return;
+            }
+        }
         if (!(event.getInventory().getHolder() instanceof KingdomInventoryUiHolder holder)) {
             return;
         }
@@ -63,6 +96,13 @@ public final class MinecraftBukkitInventoryUiHandler implements IMinecraftBukkit
             return;
         }
         handle(player, holder.pageType(), action, payload == null ? "" : payload);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onInventoryClose(InventoryCloseEvent event) {
+        if (event.getPlayer() instanceof Player player) {
+            guiManager.closeGui(player);
+        }
     }
 
     private void handle(Player player, UiScreenKey currentPage, String action, String payload) {
