@@ -80,8 +80,8 @@ def draw_centered_title(base: Image.Image, text: str) -> None:
     font = ImageFont.load_default()
     text_box = draw.textbbox((0, 0), text, font=font)
     text_width = text_box[2] - text_box[0]
-    title_x = max(24, (176 - text_width) // 2)
-    title_y = 8
+    title_x = max(12, (176 - text_width) // 2)
+    title_y = 5
     shadow = (30, 24, 14, 220)
     gold = (240, 182, 46, 255)
     draw.text((title_x + 1, title_y + 1), text, font=font, fill=shadow)
@@ -111,29 +111,13 @@ def style_generic_54() -> Image.Image:
     draw.rounded_rectangle(panel, radius=8, fill=(12, 18, 27, 240), outline=(191, 156, 87, 255), width=2)
     draw.rounded_rectangle((4, 4, 171, 217), radius=7, outline=(51, 72, 92, 220), width=1)
 
-    draw.rounded_rectangle((7, 6, 168, 24), radius=6, fill=(19, 31, 44, 235), outline=(208, 175, 106, 255), width=1)
-    draw.rectangle((7, 28, 168, 126), fill=(17, 22, 30, 225))
+    draw.rounded_rectangle((7, 4, 168, 16), radius=5, fill=(19, 31, 44, 235), outline=(208, 175, 106, 255), width=1)
+    draw.rectangle((7, 18, 168, 126), fill=(17, 22, 30, 225))
     draw.rectangle((7, 130, 168, 220), fill=(13, 17, 24, 230))
     draw.line((7, 126, 168, 126), fill=(208, 175, 106, 190), width=1)
     draw.line((7, 129, 168, 129), fill=(47, 65, 85, 255), width=1)
 
-    primary = stretch_icon(GENERATED_PRIMARY, (16, 16), 120)
-    crest = stretch_icon(GENERATED_ICON, (28, 28), 205)
-    base.alpha_composite(crest, (74, 1))
     draw_centered_title(base, "COMMAND CENTER")
-
-    for index in range(9):
-        base.alpha_composite(primary, (SLOT_ORIGIN_X + (index * SLOT_SIZE), 33))
-
-    for x in range(SLOT_ORIGIN_X, SLOT_ORIGIN_X + (9 * SLOT_SIZE), SLOT_SIZE):
-        for row in range(6):
-            y = CHEST_SLOT_ORIGIN_Y + (row * SLOT_SIZE)
-            draw.rectangle((x, y, x + SLOT_VISUAL_SIZE, y + SLOT_VISUAL_SIZE), outline=(110, 138, 159, 92), width=1)
-
-    for x in range(SLOT_ORIGIN_X, SLOT_ORIGIN_X + (9 * SLOT_SIZE), SLOT_SIZE):
-        for row in range(PLAYER_INVENTORY_ROWS):
-            y = PLAYER_INVENTORY_ORIGIN_Y + (row * SLOT_SIZE)
-            draw.rectangle((x, y, x + SLOT_VISUAL_SIZE, y + SLOT_VISUAL_SIZE), outline=(88, 110, 126, 72), width=1)
 
     return base
 
