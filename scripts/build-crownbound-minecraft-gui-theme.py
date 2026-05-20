@@ -117,8 +117,6 @@ def style_generic_54() -> Image.Image:
     draw.line((7, 126, 168, 126), fill=(208, 175, 106, 190), width=1)
     draw.line((7, 129, 168, 129), fill=(47, 65, 85, 255), width=1)
 
-    draw_centered_title(base, "COMMAND CENTER")
-
     return base
 
 

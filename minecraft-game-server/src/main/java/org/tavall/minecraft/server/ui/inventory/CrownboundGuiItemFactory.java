@@ -20,7 +20,7 @@ public final class CrownboundGuiItemFactory {
     public static final String FAMILY_ICON = "icon";
 
     public Component commandCenterTitle() {
-        return Component.text(" ");
+        return Component.text("Command Center");
     }
 
     public ItemStack header(String title, String feedback) {
