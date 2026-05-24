@@ -1,8 +1,8 @@
 package org.tavall.api.minecraft.guild;
 
-import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.dependency.annotations.DelegatesToInterface;
+import org.tavall.dependency.composition.IDependencyBundleAccess;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @DelegatesToInterface(getLinkedInterface = IGuildCreationBuilder.class)
 public final class GuildCreationBuilder
-        implements IGuildCreationBuilder, IDependencyInjectableConcrete {
+        implements IGuildCreationBuilder, IDependencyBundleAccess<GuildDependencies>, IDependencyInjectableConcrete {
     private final UUID creatorPlayerId;
     private final String guildName;
     private final String tag;
@@ -116,7 +116,7 @@ public final class GuildCreationBuilder
         Instant now = Instant.now();
         GuildId guildId = GuildId.of("guild-" + UUID.randomUUID());
 
-        GuildSettings settings = dependency(IGuildSettingsBuilder.class)
+        GuildSettings settings = dependencies().guildSettingsBuilder()
                 .publicGuild(publicGuild)
                 .inviteOnly(inviteOnly)
                 .metadata(Map.of(
@@ -125,7 +125,7 @@ public final class GuildCreationBuilder
                 ))
                 .build();
 
-        PlayerGuildData owner = dependency(IPlayerGuildDataBuilder.class)
+        PlayerGuildData owner = dependencies().playerGuildDataBuilder()
                 .guildId(guildId)
                 .universalPlayerId(creatorPlayerId)
                 .rank(GuildRank.TIER_V)
@@ -141,7 +141,7 @@ public final class GuildCreationBuilder
         guildMetadata.putIfAbsent("createdBy", creatorPlayerId.toString());
         guildMetadata.put("createdAt", Long.toString(now.toEpochMilli()));
 
-        GuildBankData bank = dependency(IGuildBankDataBuilder.class)
+        GuildBankData bank = dependencies().guildBankDataBuilder()
                 .guildId(guildId)
                 .coinBalance(startingCoins)
                 .updatedAt(now)
@@ -151,7 +151,7 @@ public final class GuildCreationBuilder
                 ))
                 .build();
 
-        return dependency(IGuildMetaDataBuilder.class)
+        return dependencies().guildMetaDataBuilder()
                 .guildId(guildId)
                 .name(guildName)
                 .tag(tag)
@@ -165,17 +165,9 @@ public final class GuildCreationBuilder
                 .bank(bank)
                 .buildings(java.util.Set.of())
                 .members(Map.of(creatorPlayerId, owner))
-                .rankPermissions(dependency(IGuildRankPermissionPolicy.class).snapshot())
+                .rankPermissions(dependencies().guildRankPermissionPolicy().snapshot())
                 .explicitPermissionExpansionAllowed(true)
                 .metadata(guildMetadata)
                 .build();
-    }
-
-    private static <T> T dependency(Class<T> type) {
-        T dependency = DependencyLoaderAccess.findInstance(type);
-        if (dependency == null) {
-            throw new IllegalStateException("[GuildCreationBuilder] Missing dependency: " + type.getName());
-        }
-        return dependency;
     }
 }
