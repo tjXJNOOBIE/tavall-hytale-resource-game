@@ -1,5 +1,12 @@
 package org.tavall.api.minecraft.guild;
 
+import org.tavall.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.injection.helpers.DependencyInjectorHelper;
+import org.tavall.dependency.maps.DependencyMap;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -11,10 +18,27 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public final class GuildModelTest {
+    private static final String GUILD_PACKAGE = "org.tavall.api.minecraft.guild";
+
+    @BeforeEach
+    void setUpDi() {
+        DependencyMap.getDependencyMap().clear();
+        DependencyInjectorHelper<IDependencyInjectableInterface, IDependencyInjectableConcrete> helper =
+                new DependencyInjectorHelper<>();
+        helper.setBasePackage(GUILD_PACKAGE);
+        helper.setupDISystem(getClass().getClassLoader());
+    }
+
+    @AfterEach
+    void clearDi() {
+        DependencyMap.getDependencyMap().clear();
+    }
+
     @Test
     void ranksAndPermissionsMatchTheTierTable() {
         assertTrue(GuildRank.TIER_V.atLeast(GuildRank.TIER_III));
@@ -127,7 +151,10 @@ public final class GuildModelTest {
     @Test
     void guildCreationBuilderBuildsAValidGuildSnapshot() {
         UUID creatorId = UUID.fromString("00000000-0000-0000-0000-000000000101");
-        GuildMetaData guild = new GuildCreationBuilder()
+        IGuildCreationBuilder creationBuilder = DependencyLoaderAccess.findInstance(IGuildCreationBuilder.class);
+        assertNotNull(creationBuilder);
+
+        GuildMetaData guild = creationBuilder
                 .creator(creatorId)
                 .guildName("Skylight")
                 .tag("SKY")

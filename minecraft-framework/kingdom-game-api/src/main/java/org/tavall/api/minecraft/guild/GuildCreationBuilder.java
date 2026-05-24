@@ -11,7 +11,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 @DelegatesToInterface(getLinkedInterface = IGuildCreationBuilder.class)
-public final class GuildCreationBuilder implements IGuildCreationBuilder, IDependencyInjectableConcrete {
+public final class GuildCreationBuilder
+        implements IGuildCreationBuilder, IDependencyInjectableConcrete {
     private final UUID creatorPlayerId;
     private final String guildName;
     private final String tag;
@@ -115,13 +116,7 @@ public final class GuildCreationBuilder implements IGuildCreationBuilder, IDepen
         Instant now = Instant.now();
         GuildId guildId = GuildId.of("guild-" + UUID.randomUUID());
 
-        IGuildSettingsBuilder settingsBuilder = resolve(IGuildSettingsBuilder.class, new GuildSettingsBuilder());
-        IPlayerGuildDataBuilder playerGuildDataBuilder = resolve(IPlayerGuildDataBuilder.class, new PlayerGuildDataBuilder());
-        IGuildBankDataBuilder guildBankDataBuilder = resolve(IGuildBankDataBuilder.class, new GuildBankDataBuilder());
-        IGuildMetaDataBuilder guildMetaDataBuilder = resolve(IGuildMetaDataBuilder.class, new GuildMetaDataBuilder());
-        IGuildRankPermissionPolicy rankPermissionPolicy = resolve(IGuildRankPermissionPolicy.class, new GuildRankPermissionPolicy());
-
-        GuildSettings settings = settingsBuilder
+        GuildSettings settings = dependency(IGuildSettingsBuilder.class)
                 .publicGuild(publicGuild)
                 .inviteOnly(inviteOnly)
                 .metadata(Map.of(
@@ -130,7 +125,7 @@ public final class GuildCreationBuilder implements IGuildCreationBuilder, IDepen
                 ))
                 .build();
 
-        PlayerGuildData owner = playerGuildDataBuilder
+        PlayerGuildData owner = dependency(IPlayerGuildDataBuilder.class)
                 .guildId(guildId)
                 .universalPlayerId(creatorPlayerId)
                 .rank(GuildRank.TIER_V)
@@ -146,7 +141,7 @@ public final class GuildCreationBuilder implements IGuildCreationBuilder, IDepen
         guildMetadata.putIfAbsent("createdBy", creatorPlayerId.toString());
         guildMetadata.put("createdAt", Long.toString(now.toEpochMilli()));
 
-        GuildBankData bank = guildBankDataBuilder
+        GuildBankData bank = dependency(IGuildBankDataBuilder.class)
                 .guildId(guildId)
                 .coinBalance(startingCoins)
                 .updatedAt(now)
@@ -156,7 +151,7 @@ public final class GuildCreationBuilder implements IGuildCreationBuilder, IDepen
                 ))
                 .build();
 
-        return guildMetaDataBuilder
+        return dependency(IGuildMetaDataBuilder.class)
                 .guildId(guildId)
                 .name(guildName)
                 .tag(tag)
@@ -170,17 +165,17 @@ public final class GuildCreationBuilder implements IGuildCreationBuilder, IDepen
                 .bank(bank)
                 .buildings(java.util.Set.of())
                 .members(Map.of(creatorPlayerId, owner))
-                .rankPermissions(rankPermissionPolicy.snapshot())
+                .rankPermissions(dependency(IGuildRankPermissionPolicy.class).snapshot())
                 .explicitPermissionExpansionAllowed(true)
                 .metadata(guildMetadata)
                 .build();
     }
 
-    private static <T> T resolve(Class<T> type, T fallback) {
-        try {
-            return DependencyLoaderAccess.requireInstance(type);
-        } catch (RuntimeException ignored) {
-            return fallback;
+    private static <T> T dependency(Class<T> type) {
+        T dependency = DependencyLoaderAccess.findInstance(type);
+        if (dependency == null) {
+            throw new IllegalStateException("[GuildCreationBuilder] Missing dependency: " + type.getName());
         }
+        return dependency;
     }
 }
