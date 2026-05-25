@@ -9,6 +9,7 @@ import org.tavall.control.citizen.CitizenControlSystem;
 import org.tavall.control.clock.KingdomClockControlSystem;
 import org.tavall.control.companion.CompanionHandler;
 import org.tavall.control.healing.HealingInventoryRepository;
+import org.tavall.api.minecraft.backend.rank.RankRepository;
 import org.tavall.control.healing.TroopHealingRepository;
 import org.tavall.control.identity.PlatformAccountBindingRepository;
 import org.tavall.control.identity.UniversalPlayerAccountRepository;
@@ -36,6 +37,7 @@ public record ControlCommandRuntime(
         UniversalPlayerAccountRepository accountRepository,
         PlatformAccountBindingRepository platformAccountBindingRepository,
         GlobalAssetRepository globalAssetRepository,
+        RankRepository rankRepository,
         UniversalKingdomSimulationSystem kingdomSimulationSystem,
         KingdomClockControlSystem kingdomClockSystem,
         CitizenControlSystem citizenControlSystem,

@@ -9,7 +9,7 @@ import org.tavall.control.authority.AuthorizationAuditRepository;
 import org.tavall.control.authority.ControlAuthorityDependencyModule;
 import org.tavall.control.authority.ControlAuthority;
 import org.tavall.control.authority.ControlAuthorityLevel;
-import org.tavall.control.authority.ControlAuthorityDomain;
+import org.tavall.control.authority.IControlAuthorityDependencyAccess;
 import org.tavall.control.authority.InMemoryAuthorityRepository;
 import org.tavall.control.authority.InMemoryAuthorizationAuditRepository;
 import org.tavall.control.authority.InMemoryPermissionPolicyRepository;
@@ -36,6 +36,11 @@ import org.tavall.control.identity.InMemoryIdentityRepository;
 import org.tavall.control.identity.PlatformAccountBindingRepository;
 import org.tavall.control.identity.UniversalPlayerAccountRepository;
 import org.tavall.control.kingdom.UniversalKingdomSimulationSystem;
+import org.tavall.api.minecraft.backend.rank.InMemoryRankRepository;
+import org.tavall.api.minecraft.backend.rank.PostgresRankRepository;
+import org.tavall.api.minecraft.backend.rank.RankDefinition;
+import org.tavall.api.minecraft.backend.rank.RankRepository;
+import org.tavall.api.minecraft.backend.rank.RankSchemaBootstrap;
 import org.tavall.control.troop.InMemoryTroopRepository;
 import org.tavall.control.troop.TroopRepository;
 import org.tavall.control.persistence.PostgresConnectionProvider;
@@ -45,7 +50,7 @@ import java.time.Clock;
 import java.util.EnumSet;
 import java.util.List;
 
-public final class ControlCommandRuntimeFactory implements ControlAuthorityDomain {
+public final class ControlCommandRuntimeFactory implements IControlAuthorityDependencyAccess {
     private static final ControlCommandRuntimeFactory INSTANCE = new ControlCommandRuntimeFactory();
 
     private ControlCommandRuntimeFactory() {
@@ -74,10 +79,13 @@ public final class ControlCommandRuntimeFactory implements ControlAuthorityDomai
         InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
         InMemoryPermissionPolicyRepository permissionPolicyRepository = new InMemoryPermissionPolicyRepository();
         InMemoryAuthorizationAuditRepository authorizationAuditRepository = new InMemoryAuthorizationAuditRepository();
+        RankRepository rankRepository = new InMemoryRankRepository();
+        DependencyLoaderAccess.registerInstance(RankRepository.class, rankRepository);
         ControlOperator localOwner = ControlOperator.localOwner(now);
         ControlOperator systemOperator = ControlOperator.system(now);
         operatorRepository.saveOperator(localOwner);
         operatorRepository.saveOperator(systemOperator);
+        seedDefaultRanks(rankRepository, now);
 
         RecordingDomainEventPublisher eventPublisher = new RecordingDomainEventPublisher();
         UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.inMemory(eventPublisher);
@@ -181,6 +189,7 @@ public final class ControlCommandRuntimeFactory implements ControlAuthorityDomai
                 identityRepository,
                 identityRepository,
                 assetRepository,
+                rankRepository,
                 kingdomSimulationSystem,
                 kingdomClockSystem,
                 citizenControlSystem,
@@ -220,10 +229,14 @@ public final class ControlCommandRuntimeFactory implements ControlAuthorityDomai
         InMemoryAuthorityRepository authorityRepository = new InMemoryAuthorityRepository();
         InMemoryPermissionPolicyRepository permissionPolicyRepository = new InMemoryPermissionPolicyRepository();
         InMemoryAuthorizationAuditRepository authorizationAuditRepository = new InMemoryAuthorizationAuditRepository();
+        new RankSchemaBootstrap().ensureSchema(connectionProvider::open);
+        RankRepository rankRepository = new PostgresRankRepository(connectionProvider::open);
+        DependencyLoaderAccess.registerInstance(RankRepository.class, rankRepository);
         ControlOperator localOwner = ControlOperator.localOwner(now);
         ControlOperator systemOperator = ControlOperator.system(now);
         operatorRepository.saveOperator(localOwner);
         operatorRepository.saveOperator(systemOperator);
+        seedDefaultRanks(rankRepository, now);
 
         RecordingDomainEventPublisher eventPublisher = new RecordingDomainEventPublisher();
         UniversalKingdomSimulationSystem kingdomSimulationSystem = UniversalKingdomSimulationSystem.postgres(connectionProvider, eventPublisher);
@@ -327,6 +340,7 @@ public final class ControlCommandRuntimeFactory implements ControlAuthorityDomai
                 identityRepository,
                 identityRepository,
                 assetRepository,
+                rankRepository,
                 kingdomSimulationSystem,
                 kingdomClockSystem,
                 citizenControlSystem,
@@ -364,6 +378,12 @@ public final class ControlCommandRuntimeFactory implements ControlAuthorityDomai
                 true,
                 false
         ));
+    }
+
+    private static void seedDefaultRanks(RankRepository rankRepository, Instant now) {
+        rankRepository.saveRankDefinition(new RankDefinition("Member", 100, java.util.Set.of(), now, now));
+        rankRepository.saveRankDefinition(new RankDefinition("VIP+", 250, java.util.Set.of(), now, now));
+        rankRepository.saveRankDefinition(new RankDefinition("God", 1000, java.util.Set.of(), now, now));
     }
 
     private static void registerAuthorityDependencies(

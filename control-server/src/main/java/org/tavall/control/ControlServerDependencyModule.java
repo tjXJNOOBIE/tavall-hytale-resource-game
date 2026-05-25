@@ -40,7 +40,7 @@ import org.tavall.control.punishment.PunishmentRepository;
 import org.tavall.control.persistence.PostgresConnectionProvider;
 import org.tavall.control.api.PlayerDataApi;
 import org.tavall.control.api.PunishApi;
-import org.tavall.control.api.RankApi;
+import org.tavall.api.minecraft.backend.rank.RankApi;
 import org.tavall.control.interaction.ControlPlaneInteractionHandler;
 
 import java.time.Instant;
@@ -53,7 +53,8 @@ public final class ControlServerDependencyModule implements IDependencyModule {
     @Override
     public void registerDependencies() {
         DependencyLoaderAccess.clear();
-        DependencyLoaderAccess.registerInstance(ControlCommandRuntime.class, createControlRuntime());
+        ControlCommandRuntime runtime = createControlRuntime();
+        DependencyLoaderAccess.registerInstance(ControlCommandRuntime.class, runtime);
         CloudControlPlaneRuntimeFactory.createInMemoryRuntime();
         DependencyLoaderAccess.registerInstance(ControlOperator.class, ControlOperator.localOwner(Instant.now()));
         DependencyLoaderAccess.registerInstance(IControlConsoleResultRenderer.class, new ControlConsoleResultRenderer());
@@ -74,7 +75,7 @@ public final class ControlServerDependencyModule implements IDependencyModule {
         DependencyLoaderAccess.registerInstance(PlayerDataApi.class, new PlayerDataApi());
         DependencyLoaderAccess.registerInstance(PunishmentRepository.class, new InMemoryPunishmentRepository());
         DependencyLoaderAccess.registerInstance(PunishApi.class, new PunishApi());
-        DependencyLoaderAccess.registerInstance(RankApi.class, new RankApi());
+        DependencyLoaderAccess.registerInstance(RankApi.class, new RankApi(runtime.rankRepository()));
     }
 
     private ControlCommandRuntime createControlRuntime() {

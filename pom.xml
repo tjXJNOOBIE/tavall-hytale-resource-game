@@ -16,13 +16,12 @@
     <packaging>pom</packaging>
 
     <name>Tavall Minecraft Main Parent</name>
-    <description>Parent aggregator for Tavall Resource Game core, frontends, control plane, and app surfaces.</description>
+    <description>Parent aggregator for Tavall Resource Game Minecraft modules and shared APIs.</description>
 
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hytale.server.version>2026.03.26-89796e57b</hytale.server.version>
-        <plugin.main.class>org.tavall.control.ResourceGamePlugin</plugin.main.class>
         <jackson.version>2.18.3</jackson.version>
         <postgres.version>42.7.10</postgres.version>
         <junit.version>5.11.4</junit.version>
@@ -32,10 +31,8 @@
 
     <modules>
         <module>minecraft-framework</module>
-        <module>game-api</module>
-        <module>control-server</module>
-        <module>minecraft-proxy</module>
-        <module>minecraft-game-server</module>
+        <module>minecraft-kingdom-proxy</module>
+        <module>minecraft-kingdom-server</module>
     </modules>
 
     <repositories>

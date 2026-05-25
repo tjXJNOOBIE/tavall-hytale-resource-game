@@ -18,8 +18,9 @@
     <description>Canonical middleware/control-server runtime entrypoint for resource game frontends.</description>
 
     <properties>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <plugin.main.class>org.tavall.control.ResourceGamePlugin</plugin.main.class>
         <junit.version>5.11.4</junit.version>
     </properties>
 
@@ -31,7 +32,12 @@
         </dependency>
         <dependency>
             <groupId>com.tavall</groupId>
-            <artifactId>game-api</artifactId>
+            <artifactId>kingdom-game-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tavall</groupId>
+            <artifactId>minecraft-backend-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -149,11 +155,17 @@
                 <configuration>
                     <release>${maven.compiler.release}</release>
                     <parameters>true</parameters>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
+                <configuration>
+                    <argLine>--enable-preview</argLine>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

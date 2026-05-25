@@ -8,6 +8,7 @@ import org.tavall.control.runtime.ControlCommandRuntime;
 import org.tavall.control.identity.PlatformAccountBinding;
 import org.tavall.control.identity.UniversalPlayerAccount;
 import org.tavall.control.identity.UniversalPlayerId;
+import org.tavall.api.minecraft.backend.rank.RankPlayerProfile;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
@@ -23,8 +24,8 @@ import org.tavall.api.minecraft.permissions.PunishOperationType;
 import org.tavall.api.minecraft.permissions.PunishRecord;
 import org.tavall.api.minecraft.permissions.RankRequest;
 import org.tavall.api.minecraft.permissions.RankResponse;
+import org.tavall.api.minecraft.permissions.RankSubject;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
-import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -204,23 +205,50 @@ final class ControlPlaneTcpBridgeServerTest {
             ));
 
             assertTrue(listResponse.success());
-            assertTrue(listResponse.subjects().size() >= 2);
+            assertTrue(listResponse.subjects().stream().map(RankSubject::rankName).toList().contains("Member"));
 
-            RankResponse updateResponse = client.submitRankRequest(RankRequest.setRole(
+            runtime.rankRepository().savePlayerProfile(new RankPlayerProfile(
+                    "00000000-0000-0000-0000-000000000999",
+                    "Ranked Miner",
+                    "Member",
+                    100,
+                    java.util.Set.of(),
+                    Map.of("source", "test"),
+                    Instant.parse("2025-01-01T00:00:00Z"),
+                    Instant.parse("2025-01-01T00:00:00Z")
+            ));
+
+            RankResponse updateResponse = client.submitRankRequest(RankRequest.setRank(
                     "corr-rank-update",
                     ResourceGameFrontendPlatform.MINECRAFT,
                     "minecraft-player-1",
                     "Miner",
                     "00000000-0000-0000-0000-000000000999",
                     "Ranked Miner",
-                    UniversalPermissionRole.MODERATOR,
+                    "VIP+",
                     Map.of("server", "kingdoms"),
                     4L
             ));
 
             assertTrue(updateResponse.success());
             assertEquals("Ranked Miner", updateResponse.subject().displayName());
-            assertEquals(UniversalPermissionRole.MODERATOR, updateResponse.subject().role());
+            assertEquals("VIP+", updateResponse.subject().rankName());
+            assertEquals(250, updateResponse.subject().powerLevel());
+
+            RankResponse removeResponse = client.submitRankRequest(RankRequest.removeRank(
+                    "corr-rank-remove",
+                    ResourceGameFrontendPlatform.MINECRAFT,
+                    "minecraft-player-1",
+                    "Miner",
+                    "00000000-0000-0000-0000-000000000999",
+                    "Ranked Miner",
+                    null,
+                    Map.of("server", "kingdoms"),
+                    5L
+            ));
+
+            assertTrue(removeResponse.success());
+            assertEquals("Member", removeResponse.subject().rankName());
 
             RankResponse inspectResponse = client.submitRankRequest(RankRequest.inspect(
                     "corr-rank-inspect",
@@ -230,12 +258,12 @@ final class ControlPlaneTcpBridgeServerTest {
                     "00000000-0000-0000-0000-000000000999",
                     "Ranked Miner",
                     Map.of("server", "kingdoms"),
-                    5L
+                    6L
             ));
 
             assertTrue(inspectResponse.success());
             assertEquals("Ranked Miner", inspectResponse.subject().displayName());
-            assertEquals(UniversalPermissionRole.MODERATOR, inspectResponse.subject().role());
+            assertEquals("Member", inspectResponse.subject().rankName());
         }
     }
 

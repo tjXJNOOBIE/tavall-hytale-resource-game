@@ -3,7 +3,7 @@ package org.tavall.control.transport;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.control.api.PlayerDataApi;
-import org.tavall.control.api.RankApi;
+import org.tavall.api.minecraft.backend.rank.RankApi;
 import org.tavall.control.interaction.ControlPlaneInteractionHandler;
 import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
 import org.tavall.control.runtime.ControlCommandRuntime;
