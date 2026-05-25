@@ -1,10 +1,9 @@
 package org.tavall.minecraft.commands;
 
 import com.velocitypowered.api.command.SimpleCommand;
-import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
-import org.tavall.api.minecraft.permissions.RankRequest;
-import org.tavall.api.minecraft.permissions.RankResponse;
-import org.tavall.api.minecraft.permissions.RankSubject;
+import org.tavall.api.minecraft.backend.rank.RankAccess;
+import org.tavall.api.minecraft.backend.rank.RankDefinition;
+import org.tavall.api.minecraft.backend.rank.RankPlayerProfile;
 import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.dependency.annotations.DelegatesToInterface;
 import org.tavall.dependency.composition.IDependencyBundleAccess;
@@ -12,12 +11,11 @@ import org.tavall.minecraft.bootstrap.VelocityDependencies;
 import org.tavall.minecraft.commands.source.IVelocityCommandSource;
 import org.tavall.minecraft.commands.support.VelocityCommandResult;
 import org.tavall.minecraft.commands.support.VelocityProxyCommandSupport;
-import org.tavall.minecraft.permissions.IRankControlBridgeClient;
 
-import java.time.Instant;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.UUID;
 
 @DelegatesToInterface(getLinkedInterface = IRank.class)
 public final class Rank extends VelocityProxyCommandSupport implements IRank, IDependencyInjectableConcrete, IDependencyBundleAccess<VelocityDependencies> {
@@ -38,6 +36,10 @@ public final class Rank extends VelocityProxyCommandSupport implements IRank, ID
             return usage(alias);
         }
 
+        if (!canUse(source) && !canManage(source)) {
+            return VelocityCommandResult.denied("Missing permission " + getVelocityProxyConfig().commandPermission() + ".");
+        }
+
         String subcommand = args[0].toLowerCase(Locale.ROOT);
         try {
             return switch (subcommand) {
@@ -47,6 +49,8 @@ public final class Rank extends VelocityProxyCommandSupport implements IRank, ID
                 case "remove" -> executeRemove(source, alias, args);
                 default -> usage(alias);
             };
+        } catch (IllegalStateException exception) {
+            return VelocityCommandResult.denied(exception.getMessage());
         } catch (RuntimeException exception) {
             return VelocityCommandResult.denied(safeMessage(exception));
         }
@@ -59,47 +63,34 @@ public final class Rank extends VelocityProxyCommandSupport implements IRank, ID
     }
 
     private VelocityCommandResult executeList(IVelocityCommandSource source, String alias) {
-        if (!canUse(source)) {
+        if (!canUse(source) && !canManage(source)) {
             return VelocityCommandResult.denied("Missing permission " + getVelocityProxyConfig().commandPermission() + ".");
         }
-        RankResponse response = getRankControlBridgeClient().submitRankRequest(
-                RankRequest.list(
-                        requestId(alias, source, "list"),
-                        ResourceGameFrontendPlatform.MINECRAFT,
-                        source.platformAccountId(),
-                        source.platformDisplayName(),
-                        baseContext(source, alias),
-                        Instant.now().toEpochMilli()
-                )
-        );
-        return response.success()
-                ? VelocityCommandResult.completed(formatListResponse(response))
-                : VelocityCommandResult.denied(response.message());
+        RankAccess rankAccess = getRankAccess();
+        java.util.List<RankDefinition> definitions = rankAccess.findRankDefinitions();
+        StringJoiner joiner = new StringJoiner(", ");
+        for (RankDefinition definition : definitions) {
+            joiner.add(definition.rankName() + "(" + definition.powerLevel() + ")");
+        }
+        String message = definitions.isEmpty()
+                ? "No ranks are configured."
+                : "Loaded " + definitions.size() + " rank definitions. " + joiner;
+        return VelocityCommandResult.completed(message);
     }
 
     private VelocityCommandResult executeInspect(IVelocityCommandSource source, String alias, String[] args) {
         if (args.length < 2) {
             return usage(alias);
         }
-        if (!canUse(source)) {
+        if (!canUse(source) && !canManage(source)) {
             return VelocityCommandResult.denied("Missing permission " + getVelocityProxyConfig().commandPermission() + ".");
         }
         String targetName = args[1];
-        RankResponse response = getRankControlBridgeClient().submitRankRequest(
-                RankRequest.inspect(
-                        requestId(alias, source, "inspect", targetName),
-                        ResourceGameFrontendPlatform.MINECRAFT,
-                        source.platformAccountId(),
-                        source.platformDisplayName(),
-                        resolveTargetAccountId(targetName),
-                        resolveTargetDisplayName(targetName),
-                        baseContext(source, alias),
-                        Instant.now().toEpochMilli()
-                )
-        );
-        return response.success()
-                ? VelocityCommandResult.completed(formatSubjectResponse("Inspect", response.subject()))
-                : VelocityCommandResult.denied(response.message());
+        Optional<RankPlayerProfile> profile = resolveTargetProfile(targetName);
+        if (profile.isEmpty()) {
+            return VelocityCommandResult.denied("Player not found: " + targetName);
+        }
+        return VelocityCommandResult.completed(formatSubjectResponse("Inspect", profile.get()));
     }
 
     private VelocityCommandResult executeSet(IVelocityCommandSource source, String alias, String[] args) {
@@ -111,22 +102,24 @@ public final class Rank extends VelocityProxyCommandSupport implements IRank, ID
         }
         String targetName = args[1];
         String rankName = args[2];
-        RankResponse response = getRankControlBridgeClient().submitRankRequest(
-                RankRequest.setRank(
-                        requestId(alias, source, "set", targetName, rankName),
-                        ResourceGameFrontendPlatform.MINECRAFT,
-                        source.platformAccountId(),
-                        source.platformDisplayName(),
-                        resolveTargetAccountId(targetName),
-                        resolveTargetDisplayName(targetName),
-                        rankName,
-                        baseContext(source, alias),
-                        Instant.now().toEpochMilli()
-                )
-        );
-        return response.success()
-                ? VelocityCommandResult.completed(formatSubjectResponse("Updated", response.subject()))
-                : VelocityCommandResult.denied(response.message());
+        RankAccess rankAccess = getRankAccess();
+        RankDefinition rankDefinition = resolveRankDefinition(rankName);
+        Optional<RankPlayerProfile> profile = resolveTargetProfile(targetName);
+        if (profile.isEmpty()) {
+            return VelocityCommandResult.denied("Player not found: " + targetName);
+        }
+
+        RankPlayerProfile current = profile.get();
+        if (isUuid(targetName)) {
+            rankAccess.setRank(UUID.fromString(targetName), rankName);
+        } else if (rankAccess.playerExistsByUsername(targetName)) {
+            rankAccess.setRankFromUsername(targetName, rankName);
+        } else {
+            rankAccess.setRank(UUID.fromString(current.platformAccountId()), rankName);
+        }
+
+        RankPlayerProfile updated = resolveTargetProfile(targetName).orElse(current);
+        return VelocityCommandResult.completed(formatSubjectResponse("Updated", updated.withRank(rankDefinition, java.time.Instant.now())));
     }
 
     private VelocityCommandResult executeRemove(IVelocityCommandSource source, String alias, String[] args) {
@@ -138,61 +131,61 @@ public final class Rank extends VelocityProxyCommandSupport implements IRank, ID
         }
         String targetName = args[1];
         String fallbackRankName = args.length >= 3 ? args[2] : "Member";
-        RankResponse response = getRankControlBridgeClient().submitRankRequest(
-                RankRequest.removeRank(
-                        requestId(alias, source, "remove", targetName, fallbackRankName),
-                        ResourceGameFrontendPlatform.MINECRAFT,
-                        source.platformAccountId(),
-                        source.platformDisplayName(),
-                        resolveTargetAccountId(targetName),
-                        resolveTargetDisplayName(targetName),
-                        fallbackRankName,
-                        baseContext(source, alias),
-                        Instant.now().toEpochMilli()
-                )
-        );
-        return response.success()
-                ? VelocityCommandResult.completed(formatSubjectResponse("Removed", response.subject()))
-                : VelocityCommandResult.denied(response.message());
+        RankAccess rankAccess = getRankAccess();
+        RankDefinition fallbackDefinition = resolveRankDefinition(fallbackRankName);
+        Optional<RankPlayerProfile> profile = resolveTargetProfile(targetName);
+        if (profile.isEmpty()) {
+            return VelocityCommandResult.denied("Player not found: " + targetName);
+        }
+
+        RankPlayerProfile current = profile.get();
+        if (isUuid(targetName)) {
+            rankAccess.revokeRank(UUID.fromString(targetName), fallbackRankName);
+        } else if (rankAccess.playerExistsByUsername(targetName)) {
+            rankAccess.setRankFromUsername(targetName, fallbackRankName);
+        } else {
+            rankAccess.revokeRank(UUID.fromString(current.platformAccountId()), fallbackRankName);
+        }
+
+        RankPlayerProfile updated = resolveTargetProfile(targetName).orElse(current);
+        return VelocityCommandResult.completed(formatSubjectResponse("Removed", updated.withRank(fallbackDefinition, java.time.Instant.now())));
     }
 
     private VelocityCommandResult usage(String alias) {
         return VelocityCommandResult.denied("Usage: /" + alias + " <list|inspect|set|remove> ...");
     }
 
-    private String requestId(String alias, IVelocityCommandSource source, String... suffixes) {
-        StringJoiner joiner = new StringJoiner(":");
-        joiner.add(alias);
-        joiner.add(source.sourceType());
-        joiner.add(source.platformAccountId());
-        for (String suffix : suffixes) {
-            joiner.add(suffix);
+    private Optional<RankPlayerProfile> resolveTargetProfile(String targetName) {
+        RankAccess rankAccess = getRankAccess();
+        Optional<RankPlayerProfile> byName = rankAccess.findPlayerProfileByDisplayName(targetName);
+        if (byName.isPresent()) {
+            return byName;
         }
-        joiner.add(String.valueOf(System.nanoTime()));
-        return joiner.toString();
+        if (isUuid(targetName)) {
+            return rankAccess.findPlayerProfile(targetName);
+        }
+        return resolveOnlineTarget(targetName)
+                .flatMap(player -> rankAccess.findPlayerProfile(player.getUniqueId().toString()))
+                .or(() -> rankAccess.findPlayerProfileByUsername(targetName));
     }
 
-    private String formatListResponse(RankResponse response) {
-        if (response.subjects().isEmpty()) {
-            return response.message();
-        }
-        StringJoiner joiner = new StringJoiner(", ");
-        for (RankSubject subject : response.subjects()) {
-            joiner.add(subject.rankName() + "(" + subject.powerLevel() + ")");
-        }
-        return response.message() + " " + joiner;
+    private RankDefinition resolveRankDefinition(String rankName) {
+        return getRankAccess().findRankDefinition(rankName)
+                .orElseThrow(() -> new IllegalStateException("Rank does not exist: " + rankName));
     }
 
-    private String formatSubjectResponse(String action, RankSubject subject) {
-        if (subject == null) {
-            return action + " completed.";
+    private boolean isUuid(String value) {
+        try {
+            UUID.fromString(value);
+            return true;
+        } catch (IllegalArgumentException exception) {
+            return false;
         }
-        return action + " " + subject.displayName() + " -> " + subject.rankName()
-                + " power=" + subject.powerLevel()
-                + " permissions=" + subject.permissions();
     }
 
-    private IRankControlBridgeClient getRankControlBridgeClient() {
-        return dependencies().rankControlBridgeClient();
+    private String formatSubjectResponse(String action, RankPlayerProfile profile) {
+        return action + " " + profile.displayName() + " -> " + profile.rankName()
+                + " power=" + profile.powerLevel()
+                + " permissions=" + profile.permissions();
     }
 }

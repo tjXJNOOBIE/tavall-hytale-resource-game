@@ -11,10 +11,14 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
-public final class PostgresRankRepository implements RankRepository {
+public final class PostgresRankRepository implements RankAccess {
+    private static final String DEFAULT_RANK_NAME = "Member";
+
     private final BackendConnectionProvider connectionProvider;
     private final BackendRepositoryJsonCodec jsonCodec;
 
@@ -29,8 +33,8 @@ public final class PostgresRankRepository implements RankRepository {
 
     @Override
     public List<RankDefinition> findRankDefinitions() {
-        String sql = "SELECT rank_name, power_level, permissions_json, created_at, updated_at "
-                + "FROM minecraft_rank_definitions ORDER BY power_level ASC, rank_name ASC";
+        String sql = "SELECT \"RANK\", \"POWERLEVEL\", \"PERMISSIONS\", \"CREATED_AT\", \"UPDATED_AT\" "
+                + "FROM ranks ORDER BY \"POWERLEVEL\" ASC, \"RANK\" ASC";
         try (Connection connection = connectionProvider.open();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
@@ -40,7 +44,7 @@ public final class PostgresRankRepository implements RankRepository {
             }
             return List.copyOf(definitions);
         } catch (SQLException exception) {
-            throw failure("read minecraft rank definitions", exception);
+            throw failure("read rank definitions", exception);
         }
     }
 
@@ -49,8 +53,8 @@ public final class PostgresRankRepository implements RankRepository {
         if (rankName == null || rankName.isBlank()) {
             return Optional.empty();
         }
-        String sql = "SELECT rank_name, power_level, permissions_json, created_at, updated_at "
-                + "FROM minecraft_rank_definitions WHERE LOWER(rank_name) = LOWER(?)";
+        String sql = "SELECT \"RANK\", \"POWERLEVEL\", \"PERMISSIONS\", \"CREATED_AT\", \"UPDATED_AT\" "
+                + "FROM ranks WHERE LOWER(\"RANK\") = LOWER(?)";
         try (Connection connection = connectionProvider.open();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, rankName);
@@ -58,37 +62,37 @@ public final class PostgresRankRepository implements RankRepository {
                 return resultSet.next() ? Optional.of(mapDefinition(resultSet)) : Optional.empty();
             }
         } catch (SQLException exception) {
-            throw failure("read minecraft rank definition", exception);
+            throw failure("read rank definition", exception);
         }
     }
 
     @Override
     public RankDefinition saveRankDefinition(RankDefinition definition) {
-        String sql = "INSERT INTO minecraft_rank_definitions "
-                + "(rank_name, power_level, permissions_json, created_at, updated_at) "
+        String sql = "INSERT INTO ranks (\"RANK\", \"POWERLEVEL\", \"PERMISSIONS\", \"CREATED_AT\", \"UPDATED_AT\") "
                 + "VALUES (?, ?, ?::jsonb, ?, ?) "
-                + "ON CONFLICT (rank_name) DO UPDATE SET "
-                + "power_level = EXCLUDED.power_level, "
-                + "permissions_json = EXCLUDED.permissions_json, "
-                + "updated_at = EXCLUDED.updated_at";
+                + "ON CONFLICT (\"RANK\") DO UPDATE SET "
+                + "\"POWERLEVEL\" = EXCLUDED.\"POWERLEVEL\", "
+                + "\"PERMISSIONS\" = EXCLUDED.\"PERMISSIONS\", "
+                + "\"UPDATED_AT\" = EXCLUDED.\"UPDATED_AT\"";
+        Instant now = Instant.now();
         try (Connection connection = connectionProvider.open();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, definition.rankName());
             statement.setInt(2, definition.powerLevel());
             statement.setString(3, jsonCodec.writeStringList(definition.permissions().stream().sorted().toList()));
-            statement.setTimestamp(4, Timestamp.from(definition.createdAt()));
-            statement.setTimestamp(5, Timestamp.from(definition.updatedAt()));
+            statement.setTimestamp(4, Timestamp.from(definition.createdAt() == null ? now : definition.createdAt()));
+            statement.setTimestamp(5, Timestamp.from(definition.updatedAt() == null ? now : definition.updatedAt()));
             statement.executeUpdate();
             return definition;
         } catch (SQLException exception) {
-            throw failure("save minecraft rank definition", exception);
+            throw failure("save rank definition", exception);
         }
     }
 
     @Override
     public List<RankPlayerProfile> findPlayerProfiles() {
-        String sql = "SELECT platform_account_id, display_name, rank_name, power_level, permissions_json, metadata_json, created_at, updated_at "
-                + "FROM minecraft_player_rank_profiles ORDER BY LOWER(display_name), platform_account_id";
+        String sql = "SELECT \"UUID\", \"NAME\", \"RANK\", \"POWERLEVEL\", \"PERMISSIONS\", \"METADATA_JSON\", "
+                + "\"CREATED_AT\", \"UPDATED_AT\" FROM player_profile ORDER BY LOWER(\"NAME\"), \"UUID\"";
         try (Connection connection = connectionProvider.open();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
@@ -98,7 +102,7 @@ public final class PostgresRankRepository implements RankRepository {
             }
             return List.copyOf(profiles);
         } catch (SQLException exception) {
-            throw failure("read minecraft player rank profiles", exception);
+            throw failure("read player profiles", exception);
         }
     }
 
@@ -107,8 +111,8 @@ public final class PostgresRankRepository implements RankRepository {
         if (platformAccountId == null || platformAccountId.isBlank()) {
             return Optional.empty();
         }
-        String sql = "SELECT platform_account_id, display_name, rank_name, power_level, permissions_json, metadata_json, created_at, updated_at "
-                + "FROM minecraft_player_rank_profiles WHERE platform_account_id = ?";
+        String sql = "SELECT \"UUID\", \"NAME\", \"RANK\", \"POWERLEVEL\", \"PERMISSIONS\", \"METADATA_JSON\", "
+                + "\"CREATED_AT\", \"UPDATED_AT\" FROM player_profile WHERE \"UUID\" = ?";
         try (Connection connection = connectionProvider.open();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, platformAccountId);
@@ -116,7 +120,7 @@ public final class PostgresRankRepository implements RankRepository {
                 return resultSet.next() ? Optional.of(mapProfile(resultSet)) : Optional.empty();
             }
         } catch (SQLException exception) {
-            throw failure("read minecraft player rank profile", exception);
+            throw failure("read player profile", exception);
         }
     }
 
@@ -125,8 +129,8 @@ public final class PostgresRankRepository implements RankRepository {
         if (displayName == null || displayName.isBlank()) {
             return Optional.empty();
         }
-        String sql = "SELECT platform_account_id, display_name, rank_name, power_level, permissions_json, metadata_json, created_at, updated_at "
-                + "FROM minecraft_player_rank_profiles WHERE LOWER(display_name) = LOWER(?)";
+        String sql = "SELECT \"UUID\", \"NAME\", \"RANK\", \"POWERLEVEL\", \"PERMISSIONS\", \"METADATA_JSON\", "
+                + "\"CREATED_AT\", \"UPDATED_AT\" FROM player_profile WHERE LOWER(\"NAME\") = LOWER(?)";
         try (Connection connection = connectionProvider.open();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, displayName);
@@ -134,22 +138,23 @@ public final class PostgresRankRepository implements RankRepository {
                 return resultSet.next() ? Optional.of(mapProfile(resultSet)) : Optional.empty();
             }
         } catch (SQLException exception) {
-            throw failure("read minecraft player rank profile by display name", exception);
+            throw failure("read player profile by display name", exception);
         }
     }
 
     @Override
     public RankPlayerProfile savePlayerProfile(RankPlayerProfile profile) {
-        String sql = "INSERT INTO minecraft_player_rank_profiles "
-                + "(platform_account_id, display_name, rank_name, power_level, permissions_json, metadata_json, created_at, updated_at) "
+        String sql = "INSERT INTO player_profile "
+                + "(\"UUID\", \"NAME\", \"RANK\", \"POWERLEVEL\", \"PERMISSIONS\", \"METADATA_JSON\", \"CREATED_AT\", \"UPDATED_AT\") "
                 + "VALUES (?, ?, ?, ?, ?::jsonb, ?::jsonb, ?, ?) "
-                + "ON CONFLICT (platform_account_id) DO UPDATE SET "
-                + "display_name = EXCLUDED.display_name, "
-                + "rank_name = EXCLUDED.rank_name, "
-                + "power_level = EXCLUDED.power_level, "
-                + "permissions_json = EXCLUDED.permissions_json, "
-                + "metadata_json = EXCLUDED.metadata_json, "
-                + "updated_at = EXCLUDED.updated_at";
+                + "ON CONFLICT (\"UUID\") DO UPDATE SET "
+                + "\"NAME\" = EXCLUDED.\"NAME\", "
+                + "\"RANK\" = EXCLUDED.\"RANK\", "
+                + "\"POWERLEVEL\" = EXCLUDED.\"POWERLEVEL\", "
+                + "\"PERMISSIONS\" = EXCLUDED.\"PERMISSIONS\", "
+                + "\"METADATA_JSON\" = EXCLUDED.\"METADATA_JSON\", "
+                + "\"UPDATED_AT\" = EXCLUDED.\"UPDATED_AT\"";
+        Instant now = Instant.now();
         try (Connection connection = connectionProvider.open();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, profile.platformAccountId());
@@ -158,41 +163,198 @@ public final class PostgresRankRepository implements RankRepository {
             statement.setInt(4, profile.powerLevel());
             statement.setString(5, jsonCodec.writeStringList(profile.permissions().stream().sorted().toList()));
             statement.setString(6, jsonCodec.writeStringMap(profile.metadata()));
-            statement.setTimestamp(7, Timestamp.from(profile.createdAt()));
-            statement.setTimestamp(8, Timestamp.from(profile.updatedAt()));
+            statement.setTimestamp(7, Timestamp.from(profile.createdAt() == null ? now : profile.createdAt()));
+            statement.setTimestamp(8, Timestamp.from(profile.updatedAt() == null ? now : profile.updatedAt()));
             statement.executeUpdate();
             return profile;
         } catch (SQLException exception) {
-            throw failure("save minecraft player rank profile", exception);
+            throw failure("save player profile", exception);
         }
+    }
+
+    @Override
+    public void createProfile(UUID playerId, String playerName) {
+        String sql = "INSERT INTO player_profile "
+                + "(\"UUID\", \"NAME\", \"RANK\", \"POWERLEVEL\", \"PERMISSIONS\", \"METADATA_JSON\", \"CREATED_AT\", \"UPDATED_AT\", \"GRADE\", \"CURRENCY\", \"GLOBALRANK\", \"IP\", \"DEBUGGER\") "
+                + "VALUES (?, ?, ?, ?, ?::jsonb, ?::jsonb, NOW(), NOW(), NULL, 0.00, 0.00, '', 0) "
+                + "ON CONFLICT (\"UUID\") DO UPDATE SET "
+                + "\"NAME\" = EXCLUDED.\"NAME\", "
+                + "\"UPDATED_AT\" = EXCLUDED.\"UPDATED_AT\"";
+        try (Connection connection = connectionProvider.open();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, playerId.toString());
+            statement.setString(2, playerName);
+            statement.setString(3, DEFAULT_RANK_NAME);
+            statement.setInt(4, 100);
+            statement.setString(5, "[]");
+            statement.setString(6, "{}");
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw failure("create player profile", exception);
+        }
+    }
+
+    @Override
+    public boolean playerExistsByUsername(String username) {
+        return findPlayerProfileByDisplayName(username).isPresent();
+    }
+
+    @Override
+    public Optional<RankPlayerProfile> findPlayerProfileByUsername(String username) {
+        return findPlayerProfileByDisplayName(username);
+    }
+
+    @Override
+    public void setRankFromUsername(String username, String rank) {
+        executeRankUpdate("UPDATE player_profile SET \"RANK\" = ?, \"UPDATED_AT\" = NOW() WHERE LOWER(\"NAME\") = LOWER(?)", rank, username);
+    }
+
+    @Override
+    public void setRank(UUID uuid, String rank) {
+        executeRankUpdate("UPDATE player_profile SET \"RANK\" = ?, \"UPDATED_AT\" = NOW() WHERE \"UUID\" = ?", rank, uuid.toString());
+    }
+
+    @Override
+    public void revokeRank(UUID uuid, String fallbackRankName) {
+        String fallback = fallbackRankName == null || fallbackRankName.isBlank() ? DEFAULT_RANK_NAME : fallbackRankName;
+        setRank(uuid, fallback);
+    }
+
+    @Override
+    public String getRank(UUID uuid) {
+        String sql = "SELECT \"RANK\" FROM player_profile WHERE \"UUID\" = ?";
+        try (Connection connection = connectionProvider.open();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, uuid.toString());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("RANK");
+                }
+            }
+        } catch (SQLException exception) {
+            throw failure("get rank", exception);
+        }
+        return "Couldn't get rank";
+    }
+
+    @Override
+    public int getPowerLevel(UUID uuid) {
+        String sql = "SELECT \"POWERLEVEL\" FROM player_profile WHERE \"UUID\" = ?";
+        try (Connection connection = connectionProvider.open();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, uuid.toString());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("POWERLEVEL");
+                }
+            }
+        } catch (SQLException exception) {
+            throw failure("get power level", exception);
+        }
+        return 1;
+    }
+
+    @Override
+    public Set<String> getPermissions(UUID uuid) {
+        String sql = "SELECT \"PERMISSIONS\" FROM player_profile WHERE \"UUID\" = ?";
+        try (Connection connection = connectionProvider.open();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, uuid.toString());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String permissions = resultSet.getString("PERMISSIONS");
+                    return jsonCodec.readStringList(permissions).stream().collect(java.util.stream.Collectors.toUnmodifiableSet());
+                }
+            }
+        } catch (SQLException exception) {
+            throw failure("get permissions", exception);
+        }
+        return Set.of();
+    }
+
+    @Override
+    public void setPermissions(UUID uuid, Set<String> permissions) {
+        String sql = "UPDATE player_profile SET \"PERMISSIONS\" = ?::jsonb, \"UPDATED_AT\" = NOW() WHERE \"UUID\" = ?";
+        try (Connection connection = connectionProvider.open();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, jsonCodec.writeStringList(permissions == null ? List.of() : permissions.stream().sorted().toList()));
+            statement.setString(2, uuid.toString());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw failure("set permissions", exception);
+        }
+    }
+
+    @Override
+    public boolean hasPermission(UUID uuid, String permission) {
+        return getPermissions(uuid).contains(permission);
+    }
+
+    @Override
+    public boolean rankExists(String rankName) {
+        return findRankDefinition(rankName).isPresent();
+    }
+
+    @Override
+    public List<String> getRanks() {
+        String sql = "SELECT \"RANK\" FROM ranks WHERE \"RANK\" IS NOT NULL ORDER BY \"POWERLEVEL\" ASC, \"RANK\" ASC";
+        try (Connection connection = connectionProvider.open();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            List<String> ranks = new ArrayList<>();
+            while (resultSet.next()) {
+                ranks.add(resultSet.getString("RANK"));
+            }
+            return List.copyOf(ranks);
+        } catch (SQLException exception) {
+            throw failure("read rank names", exception);
+        }
+    }
+
+    @Override
+    public String getAllRanks() {
+        List<String> ranks = getRanks();
+        return ranks.isEmpty() ? "" : ranks.get(ranks.size() - 1);
     }
 
     private RankDefinition mapDefinition(ResultSet resultSet) throws SQLException {
         return new RankDefinition(
-                resultSet.getString("rank_name"),
-                resultSet.getInt("power_level"),
-                Set.copyOf(jsonCodec.readStringList(resultSet.getString("permissions_json"))),
-                toInstant(resultSet, "created_at"),
-                toInstant(resultSet, "updated_at")
+                resultSet.getString("RANK"),
+                resultSet.getInt("POWERLEVEL"),
+                Set.copyOf(jsonCodec.readStringList(resultSet.getString("PERMISSIONS"))),
+                toInstant(resultSet, "CREATED_AT"),
+                toInstant(resultSet, "UPDATED_AT")
         );
     }
 
     private RankPlayerProfile mapProfile(ResultSet resultSet) throws SQLException {
+        Map<String, String> metadata = jsonCodec.readStringMap(resultSet.getString("METADATA_JSON"));
         return new RankPlayerProfile(
-                resultSet.getString("platform_account_id"),
-                resultSet.getString("display_name"),
-                resultSet.getString("rank_name"),
-                resultSet.getInt("power_level"),
-                Set.copyOf(jsonCodec.readStringList(resultSet.getString("permissions_json"))),
-                jsonCodec.readStringMap(resultSet.getString("metadata_json")),
-                toInstant(resultSet, "created_at"),
-                toInstant(resultSet, "updated_at")
+                resultSet.getString("UUID"),
+                resultSet.getString("NAME"),
+                resultSet.getString("RANK"),
+                resultSet.getInt("POWERLEVEL"),
+                Set.copyOf(jsonCodec.readStringList(resultSet.getString("PERMISSIONS"))),
+                metadata,
+                toInstant(resultSet, "CREATED_AT"),
+                toInstant(resultSet, "UPDATED_AT")
         );
     }
 
     private Instant toInstant(ResultSet resultSet, String column) throws SQLException {
         Timestamp value = resultSet.getTimestamp(column);
         return value == null ? Instant.EPOCH : value.toInstant();
+    }
+
+    private void executeRankUpdate(String sql, String rank, String token) {
+        try (Connection connection = connectionProvider.open();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, rank);
+            statement.setString(2, token);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw failure("update player rank", exception);
+        }
     }
 
     private IllegalStateException failure(String action, SQLException exception) {

@@ -1,32 +1,24 @@
 package org.tavall.minecraft.commands;
 
-import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
-import org.tavall.api.minecraft.permissions.RankRequest;
-import org.tavall.api.minecraft.permissions.RankResponse;
-import org.tavall.api.minecraft.permissions.RankSubject;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.tavall.api.minecraft.backend.rank.InMemoryRankRepository;
+import org.tavall.api.minecraft.backend.rank.RankDefinition;
+import org.tavall.api.minecraft.backend.rank.RankPlayerProfile;
 import org.tavall.dependency.DependencyLoader;
 import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.minecraft.bootstrap.VelocityDependencyModule;
 import org.tavall.minecraft.bootstrap.VelocityProxyConfig;
 import org.tavall.minecraft.commands.source.TestVelocityCommandSource;
 import org.tavall.minecraft.commands.support.VelocityCommandResult;
-import org.tavall.minecraft.permissions.IRankControlBridgeClient;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public final class RankTest {
@@ -43,38 +35,8 @@ public final class RankTest {
     }
 
     @Test
-    void listInspectSetAndRemoveRouteThroughBridgeClient() {
-        RecordingRankControlBridgeClient bridgeClient = new RecordingRankControlBridgeClient();
-        bridgeClient.enqueue(RankResponse.listed(
-                "rank-list",
-                "Loaded 3 rank definitions.",
-                java.util.List.of(
-                        new RankSubject("Member", "Member", "Member", 100, Set.of(), Map.of()),
-                        new RankSubject("VIP+", "VIP+", "VIP+", 250, Set.of(), Map.of())
-                ),
-                Map.of()
-        ));
-        bridgeClient.enqueue(RankResponse.inspected(
-                "rank-inspect",
-                "Loaded rank profile for Miner.",
-                new RankSubject("player-1", "Miner", "Member", 100, Set.of(), Map.of()),
-                Map.of()
-        ));
-        bridgeClient.enqueue(RankResponse.updated(
-                "rank-set",
-                "Updated Miner to God.",
-                new RankSubject("player-1", "Miner", "God", 1000, Set.of("speedrun.*"), Map.of()),
-                java.util.List.of(),
-                Map.of()
-        ));
-        bridgeClient.enqueue(RankResponse.updated(
-                "rank-remove",
-                "Reverted Miner to Member.",
-                new RankSubject("player-1", "Miner", "Member", 100, Set.of(), Map.of()),
-                java.util.List.of(),
-                Map.of()
-        ));
-
+    void listInspectSetAndRemoveOperateDirectlyAgainstTheRepository() {
+        InMemoryRankRepository repository = seededRepository();
         VelocityProxyConfig config = new VelocityProxyConfig(
                 "tavall.resourcegame.command",
                 "tavall.resourcegame.admin",
@@ -84,13 +46,16 @@ public final class RankTest {
                 Set.of(),
                 true
         );
-        new VelocityDependencyModule().registerDependencies(config, bridgeClient);
+        new VelocityDependencyModule().registerDependencies(config, repository);
         Rank rank = (Rank) DependencyLoaderAccess.findInstance(IRank.class);
+
         TestVelocityCommandSource member = TestVelocityCommandSource.player("Miner", Set.of("tavall.resourcegame.command"));
-        TestVelocityCommandSource admin = TestVelocityCommandSource.player("Miner", Set.of("tavall.resourcegame.admin"));
+        TestVelocityCommandSource admin = TestVelocityCommandSource.player("Miner", Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin"));
+        TestVelocityCommandSource console = TestVelocityCommandSource.console(Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin"));
 
         VelocityCommandResult listResult = rank.execute(member, "rank", new String[]{"list"});
         VelocityCommandResult inspectResult = rank.execute(member, "rank", new String[]{"inspect", "Miner"});
+        VelocityCommandResult consoleListResult = rank.execute(console, "rank", new String[]{"list"});
         VelocityCommandResult setResult = rank.execute(admin, "rank", new String[]{"set", "Miner", "God"});
         VelocityCommandResult removeResult = rank.execute(admin, "rank", new String[]{"remove", "Miner"});
 
@@ -98,18 +63,19 @@ public final class RankTest {
         assertTrue(listResult.message().contains("Member(100)"));
         assertTrue(inspectResult.success());
         assertTrue(inspectResult.message().contains("Miner -> Member"));
+        assertTrue(consoleListResult.success());
+        assertTrue(consoleListResult.message().contains("VIP+"));
         assertTrue(setResult.success());
         assertTrue(setResult.message().contains("Miner -> God"));
         assertTrue(removeResult.success());
         assertTrue(removeResult.message().contains("Miner -> Member"));
 
-        assertEquals("LIST", bridgeClient.requests().get(0).operation().name());
-        assertEquals("Miner", bridgeClient.requests().get(3).targetDisplayName());
+        assertEquals("Member", repository.findPlayerProfileByDisplayName("Miner").orElseThrow().rankName());
     }
 
     @Test
     void setRequiresAdminPermission() {
-        RecordingRankControlBridgeClient bridgeClient = new RecordingRankControlBridgeClient();
+        InMemoryRankRepository repository = seededRepository();
         VelocityProxyConfig config = new VelocityProxyConfig(
                 "tavall.resourcegame.command",
                 "tavall.resourcegame.admin",
@@ -119,7 +85,7 @@ public final class RankTest {
                 Set.of(),
                 true
         );
-        new VelocityDependencyModule().registerDependencies(config, bridgeClient);
+        new VelocityDependencyModule().registerDependencies(config, repository);
         Rank rank = (Rank) DependencyLoaderAccess.findInstance(IRank.class);
         TestVelocityCommandSource member = TestVelocityCommandSource.player("Miner", Set.of("tavall.resourcegame.command"));
 
@@ -129,30 +95,47 @@ public final class RankTest {
         assertTrue(denied.message().contains("Missing permission"));
     }
 
-    private static final class RecordingRankControlBridgeClient implements IRankControlBridgeClient {
-        private final Deque<RankResponse> responses = new ArrayDeque<>();
-        private final AtomicReference<RankRequest> lastRequest = new AtomicReference<>();
-        private final List<RankRequest> requests = new ArrayList<>();
+    @Test
+    void missingPlayerAndRankReturnErrors() {
+        InMemoryRankRepository repository = seededRepository();
+        VelocityProxyConfig config = new VelocityProxyConfig(
+                "tavall.resourcegame.command",
+                "tavall.resourcegame.admin",
+                "velocity-rank-test",
+                Map.of(),
+                Set.of(),
+                Set.of(),
+                true
+        );
+        new VelocityDependencyModule().registerDependencies(config, repository);
+        Rank rank = (Rank) DependencyLoaderAccess.findInstance(IRank.class);
+        TestVelocityCommandSource admin = TestVelocityCommandSource.player("Miner", Set.of("tavall.resourcegame.command", "tavall.resourcegame.admin"));
 
-        void enqueue(RankResponse response) {
-            responses.addLast(response);
-        }
+        VelocityCommandResult missingPlayer = rank.execute(admin, "rank", new String[]{"inspect", "Missing"});
+        VelocityCommandResult missingRank = rank.execute(admin, "rank", new String[]{"set", "Miner", "NotARank"});
 
-        RankRequest lastRequest() {
-            return lastRequest.get();
-        }
+        assertFalse(missingPlayer.success());
+        assertTrue(missingPlayer.message().contains("Player not found"));
+        assertFalse(missingRank.success());
+        assertTrue(missingRank.message().contains("Rank does not exist"));
+    }
 
-        List<RankRequest> requests() {
-            return List.copyOf(requests);
-        }
-
-        @Override
-        public RankResponse submitRankRequest(RankRequest request) {
-            lastRequest.set(request);
-            requests.add(request);
-            return responses.isEmpty()
-                    ? RankResponse.unavailable(request.requestId(), "No stubbed response available.")
-                    : responses.removeFirst();
-        }
+    private InMemoryRankRepository seededRepository() {
+        InMemoryRankRepository repository = new InMemoryRankRepository();
+        Instant now = Instant.parse("2025-01-01T00:00:00Z");
+        repository.saveRankDefinition(new RankDefinition("Member", 100, Set.of(), now, now));
+        repository.saveRankDefinition(new RankDefinition("VIP+", 250, Set.of("speedrun.*"), now, now));
+        repository.saveRankDefinition(new RankDefinition("God", 1000, Set.of(), now, now));
+        repository.savePlayerProfile(new RankPlayerProfile(
+                "player-1",
+                "Miner",
+                "Member",
+                100,
+                Set.of(),
+                Map.of("source", "test"),
+                now,
+                now
+        ));
+        return repository;
     }
 }

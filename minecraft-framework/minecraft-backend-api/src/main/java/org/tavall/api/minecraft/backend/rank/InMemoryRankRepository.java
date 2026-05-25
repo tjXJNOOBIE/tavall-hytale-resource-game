@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class InMemoryRankRepository implements RankRepository {
+public final class InMemoryRankRepository implements RankAccess {
     private final Map<String, RankDefinition> definitionsByName = new ConcurrentHashMap<>();
     private final Map<String, RankPlayerProfile> profilesByAccountId = new ConcurrentHashMap<>();
 
@@ -59,9 +60,111 @@ public final class InMemoryRankRepository implements RankRepository {
     }
 
     @Override
+    public Optional<RankPlayerProfile> findPlayerProfileByUsername(String username) {
+        return findPlayerProfileByDisplayName(username);
+    }
+
+    @Override
     public RankPlayerProfile savePlayerProfile(RankPlayerProfile profile) {
         profilesByAccountId.put(profile.platformAccountId(), profile);
         return profile;
+    }
+
+    @Override
+    public void createProfile(java.util.UUID playerId, String playerName) {
+        throw new UnsupportedOperationException("In-memory rank repository does not create database-backed profiles.");
+    }
+
+    @Override
+    public boolean playerExistsByUsername(String username) {
+        return findPlayerProfileByDisplayName(username).isPresent();
+    }
+
+    @Override
+    public void setRankFromUsername(String username, String rank) {
+        findPlayerProfileByDisplayName(username).ifPresent(profile ->
+                savePlayerProfile(new RankPlayerProfile(
+                        profile.platformAccountId(),
+                        profile.displayName(),
+                        rank,
+                        profile.powerLevel(),
+                        profile.permissions(),
+                        profile.metadata(),
+                        profile.createdAt(),
+                        profile.updatedAt()
+                )));
+    }
+
+    @Override
+    public void setRank(java.util.UUID uuid, String rank) {
+        findPlayerProfile(uuid.toString()).ifPresent(profile ->
+                savePlayerProfile(new RankPlayerProfile(
+                        profile.platformAccountId(),
+                        profile.displayName(),
+                        rank,
+                        profile.powerLevel(),
+                        profile.permissions(),
+                        profile.metadata(),
+                        profile.createdAt(),
+                        profile.updatedAt()
+                )));
+    }
+
+    @Override
+    public void revokeRank(java.util.UUID uuid, String fallbackRankName) {
+        String fallback = fallbackRankName == null || fallbackRankName.isBlank() ? "Member" : fallbackRankName;
+        setRank(uuid, fallback);
+    }
+
+    @Override
+    public String getRank(java.util.UUID uuid) {
+        return findPlayerProfile(uuid.toString()).map(RankPlayerProfile::rankName).orElse("Couldn't get rank");
+    }
+
+    @Override
+    public int getPowerLevel(java.util.UUID uuid) {
+        return findPlayerProfile(uuid.toString()).map(RankPlayerProfile::powerLevel).orElse(1);
+    }
+
+    @Override
+    public java.util.Set<String> getPermissions(java.util.UUID uuid) {
+        return findPlayerProfile(uuid.toString()).map(RankPlayerProfile::permissions).orElse(Set.of());
+    }
+
+    @Override
+    public void setPermissions(java.util.UUID uuid, java.util.Set<String> permissions) {
+        findPlayerProfile(uuid.toString()).ifPresent(profile ->
+                savePlayerProfile(new RankPlayerProfile(
+                        profile.platformAccountId(),
+                        profile.displayName(),
+                        profile.rankName(),
+                        profile.powerLevel(),
+                        permissions,
+                        profile.metadata(),
+                        profile.createdAt(),
+                        profile.updatedAt()
+                )));
+    }
+
+    @Override
+    public boolean hasPermission(java.util.UUID uuid, String permission) {
+        return getPermissions(uuid).contains(permission);
+    }
+
+    @Override
+    public boolean rankExists(String rankName) {
+        return findRankDefinition(rankName).isPresent();
+    }
+
+    @Override
+    public List<String> getRanks() {
+        return findRankDefinitions().stream().map(RankDefinition::rankName).toList();
+    }
+
+    @Override
+    public String getAllRanks() {
+        List<String> ranks = getRanks();
+        return ranks.isEmpty() ? "" : ranks.get(ranks.size() - 1);
     }
 
     private String normalize(String value) {
