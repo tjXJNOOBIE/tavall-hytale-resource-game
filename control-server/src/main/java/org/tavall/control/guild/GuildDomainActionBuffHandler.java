@@ -1,0 +1,14 @@
+package org.tavall.control.guild;
+
+public final class GuildDomainActionBuffHandler implements GuildDomain {
+    public GuildDomainActionBuffHandler() {
+    }
+
+    public GuildDomainActionBuffHandler(GuildJobBuffCalculationHandler guildJobBuffCalculationHandler) {
+        registerGuildJobBuffCalculationHandler(guildJobBuffCalculationHandler);
+    }
+
+    public double applyDomainActionModifier(double baseValue, GuildMemberProfile actor, GuildJobDomain domain) {
+        return baseValue * (1.0d + getGuildJobBuffCalculationHandler().calculateJobModifier(actor, domain));
+    }
+}

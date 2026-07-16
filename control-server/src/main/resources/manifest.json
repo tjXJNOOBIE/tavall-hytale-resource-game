@@ -1,0 +1,22 @@
+{
+  "Group": "${project.groupId}",
+  "Name": "${project.name}",
+  "Version": "${project.version}",
+  "Description": "Tavall Hytale resource game vertical slice.",
+  "Authors": [
+    {
+      "Name": "Tavall",
+      "Email": "",
+      "Url": ""
+    }
+  ],
+  "Website": "",
+  "DisabledByDefault": false,
+  "IncludesAssetPack": true,
+  "Dependencies": {
+    "Ellie:HyUI": "=0.9.5"
+  },
+  "OptionalDependencies": {},
+  "ServerVersion": "${hytale.server.version}",
+  "Main": "${plugin.main.class}"
+}

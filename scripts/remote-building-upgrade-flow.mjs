@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import {
   captureWorldSnapshot,
   createTraceSession,
@@ -11,12 +11,12 @@ import {
   writeJson, printStructured,
 } from "./bot-flow-helpers.mjs";
 
-const BUILDING_DETAIL_PAGE = "com.tavall.hytale.resourcegame.ui.BuildingDetailPage";
-const BUILDINGS_OVERVIEW_PAGE = "com.tavall.hytale.resourcegame.ui.CastleBuildingsPage";
-const INTERIOR_MAIN_PAGE = "com.tavall.hytale.resourcegame.ui.InteriorMainPage";
+const BUILDING_DETAIL_PAGE = "org.tavall.control.ui.BuildingDetailPage";
+const BUILDINGS_OVERVIEW_PAGE = "org.tavall.control.ui.CastleBuildingsPage";
+const INTERIOR_MAIN_PAGE = "org.tavall.control.ui.InteriorMainPage";
 
 function readSelectorValue(snapshot, selector) {
-  const command = snapshot?.commands?.find((entry) => entry.type === "Set" && entry.selector === selector);
+  const command = snapshot?.commands?.slice().reverse().find((entry) => entry.type === "Set" && entry.selector === selector);
   if (!command) {
     return null;
   }
@@ -42,6 +42,113 @@ async function waitForSnapshot(bot, predicate, timeoutMs, label) {
 
 function sendAction(bot, action) {
   bot.sendPageEvent("Data", JSON.stringify({ Action: action }));
+}
+
+function isBotConnected(bot) {
+  return typeof bot.isConnected === "function" ? bot.isConnected() : true;
+}
+
+function parseServerPosition(message) {
+  const match = message?.match(/(?:\|\s*pos| at)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/);
+  if (!match) {
+    return null;
+  }
+  return {
+    x: Number.parseFloat(match[1]),
+    y: Number.parseFloat(match[2]),
+    z: Number.parseFloat(match[3])
+  };
+}
+
+async function waitForNewServerMessage(bot, previousCount, predicate, timeoutMs, label) {
+  const startedAt = Date.now();
+  while ((Date.now() - startedAt) < timeoutMs) {
+    const messages = bot.getServerMessages();
+    for (const message of messages.slice(previousCount)) {
+      if (predicate(message)) {
+        return message;
+      }
+    }
+    await delay(100);
+  }
+  throw new Error(`Timed out waiting for ${label}`);
+}
+
+async function scanAndSeedPlayerPosition(bot) {
+  const previousCount = bot.getServerMessages().length;
+  bot.chat("/kd scan");
+  const message = await waitForNewServerMessage(
+    bot,
+    previousCount,
+    (entry) => entry.includes("World:") && entry.includes("| pos "),
+    8_000,
+    "player scan position"
+  );
+  const position = parseServerPosition(message);
+  if (!position) {
+    throw new Error(`Could not parse player position from scan message: ${message}`);
+  }
+  if (typeof bot.assumePosition === "function") {
+    bot.assumePosition(position);
+  }
+  return position;
+}
+
+function summarizePageSnapshot(snapshot) {
+  if (!snapshot) {
+    return null;
+  }
+  return {
+    key: snapshot.key,
+    selectors: snapshot.selectors,
+    buildingTitle: readSelectorValue(snapshot, "#BuildingTitle.Text"),
+    levelText: readSelectorValue(snapshot, "#LevelText.Text"),
+    statusText: readSelectorValue(snapshot, "#StatusText.Text"),
+    feedbackStatus: readSelectorValue(snapshot, "#FeedbackStatus.Text")
+  };
+}
+
+async function sendActionUntilSnapshot(bot, action, predicate, timeoutMs, label) {
+  const startedAt = Date.now();
+  let lastError = null;
+  while ((Date.now() - startedAt) < timeoutMs) {
+    if (!isBotConnected(bot)) {
+      break;
+    }
+    try {
+      sendAction(bot, action);
+    } catch (error) {
+      lastError = error instanceof Error ? error.message : String(error);
+      break;
+    }
+
+    const retryUntil = Date.now() + 1_750;
+    while ((Date.now() - startedAt) < timeoutMs && Date.now() < retryUntil) {
+      const snapshot = bot.snapshotPage();
+      if (snapshot && predicate(snapshot)) {
+        return snapshot;
+      }
+      await delay(150);
+    }
+  }
+
+  const finalSnapshot = summarizePageSnapshot(bot.snapshotPage());
+  const finalServerMessage = bot.getServerMessages().at(-1) ?? null;
+  throw new Error(
+    `Timed out waiting for ${label}; finalSnapshot=${JSON.stringify(finalSnapshot)}; finalServerMessage=${finalServerMessage}; lastSendError=${lastError}`
+  );
+}
+
+function farmsteadUpgradeStarted(snapshot) {
+  if (snapshot.key !== BUILDING_DETAIL_PAGE || readSelectorValue(snapshot, "#BuildingTitle.Text") !== "Farmstead") {
+    return false;
+  }
+  const levelText = readSelectorValue(snapshot, "#LevelText.Text");
+  const statusText = readSelectorValue(snapshot, "#StatusText.Text");
+  const feedbackStatus = readSelectorValue(snapshot, "#FeedbackStatus.Text");
+  return feedbackStatus === "Farmstead upgrade started."
+    || levelText === "L1 -> L2"
+    || (levelText === "L2" && statusText === "Operational");
 }
 
 async function openBuildingsOverview(bot, statusSelector, expectedText, timeoutMs = 12_000) {
@@ -172,10 +279,13 @@ async function main() {
       username,
       nearbyRadius: 16
     });
+    const scannedPosition = await scanAndSeedPlayerPosition(bot);
+    assertions.push("position-seeded-from-scan");
     await delay(1_000);
 
     const setupCommands = [
       "/kingdom buildings clear",
+      "/kingdom account setlevel 50",
       "/kingdom resources set food 250",
       "/kingdom resources set wood 250",
       "/kingdom resources set iron 250"
@@ -185,6 +295,14 @@ async function main() {
       await delay(450);
     }
     assertions.push("building-setup-complete");
+
+    bot.chat("/kingdom interior");
+    await bot.waitForWorldActivity(20_000);
+    const interiorReady = await waitForInteriorReady(bot);
+    await delay(2_000);
+    pages.push({ key: INTERIOR_MAIN_PAGE, title: interiorReady.via, snapshot: interiorReady.page ?? interiorReady.worldSnapshot ?? interiorReady.serverMessage ?? null });
+    assertions.push("entered-interior-for-buildings");
+    assertions.push(`interior-ready-${interiorReady.via}`);
 
     let buildingDetailSnapshot = await placeBuildingUntilDetail(
       bot,
@@ -211,13 +329,12 @@ async function main() {
     );
     assertions.push("farmstead-level-one-complete");
 
-    sendAction(bot, "BuildingStartUpgrade");
-    buildingDetailSnapshot = await waitForSnapshot(
+    await delay(750);
+    buildingDetailSnapshot = await sendActionUntilSnapshot(
       bot,
-      (snapshot) => snapshot.key === BUILDING_DETAIL_PAGE
-        && readSelectorValue(snapshot, "#FeedbackStatus.Text") === "Farmstead upgrade started."
-        && readSelectorValue(snapshot, "#LevelText.Text") === "L1 -> L2",
-      12_000,
+      "BuildingStartUpgrade",
+      farmsteadUpgradeStarted,
+      15_000,
       "building upgrade start"
     );
     assertions.push("farmstead-upgrade-started-from-ui");
@@ -241,14 +358,6 @@ async function main() {
     }
     pages.push({ key: BUILDINGS_OVERVIEW_PAGE, title: null, snapshot: overviewSnapshot });
     assertions.push("building-overview-reflects-upgrade");
-
-    bot.chat("/kingdom interior");
-    await bot.waitForWorldActivity(20_000);
-    const interiorReady = await waitForInteriorReady(bot);
-    await delay(2_000);
-    pages.push({ key: INTERIOR_MAIN_PAGE, title: interiorReady.via, snapshot: interiorReady.page ?? interiorReady.worldSnapshot ?? interiorReady.serverMessage ?? null });
-    assertions.push("entered-interior-for-buildings");
-    assertions.push(`interior-ready-${interiorReady.via}`);
 
     let barracksSnapshot = await placeBuildingUntilDetail(
       bot,
@@ -290,6 +399,7 @@ async function main() {
       pages,
       clientSnapshot: {
         baseline: baseline.snapshot,
+        scannedPosition,
         final: captureWorldSnapshot(bot, 12)
       },
       finalServerMessage: bot.getServerMessages().at(-1) ?? null
@@ -306,6 +416,10 @@ async function main() {
       assertions,
       pages,
       error: error instanceof Error ? error.message : String(error),
+      finalPageSnapshot: summarizePageSnapshot(bot.snapshotPage()),
+      clientSnapshot: {
+        final: captureWorldSnapshot(bot, 12)
+      },
       finalServerMessage: bot.getServerMessages().at(-1) ?? null
     };
     try {

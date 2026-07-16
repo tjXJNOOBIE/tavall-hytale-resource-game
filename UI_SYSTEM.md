@@ -1,39 +1,35 @@
 # UI System
 
 ## Purpose
-Provide readable prototype UIs using Hytale CustomUI pages without pushing gameplay state into page files.
+Keep UI content data-driven. Control-server owns the read models that fill screens, while the Minecraft runtime owns presentation, input handling, and refresh behavior.
 
 ## Responsibilities
-- Register and open typed pages.
-- Keep page logic in Java page models and UI action routing.
-- Preserve placeholder polish while staying replaceable.
-- Support debug/admin navigation and node detail workflows.
+- Expose UI data through `UIData` and domain-specific getters.
+- Keep reusable screen and action contracts in `minecraft-framework`.
+- Let `minecraft-game-server` own page rendering, inventory layout, and click handling.
+- Keep navigation and page selection logic out of the control plane.
 
 ## Main classes
-- `UiPageRegistry`
-- `UiNavigator`
-- `UiActionService`
-- Page models in `ui/`
-- `.ui` documents in `src/main/resources/Common/UI/Custom/Pages/`
-
-## Current pages
-- Castle main, info, citizens, troops, resources, upgrades
-- Interior main
-- Debug navigator
-- Resource node detail
+- `UIData`
+- `UiAction`
+- `UiScreen`
+- `UiSection`
+- `UiScreenKey`
+- Minecraft-side UI handlers and page renderers
 
 ## Important boundary
-- The `.ui` files define visual structure.
-- Page models compute values.
-- `UiActionService` performs side effects and reopens pages with updated state.
-- `UiNavigator` now tracks the last open page per player so economy ticks and admin mutations can refresh live castle/resource/node pages without duplicating page-routing logic elsewhere.
+- `UIData` is read-only state and should only pull from the cache, database, or both as needed.
+- `minecraft-framework` owns reusable UI contracts, not gameplay state.
+- `minecraft-game-server` decides how those contracts render in Minecraft and how clicks map back into gameplay or control-plane actions.
+- The old `UiNavigator`, `UiPageRegistry`, `UiActionService`, and `UiPageType` surfaces are intentionally gone.
 
 ## Links to other systems
-- Castle system and node system open pages from world interaction.
-- Interaction system resolves which world target should open a page in the first place.
-- Population/resource systems provide computed action state.
-- Debug command system uses UI navigation as a fast development tool.
+- Castle, interior, resource, troop, player, and node systems provide the domain data shown by the UI.
+- Interaction systems decide which data set a player should see.
+- Control-plane commands and caches provide the backing read models.
+- Art direction for panels, icons, buttons, placement selectors, and interaction states lives in [ART_DIRECTION.md](./ART_DIRECTION.md).
 
 ## Notes
-- CustomUI document loading was previously a failure point. Keep standalone page documents simple and asset-pack shipping explicit.
-- Join-time auto-open is intentionally disabled so players can enter the world normally.
+- Keep UI models narrow and domain-owned.
+- Prefer explicit screen keys and action contracts over generic navigation helpers.
+- Join-time auto-open remains opt-in so players can enter the world normally.

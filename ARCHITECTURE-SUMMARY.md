@@ -1,7 +1,7 @@
 # Architecture Summary
 
 ## Core Systems
-- ResourceGamePlugin now boots through a repo-local Tavall-style DI composition root and resolves runtime services through `IResourceGameDomain`.
+- ResourceGamePlugin now boots through a repo-local Tavall-style DI composition root and resolves runtime services through `ResourceGameDomain`.
 - PlayerDataService hydrates PlayerProfile + PlayerGameState via Redis-first cache and Postgres fallback.
 - CastleSpawnService spawns the placeholder castle entity and tracks it in CastleEntityRegistry.
 - CastleInteractionService listens for near/look interactions and opens the castle UI.
@@ -13,11 +13,11 @@
 - KingdomClockService provides 24-hour day/night state.
 
 ## UI
-- Custom .ui pages live under Common/UI/Custom/Pages.
-- UiPageRegistry + UiNavigator build and open pages.
-- UiActionService routes button actions to game services and now clears first-join tutorial milestones when upgrade actions succeed.
-- DebugNavigatorPage exposes cache mode, persistence mode, and onboarding milestone state for testable operator visibility.
-- InteriorMainPage and CastleUpgradesPage surface first-join tutorial copy from persisted onboarding metadata.
+- `UIData` provides the read models that fill UI screens.
+- `minecraft-framework` owns reusable screen/action contracts such as `UiAction`, `UiScreen`, `UiSection`, `UiScreenKey`, and `AssetId`.
+- `minecraft-game-server` renders those contracts in Minecraft and handles clicks, layout, and refresh behavior.
+- Domain pages remain backed by cache/database data and can still surface operator or debug state when the domain owns that data.
+- The old `UiNavigator`, `UiPageRegistry`, `UiActionService`, and `UiPageType` layer is gone.
 
 ## Dependency Composition
 - `dependency/` contains a repo-local compatibility layer that mirrors the shared Tavall token/domain access pattern while the upstream `tavall-di` module remains non-buildable in this monorepo.
@@ -27,7 +27,44 @@
 ## Persistence
 - PlayerProfileRepository and PlayerGameStateRepository use explicit Postgres tables.
 - Semantic cache (hot memory + Redis) is used for read-through caching.
+- InfrastructureHealthService probes Redis/Postgres, and InfrastructureMetricsRecorder tracks cache hit rates plus repository save latency.
 - AsyncTask is used for all persistence writes off the main thread.
+
+## Cross-Platform Middleware
+- The canonical game brain now lives under `src/main/java/com/tavall/hytale/resourcegame/middleware`.
+- Universal player IDs are canonical; Minecraft, Hytale, Roblox, and Discord account IDs are platform bindings only.
+- Guilds, castles, nodes, treasury/taxes, petitions, propaganda, troops, trade routes, assets, 2FA, troop wounds, healing recipes, healing resources, healing facilities, and projections are modeled as middleware state and handlers.
+- Platform projection handlers translate canonical objects into Minecraft, Hytale, Roblox, and Discord representations without mutating gameplay state.
+- Global asset IDs are canonical; platform asset versions map back to the same global asset and fall back by global ID when a platform asset is missing.
+- Game-domain behavior uses `Handler` classes; platform adapters remain thin render/input translators.
+
+## Control Plane
+- The canonical resource/kingdom simulation is owned by the plain Java control runtime, not by Spring Boot. `control-server` exposes the plain Java runtime entrypoint, while the Spring MVC package is an optional admin UI that can be disabled without stopping simulation.
+- The middleware/control server now has a shared `ControlCommandDispatchHandler` pipeline for CLI and Spring MVC control-panel inputs.
+- CLI commands, web-panel forms, and future API inputs parse once into `ControlCommand`, validate permissions/dry-run policy, mutate only canonical middleware state, and then fan out projection refresh/control events to Minecraft, Hytale, Roblox, and Discord adapters.
+- Control operators use explicit roles and permissions; high-risk commands require ADMIN, OWNER, or SYSTEM policy hooks, and all accepted/rejected/dry-run commands are audit logged with sensitive arguments redacted.
+- Platform fanout is adapter-based and idempotent around command IDs; offline platform failures produce partial command results without rolling back canonical middleware state, and failed targets are captured as retry records.
+- The Spring Boot panel under `controlserver/web` is an admin/control surface only; controllers stay thin and route command submissions through `WebControlPanelCommandHandler` into the shared dispatcher.
+- Control command results, audit logs, operators, fanout retry records, and scheduled commands have in-memory and Postgres-backed repository ports; scheduled commands dispatch through the same canonical pipeline.
+- Compensation handling currently produces explicit decisions for partial/failed commands so operators can distinguish platform retry work from gameplay compensation.
+
+## Universal Kingdom Simulation
+- Universal kingdom world partitions live under `org.tavall.control.kingdom` and are backend-owned canonical state.
+- The backend coordinate model is a 1:1 canonical world coordinate system with `worldId`, `x`, `y`, `z`, optional yaw/pitch, optional kingdom/region IDs, and metadata. Minecraft, Hytale, Roblox, Android, and PC coordinates convert through explicit platform conversion parameters; Discord displays summaries only.
+- Kingdoms receive deterministic storage namespaces and folder names such as `kingdom-1`, `kingdom-2`, and `kingdom-3`. The namespace is repository-backed and can later map to Postgres, folders, snapshots, exports, or config partitions without filesystem writes in gameplay handlers.
+- Rectangular kingdom borders are implemented first. Backend containment resolves the current kingdom from canonical coordinates, detects old kingdom to new kingdom transitions, records the transition, and creates a backend instance-switch request.
+- Platform frontends remain adapters/renderers/input clients. Minecraft, Hytale, Roblox, Discord, Android, and PC receive fanout/control events or projections; none of them owns canonical kingdom state.
+- New kingdom creation, scaling evaluation, player location updates, coordinate conversion, instance routing, and editable parameters all flow through `ControlCommandDispatchHandler`.
+- The optional Spring kingdom page reads the control runtime and submits forms as command lines through `WebControlCommandSubmissionHandler`; it does not mutate kingdom state directly.
+
+## Troop Healing
+- Troop healing is middleware-first under `middleware/healing`; frontends only consume `TroopHealingProjection` and submit action IDs back to handlers.
+- Supported wound types for this pass are `GENERAL_WOUND`, `POISONED`, `MAGIC_WOUND`, and `EXHAUSTED`; burn wounds and modern medical chains are intentionally excluded.
+- Food-only fallback healing uses Field Rations and remains available when rations exist, but it is slower than proper treatment and has projection text explaining the tradeoff.
+- Proper treatment uses Field Rations plus one of four exposed healing items: Bandage Kit, Antidote Kit, or Arcane Salve where appropriate. Pearl is the general-wound catalyst; Amethyst is the poison and magic-wound catalyst.
+- The active gem scope is Pearl, Amethyst, Peridot, Ruby, and Sapphire. Peridot, Ruby, and Sapphire are registered as global resources/domains but are not required by current healing recipes.
+- Healing facility definitions cover building levels 1-30 with Field Tent, Infirmary, Herbalist Hut, Apothecary, Field Hospital, Surgical Hall, Shrine, and Guild Hospital bands.
+- Resource node philosophy stays older-era/fantasy: wood, food, water, herb, iron, stone, and gem families feed crafting resources; oil and modern industrial inputs are TODO-only for future modernization updates.
 
 ## Bot Testing
 - Repo-local wrapper scripts in `scripts/` invoke the shared TypeScript smoke harness.

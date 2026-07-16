@@ -1,0 +1,43 @@
+package org.tavall.control.support;
+
+import org.tavall.control.player.IPlayerProfileHandler;
+import org.tavall.control.domain.PlayerProfile;
+
+import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
+
+public final class RecordingPlayerProfileHandler implements IPlayerProfileHandler {
+    private final AtomicReference<PlayerProfile> persistedProfile = new AtomicReference<>();
+
+    @Override
+    public Optional<PlayerProfile> readCached(UUID playerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public PlayerProfile loadOrCreate(UUID playerId, String name, String timezone, String ipHash, Instant now) {
+        return new PlayerProfile(
+                1L,
+                playerId,
+                name == null ? "player" : name,
+                timezone,
+                ipHash,
+                now,
+                now,
+                now
+        );
+    }
+
+    @Override
+    public void persist(PlayerProfile profile, Instant now) {
+        persistedProfile.set(profile);
+    }
+
+    public PlayerProfile persistedProfile() {
+        return persistedProfile.get();
+    }
+}
+
+

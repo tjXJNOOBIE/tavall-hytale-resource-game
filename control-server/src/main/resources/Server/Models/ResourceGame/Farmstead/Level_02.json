@@ -1,0 +1,20 @@
+{
+  "Model": "Items/ResourceGame/Farmstead/Level_02/Model.blockymodel",
+  "Texture": "Items/ResourceGame/Farmstead/Texture.png",
+  "EyeHeight": 1.8,
+  "CrouchOffset": 0,
+  "MinScale": 1,
+  "MaxScale": 1,
+  "HitBox": {
+    "Max": {
+      "X": 8,
+      "Y": 7,
+      "Z": 6
+    },
+    "Min": {
+      "X": -8,
+      "Y": 0,
+      "Z": -6
+    }
+  }
+}

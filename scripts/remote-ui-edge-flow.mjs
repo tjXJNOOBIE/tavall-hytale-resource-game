@@ -1,8 +1,8 @@
-﻿import path from "node:path";
+import path from "node:path";
 import { captureWorldSnapshot, createTraceSession, delay, ensureBotBaseline, resolveBotClientModuleUrl, writeJson, printStructured } from "./bot-flow-helpers.mjs";
 
 function readSelectorValue(snapshot, selector) {
-  const command = snapshot?.commands?.find((entry) => entry.type === "Set" && entry.selector === selector);
+  const command = snapshot?.commands?.slice().reverse().find((entry) => entry.type === "Set" && entry.selector === selector);
   if (!command) {
     return null;
   }
@@ -51,6 +51,13 @@ async function dismissPage(bot) {
   await delay(350);
 }
 
+async function sendCommands(bot, commands, delayMs = 350) {
+  for (const command of commands) {
+    bot.chat(command);
+    await delay(delayMs);
+  }
+}
+
 function matchesExpectedValues(snapshot, expected) {
   if (!expected) {
     return true;
@@ -68,10 +75,37 @@ async function openUpgrades(bot, expected = null) {
   bot.chat("/kd ui upgrades");
   return waitForSnapshot(
     bot,
-    (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleUpgradesPage" && matchesExpectedValues(snapshot, expected),
+    (snapshot) => snapshot.key === "org.tavall.control.ui.CastleUpgradesPage" && matchesExpectedValues(snapshot, expected),
     10_000,
     "upgrades page snapshot"
   );
+}
+
+async function forceUpgradeStateAndOpen(bot, commands, expected, timeoutMs, label) {
+  const startedAt = Date.now();
+  let latestSnapshot = null;
+  while ((Date.now() - startedAt) < timeoutMs) {
+    await dismissPage(bot);
+    await sendCommands(bot, commands);
+    await delay(250);
+    bot.chat("/kd ui upgrades");
+
+    const retryUntil = Date.now() + 1_750;
+    while (Date.now() < retryUntil) {
+      const snapshot = bot.snapshotPage();
+      if (snapshot?.key === "org.tavall.control.ui.CastleUpgradesPage") {
+        latestSnapshot = snapshot;
+        if (matchesExpectedValues(snapshot, expected)) {
+          return snapshot;
+        }
+      }
+      await delay(100);
+    }
+  }
+  const latestValues = latestSnapshot
+    ? Object.fromEntries(Object.keys(expected ?? {}).map((selector) => [selector, readSelectorValue(latestSnapshot, selector)]))
+    : null;
+  throw new Error(`Timed out waiting for ${label}; latest=${JSON.stringify(latestValues)}`);
 }
 
 async function openCastleInfo(bot) {
@@ -79,7 +113,7 @@ async function openCastleInfo(bot) {
     sendAction(bot, "OpenCastleInfo");
     return await waitForSnapshot(
       bot,
-      (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleInfoPage" && snapshot.selectors.includes("#CastleId.Text"),
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleInfoPage" && snapshot.selectors.includes("#CastleId.Text"),
       10_000,
       "castle info page"
     );
@@ -87,7 +121,7 @@ async function openCastleInfo(bot) {
     bot.chat("/kingdom ui info");
     return await waitForSnapshot(
       bot,
-      (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleInfoPage" && snapshot.selectors.includes("#CastleId.Text"),
+      (snapshot) => snapshot.key === "org.tavall.control.ui.CastleInfoPage" && snapshot.selectors.includes("#CastleId.Text"),
       15_000,
       "castle info page (fallback)"
     );
@@ -127,7 +161,7 @@ async function main() {
     await delay(5_000);
 
     bot.chat("/kd ui");
-    const debugSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.DebugNavigatorPage", 15_000, "debug page");
+    const debugSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "org.tavall.control.ui.DebugNavigatorPage", 15_000, "debug page");
     pages.push({ key: debugSnapshot.key, title: null, snapshot: debugSnapshot });
     assertions.push("debug-ui-opened");
 
@@ -136,34 +170,28 @@ async function main() {
     assertions.push("castle-info-opened-from-ui");
 
     sendAction(bot, "OpenCastleMain");
-    const castleMainSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleMainPage" && snapshot.selectors.includes("#EnterInteriorButton"), 10_000, "castle main page");
+    const castleMainSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "org.tavall.control.ui.CastleMainPage" && snapshot.selectors.includes("#EnterInteriorButton"), 10_000, "castle main page");
     pages.push({ key: castleMainSnapshot.key, title: null, snapshot: castleMainSnapshot });
     assertions.push("returned-to-castle-main");
 
     sendAction(bot, "OpenResources");
-    const resourcesSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.CastleResourcesPage" && snapshot.selectors.includes("#FoodCount.Text"), 10_000, "resources page");
+    const resourcesSnapshot = await waitForSnapshot(bot, (snapshot) => snapshot.key === "org.tavall.control.ui.CastleResourcesPage" && snapshot.selectors.includes("#FoodCount.Text"), 10_000, "resources page");
     pages.push({ key: resourcesSnapshot.key, title: null, snapshot: resourcesSnapshot });
     assertions.push("resources-opened-from-ui");
 
-    await dismissPage(bot);
-    bot.chat("/kd citizens set 0");
-    await delay(250);
-    bot.chat("/kd troops set 0");
-    await delay(250);
-    bot.chat("/kd resources set food 0");
-    await delay(250);
-    bot.chat("/kd resources set wood 0");
-    await delay(250);
-    bot.chat("/kd resources set iron 0");
-    await delay(700);
-
-    let upgradesSnapshot = await openUpgrades(bot, {
+    let upgradesSnapshot = await forceUpgradeStateAndOpen(bot, [
+      "/kd citizens set 0",
+      "/kd troops set 0",
+      "/kd resources set food 0",
+      "/kd resources set wood 0",
+      "/kd resources set iron 0"
+    ], {
       "#CitizenCount.Text": "0",
       "#TroopCount.Text": "0",
       "#FoodCount.Text": "0",
       "#WoodCount.Text": "0",
       "#IronCount.Text": "0"
-    });
+    }, 12_000, "zeroed upgrades page snapshot");
     if (readSelectorValue(upgradesSnapshot, "#PromoteStatus.Text") !== "Blocked: need at least 1 citizen.") {
       throw new Error(`Unexpected promote blocked status: ${readSelectorValue(upgradesSnapshot, "#PromoteStatus.Text")}`);
     }
@@ -181,37 +209,37 @@ async function main() {
     );
     assertions.push("blocked-promote-feedback");
 
-    await dismissPage(bot);
-    bot.chat("/kd citizens set 2");
-    await delay(250);
-    bot.chat("/kd resources set food 4");
-    await delay(250);
-    bot.chat("/kd resources set wood 0");
-    await delay(250);
-    bot.chat("/kd resources set iron 1");
-    await delay(700);
-
-    upgradesSnapshot = await openUpgrades(bot, {
+    upgradesSnapshot = await forceUpgradeStateAndOpen(bot, [
+      "/kd citizens set 2",
+      "/kd troops set 0",
+      "/kd resources set food 4",
+      "/kd resources set wood 0",
+      "/kd resources set iron 1"
+    ], {
       "#CitizenCount.Text": "2",
       "#TroopCount.Text": "0",
       "#FoodCount.Text": "4",
       "#WoodCount.Text": "0",
       "#IronCount.Text": "1"
-    });
+    }, 12_000, "wood-blocked upgrades page snapshot");
     if (readSelectorValue(upgradesSnapshot, "#PromoteStatus.Text") !== "Blocked: need 2 Wood.") {
       throw new Error(`Unexpected wood blocked status: ${readSelectorValue(upgradesSnapshot, "#PromoteStatus.Text")}`);
     }
     assertions.push("resource-blocked-status-visible");
 
-    await dismissPage(bot);
-    bot.chat("/kd resources set wood 2");
-    await delay(700);
-    upgradesSnapshot = await openUpgrades(bot, {
+    upgradesSnapshot = await forceUpgradeStateAndOpen(bot, [
+      "/kd citizens set 2",
+      "/kd troops set 0",
+      "/kd resources set food 4",
+      "/kd resources set wood 2",
+      "/kd resources set iron 1"
+    ], {
       "#CitizenCount.Text": "2",
       "#TroopCount.Text": "0",
+      "#FoodCount.Text": "4",
       "#WoodCount.Text": "2",
       "#IronCount.Text": "1"
-    });
+    }, 12_000, "promotion-ready upgrades page snapshot");
     if (readSelectorValue(upgradesSnapshot, "#PromoteStatus.Text") !== "Ready: promote 1 citizen into 1 troop.") {
       throw new Error(`Unexpected ready status: ${readSelectorValue(upgradesSnapshot, "#PromoteStatus.Text")}`);
     }
@@ -242,7 +270,7 @@ async function main() {
       5_000,
       "demotion completion"
     );
-    pages.push({ key: "com.tavall.hytale.resourcegame.ui.CastleUpgradesPage", title: null, snapshot: upgradesSnapshot });
+    pages.push({ key: "org.tavall.control.ui.CastleUpgradesPage", title: null, snapshot: upgradesSnapshot });
     assertions.push("demote-button-updates-state");
 
     const result = {

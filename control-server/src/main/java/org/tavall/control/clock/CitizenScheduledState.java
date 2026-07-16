@@ -1,0 +1,11 @@
+package org.tavall.control.clock;
+
+public enum CitizenScheduledState {
+    SLEEPING,
+    GOING_TO_WORK,
+    WORKING,
+    FREE_TIME,
+    RETURNING_HOME,
+    IDLE,
+    UNAVAILABLE
+}

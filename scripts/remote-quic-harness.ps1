@@ -1,4 +1,4 @@
-function Write-SharedLogLine {
+﻿function Write-SharedLogLine {
     param(
         [string]$Path,
         [string]$Message
@@ -83,12 +83,12 @@ function Ensure-RemoteQuicBridge {
         [string]$SshAlias,
         [string]$BridgeSourcePath,
         [string]$LogPath,
-        [string]$RemoteBridgeDir = "/srv/hytale-startup-patch-test/_bot/quic-bridge",
+        [string]$RemoteBridgeDir = "/srv/hytale/HytaleDevServer/_bot/quic-bridge",
         [string]$BridgeHost = "127.0.0.1",
         [int]$BridgePort = 5520,
         [string]$ServerHost = "127.0.0.1",
         [int]$ServerPort = 5520,
-        [string]$ServerRoot = "/srv/hytale-startup-patch-test"
+        [string]$ServerRoot = "/srv/hytale/HytaleDevServer"
     )
 
     $serverJarPath = "{0}/Server/HytaleServer.jar" -f $ServerRoot
@@ -132,6 +132,67 @@ exit 1
     if ($result -notmatch "BRIDGE_READY") {
         throw "Remote QUIC bridge did not report readiness."
     }
+}
+
+function Ensure-RemoteResourceGameControlServer {
+    param(
+        [string]$SshAlias,
+        [string]$ControlServerJarPath,
+        [string]$LogPath,
+        [string]$RemoteControlDir = "/srv/resource-game-control",
+        [int]$ControlPort = 8080
+    )
+
+    if (-not (Test-Path -LiteralPath $ControlServerJarPath)) {
+        throw "Control server jar not found: $ControlServerJarPath"
+    }
+
+    Invoke-RemoteLoggedBash -SshAlias $SshAlias -Script ("mkdir -p {0}/logs" -f $RemoteControlDir) -LogPath $LogPath | Out-Null
+    $remoteJarPath = "$RemoteControlDir/control-server.jar"
+    $copyExitCode = & scp.exe -F C:\Users\TJ\.ssh\config $ControlServerJarPath "${SshAlias}:$remoteJarPath.new" 2>&1 | Tee-Object -Variable scpOutput
+    foreach ($line in $scpOutput) {
+        if ($line -ne "") {
+            Write-SharedLogLine -Path $LogPath -Message $line
+            Write-Host $line
+        }
+    }
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to copy control server jar."
+    }
+
+    $script = @'
+set -e
+cd {0}
+mv control-server.jar.new control-server.jar
+CONTROL_PIDS=$(pgrep -f 'control-server.jar' || true)
+if [ -n "$CONTROL_PIDS" ]; then
+  echo "$CONTROL_PIDS" | xargs -r kill || true
+  sleep 2
+fi
+PORT_PIDS=$(lsof -ti tcp:{1} || true)
+if [ -n "$PORT_PIDS" ]; then
+  echo "$PORT_PIDS" | xargs -r kill || true
+  sleep 2
+fi
+nohup java --enable-preview -Dserver.port={1} -jar control-server.jar > logs/control-server.out.log 2> logs/control-server.err.log < /dev/null &
+for i in $(seq 1 60); do
+  if lsof -ti tcp:{1} >/dev/null 2>&1; then
+    echo CONTROL_SERVER_READY
+    exit 0
+  fi
+  sleep 1
+done
+echo CONTROL_SERVER_START_FAILED
+tail -n 120 logs/control-server.out.log || true
+tail -n 120 logs/control-server.err.log || true
+exit 1
+'@ -f $RemoteControlDir, $ControlPort
+
+    $result = Invoke-RemoteLoggedBash -SshAlias $SshAlias -Script $script -LogPath $LogPath
+    if ($result -notmatch "CONTROL_SERVER_READY") {
+        throw "Remote control server did not report readiness."
+    }
+    return "tcp://127.0.0.1:18081"
 }
 
 function ConvertTo-TextSummaryLines {

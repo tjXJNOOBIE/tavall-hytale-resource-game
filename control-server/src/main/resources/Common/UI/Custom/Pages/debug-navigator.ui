@@ -1,0 +1,86 @@
+Group {
+  Anchor: (Width: 880, Height: 620);
+  Background: PatchStyle(TexturePath: "../Textures/ResourceGame/panels/ui_panel_war_table_base.png");
+  Padding: (Full: 16);
+  LayoutMode: Top;
+
+  AssetImage #DebugIcon { Anchor: (Width: 64, Height: 64, Bottom: 8); AssetPath: "../Textures/ResourceGame/icons/ui_icon_action_move.png"; }
+
+  Label { Text: "Debug UI Navigator"; Style: (FontSize: 22, RenderBold: true); Anchor: (Bottom: 12); }
+  Label { Text: "Infra Status"; Style: (FontSize: 18, RenderBold: true, RenderUppercase: true); Anchor: (Bottom: 8); }
+  Label #CacheStatus { Style: (FontSize: 14, TextColor: #a7b0ba); Anchor: (Bottom: 4); }
+  Label #PersistenceStatus { Style: (FontSize: 14, TextColor: #a7b0ba); Anchor: (Bottom: 12); }
+  Label { Text: "Onboarding Status"; Style: (FontSize: 18, RenderBold: true, RenderUppercase: true); Anchor: (Bottom: 8); }
+  Label #InteriorTutorialStatus { Style: (FontSize: 14, TextColor: #a7b0ba); Anchor: (Bottom: 4); }
+  Label #InteriorTourStatus { Style: (FontSize: 14, TextColor: #a7b0ba); Anchor: (Bottom: 4); }
+  Label #UpgradeTutorialStatus { Style: (FontSize: 14, TextColor: #a7b0ba); Anchor: (Bottom: 16); }
+
+  Label { Text: "Command Runner"; Style: (FontSize: 18, RenderBold: true, RenderUppercase: true); Anchor: (Bottom: 8); }
+  Label #CommandFeedback { Style: (FontSize: 14, TextColor: #cfd8e1); Anchor: (Bottom: 12); }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 12);
+
+    TextButton #PlaceCastleButton { Text: "Place Castle"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #PlaceFoodNodeButton { Text: "Place Food Node"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #PlaceWoodNodeButton { Text: "Place Wood Node"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #PlaceIronNodeButton { Text: "Place Iron Node"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); }
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 16);
+
+    TextButton #ConfirmPlacementButton { Text: "Confirm Placement"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_confirm_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #CancelPlacementButton { Text: "Cancel Placement"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_danger_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #MoveNegXButton { Text: "Move -X"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #MovePosXButton { Text: "Move +X"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #MoveNegZButton { Text: "Move -Z"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #MovePosZButton { Text: "Move +Z"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #InteriorRebuildButton { Text: "Rebuild Interior"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #InteriorMoveButton { Text: "Move Interior"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #InteriorExitButton { Text: "Exit Interior"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #SceneRefreshButton { Text: "Scene Refresh"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #HologramTestButton { Text: "Hologram Test"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #TutorialResetButton { Text: "Reset Tutorial"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); }
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 16);
+
+    TextButton #NodesClearButton { Text: "Clear Nodes"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_danger_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #NodesListButton { Text: "List Nodes"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #BuildingsListButton { Text: "List Buildings"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #FocusButton { Text: "Focus"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #InteractButton { Text: "Interact"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); }
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 16);
+
+    TextButton #StageFarmsteadButton { Text: "Stage Farmstead"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #StageLumberMillButton { Text: "Stage Lumber Mill"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #StageIronWorksButton { Text: "Stage Iron Works"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #StageBarracksButton { Text: "Stage Barracks"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #StageWorkshopButton { Text: "Stage Workshop"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); }
+  }
+
+  Group {
+    LayoutMode: Left;
+    Anchor: (Bottom: 16);
+
+    TextButton #CastleMainButton { Text: "Castle Main"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #CastleInfoButton { Text: "Castle Info"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #CitizensButton { Text: "Citizens"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #TroopsButton { Text: "Troops"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #ResourcesButton { Text: "Resources"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); Anchor: (Right: 8); }
+    TextButton #UpgradesButton { Text: "Upgrades"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); }
+  }
+
+  Group { LayoutMode: Left; Anchor: (Bottom: 16); TextButton #InteriorButton { Text: "Enter Interior"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_primary_normal.png"); Padding: (Full: 6); } }
+
+  Group { LayoutMode: Right; TextButton #CloseButton { Text: "Close"; Background: PatchStyle(TexturePath: "../Textures/ResourceGame/buttons/ui_button_secondary_normal.png"); Padding: (Full: 6); } }
+}

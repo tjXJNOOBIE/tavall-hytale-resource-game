@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import {
   captureWorldSnapshot,
   delay,
@@ -9,7 +9,7 @@ import {
   writeJson, printStructured,
 } from "./bot-flow-helpers.mjs";
 
-const INTERIOR_PAGE_KEY = "com.tavall.hytale.resourcegame.ui.InteriorMainPage";
+const INTERIOR_PAGE_KEY = "org.tavall.control.ui.InteriorMainPage";
 const FIRST_TUTORIAL_TEXT = "Step 1: follow the tour markers. Step 2: inspect the citizen and troop anchors. Step 3: leave through the exit lane when you are done.";
 const COMPLETE_TUTORIAL_TEXT = "Interior tutorial complete: citizen and troop anchors stay here while the upgrade pipeline grows.";
 const CITIZEN_ANCHOR = { x: 3.5, y: 121.0, z: 2.5 };
@@ -22,7 +22,7 @@ const TOUR_MARKERS = [
 ];
 
 function readSelectorValue(snapshot, selector) {
-  const command = snapshot?.commands?.find((entry) => entry.type === "Set" && entry.selector === selector);
+  const command = snapshot?.commands?.slice().reverse().find((entry) => entry.type === "Set" && entry.selector === selector);
   if (!command) {
     return null;
   }

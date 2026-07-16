@@ -2,7 +2,7 @@
     [string]$SshAlias = "novus-remote",
     [string]$SshConfigPath = "C:\\Users\\TJ\\.ssh\\config",
     [string]$RemoteHarnessDir = "/srv/hytale/_bot/hytale-sim",
-    [string]$RemoteServerLogDir = "/srv/hytale-startup-patch-test/Server/logs",
+    [string]$RemoteServerLogDir = "/srv/hytale/HytaleDevServer/Server/logs",
     [string]$Scenario = "connect-only",
     [string]$Username = "ResourceGameBot",
     [string]$BridgeHost = "127.0.0.1",
@@ -13,7 +13,7 @@
     [switch]$StartBridge,
     [string]$LocalServerRoot = "F:\\Games\\Hytale\\install\\release\\package\\game\\latest\\Server",
     [string]$LogDir = "",
-    [string]$AuthDomain = "",
+    [string]$AuthDomain = "auth.sanasol.ws",
     [string]$IdentityToken = "",
     [string]$SessionToken = "",
     [string]$AuthPassword = "",
@@ -81,9 +81,6 @@ $remoteResultFile = "{0}/scenario-result.txt" -f $remoteOutputDir
 $authArgs = ""
 if ([string]::IsNullOrWhiteSpace($AuthDomain) -and -not [string]::IsNullOrWhiteSpace($env:HYTALE_AUTH_DOMAIN)) {
     $AuthDomain = $env:HYTALE_AUTH_DOMAIN
-}
-if ([string]::IsNullOrWhiteSpace($AuthDomain)) {
-    $AuthDomain = "auth.sanasol.ws"
 }
 if (-not [string]::IsNullOrWhiteSpace($AuthDomain)) {
     $authArgs += " --auth-domain '$AuthDomain'"

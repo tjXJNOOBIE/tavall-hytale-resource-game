@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import {
   aimAtGround,
   captureWorldSnapshot,
@@ -46,7 +46,7 @@ async function main() {
     await delay(1_250);
 
     bot.chat("/kingdom interact");
-    const castlePage = await bot.waitForPage("com.tavall.hytale.resourcegame.ui.CastleMainPage", 8_000);
+    const castlePage = await bot.waitForPage("org.tavall.control.ui.CastleMainPage", 8_000);
     pages.push({ key: castlePage.key, title: castlePage.title ?? null, snapshot: bot.snapshotPage() });
     assertions.push("castle-ui-opened-from-interact");
     bot.sendPageEvent("Dismiss", null);
@@ -65,7 +65,7 @@ async function main() {
     await delay(1_250);
 
     bot.chat("/kingdom interact");
-    const nodePage = await bot.waitForPage("com.tavall.hytale.resourcegame.ui.ResourceNodePage", 8_000);
+    const nodePage = await bot.waitForPage("org.tavall.control.ui.ResourceNodePage", 8_000);
     pages.push({ key: nodePage.key, title: nodePage.title ?? null, snapshot: bot.snapshotPage() });
     assertions.push("node-ui-opened-from-interact");
 

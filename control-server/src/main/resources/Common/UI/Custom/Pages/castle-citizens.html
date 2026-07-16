@@ -1,0 +1,53 @@
+<style>
+    .page-overlay { anchor-width: 1080; anchor-height: 660; layout-mode: top; padding: 18; background-image: url('../Textures/ResourceGame/panels/ui_panel_castle_ledger_base.png'); }
+    .row { layout-mode: left; padding-bottom: 10; }
+    .action-row { layout-mode: left; padding-bottom: 10; }
+    .hero { layout-mode: left; padding-bottom: 14; }
+    .hero-copy { layout-mode: top; padding-right: 16; }
+    .container { anchor-width: 880; layout-mode: top; padding: 12; background-image: url('../Textures/ResourceGame/panels/ui_panel_workshop_base.png'); }
+    .container-title { layout-mode: top; padding-bottom: 8; }
+    .stat-card { anchor-width: 170; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .wide-card { anchor-width: 260; layout-mode: top; padding-right: 10; padding-bottom: 8; }
+    .title { font-size: 26; font-weight: bold; text-transform: uppercase; color: #f4d27a; }
+    .section { font-size: 17; font-weight: bold; text-transform: uppercase; color: #d6e1eb; padding-top: 4; }
+    .label { font-size: 14; color: #a7b0ba; }
+    .value { font-size: 20; color: #fff1c2; }
+    .body { font-size: 15; color: #cfd8e1; padding-bottom: 8; }
+    .feedback { font-size: 15; font-weight: bold; color: #e2c168; padding-bottom: 10; }
+    button { anchor-width: 190; anchor-height: 38; padding: 7; color: #fff1c2; background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    .primary-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_primary_normal.png'); }
+    .confirm-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_confirm_normal.png'); }
+    .danger-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_danger_normal.png'); }
+    .nav-button { background-image: url('../Textures/ResourceGame/buttons/ui_button_secondary_normal.png'); }
+    progress { anchor-width: 360; color: #e2c168; padding-bottom: 8; }
+</style>
+<!-- Generated with Hytale UI Builder component patterns: page-overlay, container, text button, progress, back button. -->
+<div id="ResourceGamePageRoot" class="page-overlay">
+<div class="hero">
+        <img id="CitizensIcon" src="Textures/ResourceGame/icons/ui_icon_population_worker.png" width="64" height="64">
+        <div class="hero-copy"><p class="title">Citizens</p><p class="label">Workforce distribution and production roles.</p></div>
+    </div>
+    <div data-hyui-title="Population" id="PopulationContainer" class="container">
+        <div class="container-title"><p class="section">Population</p></div>
+        <div class="row"><div class="wide-card"><p class="label">Total Citizens</p><p id="CitizenCount" class="value">{{$CitizenCount}}</p></div></div>
+        <div class="row">
+            <div class="stat-card"><p class="label">Idle</p><p id="IdleCount" class="value">{{$IdleCount}}</p></div>
+            <div class="stat-card"><p class="label">Gatherers</p><p id="GathererCount" class="value">{{$GathererCount}}</p></div>
+            <div class="stat-card"><p class="label">Hunters</p><p id="HunterCount" class="value">{{$HunterCount}}</p></div>
+            <div class="stat-card"><p class="label">Cooks</p><p id="CookCount" class="value">{{$CookCount}}</p></div>
+        </div>
+        <div class="row">
+            <div class="stat-card"><p class="label">Miners</p><p id="MinerCount" class="value">{{$MinerCount}}</p></div>
+            <div class="stat-card"><p class="label">Builders</p><p id="BuilderCount" class="value">{{$BuilderCount}}</p></div>
+            <div class="stat-card"><p class="label">Blacksmiths</p><p id="BlacksmithCount" class="value">{{$BlacksmithCount}}</p></div>
+            <div class="stat-card"><p class="label">Architects</p><p id="ArchitectCount" class="value">{{$ArchitectCount}}</p></div>
+        </div>
+        <div class="row">
+            <div class="stat-card"><p class="label">Grunt Builders</p><p id="GruntBuilderCount" class="value">{{$GruntBuilderCount}}</p></div>
+            <div class="stat-card"><p class="label">Trainees</p><p id="TraineeCount" class="value">{{$TraineeCount}}</p></div>
+        </div>
+        <p id="FeedbackStatus" class="feedback">{{$FeedbackStatus}}</p>
+        <p class="body">Future: job assignment, productivity medians, task-copy NPCs, and real-time aging.</p>
+    </div>
+    <button id="BackButton" class="nav-button">Back</button>
+</div>

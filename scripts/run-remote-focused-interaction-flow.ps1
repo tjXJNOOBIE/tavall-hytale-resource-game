@@ -1,10 +1,10 @@
-﻿param(
+param(
     [string]$SshAlias = "novus-remote",
     [string]$RemoteHarnessDir = "/srv/hytale/_bot/hytale-sim",
     [string]$ScenarioScriptPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/scripts/remote-focused-interaction-flow.mjs",
-    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/target/tavall-hytale-resource-game.jar",
-    [string]$RemotePluginJarPath = "/srv/hytale-startup-patch-test/Server/mods/tavall-hytale-resource-game.jar",
-    [string]$ServerRoot = "/srv/hytale-startup-patch-test",
+    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/control-server/target/control-server-0.1.1-SNAPSHOT-exec.jar",
+    [string]$RemotePluginJarPath = "/srv/hytale/HytaleDevServer/Server/mods/tavall-hytale-resource-game.jar",
+    [string]$ServerRoot = "/srv/hytale/HytaleDevServer",
     [string]$Transport = "QUIC",
     [string]$ServerHost = "127.0.0.1",
     [int]$Port = 5522,
@@ -169,6 +169,9 @@ Invoke-ProcessCapture -FilePath "scp.exe" -Arguments @(
     ("{0}:{1}" -f $SshAlias, $RemotePluginJarPath)
 ) | Out-Null
 
+$remoteModsDir = $RemotePluginJarPath -replace "/[^/]+$", ""
+powershell -ExecutionPolicy Bypass -File .\scripts\install-hyui-remote.ps1 -SshAlias $SshAlias -RemoteModsDir $remoteModsDir | Out-Null
+
 Restart-RemoteServer
 Ensure-RemoteQuicBridge `
     -SshAlias $SshAlias `
@@ -180,8 +183,7 @@ Ensure-RemoteQuicBridge `
     -ServerRoot $ServerRoot
 Start-Sleep -Seconds 2
 
-$authDomain = if (-not [string]::IsNullOrWhiteSpace($env:HYTALE_AUTH_DOMAIN)) { $env:HYTALE_AUTH_DOMAIN } else { "auth.sanasol.ws" }
-$remoteCommand = "cd $RemoteHarnessDir && export HYTALE_SERVER_JAR=$ServerRoot/Server/HytaleServer.jar && export HYTALE_AUTH_DOMAIN=$authDomain && mkdir -p $remoteOutputDir && node $remoteScriptPath $ServerHost $Port $Username $StableUuid $remoteOutputDir"
+$remoteCommand = "cd $RemoteHarnessDir && export HYTALE_SERVER_JAR=$ServerRoot/Server/HytaleServer.jar && export HYTALE_AUTH_DOMAIN='auth.sanasol.ws' HYTALE_AUTH_SCOPES='hytale:client hytale:server' && unset HYTALE_IDENTITY_TOKEN HYTALE_SESSION_TOKEN HYTALE_AUTH_PASSWORD && mkdir -p $remoteOutputDir && node $remoteScriptPath $ServerHost $Port $Username $StableUuid $remoteOutputDir"
 $exitCode = Invoke-ProcessCapture -FilePath "ssh.exe" -Arguments @(
     "-F", "C:\Users\TJ\.ssh\config",
     $SshAlias,

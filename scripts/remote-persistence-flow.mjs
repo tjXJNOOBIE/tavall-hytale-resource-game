@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import { delay, ensureBotBaseline, resolveBotClientModuleUrl, writeJson, printStructured, captureWorldSnapshot } from "./bot-flow-helpers.mjs";
 
 async function waitForSnapshot(bot, predicate, timeoutMs, label) {
@@ -14,7 +14,7 @@ async function waitForSnapshot(bot, predicate, timeoutMs, label) {
 }
 
 function readSelectorValue(snapshot, selector) {
-  const command = snapshot?.commands?.find((entry) => entry.type === "Set" && entry.selector === selector);
+  const command = snapshot?.commands?.slice().reverse().find((entry) => entry.type === "Set" && entry.selector === selector);
   if (!command) {
     return null;
   }
@@ -55,7 +55,7 @@ async function openUpgradesAndAssert(bot, expected) {
   for (let attempt = 0; attempt < 3; attempt += 1) {
     bot.chat("/kingdom ui upgrades");
     try {
-      const page = await bot.waitForPage("com.tavall.hytale.resourcegame.ui.CastleUpgradesPage", 20_000);
+      const page = await bot.waitForPage("org.tavall.control.ui.CastleUpgradesPage", 20_000);
       const snapshot = await waitForSnapshot(
         bot,
         (candidate) => {

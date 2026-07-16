@@ -1,60 +1,27 @@
 # Command System
 
 ## Purpose
-Provide a development-first admin and debug surface that accelerates gameplay iteration and bot testing without hard-coding one-off server logic into page classes.
+Provide a single inventory of the custom command roots that drive the Minecraft game surface, proxy moderation surface, and control-plane console surface.
 
-## Main command root
-- `/kingdom`
-- alias: `/kd`
+## Ownership model
+- Minecraft game-server commands render gameplay UI and route player interactions.
+- Minecraft proxy commands own moderation and rank entrypoints, while the control plane remains canonical for private state.
+- Control-plane console commands own backend inspection, orchestration, and cross-platform state mutation.
+- Shared contracts and backend modules live under the non-Hytale namespace on `minecraft-main`.
 
-## Current command families
-- `ui`
-- `data`
-- `castle`
-- `interior`
-- `citizens`
-- `troops`
-- `resources`
-- `nodes`
-- `place`
-- `focus`
-- `interact`
-- `scan`
-- `scene`
-- `bootstrap`
-- `tick`
-- `tutorial`
+## Command inventory
+| Root | Owner module | Purpose | Representative subcommands |
+| --- | --- | --- | --- |
+| `/kingdom`, `/kd` | `minecraft-game-server` + `control-server` | Main in-game kingdom admin, UI, and gameplay surface | `ui`, `data`, `castle`, `buildings`, `interior`, `citizens`, `troops`, `resources`, `account`, `hologram`, `nodes`, `place`, `focus`, `interact`, `scan`, `scene`, `bootstrap`, `tick`, `tutorial`, `entity`, `companion`, `clock`, `schedule`, `aging`, `debug` |
+| `/rank` | `minecraft-proxy` + `control-server` | Proxy rank and authority entrypoint backed by canonical control-plane data | `list`, `inspect <player>`, `set <player> <rank>`, `remove <player>` |
+| `/ban`, `/warn`, `/unban`, `/unwarn`, `/mute`, `/unmute`, `/kick` | `minecraft-proxy` + `control-server` | Proxy moderation surface with live feedback and backend-backed records | `ban`, `warn`, `unban`, `unwarn`, `mute`, `unmute`, `kick` |
+| `cloud` | `control-server` | Control-plane orchestration for nodes, workloads, consoles, and kingdom folders | `nodes list`, `nodes register`, `workloads list`, `workloads create`, `workloads reconcile-all`, `servers list`, `consoles list`, `kingdoms list`, `kingdoms ensure` |
+| `control` / `panel` | `control-server` | Canonical backend console and panel surface for data inspection and admin work | `help`, `status`, `stop`, `players`, `rank`, `punish`, `kingdoms`, `clock`, `assets`, `audits` |
 
-## Main classes
-- `DebugCommandService`
-- `KingdomCommand`
-- `KingdomPlacementCommandSupport`
-- `KingdomNodeCommandSupport`
-- `KingdomInteractionCommandSupport`
-
-## Bot/admin-specific helpers
-- `/kd place castle`
-- `/kd place node <type>`
-- `/kd place confirm`
-- `/kd place cancel`
-- `/kd place status`
-- `/kd focus`
-- `/kd interact`
-- `/kd scan`
-- `/kd castle goto`
-- `/kd castle align`
-- `/kd castle move`
-- `/kd nodes goto <index|node_id_prefix>`
-- `/kd nodes align <index|node_id_prefix|focus>`
-- `/kd nodes status <index|node_id_prefix|focus>`
-- `/kd scene refresh`
-- `/kd bootstrap`
-- `/kd tick run [count]`
-- `/kd tutorial reset`
-
-## Design notes
-- Commands are intentionally grouped by system instead of dumping every mutation into one flat namespace.
-- Focus and interact commands exist so bots can behave more like players instead of opening everything through direct command-only shortcuts.
-- Placement commands exist so bots can use the same server-side targeting logic as real players until native click packets are integrated.
-- Mutation commands refresh tracked castle/resource/node pages when possible so live operator sessions and bot scenarios can observe state changes without manual page teardown.
-- Command handlers should mutate services, not repositories or raw metadata directly.
+## Notes
+- The command surface is intentionally split by runtime responsibility instead of stuffing every action into one adapter.
+- `/rank` and moderation commands belong on the proxy surface, but their canonical data still lives in the control plane.
+- Minecraft UI commands should open inventory-driven surfaces instead of generic fallback menus.
+- Control-plane commands should mutate shared state through backend handlers, not through Minecraft adapters.
+- On `minecraft-main`, non-Minecraft platform modules are intentionally omitted from the branch tree.
+- If a command is not listed here, it should be added only after the gameplay or backend flow is actually implemented and tested.

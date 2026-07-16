@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import {
   captureWorldSnapshot,
   createTraceSession,
@@ -9,11 +9,11 @@ import {
   writeJson, printStructured,
 } from "./bot-flow-helpers.mjs";
 
-const BUILDING_DETAIL_PAGE = "com.tavall.hytale.resourcegame.ui.BuildingDetailPage";
-const BUILDINGS_OVERVIEW_PAGE = "com.tavall.hytale.resourcegame.ui.CastleBuildingsPage";
+const BUILDING_DETAIL_PAGE = "org.tavall.control.ui.BuildingDetailPage";
+const BUILDINGS_OVERVIEW_PAGE = "org.tavall.control.ui.CastleBuildingsPage";
 
 function readSelectorValue(snapshot, selector) {
-  const command = snapshot?.commands?.find((entry) => entry.type === "Set" && entry.selector === selector);
+  const command = snapshot?.commands?.slice().reverse().find((entry) => entry.type === "Set" && entry.selector === selector);
   if (!command) {
     return null;
   }

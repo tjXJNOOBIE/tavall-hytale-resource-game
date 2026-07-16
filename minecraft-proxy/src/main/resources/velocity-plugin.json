@@ -1,0 +1,10 @@
+{
+  "id": "tavall-resource-game",
+  "name": "Tavall Resource Game",
+  "version": "0.1.0-SNAPSHOT",
+  "description": "Velocity proxy adapter for Tavall Resource Game control-plane commands.",
+  "authors": [
+    "Tavall"
+  ],
+  "main": "org.tavall.minecraft.runtime.MinecraftVelocityProxyPlugin"
+}

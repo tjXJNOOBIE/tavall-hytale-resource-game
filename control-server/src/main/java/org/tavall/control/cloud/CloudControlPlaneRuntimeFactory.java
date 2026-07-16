@@ -1,0 +1,16 @@
+package org.tavall.control.cloud;
+
+import java.time.Instant;
+
+public final class CloudControlPlaneRuntimeFactory implements CloudControlDomain {
+    private CloudControlPlaneRuntimeFactory() {
+    }
+
+    public static CloudControlPlaneRuntime createInMemoryRuntime() {
+        new CloudControlDependencyModule().registerDependencies();
+        CloudControlPlane controlPlane = new CloudControlPlane();
+        controlPlane.getCloudControlPlaneFilesystemLayout().ensureLayout();
+        controlPlane.getCloudOwnerAuthorityBootstrapHandler().ensureLocalOwnerAuthority(Instant.now());
+        return controlPlane.runtime();
+    }
+}

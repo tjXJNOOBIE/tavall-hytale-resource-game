@@ -1,0 +1,430 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "free",
+    "box_uv": true
+  },
+  "name": "Resource Game Farmstead",
+  "model_identifier": "resource_game:farmstead",
+  "visible_box": [
+    3,
+    3,
+    3
+  ],
+  "variable_placeholders": "",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "field_pad",
+      "uuid": "d726c641-9ad7-5740-8152-8c947d85802e",
+      "type": "cube",
+      "from": [
+        -18,
+        0,
+        -18
+      ],
+      "to": [
+        18,
+        2,
+        18
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "color": 1,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "farmhouse",
+      "uuid": "bc192171-8a09-5cc7-ba88-fb852062c54f",
+      "type": "cube",
+      "from": [
+        -9,
+        2,
+        -9
+      ],
+      "to": [
+        9,
+        13,
+        9
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "color": 2,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "roof",
+      "uuid": "29bd54de-0910-5ae9-98c4-9d86a06e8e80",
+      "type": "cube",
+      "from": [
+        -13,
+        13,
+        -13
+      ],
+      "to": [
+        13,
+        19,
+        13
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "color": 4,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "crop_cross_x",
+      "uuid": "f35cec69-bffa-50dd-83df-00138d3bcc7b",
+      "type": "cube",
+      "from": [
+        -18,
+        2,
+        -3
+      ],
+      "to": [
+        18,
+        4,
+        3
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "color": 5,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "crop_cross_z",
+      "uuid": "430d29e4-1744-5c09-a645-96c15b55f15b",
+      "type": "cube",
+      "from": [
+        -3,
+        2,
+        -18
+      ],
+      "to": [
+        3,
+        4,
+        18
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "color": 5,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      }
+    }
+  ],
+  "outliner": [
+    "d726c641-9ad7-5740-8152-8c947d85802e",
+    "bc192171-8a09-5cc7-ba88-fb852062c54f",
+    "29bd54de-0910-5ae9-98c4-9d86a06e8e80",
+    "f35cec69-bffa-50dd-83df-00138d3bcc7b",
+    "430d29e4-1744-5c09-a645-96c15b55f15b"
+  ],
+  "textures": [
+    {
+      "path": "textures/farmstead_texture.png",
+      "name": "farmstead_texture.png",
+      "folder": "textures",
+      "namespace": "",
+      "id": "0",
+      "particle": true,
+      "render_mode": "default",
+      "visible": true,
+      "mode": "bitmap",
+      "saved": true,
+      "uuid": "3d143417-c1f1-5c92-b9a3-8ce786bce222",
+      "relative_path": "textures/farmstead_texture.png",
+      "source": "textures/farmstead_texture.png"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import {
   captureWorldSnapshot,
   createTraceSession,
@@ -69,10 +69,10 @@ async function main() {
 
       bot.chat("/kingdom interior");
       await bot.waitForWorldActivity(20_000);
-      await bot.waitForPage("com.tavall.hytale.resourcegame.ui.InteriorMainPage", 20_000);
+      await bot.waitForPage("org.tavall.control.ui.InteriorMainPage", 20_000);
       const interiorSnapshot = await waitForSnapshot(
         bot,
-        "com.tavall.hytale.resourcegame.ui.InteriorMainPage",
+        "org.tavall.control.ui.InteriorMainPage",
         "#ExitInteriorButton",
         8_000,
         `interior page on cycle ${cycle}`
@@ -81,16 +81,16 @@ async function main() {
       assertions.push(`entered-interior-cycle-${cycle}`);
 
       sendBoundAction(bot, "#ExitInteriorButton", "ExitInterior");
-      const uiReturnPage = await waitForPageOrNull(bot, "com.tavall.hytale.resourcegame.ui.CastleMainPage", 7_500);
+      const uiReturnPage = await waitForPageOrNull(bot, "org.tavall.control.ui.CastleMainPage", 7_500);
       if (!uiReturnPage) {
         assertions.push(`exit-ui-event-fallback-cycle-${cycle}`);
         bot.chat("/kingdom interior exit");
       }
       await bot.waitForWorldActivity(20_000);
-      await bot.waitForPage("com.tavall.hytale.resourcegame.ui.CastleMainPage", 20_000);
+      await bot.waitForPage("org.tavall.control.ui.CastleMainPage", 20_000);
       const returnSnapshot = await waitForSnapshot(
         bot,
-        "com.tavall.hytale.resourcegame.ui.CastleMainPage",
+        "org.tavall.control.ui.CastleMainPage",
         "#EnterInteriorButton",
         8_000,
         `castle return page on cycle ${cycle}`

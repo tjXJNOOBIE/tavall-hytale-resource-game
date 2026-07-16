@@ -1,4 +1,4 @@
-﻿import path from "node:path";
+import path from "node:path";
 import {
   captureWorldSnapshot,
   delay,
@@ -8,7 +8,7 @@ import {
 } from "./bot-flow-helpers.mjs";
 
 function readSelectorValue(snapshot, selector) {
-  const command = snapshot?.commands?.find((entry) => entry.type === "Set" && entry.selector === selector);
+  const command = snapshot?.commands?.slice().reverse().find((entry) => entry.type === "Set" && entry.selector === selector);
   if (!command) {
     return null;
   }
@@ -51,10 +51,10 @@ function parseLeadingNumber(rawText) {
 
 async function openNodePage(bot) {
   bot.chat("/kingdom nodes select 1");
-  await bot.waitForPage("com.tavall.hytale.resourcegame.ui.ResourceNodePage", 10_000);
+  await bot.waitForPage("org.tavall.control.ui.ResourceNodePage", 10_000);
   return waitForSnapshot(
     bot,
-    (snapshot) => snapshot.key === "com.tavall.hytale.resourcegame.ui.ResourceNodePage",
+    (snapshot) => snapshot.key === "org.tavall.control.ui.ResourceNodePage",
     5_000,
     "resource node page snapshot"
   );
@@ -153,7 +153,7 @@ async function main() {
     snapshot = await waitForSnapshot(
       bot,
       (candidate) => {
-        if (candidate.key !== "com.tavall.hytale.resourcegame.ui.ResourceNodePage") {
+        if (candidate.key !== "org.tavall.control.ui.ResourceNodePage") {
           return false;
         }
         const stock = parseStockValue(candidate);

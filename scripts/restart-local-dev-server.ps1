@@ -4,6 +4,7 @@ param(
     [switch]$DeployPlugin = $true,
     [switch]$RequireLiveDatabases,
     [switch]$ResetProblemRegions,
+    [switch]$NoExitOnReady,
     [int]$Port = 5520,
     [int]$StartupTimeoutSeconds = 180
 )
@@ -28,11 +29,6 @@ if (Test-Path $prepareDbScript) {
     }
 }
 
-if ($DeployPlugin) {
-    $deployScript = Join-Path $PSScriptRoot "deploy-local-plugin.ps1"
-    & $deployScript -ServerRoot $ServerRoot -Build:$BuildPlugin
-}
-
 $serverProcesses = Get-CimInstance Win32_Process |
     Where-Object { $_.Name -match "^java(\\.exe)?$" -and $_.CommandLine -match "HytaleServer.jar" }
 
@@ -55,7 +51,11 @@ $allProcessIds = @(
 
 foreach ($processId in $allProcessIds) {
     try {
-        & taskkill.exe /F /T /PID $processId | Out-Null
+        $taskKillOutput = & taskkill.exe /F /T /PID $processId 2>&1
+        $taskKillExitCode = $LASTEXITCODE
+        if ($taskKillExitCode -ne 0 -and (Get-Process -Id $processId -ErrorAction SilentlyContinue)) {
+            Write-Warning ("Failed to stop local Hytale process tree {0}: {1}" -f $processId, ($taskKillOutput -join " "))
+        }
     } catch {
         Write-Warning ("Failed to stop local Hytale process tree {0}: {1}" -f $processId, $_.Exception.Message)
     }
@@ -91,7 +91,12 @@ if ($ResetProblemRegions) {
     }
 }
 
-$launchProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "`"$startScript`"" -WorkingDirectory $ServerRoot -PassThru
+if ($DeployPlugin) {
+    $deployScript = Join-Path $PSScriptRoot "deploy-local-plugin.ps1"
+    & $deployScript -ServerRoot $ServerRoot -Build:$BuildPlugin
+}
+
+$launchProcess = Start-Process -FilePath "cmd.exe" -ArgumentList "/c", "`"$startScript`"" -WorkingDirectory $ServerRoot -WindowStyle Hidden -PassThru
 
 $startupDeadline = (Get-Date).AddSeconds($StartupTimeoutSeconds)
 do {
@@ -99,6 +104,9 @@ do {
     $activeListeners = @($listener | Select-Object -ExpandProperty OwningProcess -Unique)
     if ($activeListeners.Count -ge 1) {
         Write-Host "Local Hytale dev server is listening on UDP $Port (processes: $($activeListeners -join ', '))."
+        if ($NoExitOnReady) {
+            return
+        }
         exit 0
     }
     if ($launchProcess.HasExited) {
