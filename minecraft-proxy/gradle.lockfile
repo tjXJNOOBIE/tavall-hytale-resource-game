@@ -3,11 +3,11 @@
 # This file is expected to be part of source control.
 # To regenerate this file, run: ./gradlew :minecraft-proxy:dependencies --write-locks
 aopalliance:aopalliance:1.0=compileClasspath,testCompileClasspath,testRuntimeClasspath
-com.fasterxml.jackson.core:jackson-annotations:2.18.3=compileClasspath,testCompileClasspath,testRuntimeClasspath
-com.fasterxml.jackson.core:jackson-core:2.18.3=compileClasspath,testCompileClasspath,testRuntimeClasspath
-com.fasterxml.jackson.core:jackson-databind:2.18.3=compileClasspath,testCompileClasspath,testRuntimeClasspath
-com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3=compileClasspath,testCompileClasspath,testRuntimeClasspath
-com.fasterxml.jackson.module:jackson-module-parameter-names:2.18.3=compileClasspath,testCompileClasspath,testRuntimeClasspath
+com.fasterxml.jackson.core:jackson-annotations:2.18.3=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+com.fasterxml.jackson.core:jackson-core:2.18.3=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+com.fasterxml.jackson.core:jackson-databind:2.18.3=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+com.fasterxml.jackson.module:jackson-module-parameter-names:2.18.3=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 com.github.ben-manes.caffeine:caffeine:3.1.8=compileClasspath,testCompileClasspath,testRuntimeClasspath
 com.google.auto.service:auto-service-annotations:1.1.1=compileClasspath,testCompileClasspath,testRuntimeClasspath
 com.google.code.findbugs:jsr305:3.0.2=compileClasspath,testCompileClasspath,testRuntimeClasspath
@@ -57,7 +57,7 @@ org.spongepowered:configurate-core:4.1.2=compileClasspath,testCompileClasspath,t
 org.spongepowered:configurate-gson:4.1.2=compileClasspath,testCompileClasspath,testRuntimeClasspath
 org.spongepowered:configurate-hocon:4.1.2=compileClasspath,testCompileClasspath,testRuntimeClasspath
 org.spongepowered:configurate-yaml:4.1.2=compileClasspath,testCompileClasspath,testRuntimeClasspath
-org.tavall:tavall-di:1.0.0=compileClasspath,testCompileClasspath,testRuntimeClasspath
-org.tavall:tavall-logging:1.0.0=compileClasspath,testCompileClasspath,testRuntimeClasspath
+org.tavall:tavall-di:1.0.0=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
+org.tavall:tavall-logging:1.0.0=compileClasspath,runtimeClasspath,testCompileClasspath,testRuntimeClasspath
 org.yaml:snakeyaml:1.33=compileClasspath,testCompileClasspath,testRuntimeClasspath
 empty=annotationProcessor,testAnnotationProcessor

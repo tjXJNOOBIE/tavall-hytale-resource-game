@@ -10,7 +10,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
-$resourceRoot = Join-Path $repoRoot "src\main\resources"
+$resourceRoot = Join-Path $repoRoot "control-server\src\main\resources"
 $sourceCommon = Join-Path $resourceRoot "Common"
 $sourceServer = Join-Path $resourceRoot "Server"
 $targetModsRoot = Join-Path $ServerRoot "mods"
@@ -44,16 +44,13 @@ function Assert-UnderRoot {
     }
 }
 
-function Invoke-MavenProcessResources {
+function Invoke-GradleProcessResources {
     Push-Location $repoRoot
     try {
-        $mavenCommand = "mvn.cmd"
-        if (-not (Get-Command $mavenCommand -ErrorAction SilentlyContinue)) {
-            $mavenCommand = "C:\Tools\apache-maven-3.9.9\bin\mvn.cmd"
-        }
-        & $mavenCommand -q process-resources
+        $gradleCommand = Join-Path $repoRoot "gradlew.bat"
+        & $gradleCommand -q :control-server:processResources
         if ($LASTEXITCODE -ne 0) {
-            throw "Maven process-resources failed with exit code $LASTEXITCODE"
+            throw "Gradle process-resources failed with exit code $LASTEXITCODE"
         }
     }
     finally {
@@ -93,8 +90,8 @@ if ($GenerateAssets) {
     }
 }
 
-if ($ProcessResources -or -not (Test-Path -LiteralPath (Join-Path $repoRoot "target\classes\manifest.json"))) {
-    Invoke-MavenProcessResources
+if ($ProcessResources -or -not (Test-Path -LiteralPath (Join-Path $repoRoot "control-server\build\resources\main\manifest.json"))) {
+    Invoke-GradleProcessResources
 }
 
 New-Item -ItemType Directory -Force -Path $targetPackRoot | Out-Null

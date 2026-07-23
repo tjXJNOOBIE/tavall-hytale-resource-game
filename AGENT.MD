@@ -8,7 +8,7 @@
 
 ## Runtime Rules
 - Treat the local dev server at `C:\Users\TJ\Documents\HyTaleDevServer` as the primary live test target unless the task explicitly calls for the remote server.
-- Keep Custom UI assets and plugin resources packaged through the normal Maven jar.
+- Keep Custom UI assets and plugin resources packaged through the normal Gradle jar.
 - Prefer block-first visuals for castles, buildings, and nodes. Interior NPCs should remain stationary anchor visuals only.
 
 ## Testing Rules

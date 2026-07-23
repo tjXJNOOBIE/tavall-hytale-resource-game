@@ -16,7 +16,7 @@ This section is to determine which system belongs to what language.
 
 ## Resource Game Frontend Modules
 
-These modules live under the current `tavall-hytale-resource-game` folder and are registered from the `tavall-java-hytale-games` Maven parent.
+These modules live under the current `tavall-hytale-resource-game` folder and are registered in its Gradle multi-project build.
 
 | Module | Platform | Runtime | State ownership |
 | --- | --- | --- | --- |

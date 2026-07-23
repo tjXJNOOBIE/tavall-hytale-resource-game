@@ -60,21 +60,23 @@ const defaults: Options = {
   remoteHeadlessDir: "/srv/headless",
   controlServerJarPath: path.join(
     repoRoot,
+    "distribution",
     "control-server",
-    "target",
-    "control-server-0.1.1-SNAPSHOT-exec.jar"
+    "application.jar"
   ),
   pluginJarPath: path.join(
     repoRoot,
+    "distribution",
     "minecraft-proxy",
-    "target",
-    "minecraft-proxy-0.1.1-SNAPSHOT.jar"
+    "plugins",
+    "minecraft-proxy.jar"
   ),
   serverPluginJarPath: path.join(
     repoRoot,
+    "distribution",
     "minecraft-game-server",
-    "target",
-    "minecraft-game-server-0.1.1-SNAPSHOT.jar"
+    "plugins",
+    "minecraft-game-server.jar"
   ),
   scenarioScriptPath: path.join(repoRoot, "scripts", "minecraft-velocity-control-plane-flow.mjs"),
   controlPort: 19081,
@@ -281,6 +283,8 @@ async function main(): Promise<void> {
   assertLocalFile(options.pluginJarPath, "Minecraft Velocity plugin jar");
   assertLocalFile(options.serverPluginJarPath, "Minecraft Bukkit server plugin jar");
   assertLocalFile(options.controlServerJarPath, "Control server jar");
+  const controlServerLibDirectory = path.join(path.dirname(options.controlServerJarPath), "libs");
+  assertLocalFile(controlServerLibDirectory, "Control server dependency directory");
   assertLocalFile(options.scenarioScriptPath, "Scenario script");
   const kingdomServerJarLocalPath = await downloadPaperIfNeeded(options, logRoot, runLogPath);
 
@@ -291,7 +295,7 @@ async function main(): Promise<void> {
   await invokeChecked(
     runLogPath,
     "ssh.exe",
-    sshArgs(`mkdir -p ${remoteQuote(`${options.remoteControlDir}/logs`)}`),
+    sshArgs(`mkdir -p ${remoteQuote(`${options.remoteControlDir}/logs`)} && rm -rf ${remoteQuote(`${options.remoteControlDir}/libs.new`)}`),
     "Failed to prepare remote control directory."
   );
   await invokeChecked(
@@ -300,11 +304,20 @@ async function main(): Promise<void> {
     scpArgs(options.controlServerJarPath, `${options.sshAlias}:${options.remoteControlDir}/control-server.jar.new`),
     "Failed to copy control server jar."
   );
+  await invokeChecked(
+    runLogPath,
+    "scp.exe",
+    scpArgs("-r", controlServerLibDirectory, `${options.sshAlias}:${options.remoteControlDir}/libs.new`),
+    "Failed to copy control server dependencies."
+  );
 
   const remoteControl = `
 set -euo pipefail
 cd ${remoteQuote(options.remoteControlDir)}
 mv control-server.jar.new control-server.jar
+rm -rf libs.previous
+if [ -d libs ]; then mv libs libs.previous; fi
+mv libs.new libs
 if command -v fuser >/dev/null 2>&1; then
   fuser -k ${options.controlPort}/tcp 2>/dev/null || true
 fi
@@ -329,7 +342,7 @@ if ss -ltn | grep -q ':${options.controlPort} '; then
   exit 1
 fi
 tmux kill-session -t control 2>/dev/null || true
-tmux new-session -d -s control -c ${remoteQuote(options.remoteControlDir)} "env TAVALL_CONTROL_BRIDGE_HOST=127.0.0.1 TAVALL_CONTROL_BRIDGE_PORT=${options.controlPort} java --enable-preview -jar control-server.jar 2>&1 | tee -a logs/control-bridge.out.log"
+tmux new-session -d -s control -c ${remoteQuote(options.remoteControlDir)} "env TAVALL_CONTROL_BRIDGE_HOST=127.0.0.1 TAVALL_CONTROL_BRIDGE_PORT=${options.controlPort} java --enable-preview -cp 'control-server.jar:libs/*' org.tavall.control.cli.ControlConsoleApplication 2>&1 | tee -a logs/control-bridge.out.log"
 for i in $(seq 1 60); do
   if ss -ltn | grep -q ':${options.controlPort} '; then
     sleep 2

@@ -11,7 +11,7 @@ Keep object wiring and fast state access aligned with Tavall patterns used elsew
 - Command supports are now DI-managed as well, instead of being constructed ad hoc inside the command root.
 
 ## Why repo-local DI exists
-- The shared `tavall-di` module is consumed directly here through Maven.
+- The shared `tavall-di` module is consumed directly here through Gradle.
 - This repo mirrors the same domain/token/module pattern locally so the usage style still matches Tavall conventions.
 
 ## Cache shape

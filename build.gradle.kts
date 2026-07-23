@@ -159,6 +159,8 @@ project(":minecraft-framework:minecraft-backend-api") {
 
 project(":control-server") {
     apply(plugin = "application")
+    configurations.create("hyui")
+    configurations.create("standaloneRuntime")
 
     extensions.configure<JavaApplication> {
         mainClass = "org.tavall.control.cli.ControlConsoleApplication"
@@ -181,8 +183,11 @@ project(":control-server") {
         "runtimeOnly"("org.tavall:abstract-cache-storage-redis:$cacheVersion")
         "compileOnly"("com.hypixel.hytale:Server:$hytaleServerVersion")
         "testImplementation"("com.hypixel.hytale:Server:$hytaleServerVersion")
+        "standaloneRuntime"("com.hypixel.hytale:Server:$hytaleServerVersion")
         "compileOnly"("curse.maven:hyui-1431415:7820303")
         "testImplementation"("curse.maven:hyui-1431415:7820303")
+        "hyui"("curse.maven:hyui-1431415:7820303")
+        "standaloneRuntime"("curse.maven:hyui-1431415:7820303")
         "implementation"("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
         "implementation"("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion")
         "implementation"("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
@@ -240,8 +245,14 @@ project(":minecraft-game-server") {
         "implementation"(project(":minecraft-framework"))
         "implementation"("org.tavall:tavall-di:$tavallToolsVersion")
         "implementation"("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-        "compileOnly"("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-        "testImplementation"("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+        "compileOnly"("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT") {
+            exclude(group = "org.apache.maven")
+            exclude(group = "org.apache.maven.resolver")
+        }
+        "testImplementation"("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT") {
+            exclude(group = "org.apache.maven")
+            exclude(group = "org.apache.maven.resolver")
+        }
         "testImplementation"("org.junit.jupiter:junit-jupiter:$junitVersion")
     }
     tasks.named<ProcessResources>("processResources") {
@@ -303,6 +314,7 @@ val stageDistribution = tasks.register("stageDistribution") {
         }
         copy {
             from(controlServer.configurations.named("runtimeClasspath"))
+            from(controlServer.configurations.named("standaloneRuntime"))
             into(distributionDir.dir("control-server/libs"))
         }
         copy {
@@ -322,6 +334,11 @@ val stageDistribution = tasks.register("stageDistribution") {
             into(distributionDir.dir("minecraft-proxy/libs"))
         }
     }
+}
+
+tasks.register<Copy>("resolveHyuiDependency") {
+    from(project(":control-server").configurations.named("hyui"))
+    into(layout.buildDirectory.dir("hyui"))
 }
 
 tasks.named("assemble") {

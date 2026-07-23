@@ -12,16 +12,17 @@ if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
     $RepoRoot = Split-Path -Parent $PSScriptRoot
 }
 if ([string]::IsNullOrWhiteSpace($JarPath)) {
-    $JarPath = Join-Path $RepoRoot "core\target\tavall-hytale-resource-game.jar"
+    $JarPath = Join-Path $RepoRoot "distribution\control-server\application.jar"
 }
 
 function Get-LatestSourceTimestamp {
     param([string]$Path)
 
     $directories = @(
-        (Join-Path $Path "src\main\java"),
-        (Join-Path $Path "src\main\resources"),
-        (Join-Path $Path "pom.xml")
+        (Join-Path $Path "control-server\src\main\java"),
+        (Join-Path $Path "control-server\src\main\resources"),
+        (Join-Path $Path "build.gradle.kts"),
+        (Join-Path $Path "settings.gradle.kts")
     )
 
     $items = foreach ($candidate in $directories) {
@@ -37,20 +38,17 @@ function Get-LatestSourceTimestamp {
     return ($items | Sort-Object LastWriteTime -Descending | Select-Object -First 1).LastWriteTime
 }
 
-function Invoke-MavenBuild {
+function Invoke-GradleBuild {
     param([string]$Path)
 
     Push-Location $Path
     try {
-        $mavenCommand = "mvn.cmd"
-        if (-not (Get-Command $mavenCommand -ErrorAction SilentlyContinue)) {
-            $mavenCommand = "C:\Tools\apache-maven-3.9.9\bin\mvn.cmd"
-        }
+        $gradleCommand = Join-Path $Path "gradlew.bat"
         $stdoutPath = [System.IO.Path]::GetTempFileName()
         $stderrPath = [System.IO.Path]::GetTempFileName()
         $process = Start-Process `
-            -FilePath $mavenCommand `
-            -ArgumentList @("-q", "clean", "test", "package") `
+            -FilePath $gradleCommand `
+            -ArgumentList @("--no-daemon", "clean", "check", "stageDistribution") `
             -Wait `
             -NoNewWindow `
             -PassThru `
@@ -61,14 +59,14 @@ function Invoke-MavenBuild {
         if ($process.ExitCode -ne 0) {
             $combinedLines = @($stdoutLines + $stderrLines) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
             if ($combinedLines.Count -gt 0) {
-                Write-Host "Maven build failed. Recent output:"
+                Write-Host "Gradle build failed. Recent output:"
                 $combinedLines | Select-Object -Last 120 | ForEach-Object { Write-Host $_ }
             }
-            throw "Maven build failed with exit code $($process.ExitCode)"
+            throw "Gradle build failed with exit code $($process.ExitCode)"
         }
         $warningCount = (@($stdoutLines + $stderrLines) | Where-Object { $_ -match '\bWARN\b|\bWARNING\b' }).Count
         $errorCount = (@($stdoutLines + $stderrLines) | Where-Object { $_ -match '\bERROR\b|\bSEVERE\b' }).Count
-        Write-Host ("Maven build completed successfully. warnings={0} errors={1}" -f $warningCount, $errorCount)
+        Write-Host ("Gradle build completed successfully. warnings={0} errors={1}" -f $warningCount, $errorCount)
     } finally {
         foreach ($capturePath in @($stdoutPath, $stderrPath)) {
             if ($capturePath -and (Test-Path $capturePath)) {
@@ -109,7 +107,7 @@ if ([string]::IsNullOrWhiteSpace($CompareJarPath) -and -not $shouldBuild -and (G
     $shouldBuild = $true
 }
 if ($shouldBuild) {
-    Invoke-MavenBuild -Path $RepoRoot
+    Invoke-GradleBuild -Path $RepoRoot
 }
 
 if (-not (Test-Path $JarPath)) {

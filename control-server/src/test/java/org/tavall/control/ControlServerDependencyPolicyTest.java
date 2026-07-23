@@ -119,12 +119,16 @@ final class ControlServerDependencyPolicyTest {
     }
 
     @Test
-    void controlServerPomDoesNotCompileAgainstEventOrLiveOpsImplementations() throws IOException {
-        String pom = Files.readString(Path.of("pom.xml"));
+    void controlServerBuildDoesNotCompileAgainstEventOrLiveOpsImplementations() throws IOException {
+        Path workingDirectory = Path.of("").toAbsolutePath();
+        Path buildFile = Files.exists(workingDirectory.resolve("build.gradle.kts"))
+                ? workingDirectory.resolve("build.gradle.kts")
+                : workingDirectory.getParent().resolve("build.gradle.kts");
+        String build = Files.readString(buildFile);
 
-        assertTrue(!pom.contains("<artifactId>events</artifactId>"),
+        assertTrue(!build.contains("project(\":events\")"),
                 "Control-server should not compile against event implementation module.");
-        assertTrue(!pom.contains("<artifactId>liveops</artifactId>"),
+        assertTrue(!build.contains("project(\":liveops\")"),
                 "Control-server should not compile against LiveOps implementation module.");
     }
 

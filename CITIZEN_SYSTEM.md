@@ -81,7 +81,7 @@ Minecraft, Hytale, Roblox, and Discord wrappers are thin platform selectors arou
 ## Verification
 The focused JVM verification is:
 
-`.\.codex-temp\apache-maven-3.9.6\bin\mvn.cmd -q -Dtest=CitizenControlSystemIntegrationTest test`
+`.\gradlew.bat :control-server:test --tests org.tavall.control.citizen.CitizenControlSystemIntegrationTest`
 
 Live Hytale player-bot verification remains routed through the existing HytaleDevServer mirror and player-like bot harness. The current live aggregate `/kd citizens add|set` path is intentionally left compatible; canonical `/kd citizens spawn|summary|debug|setjob|train|promote|demote|refresh-cache|refresh-displays` coverage is verified through frontend command ingress tests until the live UI bridge is promoted to canonical records.
 

@@ -15,9 +15,9 @@ param(
     [string]$RemoteControlDir = "/srv/resource-game-control",
     [string]$RemoteHeadlessDir = "/srv/headless",
     [string]$RemotePublicResourcePackDir = "/var/www/html/resource-game/minecraft",
-    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/control-server/target/control-server-0.1.1-SNAPSHOT-exec.jar",
-    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/minecraft-proxy/target/minecraft-proxy-0.1.1-SNAPSHOT.jar",
-    [string]$ServerPluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/minecraft-game-server/target/minecraft-game-server-0.1.1-SNAPSHOT.jar",
+    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/distribution/control-server/application.jar",
+    [string]$PluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/distribution/minecraft-proxy/plugins/minecraft-proxy.jar",
+    [string]$ServerPluginJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/distribution/minecraft-game-server/plugins/minecraft-game-server.jar",
     [string]$BundledResourcePackPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack/distribution/crownbound_minecraft_resource_pack.zip",
     [string]$BundledResourcePackChecksumPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack/distribution/crownbound_minecraft_resource_pack.sha256.txt",
     [string]$ResourcePackRootPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/resource-pack",
@@ -109,6 +109,10 @@ if (-not (Test-Path $RuntimeResourcePackBuilderScriptPath)) {
 if (-not (Test-Path $ControlServerJarPath)) {
     throw "Control server jar not found at $ControlServerJarPath"
 }
+$controlServerLibDirectory = Join-Path (Split-Path -Parent $ControlServerJarPath) "libs"
+if (-not (Test-Path $controlServerLibDirectory -PathType Container)) {
+    throw "Control server dependency directory not found at $controlServerLibDirectory"
+}
 if (-not (Test-Path $ScenarioScriptPath)) {
     throw "Scenario script not found at $ScenarioScriptPath"
 }
@@ -160,12 +164,16 @@ $ResourcePackUrl = $resourcePackUriBuilder.Uri.AbsoluteUri
 Write-LogLine "[$((Get-Date).ToString("o"))] Using versioned public resource-pack URL: $ResourcePackUrl"
 
 Write-LogLine "[$((Get-Date).ToString("o"))] Deploying resource-game control bridge."
-Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, "mkdir -p '$RemoteControlDir/logs'") -FailureMessage "Failed to prepare remote control directory."
+Invoke-Checked -FilePath "ssh.exe" -Arguments @("-F", $SshConfigPath, $SshAlias, "mkdir -p '$RemoteControlDir/logs' && rm -rf '$RemoteControlDir/libs.new'") -FailureMessage "Failed to prepare remote control directory."
 Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, $ControlServerJarPath, "$SshAlias`:$RemoteControlDir/control-server.jar.new") -FailureMessage "Failed to copy control server jar."
+Invoke-Checked -FilePath "scp.exe" -Arguments @("-F", $SshConfigPath, "-r", $controlServerLibDirectory, "$SshAlias`:$RemoteControlDir/libs.new") -FailureMessage "Failed to copy control server dependencies."
 $remoteControl = @"
 set -euo pipefail
 cd '$RemoteControlDir'
 mv control-server.jar.new control-server.jar
+rm -rf libs.previous
+if [ -d libs ]; then mv libs libs.previous; fi
+mv libs.new libs
 if command -v fuser >/dev/null 2>&1; then
   fuser -k $ControlPort/tcp 2>/dev/null || true
 fi
@@ -190,7 +198,7 @@ if ss -ltn | grep -q ':$ControlPort '; then
   exit 1
 fi
 tmux kill-session -t control 2>/dev/null || true
-tmux new-session -d -s control -c '$RemoteControlDir' "env TAVALL_CONTROL_BRIDGE_HOST=127.0.0.1 TAVALL_CONTROL_BRIDGE_PORT=$ControlPort java --enable-preview -jar control-server.jar 2>&1 | tee -a logs/control-bridge.out.log"
+tmux new-session -d -s control -c '$RemoteControlDir' "env TAVALL_CONTROL_BRIDGE_HOST=127.0.0.1 TAVALL_CONTROL_BRIDGE_PORT=$ControlPort java --enable-preview -cp 'control-server.jar:libs/*' org.tavall.control.cli.ControlConsoleApplication 2>&1 | tee -a logs/control-bridge.out.log"
 for i in `$(seq 1 60); do
   if ss -ltn | grep -q ':$ControlPort '; then
     sleep 2

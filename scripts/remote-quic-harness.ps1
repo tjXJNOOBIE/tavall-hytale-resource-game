@@ -138,6 +138,7 @@ function Ensure-RemoteResourceGameControlServer {
     param(
         [string]$SshAlias,
         [string]$ControlServerJarPath,
+        [string]$ControlServerLibDirectory = "",
         [string]$LogPath,
         [string]$RemoteControlDir = "/srv/resource-game-control",
         [int]$ControlPort = 8080
@@ -146,8 +147,14 @@ function Ensure-RemoteResourceGameControlServer {
     if (-not (Test-Path -LiteralPath $ControlServerJarPath)) {
         throw "Control server jar not found: $ControlServerJarPath"
     }
+    if ([string]::IsNullOrWhiteSpace($ControlServerLibDirectory)) {
+        $ControlServerLibDirectory = Join-Path (Split-Path -Parent $ControlServerJarPath) "libs"
+    }
+    if (-not (Test-Path -LiteralPath $ControlServerLibDirectory -PathType Container)) {
+        throw "Control server dependency directory not found: $ControlServerLibDirectory"
+    }
 
-    Invoke-RemoteLoggedBash -SshAlias $SshAlias -Script ("mkdir -p {0}/logs" -f $RemoteControlDir) -LogPath $LogPath | Out-Null
+    Invoke-RemoteLoggedBash -SshAlias $SshAlias -Script ("mkdir -p {0}/logs && rm -rf {0}/libs.new" -f $RemoteControlDir) -LogPath $LogPath | Out-Null
     $remoteJarPath = "$RemoteControlDir/control-server.jar"
     $copyExitCode = & scp.exe -F C:\Users\TJ\.ssh\config $ControlServerJarPath "${SshAlias}:$remoteJarPath.new" 2>&1 | Tee-Object -Variable scpOutput
     foreach ($line in $scpOutput) {
@@ -159,12 +166,25 @@ function Ensure-RemoteResourceGameControlServer {
     if ($LASTEXITCODE -ne 0) {
         throw "Failed to copy control server jar."
     }
+    $copyExitCode = & scp.exe -F C:\Users\TJ\.ssh\config -r $ControlServerLibDirectory "${SshAlias}:$RemoteControlDir/libs.new" 2>&1 | Tee-Object -Variable scpOutput
+    foreach ($line in $scpOutput) {
+        if ($line -ne "") {
+            Write-SharedLogLine -Path $LogPath -Message $line
+            Write-Host $line
+        }
+    }
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to copy control server dependencies."
+    }
 
     $script = @'
 set -e
 cd {0}
 mv control-server.jar.new control-server.jar
-CONTROL_PIDS=$(pgrep -f 'control-server.jar' || true)
+rm -rf libs.previous
+if [ -d libs ]; then mv libs libs.previous; fi
+mv libs.new libs
+CONTROL_PIDS=$(pgrep -f 'org.tavall.control.cli.ControlConsoleApplication' || true)
 if [ -n "$CONTROL_PIDS" ]; then
   echo "$CONTROL_PIDS" | xargs -r kill || true
   sleep 2
@@ -174,7 +194,7 @@ if [ -n "$PORT_PIDS" ]; then
   echo "$PORT_PIDS" | xargs -r kill || true
   sleep 2
 fi
-nohup java --enable-preview -Dserver.port={1} -jar control-server.jar > logs/control-server.out.log 2> logs/control-server.err.log < /dev/null &
+nohup java --enable-preview -Dserver.port={1} -cp 'control-server.jar:libs/*' org.tavall.control.cli.ControlConsoleApplication > logs/control-server.out.log 2> logs/control-server.err.log < /dev/null &
 for i in $(seq 1 60); do
   if lsof -ti tcp:{1} >/dev/null 2>&1; then
     echo CONTROL_SERVER_READY

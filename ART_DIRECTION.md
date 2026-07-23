@@ -145,7 +145,7 @@ Best for per-building upgrade screens, timers, production, cancel controls, and 
 - Use transparent backgrounds for icons and button overlays.
 - Use consistent lighting: top-left highlight, bottom-right shadow.
 - Keep contrast high enough for resource counts, timers, and blocked placement warnings.
-- Assets shipped with the plugin must live under the normal Maven resource packaging path.
+- Assets shipped with the plugin must live under the normal Gradle resource packaging path.
 - Generated production assets and the repeatable asset command live in [ASSET_PIPELINE.md](./ASSET_PIPELINE.md).
 - Custom alphabet/font reference sheets live in [FONT_TEMPLATES.md](./FONT_TEMPLATES.md).
 
