@@ -1,6 +1,6 @@
 package org.tavall.minecraft.switching;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.minecraft.runtime.IMinecraftVelocityProxyServer;
 
 import java.util.Optional;

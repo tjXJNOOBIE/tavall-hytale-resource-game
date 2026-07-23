@@ -10,7 +10,7 @@ import org.tavall.minecraft.runtime.IMinecraftVelocityProxyServer;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import org.tavall.minecraft.commands.source.PlayerVelocityCommandSource;
 import org.tavall.minecraft.switching.IMinecraftFrontendSwitchingDependencyAccess;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;

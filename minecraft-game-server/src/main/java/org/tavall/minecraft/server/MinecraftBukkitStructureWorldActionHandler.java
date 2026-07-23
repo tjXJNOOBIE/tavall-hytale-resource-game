@@ -2,7 +2,7 @@ package org.tavall.minecraft.server;
 
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.minecraft.server.world.MinecraftBukkitWorldActionSupport;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;

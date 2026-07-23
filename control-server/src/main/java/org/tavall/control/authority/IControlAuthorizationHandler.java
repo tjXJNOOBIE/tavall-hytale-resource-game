@@ -1,6 +1,6 @@
 package org.tavall.control.authority;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.runtime.ControlCommand;
 import org.tavall.control.runtime.ControlPermission;
 

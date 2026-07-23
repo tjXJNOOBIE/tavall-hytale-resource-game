@@ -1,6 +1,6 @@
 package org.tavall.control.distribution.health;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.distribution.remote.RemoteTarget;
 
 import java.time.Duration;

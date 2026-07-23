@@ -1,7 +1,7 @@
 package org.tavall.control.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.events.dispatch.EventInteractionMappingRegistry;
 import org.tavall.control.events.dispatch.GameEventDispatchHandler;
 import org.tavall.control.events.dispatch.GameEventListenerRegistry;

@@ -8,7 +8,7 @@ import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.proxy.Player;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import net.kyori.adventure.text.Component;
 
 import java.time.Instant;

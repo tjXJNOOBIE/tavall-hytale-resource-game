@@ -5,7 +5,7 @@ import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.control.cache.JacksonCacheCodec;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerGameStateHandler;
 import org.tavall.control.domain.AgingState;
 import org.tavall.control.domain.AccountProgression;

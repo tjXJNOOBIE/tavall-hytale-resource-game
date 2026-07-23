@@ -4,7 +4,7 @@ import org.tavall.api.minecraft.frontend.ResourceGameFrontendModuleDescriptor;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendRuntime;
 
-public final class MinecraftFrontendModule implements IMinecraftFrontendModule, com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete {
+public final class MinecraftFrontendModule implements IMinecraftFrontendModule, org.tavall.dependency.IDependencyInjectableConcrete {
     private static final ResourceGameFrontendModuleDescriptor DESCRIPTOR = new ResourceGameFrontendModuleDescriptor(
             "minecraft-proxy",
             ResourceGameFrontendPlatform.MINECRAFT,

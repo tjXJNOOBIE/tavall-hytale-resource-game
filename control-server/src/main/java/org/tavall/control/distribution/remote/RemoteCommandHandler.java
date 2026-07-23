@@ -1,6 +1,6 @@
 package org.tavall.control.distribution.remote;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.distribution.DistributionDomain;
 
 import java.io.IOException;

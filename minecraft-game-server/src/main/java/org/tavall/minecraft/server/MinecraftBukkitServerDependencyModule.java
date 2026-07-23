@@ -24,7 +24,7 @@ import org.tavall.minecraft.server.tasks.IMinecraftBukkitTaskScheduler;
 import org.tavall.minecraft.server.tasks.MinecraftBukkitTaskSchedulerHandler;
 import org.tavall.minecraft.server.visual.IMinecraftBukkitVisualHandler;
 import org.tavall.minecraft.server.visual.MinecraftBukkitVisualHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 import java.net.URI;
 
@@ -72,8 +72,8 @@ public final class MinecraftBukkitServerDependencyModule {
     }
 
     private <T> void registerCoreIfMissing(Class<T> token, T instance) {
-        if (!com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findOptionalInstance(token).isPresent()) {
-            com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(token, instance);
+        if (!org.tavall.dependency.DependencyLoaderAccess.findOptionalInstance(token).isPresent()) {
+            org.tavall.dependency.DependencyLoaderAccess.registerInstance(token, instance);
         }
     }
 }

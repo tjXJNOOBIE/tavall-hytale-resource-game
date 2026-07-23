@@ -1,6 +1,6 @@
 package org.tavall.control.distribution.node;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.time.Duration;
 import java.time.Instant;

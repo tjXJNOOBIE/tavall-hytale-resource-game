@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.resourcepack;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.bukkit.entity.Player;
 

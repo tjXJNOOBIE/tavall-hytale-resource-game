@@ -10,7 +10,7 @@ import org.tavall.minecraft.routing.IMinecraftFrontendRoutingDependencyAccess;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import net.kyori.adventure.text.Component;
 
 public final class MinecraftVelocitySimpleCommand implements SimpleCommand, IMinecraftFrontendPermissionDependencyAccess, IMinecraftFrontendRoutingDependencyAccess, IDependencyInjectableConcrete {

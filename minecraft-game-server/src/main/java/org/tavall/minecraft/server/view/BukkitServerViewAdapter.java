@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.view;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 

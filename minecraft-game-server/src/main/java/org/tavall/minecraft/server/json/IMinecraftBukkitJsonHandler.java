@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.json;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.io.IOException;
 

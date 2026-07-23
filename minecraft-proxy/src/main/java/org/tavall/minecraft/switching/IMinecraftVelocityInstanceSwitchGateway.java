@@ -1,6 +1,6 @@
 package org.tavall.minecraft.switching;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.util.concurrent.CompletableFuture;
 

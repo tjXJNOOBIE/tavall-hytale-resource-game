@@ -1,6 +1,6 @@
 package org.tavall.control.citizen;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.clock.KingdomClockControlSystem;
 import org.tavall.control.event.RecordingDomainEventPublisher;
 import org.tavall.control.identity.UniversalPlayerId;

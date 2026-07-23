@@ -1,7 +1,7 @@
 package org.tavall.control.authority;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tjxjnoobie.api.dependency.IDependencyModule;
+import org.tavall.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.IDependencyModule;
 import org.tavall.control.runtime.ControlCommandRegistry;
 
 public final class ControlAuthorityDependencyModule implements IDependencyModule {

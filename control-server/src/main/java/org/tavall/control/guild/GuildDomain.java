@@ -1,6 +1,6 @@
 package org.tavall.control.guild;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface GuildDomain {
     default GuildRepository getGuildRepository() {

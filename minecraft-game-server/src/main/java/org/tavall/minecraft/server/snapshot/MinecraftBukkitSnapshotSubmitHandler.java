@@ -2,7 +2,7 @@ package org.tavall.minecraft.server.snapshot;
 
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
 import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
 

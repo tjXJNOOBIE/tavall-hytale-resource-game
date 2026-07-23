@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 public final class MinecraftBukkitJsonMapper implements IMinecraftBukkitJsonMapper, IDependencyInjectableConcrete {
     private final ObjectMapper objectMapper = new ObjectMapper();

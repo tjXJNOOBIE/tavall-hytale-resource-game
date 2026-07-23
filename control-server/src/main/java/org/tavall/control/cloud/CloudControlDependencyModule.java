@@ -1,8 +1,8 @@
 package org.tavall.control.cloud;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tjxjnoobie.api.dependency.IDependencyModule;
+import org.tavall.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.IDependencyModule;
 import org.tavall.control.authority.ControlAuthorityDependencyModule;
 
 public final class CloudControlDependencyModule implements IDependencyModule {

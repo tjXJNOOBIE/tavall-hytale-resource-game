@@ -2,7 +2,7 @@ package org.tavall.control.castle;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastlePromptLaneHandler;
 import org.tavall.control.player.IPlayerTeleportHandler;
 import org.tavall.control.domain.CastleLocationData;

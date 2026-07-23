@@ -18,55 +18,49 @@ final class ResourceGameModuleDependencyTest {
     );
 
     @Test
-    void minecraftMainFrontendModulesUseSharedContractsAndTavallToolsThroughMavenDependencies() throws IOException {
-        String minecraftProxyPom = Files.readString(RESOURCE_GAME_ROOT.resolve("minecraft-proxy").resolve("pom.xml"));
-        String minecraftGameServerPom = Files.readString(RESOURCE_GAME_ROOT.resolve("minecraft-game-server").resolve("pom.xml"));
+    void minecraftMainFrontendModulesUseSharedContractsAndTavallToolsThroughGradleDependencies() throws IOException {
+        String build = Files.readString(RESOURCE_GAME_ROOT.resolve("build.gradle.kts"));
 
-        assertTrue(minecraftProxyPom.contains("<artifactId>game-api</artifactId>"));
-        assertTrue(minecraftProxyPom.contains("<artifactId>tavall-logging</artifactId>"));
-        assertTrue(minecraftProxyPom.contains("<artifactId>tavall-di</artifactId>"));
-
-        assertTrue(minecraftGameServerPom.contains("<artifactId>game-api</artifactId>"));
-        assertTrue(minecraftGameServerPom.contains("<artifactId>tavall-di</artifactId>"));
+        assertTrue(build.contains("project(\":game-api\")"));
+        assertTrue(build.contains("org.tavall:tavall-logging"));
+        assertTrue(build.contains("org.tavall:tavall-di"));
     }
 
     @Test
-    void controlServerUsesTavallToolingAndCacheThroughMavenDependencies() throws IOException {
-        String pom = Files.readString(RESOURCE_GAME_ROOT.resolve("control-server").resolve("pom.xml"));
+    void controlServerUsesTavallToolingAndCacheThroughGradleDependencies() throws IOException {
+        String build = Files.readString(RESOURCE_GAME_ROOT.resolve("build.gradle.kts"));
 
-        assertTrue(pom.contains("<artifactId>tavall-logging</artifactId>"));
-        assertTrue(pom.contains("<artifactId>tavall-di</artifactId>"));
-        assertTrue(pom.contains("<artifactId>tavall-eventbus</artifactId>"));
-        assertTrue(pom.contains("<artifactId>tavall-concurrency</artifactId>"));
-        assertTrue(pom.contains("<artifactId>tavall-scheduler</artifactId>"));
-        assertTrue(pom.contains("<artifactId>abstract-cache-semantic</artifactId>"));
-        assertTrue(pom.contains("<artifactId>abstract-cache-storage-memory</artifactId>"));
+        assertTrue(build.contains("org.tavall:tavall-logging"));
+        assertTrue(build.contains("org.tavall:tavall-di"));
+        assertTrue(build.contains("org.tavall:tavall-eventbus"));
+        assertTrue(build.contains("org.tavall:tavall-concurrency"));
+        assertTrue(build.contains("org.tavall:tavall-scheduler"));
+        assertTrue(build.contains("org.tavall:abstract-cache-semantic"));
+        assertTrue(build.contains("org.tavall:abstract-cache-storage-memory"));
     }
 
     @Test
     void minecraftMainPrunesLegacyPlatformAndSplitBackendModulesFromAggregator() throws IOException {
-        String rootPom = Files.readString(RESOURCE_GAME_ROOT.resolve("pom.xml"));
+        String settings = Files.readString(RESOURCE_GAME_ROOT.resolve("settings.gradle.kts"));
 
-        assertTrue(rootPom.contains("<module>control-server</module>"));
-        assertTrue(rootPom.contains("<module>minecraft-proxy</module>"));
-        assertTrue(rootPom.contains("<module>minecraft-game-server</module>"));
-        assertTrue(!rootPom.contains("<module>core</module>"));
-        assertTrue(!rootPom.contains("<module>cloud-core</module>"));
-        assertTrue(!rootPom.contains("<module>cloud-agent</module>"));
-        assertTrue(!rootPom.contains("<module>cloud-control-plane</module>"));
-        assertTrue(!rootPom.contains("<module>distribution</module>"));
-        assertTrue(!rootPom.contains("<module>events</module>"));
-        assertTrue(!rootPom.contains("<module>liveops</module>"));
-        assertTrue(!rootPom.contains("<module>hytale-frontend</module>"));
-        assertTrue(!rootPom.contains("<module>roblox-frontend</module>"));
-        assertTrue(!rootPom.contains("<module>pc-app</module>"));
-        assertTrue(!rootPom.contains("<module>android-app</module>"));
-        assertTrue(!rootPom.contains("<module>discord-frontend</module>"));
+        assertTrue(settings.contains("\"control-server\""));
+        assertTrue(settings.contains("\"minecraft-proxy\""));
+        assertTrue(settings.contains("\"minecraft-game-server\""));
+        assertTrue(!settings.contains("\"core\""));
+        assertTrue(!settings.contains("\"cloud-core\""));
+        assertTrue(!settings.contains("\"cloud-agent\""));
+        assertTrue(!settings.contains("\"cloud-control-plane\""));
+        assertTrue(!settings.contains("\"events\""));
+        assertTrue(!settings.contains("\"liveops\""));
+        assertTrue(!settings.contains("\"hytale-frontend\""));
+        assertTrue(!settings.contains("\"roblox-frontend\""));
+        assertTrue(!settings.contains("\"pc-app\""));
+        assertTrue(!settings.contains("\"android-app\""));
+        assertTrue(!settings.contains("\"discord-frontend\""));
         assertTrue(!Files.exists(RESOURCE_GAME_ROOT.resolve("core")));
         assertTrue(!Files.exists(RESOURCE_GAME_ROOT.resolve("cloud-core")));
         assertTrue(!Files.exists(RESOURCE_GAME_ROOT.resolve("cloud-agent")));
         assertTrue(!Files.exists(RESOURCE_GAME_ROOT.resolve("cloud-control-plane")));
-        assertTrue(!Files.exists(RESOURCE_GAME_ROOT.resolve("distribution")));
         assertTrue(!Files.exists(RESOURCE_GAME_ROOT.resolve("events")));
         assertTrue(!Files.exists(RESOURCE_GAME_ROOT.resolve("liveops")));
         assertTrue(!Files.exists(RESOURCE_GAME_ROOT.resolve("hytale-frontend")));
@@ -78,18 +72,17 @@ final class ResourceGameModuleDependencyTest {
 
     @Test
     void controlServerOwnsConsolidatedBackendPackagesWithoutLegacyModuleDependencies() throws IOException {
-        String controlServerPom = Files.readString(RESOURCE_GAME_ROOT.resolve("control-server").resolve("pom.xml"));
+        String build = Files.readString(RESOURCE_GAME_ROOT.resolve("build.gradle.kts"));
         Path controlServerMainPackage = RESOURCE_GAME_ROOT
                 .resolve("control-server")
                 .resolve("src/main/java/org/tavall/control");
 
-        assertTrue(!controlServerPom.contains("<artifactId>core</artifactId>"));
-        assertTrue(!controlServerPom.contains("<artifactId>cloud-core</artifactId>"));
-        assertTrue(!controlServerPom.contains("<artifactId>cloud-agent</artifactId>"));
-        assertTrue(!controlServerPom.contains("<artifactId>cloud-control-plane</artifactId>"));
-        assertTrue(!controlServerPom.contains("<artifactId>distribution</artifactId>"));
-        assertTrue(!controlServerPom.contains("<artifactId>events</artifactId>"));
-        assertTrue(!controlServerPom.contains("<artifactId>liveops</artifactId>"));
+        assertTrue(!build.contains("project(\":core\")"));
+        assertTrue(!build.contains("project(\":cloud-core\")"));
+        assertTrue(!build.contains("project(\":cloud-agent\")"));
+        assertTrue(!build.contains("project(\":cloud-control-plane\")"));
+        assertTrue(!build.contains("project(\":events\")"));
+        assertTrue(!build.contains("project(\":liveops\")"));
         assertTrue(Files.exists(controlServerMainPackage.resolve("distribution")));
         assertTrue(Files.exists(controlServerMainPackage.resolve("events")));
         assertTrue(Files.exists(controlServerMainPackage.resolve("liveops")));
@@ -106,7 +99,7 @@ final class ResourceGameModuleDependencyTest {
         try (var paths = Files.walk(RESOURCE_GAME_ROOT)) {
             long vendoredAbstractCacheSourceCount = paths
                     .filter(Files::isRegularFile)
-                    .filter(path -> !path.toString().contains("\\target\\"))
+                    .filter(path -> !path.toString().contains("\\build\\"))
                     .filter(path -> path.toString().endsWith(".java"))
                     .filter(this::containsVendoredAbstractCachePackage)
                     .count();
@@ -132,7 +125,7 @@ final class ResourceGameModuleDependencyTest {
     }
 
     /**
-     * Maven runs tests from the active module directory, while IDE runs may start from
+     * Gradle runs tests from the active module directory, while IDE runs may start from
      * the aggregator root. Resolve both so module dependency tests do not depend on
      * which runner launched them.
      */

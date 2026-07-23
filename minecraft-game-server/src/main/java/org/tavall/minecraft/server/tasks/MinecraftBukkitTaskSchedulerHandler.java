@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.tasks;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.tavall.minecraft.server.MinecraftBukkitServerPlugin;

@@ -1,7 +1,7 @@
 package org.tavall.control.castle;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.CastleLocationData;
 
 import java.util.UUID;

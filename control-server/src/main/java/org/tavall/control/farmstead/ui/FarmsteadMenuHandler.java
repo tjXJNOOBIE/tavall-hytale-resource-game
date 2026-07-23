@@ -3,7 +3,7 @@ import org.tavall.control.player.PlayerSessionStore;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.farmstead.ui.IFarmsteadMenuHandler;
 import org.tavall.control.player.IPlayerSessionStore;

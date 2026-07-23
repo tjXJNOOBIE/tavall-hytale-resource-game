@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server.protection;
 
 import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

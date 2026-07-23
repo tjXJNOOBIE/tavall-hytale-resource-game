@@ -5,7 +5,7 @@ import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

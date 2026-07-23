@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.protection;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.bukkit.Location;
 import org.bukkit.event.Listener;
 

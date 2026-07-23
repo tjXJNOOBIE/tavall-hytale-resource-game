@@ -1,7 +1,7 @@
 package org.tavall.control.web;
 
 import org.tavall.control.ControlServerDependencyModule;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.cloud.CloudAgentHeartbeatPayload;
 import org.tavall.control.cloud.CloudCommand;
 import org.tavall.control.cloud.CloudCommandResult;

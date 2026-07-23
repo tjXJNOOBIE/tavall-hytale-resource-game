@@ -1,7 +1,7 @@
 package org.tavall.control.api;
 
 import org.tavall.control.ControlServerDomain;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.punishment.PunishmentRepository;
 import org.tavall.api.minecraft.permissions.PunishRequest;
 import org.tavall.api.minecraft.permissions.PunishResponse;
@@ -21,7 +21,7 @@ public final class PunishApi implements ControlServerDomain, IDependencyInjectab
     }
 
     private PunishmentRepository repository() {
-        return com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findInstance(PunishmentRepository.class);
+        return org.tavall.dependency.DependencyLoaderAccess.findInstance(PunishmentRepository.class);
     }
 
     private String safeMessage(Exception exception) {

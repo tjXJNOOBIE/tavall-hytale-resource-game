@@ -1,6 +1,6 @@
 package org.tavall.control.citizen;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.util.Optional;
 

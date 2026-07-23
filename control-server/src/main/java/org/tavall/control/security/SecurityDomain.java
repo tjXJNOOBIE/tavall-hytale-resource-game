@@ -1,6 +1,6 @@
 package org.tavall.control.security;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 import java.security.SecureRandom;
 

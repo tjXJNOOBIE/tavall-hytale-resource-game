@@ -18,7 +18,7 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleBuildingVisualHandler;
 import org.tavall.control.interior.IInteriorInstanceHandler;
 import org.tavall.control.interior.IInteriorWorldHandler;
@@ -33,7 +33,7 @@ import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.minecraft.domain.interior.InteriorLayout;
 import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 import org.tavall.control.interior.InteriorStructureHandler;
-import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
+import org.tavall.internal.utils.concurrent.AsyncTask;
 import org.tavall.control.tasks.WorldTasks;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 

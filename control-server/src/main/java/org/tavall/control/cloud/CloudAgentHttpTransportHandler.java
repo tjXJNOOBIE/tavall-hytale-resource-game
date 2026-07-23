@@ -1,7 +1,7 @@
 package org.tavall.control.cloud;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
 import java.net.URI;

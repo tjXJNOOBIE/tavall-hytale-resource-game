@@ -8,7 +8,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.provider.EmptyChunk
 import com.hypixel.hytale.server.core.universe.world.storage.resources.EmptyResourceStorageProvider;
 import com.hypixel.hytale.server.core.universe.world.worldgen.provider.VoidWorldGenProvider;
 import com.hypixel.hytale.server.core.util.io.FileUtil;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.interior.IInteriorInstanceHandler;
 
 import java.io.IOException;

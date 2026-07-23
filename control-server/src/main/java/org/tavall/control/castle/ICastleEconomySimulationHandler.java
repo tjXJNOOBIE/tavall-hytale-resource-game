@@ -1,6 +1,6 @@
 package org.tavall.control.castle;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.time.Instant;
 

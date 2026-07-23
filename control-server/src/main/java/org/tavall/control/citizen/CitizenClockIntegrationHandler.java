@@ -1,6 +1,6 @@
 package org.tavall.control.citizen;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.clock.KingdomClockControlSystem;
 import org.tavall.control.clock.KingdomClockState;
 import org.tavall.control.clock.KingdomTimePhase;

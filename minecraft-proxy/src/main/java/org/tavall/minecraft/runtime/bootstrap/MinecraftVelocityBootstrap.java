@@ -14,7 +14,7 @@ import org.tavall.minecraft.runtime.MinecraftProxyConfig;
 import org.tavall.minecraft.runtime.IMinecraftVelocityProxyServer;
 import org.tavall.minecraft.runtime.MinecraftVelocityProxyServerAdapter;
 import org.tavall.minecraft.switching.MinecraftVelocityInstanceSwitchGateway;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;

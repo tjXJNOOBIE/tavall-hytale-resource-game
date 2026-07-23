@@ -1,7 +1,7 @@
 package org.tavall.control.world;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.CastleBuildingSummary;
 import org.tavall.control.domain.FocusedWorldTarget;

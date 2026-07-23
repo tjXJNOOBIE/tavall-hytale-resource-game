@@ -1,6 +1,6 @@
 package org.tavall.control.runtime;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.InfrastructureHealthSnapshot;
 import org.tavall.control.domain.InfrastructureMetricsSnapshot;
 

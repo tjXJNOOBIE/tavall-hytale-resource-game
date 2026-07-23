@@ -3,7 +3,7 @@ import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 
 import org.tavall.control.config.CacheConfig;
 import org.tavall.control.config.DatabaseConfig;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.runtime.IInfrastructureHealthHandler;
 import org.tavall.control.domain.InfrastructureHealthSnapshot;
 import org.tavall.control.domain.InfrastructureMetricsSnapshot;

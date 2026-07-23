@@ -1,6 +1,6 @@
 package org.tavall.control.runtime;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.asset.GlobalAssetRepository;
 import org.tavall.control.asset.InMemoryGlobalAssetRepository;
 import org.tavall.control.authority.AuthorityRepository;
@@ -9,7 +9,7 @@ import org.tavall.control.authority.AuthorizationAuditRepository;
 import org.tavall.control.authority.ControlAuthorityDependencyModule;
 import org.tavall.control.authority.ControlAuthority;
 import org.tavall.control.authority.ControlAuthorityLevel;
-import org.tavall.control.authority.IControlAuthorityDependencyAccess;
+import org.tavall.control.authority.ControlAuthorityDomain;
 import org.tavall.control.authority.InMemoryAuthorityRepository;
 import org.tavall.control.authority.InMemoryAuthorizationAuditRepository;
 import org.tavall.control.authority.InMemoryPermissionPolicyRepository;
@@ -50,7 +50,7 @@ import java.time.Clock;
 import java.util.EnumSet;
 import java.util.List;
 
-public final class ControlCommandRuntimeFactory implements IControlAuthorityDependencyAccess {
+public final class ControlCommandRuntimeFactory implements ControlAuthorityDomain {
     private static final ControlCommandRuntimeFactory INSTANCE = new ControlCommandRuntimeFactory();
 
     private ControlCommandRuntimeFactory() {

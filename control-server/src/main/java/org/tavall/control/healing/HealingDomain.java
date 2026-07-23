@@ -1,6 +1,6 @@
 package org.tavall.control.healing;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.asset.GlobalAssetRepository;
 import org.tavall.control.asset.GlobalAssetResolutionHandler;
 import org.tavall.control.event.DomainEventPublisher;

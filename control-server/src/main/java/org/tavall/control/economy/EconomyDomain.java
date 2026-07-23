@@ -1,6 +1,6 @@
 package org.tavall.control.economy;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.security.HighRiskActionChallengeHandler;
 import org.tavall.control.security.InMemoryTwoFactorRepository;
 

@@ -32,8 +32,8 @@ import org.tavall.api.minecraft.frontend.ResourceGameFrontendRuntime;
 import org.tavall.api.minecraft.permissions.RankRequest;
 import org.tavall.api.minecraft.permissions.RankResponse;
 import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
-import com.tjxjnoobie.api.dependency.DependencyLoader;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoader;
+import org.tavall.dependency.DependencyLoaderAccess;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -69,7 +69,7 @@ public final class MinecraftFrontendModuleTest {
     @AfterEach
     void clearDependencies() {
         DependencyLoader.getDependencyLoader().clear();
-        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.clear();
+        org.tavall.dependency.DependencyLoaderAccess.clear();
     }
 
     @Test
@@ -140,7 +140,7 @@ public final class MinecraftFrontendModuleTest {
     @Test
     void minecraftControlPlaneBridgeHandlesOfflineControlIngressGracefully() throws IOException {
         int offlinePort = availablePort();
-        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(
+        org.tavall.dependency.DependencyLoaderAccess.registerInstance(
                 IFrontendControlConfig.class,
                 new FrontendControlConfig(URI.create("tcp://127.0.0.1:" + offlinePort), "velocity-test")
         );
@@ -162,13 +162,13 @@ public final class MinecraftFrontendModuleTest {
 
     @Test
     void minecraftFrontendDependencyModuleSelectsTcpClientForTcpUris() {
-        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(
+        org.tavall.dependency.DependencyLoaderAccess.registerInstance(
                 IFrontendControlConfig.class,
                 new FrontendControlConfig(URI.create("tcp://127.0.0.1:18081"), "velocity-test")
         );
         new MinecraftFrontendDependencyModule().registerDependencies(defaultConfig(), MinecraftVelocityInstanceSwitchGateway.noop());
 
-        IFrontendControlCommandClient client = com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findInstance(IFrontendControlCommandClient.class);
+        IFrontendControlCommandClient client = org.tavall.dependency.DependencyLoaderAccess.findInstance(IFrontendControlCommandClient.class);
         assertTrue(client instanceof FrontendTcpControlCommandClient);
     }
 
@@ -176,7 +176,7 @@ public final class MinecraftFrontendModuleTest {
     void minecraftControlPlaneBridgeSerializesAndDeserializesThroughLocalBridge() throws Exception {
         try (ControlIngressFixture fixture = startControlIngressServer(envelope ->
                 FrontendTcpControlBridgeResponse.success(dispatched(envelope, "dispatched-over-tcp")))) {
-            com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(
+            org.tavall.dependency.DependencyLoaderAccess.registerInstance(
                     IFrontendControlConfig.class,
                     new FrontendControlConfig(fixture.ingressUri(), "velocity-test")
             );

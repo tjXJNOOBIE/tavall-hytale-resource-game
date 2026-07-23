@@ -1,6 +1,6 @@
 package org.tavall.control.troop;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface TroopDomain {
     default TroopRepository getTroopRepository() {

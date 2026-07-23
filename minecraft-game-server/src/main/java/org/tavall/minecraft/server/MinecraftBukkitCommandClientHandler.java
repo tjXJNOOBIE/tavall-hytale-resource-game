@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
@@ -9,7 +9,7 @@ import org.tavall.api.minecraft.interaction.InteractionResult;
 import org.tavall.api.minecraft.player.PlayerDataRequest;
 import org.tavall.api.minecraft.player.PlayerDataResponse;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
 import java.util.Map;

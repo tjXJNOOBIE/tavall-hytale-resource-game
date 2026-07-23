@@ -10,7 +10,7 @@ import org.tavall.control.commands.KingdomHologramCommandSupport;
 import org.tavall.control.commands.KingdomInteractionCommandSupport;
 import org.tavall.control.commands.KingdomNodeCommandSupport;
 import org.tavall.control.commands.KingdomPlacementCommandSupport;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.building.IBuildingInteractionHandler;
 import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.castle.ICastleBuildingVisualHandler;

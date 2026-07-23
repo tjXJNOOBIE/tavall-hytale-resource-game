@@ -4,7 +4,7 @@ import org.tavall.api.minecraft.interaction.InteractionRequest;
 import org.tavall.api.minecraft.interaction.InteractionResult;
 import org.tavall.api.minecraft.interaction.InteractionTargetType;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

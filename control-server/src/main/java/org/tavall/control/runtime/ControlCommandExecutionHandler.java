@@ -1,7 +1,7 @@
 package org.tavall.control.runtime;
 
 import org.tavall.control.domain.AccountProgression;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.asset.GlobalAsset;
 import org.tavall.control.asset.GlobalAssetId;
 import org.tavall.control.asset.GlobalAssetType;

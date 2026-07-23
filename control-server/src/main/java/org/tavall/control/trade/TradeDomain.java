@@ -1,6 +1,6 @@
 package org.tavall.control.trade;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface TradeDomain {
     default TradeRouteRepository getTradeRouteRepository() {

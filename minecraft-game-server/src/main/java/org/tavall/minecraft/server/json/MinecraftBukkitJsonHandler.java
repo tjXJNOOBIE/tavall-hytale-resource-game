@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.json;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
 

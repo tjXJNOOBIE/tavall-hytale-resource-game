@@ -1,7 +1,7 @@
 package org.tavall.control.player;
 import org.tavall.control.player.PlayerSession;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerSessionStore;
 import java.util.Collection;
 import java.util.Map;

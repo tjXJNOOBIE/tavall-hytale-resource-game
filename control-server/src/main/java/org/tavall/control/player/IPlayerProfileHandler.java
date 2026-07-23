@@ -1,6 +1,6 @@
 package org.tavall.control.player;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.PlayerProfile;
 
 import java.time.Instant;

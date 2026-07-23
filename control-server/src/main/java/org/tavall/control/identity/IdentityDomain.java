@@ -1,6 +1,6 @@
 package org.tavall.control.identity;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface IdentityDomain {
     default UniversalPlayerAccountRepository getUniversalPlayerAccountRepository() {

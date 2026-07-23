@@ -1,6 +1,6 @@
 package org.tavall.control.liveops.gui;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.liveops.LiveOpsDomain;
 import org.tavall.control.liveops.config.LiveConfigValidationException;
 import redis.clients.jedis.Jedis;

@@ -1,7 +1,7 @@
 package org.tavall.control.cloud;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface CloudAgentDomain {
     default ObjectMapper getCloudAgentObjectMapper() {

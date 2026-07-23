@@ -13,8 +13,8 @@ import org.tavall.api.minecraft.permissions.RankRequest;
 import org.tavall.api.minecraft.permissions.RankResponse;
 import org.tavall.api.minecraft.player.PlayerDataRequest;
 import org.tavall.api.minecraft.player.PlayerDataResponse;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

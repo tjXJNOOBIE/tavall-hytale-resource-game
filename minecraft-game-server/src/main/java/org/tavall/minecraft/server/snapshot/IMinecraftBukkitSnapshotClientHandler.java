@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server.snapshot;
 
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.io.IOException;
 

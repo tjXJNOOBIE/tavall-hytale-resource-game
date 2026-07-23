@@ -12,11 +12,11 @@ import org.tavall.control.transport.ControlPlaneTcpBridgeServer;
 import org.tavall.control.bootstrap.ResourceGameDependencyModule;
 import org.tavall.control.interactions.OpenFarmsteadInteraction;
 import org.tavall.control.runtime.ControlCommandRuntime;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tjxjnoobie.api.dependency.injection.helpers.DependencyInjectorHelper;
-import com.tjxjnoobie.api.dependency.injection.helpers.interfaces.IDependencyInjectorHelper;
-import com.tjxjnoobie.api.platform.global.console.Log;
-import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
+import org.tavall.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.injection.helpers.DependencyInjectorHelper;
+import org.tavall.dependency.injection.helpers.interfaces.IDependencyInjectorHelper;
+import org.tavall.logging.Log;
+import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.io.IOException;
 import java.io.PrintWriter;

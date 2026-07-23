@@ -1,6 +1,6 @@
 package org.tavall.control.guild;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.common.HighRiskAction;
 import org.tavall.control.identity.UniversalPlayerId;
 import org.junit.jupiter.api.BeforeEach;

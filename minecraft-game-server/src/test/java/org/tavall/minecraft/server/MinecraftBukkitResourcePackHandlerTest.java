@@ -1,8 +1,8 @@
 package org.tavall.minecraft.server;
 
 import org.tavall.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoader;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoader;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

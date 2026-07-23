@@ -4,7 +4,7 @@ import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import org.tavall.control.config.CastleAssetConfig;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleSiteVisualHandler;
 import org.tavall.control.castle.ICastleSpawnHandler;
 import org.tavall.control.player.IPlayerSessionStore;

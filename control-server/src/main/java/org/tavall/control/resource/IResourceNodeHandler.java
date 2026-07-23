@@ -1,7 +1,7 @@
 package org.tavall.control.resource;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.CastleEconomySnapshot;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceNodeData;

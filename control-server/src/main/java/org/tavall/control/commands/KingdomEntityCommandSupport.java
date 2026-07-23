@@ -3,7 +3,7 @@ package org.tavall.control.commands;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.bootstrap.ResourceGameDomain;
 import org.tavall.control.domain.CustomEntitySpawnRole;
 

@@ -38,12 +38,12 @@ final class CitizenControlSystemIntegrationTest {
         ControlCommandRuntime runtime = ControlCommandRuntimeFactory.createInMemoryRuntime();
         UniversalPlayerId playerId = UniversalPlayerId.random();
         ControlOperator operator = ControlOperator.localOwner(Instant.parse("2026-05-05T12:00:00Z"));
-        Instant now = Instant.parse("2026-05-05T12:00:00Z");
+        Instant now = Instant.now();
 
         ControlCommandResult create = dispatch(runtime, "citizens spawn " + playerId + " 2 kingdom-1", operator, now);
         assertTrue(create.success());
 
-        List<CitizenData> citizens = runtime.citizenControlSystem().citizensForPlayer(playerId, now);
+        List<CitizenData> citizens = runtime.citizenControlSystem().citizensForPlayer(playerId, create.startedAt());
         assertEquals(2, citizens.size());
         CitizenData first = citizens.getFirst();
         assertEquals(CitizenAgeStage.YOUNG_ADULT, first.ageStage());

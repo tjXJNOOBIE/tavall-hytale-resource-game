@@ -2,7 +2,7 @@ package org.tavall.control.dependency;
 
 import org.tavall.control.ResourceGamePlugin;
 import org.tavall.control.bootstrap.ResourceGameDomain;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

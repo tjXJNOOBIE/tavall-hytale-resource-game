@@ -23,7 +23,7 @@ import org.tavall.control.castle.CastleEconomySimulationHandler;
 import org.tavall.control.player.PlayerSession;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
-import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
+import org.tavall.internal.utils.concurrent.AsyncTask;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.time.Instant;

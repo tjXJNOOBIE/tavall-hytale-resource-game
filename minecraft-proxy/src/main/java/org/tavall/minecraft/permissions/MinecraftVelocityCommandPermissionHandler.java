@@ -5,7 +5,7 @@ import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
 import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import org.tavall.minecraft.permissions.IMinecraftFrontendPermissionDependencyAccess;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.util.Locale;
 import java.util.Set;

@@ -1,6 +1,6 @@
 package org.tavall.control.distribution.remote;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.util.List;
 

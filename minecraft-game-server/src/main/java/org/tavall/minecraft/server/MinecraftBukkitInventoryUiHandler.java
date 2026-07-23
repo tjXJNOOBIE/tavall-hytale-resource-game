@@ -11,7 +11,7 @@ import org.tavall.minecraft.server.ui.inventory.GuiClickContext;
 import org.tavall.minecraft.server.ui.inventory.GuiManager;
 import org.tavall.minecraft.server.ui.inventory.GuiScreen;
 import org.tavall.minecraft.server.ui.inventory.KingdomCommandCenterGuiScreen;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

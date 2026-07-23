@@ -1,6 +1,6 @@
 package org.tavall.control.liveops;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.events.dispatch.GameEventDispatchHandler;
 import org.tavall.control.liveops.config.FeatureFlagHandler;
 import org.tavall.control.liveops.config.GameRuleHandler;

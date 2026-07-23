@@ -24,7 +24,7 @@ import org.tavall.minecraft.switching.IMinecraftVelocityInstanceSwitchGateway;
 import org.tavall.minecraft.switching.IMinecraftVelocityInstanceSwitchHandler;
 import org.tavall.minecraft.switching.MinecraftVelocityInstanceSwitchGateway;
 import org.tavall.minecraft.switching.MinecraftVelocityInstanceSwitchHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 import java.net.URI;
 
@@ -70,21 +70,21 @@ public final class MinecraftFrontendDependencyModule {
     }
 
     private <T> void registerCoreIfMissing(Class<T> token, T instance) {
-        if (!com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findOptionalInstance(token).isPresent()) {
-            com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(token, instance);
+        if (!org.tavall.dependency.DependencyLoaderAccess.findOptionalInstance(token).isPresent()) {
+            org.tavall.dependency.DependencyLoaderAccess.registerInstance(token, instance);
         }
     }
 
     private <T> void registerCoreOrReplace(Class<T> token, T instance) {
-        if (com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findOptionalInstance(token).isPresent()) {
-            com.tjxjnoobie.api.dependency.DependencyLoaderAccess.replaceInstance(token, () -> instance);
+        if (org.tavall.dependency.DependencyLoaderAccess.findOptionalInstance(token).isPresent()) {
+            org.tavall.dependency.DependencyLoaderAccess.replaceInstance(token, () -> instance);
         } else {
-            com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(token, instance);
+            org.tavall.dependency.DependencyLoaderAccess.registerInstance(token, instance);
         }
     }
 
     private FrontendControlConfig resolveFrontendControlConfig() {
-        return com.tjxjnoobie.api.dependency.DependencyLoaderAccess.findOptionalInstance(IFrontendControlConfig.class)
+        return org.tavall.dependency.DependencyLoaderAccess.findOptionalInstance(IFrontendControlConfig.class)
                 .map(FrontendControlConfig.class::cast)
                 .orElseGet(() -> FrontendControlConfig.fromEnvironment(
                         System.getenv(),

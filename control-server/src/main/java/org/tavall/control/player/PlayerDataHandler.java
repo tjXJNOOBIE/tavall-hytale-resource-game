@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.core.event.events.player.PlayerDisconnectEvent;
 import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleSpawnHandler;
 import org.tavall.control.player.IIpHashHandler;
 import org.tavall.control.interior.IInteriorInstanceHandler;
@@ -27,7 +27,7 @@ import org.tavall.control.api.UIData;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PlayerProfile;
-import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
+import org.tavall.internal.utils.concurrent.AsyncTask;
 import org.tavall.control.tasks.WorldTasks;
 
 import java.time.Instant;

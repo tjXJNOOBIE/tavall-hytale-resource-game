@@ -7,7 +7,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.api.UIData;
 import org.tavall.control.npc.IWorkerNpcInteractionHandler;

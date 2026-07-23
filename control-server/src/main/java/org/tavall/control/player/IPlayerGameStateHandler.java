@@ -1,7 +1,7 @@
 package org.tavall.control.player;
 import org.tavall.control.player.PlayerGameStateHandler;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.AccountProgression;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.DebugModeState;

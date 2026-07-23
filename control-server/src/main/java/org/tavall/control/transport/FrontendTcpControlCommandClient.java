@@ -14,7 +14,7 @@ import org.tavall.api.minecraft.permissions.PunishRequest;
 import org.tavall.api.minecraft.permissions.PunishResponse;
 import org.tavall.api.minecraft.permissions.RankRequest;
 import org.tavall.api.minecraft.permissions.RankResponse;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

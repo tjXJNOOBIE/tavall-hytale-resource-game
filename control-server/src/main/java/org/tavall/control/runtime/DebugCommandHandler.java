@@ -4,7 +4,7 @@ import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastlePromptLaneHandler;
 import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.castle.ICastleBuildingVisualHandler;

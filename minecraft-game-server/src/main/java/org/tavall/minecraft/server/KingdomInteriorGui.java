@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server;
 
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.entity.Player;
 
 public final class KingdomInteriorGui implements MinecraftBukkitServerDomain, IDependencyInjectableConcrete {

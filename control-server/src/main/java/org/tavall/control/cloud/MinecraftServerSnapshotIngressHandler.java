@@ -1,6 +1,6 @@
 package org.tavall.control.cloud;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshotResult;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;

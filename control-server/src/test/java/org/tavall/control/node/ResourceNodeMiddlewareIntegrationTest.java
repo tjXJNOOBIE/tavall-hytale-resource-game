@@ -1,6 +1,6 @@
 package org.tavall.control.node;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.common.CanonicalLocation;
 import org.tavall.control.guild.GuildJobTitle;
 import org.tavall.control.guild.GuildMemberProfile;

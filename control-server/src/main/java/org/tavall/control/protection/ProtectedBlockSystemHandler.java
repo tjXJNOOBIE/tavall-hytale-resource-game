@@ -3,7 +3,7 @@ import org.tavall.control.protection.StructureProtectionHandler;
 
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.protection.IProtectedBlockSystemHandler;
 
 import java.util.Objects;

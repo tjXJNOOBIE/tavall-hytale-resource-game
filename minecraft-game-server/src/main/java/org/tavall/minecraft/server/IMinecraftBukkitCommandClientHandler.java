@@ -5,7 +5,7 @@ import org.tavall.api.minecraft.interaction.InteractionRequest;
 import org.tavall.api.minecraft.interaction.InteractionResult;
 import org.tavall.api.minecraft.player.PlayerDataRequest;
 import org.tavall.api.minecraft.player.PlayerDataResponse;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.io.IOException;
 import java.util.Map;

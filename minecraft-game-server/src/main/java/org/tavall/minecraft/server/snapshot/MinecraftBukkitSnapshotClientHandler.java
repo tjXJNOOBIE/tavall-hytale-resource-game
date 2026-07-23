@@ -1,9 +1,9 @@
 package org.tavall.minecraft.server.snapshot;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.api.minecraft.MinecraftServerRuntimeSnapshot;
 import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;

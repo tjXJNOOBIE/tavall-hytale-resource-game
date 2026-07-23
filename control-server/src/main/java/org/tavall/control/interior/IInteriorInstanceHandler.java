@@ -1,7 +1,7 @@
 package org.tavall.control.interior;
 
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;

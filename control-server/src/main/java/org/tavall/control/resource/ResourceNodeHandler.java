@@ -8,7 +8,7 @@ import org.tavall.control.player.PlayerSession;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerGameStateHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceNodeHandler;
@@ -22,7 +22,7 @@ import org.tavall.control.domain.ResourceNodePillageResult;
 import org.tavall.control.domain.ResourceNodeSummary;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.resources.ResourceType;
-import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
+import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.ArrayList;

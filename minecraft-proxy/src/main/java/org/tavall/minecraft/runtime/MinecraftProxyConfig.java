@@ -1,6 +1,6 @@
 package org.tavall.minecraft.runtime;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.util.Arrays;
 import java.util.Map;

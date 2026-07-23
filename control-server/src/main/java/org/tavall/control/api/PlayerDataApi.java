@@ -1,7 +1,7 @@
 package org.tavall.control.api;
 
 import org.tavall.control.ControlServerDomain;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import org.tavall.control.identity.PlatformAccountBinding;
 import org.tavall.control.identity.UniversalPlayerAccount;
