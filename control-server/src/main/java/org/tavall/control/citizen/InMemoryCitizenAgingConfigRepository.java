@@ -1,7 +1,7 @@
 package org.tavall.control.citizen;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.citizen.cache.CitizenAgingConfigCache;
 import org.tavall.control.transport.JsonMapperProvider;
 

@@ -1,6 +1,6 @@
 package org.tavall.control.projection;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.asset.GlobalAssetResolutionHandler;
 import org.tavall.control.guild.GuildActionValidationHandler;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendActionCatalog;

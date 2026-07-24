@@ -3,7 +3,7 @@ param(
     [string]$LogDir = "",
     [string]$LocalDevServerDir = "",
     [string]$RemoteServerRoot = "/srv/hytale/HytaleDevServer",
-    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/control-server/target/control-server-0.1.1-SNAPSHOT-exec.jar",
+    [string]$ControlServerJarPath = "F:/workspace/TavallMonoRepo/tavall-java-hytale-games/tavall-hytale-resource-game/distribution/control-server/application.jar",
     [string]$RemoteControlDir = "/srv/resource-game-control",
     [int]$ControlPort = 8080,
     [int]$MaxAttemptsPerStep = 2
@@ -22,8 +22,8 @@ $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $summaryPath = Join-Path $LogDir ("remote-full-suite-{0}-summary.txt" -f $timestamp)
 $startedAt = (Get-Date).ToString("o")
 
-$mvn = "C:/Program Files/JetBrains/IntelliJ IDEA 2025.3/plugins/maven/lib/maven3/bin/mvn.cmd"
-& $mvn -q test package
+$gradle = Join-Path $repoRoot "gradlew.bat"
+& $gradle --no-daemon check stageDistribution
 if ($LASTEXITCODE -ne 0) {
     throw "Local build failed."
 }

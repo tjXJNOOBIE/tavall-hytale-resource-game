@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.snapshot;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 public interface IMinecraftBukkitSnapshotSubmitHandler extends IDependencyInjectableInterface {
     void submitSnapshotQuietly();

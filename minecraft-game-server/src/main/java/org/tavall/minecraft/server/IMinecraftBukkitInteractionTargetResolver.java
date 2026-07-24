@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.bukkit.entity.Entity;
 
 import java.util.Optional;

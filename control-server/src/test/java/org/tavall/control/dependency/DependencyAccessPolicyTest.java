@@ -22,7 +22,7 @@ public class DependencyAccessPolicyTest {
                     .filter(Files::isRegularFile)
                     .filter(path -> path.toString().endsWith(".java"))
                     .filter(path -> path.toString().contains("src\\main\\java"))
-                    .filter(path -> !isGeneratedTargetFile(path))
+                    .filter(path -> !isGeneratedBuildFile(path))
                     .forEach(path -> collectPolicyViolations(path, violations));
         }
 
@@ -55,9 +55,10 @@ public class DependencyAccessPolicyTest {
         }
     }
 
-    private boolean isGeneratedTargetFile(Path path) {
+    private boolean isGeneratedBuildFile(Path path) {
         String normalized = path.toString();
-        return normalized.contains("\\target\\")
+        return normalized.contains("\\build\\")
+                || normalized.contains("/build/")
                 || normalized.contains("\\.codex-temp\\")
                 || normalized.contains("\\temp\\");
     }

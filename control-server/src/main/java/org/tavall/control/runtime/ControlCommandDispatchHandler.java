@@ -1,6 +1,6 @@
 package org.tavall.control.runtime;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.authority.AuthorizationResult;
 
 import java.time.Instant;

@@ -1,6 +1,6 @@
 package org.tavall.control.runtime;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 public final class ControlCommandResultHandler implements ControlCommandDomain, IDependencyInjectableConcrete {
     public ControlCommandResult recordResult(ControlCommandResult result) {

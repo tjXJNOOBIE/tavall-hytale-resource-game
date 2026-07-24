@@ -1,6 +1,6 @@
 package org.tavall.control.companion;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface CompanionDomain {
     default CompanionRepository getCompanionRepository() {

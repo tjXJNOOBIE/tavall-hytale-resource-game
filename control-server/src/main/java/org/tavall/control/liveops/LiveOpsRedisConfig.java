@@ -1,6 +1,6 @@
 package org.tavall.control.liveops;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 public record LiveOpsRedisConfig(
         String liveConfigChannel,

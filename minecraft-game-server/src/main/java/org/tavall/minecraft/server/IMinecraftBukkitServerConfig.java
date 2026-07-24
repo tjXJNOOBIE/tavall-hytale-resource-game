@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 public interface IMinecraftBukkitServerConfig extends IDependencyInjectableInterface {
     String serverId();

@@ -3,7 +3,7 @@ import org.tavall.control.player.PlayerGameStateHandler;
 import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleSiteVisualHandler;
 import org.tavall.control.player.IPlayerGameStateHandler;
 import org.tavall.control.player.IPlayerSessionStore;
@@ -13,7 +13,7 @@ import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.resources.ResourceType;
 
-import com.tjxjnoobie.api.internal.utils.concurrent.AsyncTask;
+import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.Objects;

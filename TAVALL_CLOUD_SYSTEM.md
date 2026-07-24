@@ -4,7 +4,7 @@ Tavall Cloud is the owned-server/private-cloud control plane for raw machines. T
 
 ## Package Ownership
 
-On `minecraft-main`, cloud/runtime code lives inside the single `control-server` backend module and is separated by package concern instead of sibling Maven modules.
+On `minecraft-main`, cloud/runtime code lives inside the single `control-server` backend module and is separated by package concern instead of sibling build modules.
 
 | Package area | Owns | Must not own |
 |---|---|---|
@@ -65,7 +65,7 @@ The standalone control-plane runtime is deployed under `/srv/control-plane` on r
 | `/api/cloud/agent/{nodeId}/commands` | `GET` | `AgentCommandPollHandler` | Returns pending typed commands and marks them `SENT` to avoid repeated delivery |
 | `/api/cloud/agent/{nodeId}/results` | `POST` | `AgentCommandResultReportHandler` -> `CloudCommandResultHandler` | Records success/failure, redacts command output summaries, rejects node-id mismatches |
 
-`CloudAgentHeartbeatPayload` now lives in the consolidated backend package tree so the agent and optional Spring adapter share the same transport contract without reviving separate cloud Maven modules on `minecraft-main`.
+`CloudAgentHeartbeatPayload` now lives in the consolidated backend package tree so the agent and optional Spring adapter share the same transport contract without reviving separate cloud modules on `minecraft-main`.
 
 ## Workload Matrix
 

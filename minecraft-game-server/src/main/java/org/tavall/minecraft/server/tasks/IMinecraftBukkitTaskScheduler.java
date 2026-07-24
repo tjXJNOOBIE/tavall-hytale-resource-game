@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.tasks;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 public interface IMinecraftBukkitTaskScheduler extends IDependencyInjectableInterface {
     void runAsync(Runnable runnable);

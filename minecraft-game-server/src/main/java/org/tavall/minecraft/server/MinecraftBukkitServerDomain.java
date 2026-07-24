@@ -11,7 +11,7 @@ import org.tavall.minecraft.server.snapshot.IMinecraftBukkitSnapshotSubmitHandle
 import org.tavall.minecraft.server.tasks.IMinecraftBukkitTaskScheduler;
 import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
 import org.tavall.minecraft.server.visual.IMinecraftBukkitVisualHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface MinecraftBukkitServerDomain {
     default IMinecraftBukkitServerConfig getMinecraftBukkitServerConfig() {
@@ -60,6 +60,10 @@ public interface MinecraftBukkitServerDomain {
 
     default IMinecraftBukkitPlayerJoinHandler getMinecraftBukkitPlayerJoinHandler() {
         return DependencyLoaderAccess.requireInstance(IMinecraftBukkitPlayerJoinHandler.class);
+    }
+
+    default IMinecraftBukkitResourcePackStatusHandler getMinecraftBukkitResourcePackStatusHandler() {
+        return DependencyLoaderAccess.requireInstance(IMinecraftBukkitResourcePackStatusHandler.class);
     }
 
     default IMinecraftBukkitTaskScheduler getMinecraftBukkitTaskScheduler() {

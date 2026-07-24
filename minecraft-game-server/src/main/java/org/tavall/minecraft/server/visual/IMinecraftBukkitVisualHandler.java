@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.visual;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.MinecraftVisualRenderRequest;
 import org.bukkit.entity.Player;

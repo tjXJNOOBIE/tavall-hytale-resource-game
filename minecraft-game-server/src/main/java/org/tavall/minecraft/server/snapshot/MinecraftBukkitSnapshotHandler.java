@@ -6,7 +6,7 @@ import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
 import org.tavall.minecraft.server.MinecraftBukkitServerDomain;
 import org.tavall.minecraft.server.view.MinecraftBukkitPlayerView;
 import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

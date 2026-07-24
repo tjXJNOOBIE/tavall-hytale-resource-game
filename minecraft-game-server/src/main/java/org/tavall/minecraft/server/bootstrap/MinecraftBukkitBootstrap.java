@@ -22,7 +22,7 @@ import org.tavall.minecraft.server.tasks.MinecraftBukkitTaskSchedulerHandler;
 import org.tavall.minecraft.server.view.BukkitServerViewAdapter;
 import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
 import org.tavall.minecraft.server.visual.MinecraftBukkitVisualHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.scheduler.BukkitRunnable;
 

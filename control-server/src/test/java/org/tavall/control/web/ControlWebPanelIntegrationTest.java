@@ -1,7 +1,7 @@
 package org.tavall.control.web;
 
 import org.tavall.control.ControlServerDependencyModule;
-import org.tavall.control.IControlServerDependencyAccess;
+import org.tavall.control.ControlServerDomain;
 import org.tavall.control.api.PlayerDataApi;
 import org.tavall.api.minecraft.backend.rank.RankApi;
 import org.tavall.control.common.CanonicalLocation;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public final class ControlWebPanelIntegrationTest implements IControlServerDependencyAccess {
+public final class ControlWebPanelIntegrationTest implements ControlServerDomain {
     @Test
     void dashboardCommandAuditPlatformAndHealingPagesLoadFromRuntimeState() throws Exception {
         new ControlServerDependencyModule().registerDependencies();

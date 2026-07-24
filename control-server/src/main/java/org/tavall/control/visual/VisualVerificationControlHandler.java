@@ -11,7 +11,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerDataHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.api.UIData;

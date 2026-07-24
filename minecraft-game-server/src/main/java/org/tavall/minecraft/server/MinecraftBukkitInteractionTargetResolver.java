@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server;
 
 import org.tavall.api.minecraft.interaction.InteractionTargetType;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;

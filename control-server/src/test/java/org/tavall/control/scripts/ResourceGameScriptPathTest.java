@@ -13,15 +13,12 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public final class ResourceGameScriptPathTest {
-    private static final Pattern ROOT_LEGACY_PLUGIN_JAR_PATH = Pattern.compile(
-            "(?<!core[\\\\/])target[\\\\/]tavall-hytale-resource-game\\.jar"
-    );
     private static final Pattern DIRECT_CONTROL_SERVER_MAIN_LAUNCH = Pattern.compile(
             "java\\s+.*-cp\\s+.*ControlServerApplication"
     );
 
     @Test
-    void scriptsUseModuleArtifactsInsteadOfLegacyRootArtifacts() throws IOException {
+    void scriptsUseStagedDistributionArtifacts() throws IOException {
         Path scriptDirectory = resourceGameRoot().resolve("scripts");
         List<String> failures = new ArrayList<>();
         try (Stream<Path> scriptPaths = Files.list(scriptDirectory)) {
@@ -29,9 +26,6 @@ public final class ResourceGameScriptPathTest {
                 List<String> lines = Files.readAllLines(scriptPath);
                 for (int index = 0; index < lines.size(); index++) {
                     String line = lines.get(index);
-                    if (ROOT_LEGACY_PLUGIN_JAR_PATH.matcher(line).find()) {
-                        failures.add(scriptPath.getFileName() + ":" + (index + 1) + " uses the legacy root plugin jar path.");
-                    }
                     if (line.contains("core\\core")
                             || line.contains("core/core")) {
                         failures.add(scriptPath.getFileName() + ":" + (index + 1) + " duplicates the core module path.");
@@ -50,7 +44,7 @@ public final class ResourceGameScriptPathTest {
     }
 
     /**
-     * Maven runs module tests with different working directories depending on the invocation,
+     * Gradle and IDE test runners may use different working directories,
      * so the script scan resolves either the aggregator root or the current module root.
      */
     private static Path resourceGameRoot() {

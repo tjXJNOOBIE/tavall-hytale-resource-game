@@ -15,7 +15,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.protocol.InteractionType;
 import org.tavall.control.interactions.OpenFarmsteadInteraction;
 import com.hypixel.hytale.server.npc.NPCPlugin;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import it.unimi.dsi.fastutil.Pair;
 
 import java.util.ArrayList;

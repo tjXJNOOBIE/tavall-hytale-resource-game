@@ -1,6 +1,6 @@
 package org.tavall.control.world;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.world.IFocusedWorldOverrideHandler;
 import org.tavall.control.domain.FocusedWorldOverride;
 import org.tavall.control.domain.FocusedWorldTarget;

@@ -2,7 +2,7 @@ package org.tavall.control.building;
 import org.tavall.control.player.PlayerGameStateHandler;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.interior.IInteriorInstanceHandler;
 import org.tavall.control.player.IPlayerGameStateHandler;

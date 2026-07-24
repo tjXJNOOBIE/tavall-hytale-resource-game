@@ -2,7 +2,7 @@ package org.tavall.control;
 
 import org.tavall.control.api.PlayerDataApi;
 import org.tavall.control.api.PunishApi;
-import org.tavall.control.api.RankApi;
+import org.tavall.api.minecraft.backend.rank.RankApi;
 import org.tavall.control.interaction.ControlPlaneInteractionHandler;
 import org.tavall.control.cli.IControlConsoleResultRenderer;
 import org.tavall.control.web.IWebControlAuditQueryHandler;
@@ -16,7 +16,7 @@ import org.tavall.control.web.IWebControlPanelCommandHandler;
 import org.tavall.control.web.IWebControlPlayerViewHandler;
 import org.tavall.control.web.IWebControlPlatformStatusViewHandler;
 import org.tavall.control.web.IWebControlTroopHealingViewHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.cloud.ICloudControlPanelViewHandler;
 import org.tavall.control.cloud.ICloudControlCliHandler;
 import org.tavall.control.cloud.IMinecraftServerSnapshotIngressHandler;

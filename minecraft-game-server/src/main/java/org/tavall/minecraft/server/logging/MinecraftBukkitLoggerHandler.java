@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.logging;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.util.logging.Logger;
 

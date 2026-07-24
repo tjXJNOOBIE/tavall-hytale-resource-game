@@ -1,6 +1,6 @@
 package org.tavall.control.cloud;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

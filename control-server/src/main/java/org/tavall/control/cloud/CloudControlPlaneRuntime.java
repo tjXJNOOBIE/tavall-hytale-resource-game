@@ -1,6 +1,6 @@
 package org.tavall.control.cloud;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 public final class CloudControlPlaneRuntime implements CloudControlDomain, IDependencyInjectableConcrete {
     public CloudRepository repository() {

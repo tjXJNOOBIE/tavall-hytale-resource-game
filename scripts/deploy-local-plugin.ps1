@@ -12,16 +12,17 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $validatorScript = Join-Path $PSScriptRoot "validate-custom-ui-assets.ps1"
 if ([string]::IsNullOrWhiteSpace($JarPath)) {
-    $JarPath = Join-Path $repoRoot "core\target\tavall-hytale-resource-game.jar"
+    $JarPath = Join-Path $repoRoot "distribution\control-server\application.jar"
 }
 
 function Get-LatestSourceTimestamp {
     param([string]$Path)
 
     $targets = @(
-        (Join-Path $Path "src\main\java"),
-        (Join-Path $Path "src\main\resources"),
-        (Join-Path $Path "pom.xml")
+        (Join-Path $Path "control-server\src\main\java"),
+        (Join-Path $Path "control-server\src\main\resources"),
+        (Join-Path $Path "build.gradle.kts"),
+        (Join-Path $Path "settings.gradle.kts")
     )
 
     $items = foreach ($candidate in $targets) {

@@ -1,6 +1,6 @@
 package org.tavall.control.petition;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface PetitionDomain {
     default PetitionRepository getPetitionRepository() {

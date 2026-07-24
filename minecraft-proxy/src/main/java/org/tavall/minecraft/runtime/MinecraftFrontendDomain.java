@@ -10,7 +10,7 @@ import org.tavall.minecraft.routing.IMinecraftKdCommandInputFormatterHandler;
 import org.tavall.minecraft.routing.IMinecraftVelocityCommandExecutionHandler;
 import org.tavall.minecraft.switching.IMinecraftVelocityInstanceSwitchGateway;
 import org.tavall.minecraft.switching.IMinecraftVelocityInstanceSwitchHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface MinecraftFrontendDomain {
     default IMinecraftProxyConfig getMinecraftProxyConfig() {

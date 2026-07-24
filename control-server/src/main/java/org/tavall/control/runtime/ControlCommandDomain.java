@@ -1,6 +1,6 @@
 package org.tavall.control.runtime;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.asset.GlobalAssetRepository;
 import org.tavall.control.asset.PlatformAssetVersionRegistrationHandler;
 import org.tavall.control.authority.IControlAuthorizationHandler;

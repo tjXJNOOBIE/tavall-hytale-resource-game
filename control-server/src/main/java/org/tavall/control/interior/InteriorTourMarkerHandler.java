@@ -7,7 +7,7 @@ import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.minecraft.domain.interior.InteriorLayout;
 import org.tavall.minecraft.domain.interior.InteriorTourStop;
 import org.tavall.control.tasks.WorldTasks;

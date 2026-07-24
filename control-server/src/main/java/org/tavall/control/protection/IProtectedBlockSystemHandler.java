@@ -1,6 +1,6 @@
 package org.tavall.control.protection;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 public interface IProtectedBlockSystemHandler extends IDependencyInjectableInterface {
     void start();

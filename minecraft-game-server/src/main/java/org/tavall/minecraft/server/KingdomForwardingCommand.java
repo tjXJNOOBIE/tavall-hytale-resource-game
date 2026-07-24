@@ -10,7 +10,7 @@ import org.bukkit.command.TabCompleter;
 import java.util.Optional;
 import java.util.List;
 
-abstract class KingdomForwardingCommand implements CommandExecutor, TabCompleter, MinecraftBukkitServerDomain, com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete {
+abstract class KingdomForwardingCommand implements CommandExecutor, TabCompleter, MinecraftBukkitServerDomain, org.tavall.dependency.IDependencyInjectableConcrete {
     protected abstract String rootToken();
 
     protected abstract String usage();

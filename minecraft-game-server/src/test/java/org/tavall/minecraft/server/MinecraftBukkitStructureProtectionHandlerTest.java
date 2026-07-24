@@ -20,22 +20,23 @@ final class MinecraftBukkitStructureProtectionHandlerTest {
     void castleAndBuildingRegionsAreProtectedUntilCleared() {
         MinecraftBukkitStructureProtectionHandler handler = new MinecraftBukkitStructureProtectionHandler();
         UUID ownerId = UUID.fromString("00000000-0000-0000-0000-00000000ca57");
-        Location castleAnchor = new Location(world("kingdom"), 100.0D, 64.0D, 100.0D);
-        Location buildingAnchor = new Location(world("kingdom"), 140.0D, 64.0D, 100.0D);
+        World kingdomWorld = world("kingdom");
+        Location castleAnchor = new Location(kingdomWorld, 100.0D, 64.0D, 100.0D);
+        Location buildingAnchor = new Location(kingdomWorld, 140.0D, 64.0D, 100.0D);
 
         handler.registerCastle(ownerId, castleAnchor);
         handler.registerBuilding(ownerId, buildingAnchor, "farmstead");
 
-        assertTrue(handler.isProtected(new Location(world("kingdom"), 100.0D, 64.0D, 100.0D)));
-        assertTrue(handler.isProtected(new Location(world("kingdom"), 140.0D, 64.0D, 100.0D)));
-        assertTrue(handler.protectionReason(new Location(world("kingdom"), 100.0D, 64.0D, 100.0D)).orElseThrow().contains("Castle"));
-        assertTrue(handler.protectionReason(new Location(world("kingdom"), 140.0D, 64.0D, 100.0D)).orElseThrow().contains("Building"));
+        assertTrue(handler.isProtected(new Location(kingdomWorld, 100.0D, 64.0D, 100.0D)));
+        assertTrue(handler.isProtected(new Location(kingdomWorld, 140.0D, 64.0D, 100.0D)));
+        assertTrue(handler.protectionReason(new Location(kingdomWorld, 100.0D, 64.0D, 100.0D)).orElseThrow().contains("Castle"));
+        assertTrue(handler.protectionReason(new Location(kingdomWorld, 140.0D, 64.0D, 100.0D)).orElseThrow().contains("Building"));
 
         handler.clearCastle(ownerId);
         handler.clearBuilding(ownerId);
 
-        assertFalse(handler.isProtected(new Location(world("kingdom"), 100.0D, 64.0D, 100.0D)));
-        assertFalse(handler.isProtected(new Location(world("kingdom"), 140.0D, 64.0D, 100.0D)));
+        assertFalse(handler.isProtected(new Location(kingdomWorld, 100.0D, 64.0D, 100.0D)));
+        assertFalse(handler.isProtected(new Location(kingdomWorld, 140.0D, 64.0D, 100.0D)));
     }
 
     private World world(String name) {

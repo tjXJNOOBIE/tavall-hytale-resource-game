@@ -1,7 +1,7 @@
 package org.tavall.minecraft.permissions;
 
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 public interface IMinecraftVelocityCommandPermissionHandler extends IDependencyInjectableInterface {
     String commandPermission();

@@ -1,6 +1,6 @@
 package org.tavall.control.events;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 public record GameEventRedisConfig(
         String channel,

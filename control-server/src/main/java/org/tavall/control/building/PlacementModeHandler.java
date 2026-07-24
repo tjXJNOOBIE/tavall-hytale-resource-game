@@ -9,7 +9,7 @@ import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.castle.ICastleBuildingVisualHandler;
 import org.tavall.control.castle.ICastlePlacementHandler;

@@ -1,6 +1,6 @@
 package org.tavall.control.events;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.events.dispatch.RedisGameEventSubscriber;
 import org.tavall.control.events.middleware.DistributedEventForwarder;
 import org.tavall.control.events.middleware.NoopDistributedEventForwarder;

@@ -25,7 +25,7 @@ import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleBuildingHandler;
 import org.tavall.control.castle.ICastleBuildingVisualHandler;
 import org.tavall.control.domain.CastleBuildingData;

@@ -1,7 +1,7 @@
 package org.tavall.control.liveops;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.events.dispatch.GameEventDispatchHandler;
 import org.tavall.control.liveops.config.FeatureFlagHandler;
 import org.tavall.control.liveops.config.GameRuleHandler;

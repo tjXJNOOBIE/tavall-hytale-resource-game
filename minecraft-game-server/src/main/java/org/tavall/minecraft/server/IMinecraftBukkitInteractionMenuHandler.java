@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server;
 
 import org.tavall.api.minecraft.interaction.InteractionMenuModel;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.bukkit.event.Listener;
 import org.bukkit.entity.Player;
 

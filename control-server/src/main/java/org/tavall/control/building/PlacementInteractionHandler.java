@@ -2,7 +2,7 @@ package org.tavall.control.building;
 
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.building.IPlacementInteractionHandler;
 import org.tavall.control.building.IPlacementModeHandler;
 import org.tavall.control.domain.PlacementResult;

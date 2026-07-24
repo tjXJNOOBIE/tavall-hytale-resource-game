@@ -1,6 +1,6 @@
 package org.tavall.control.events;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.events.core.BasicGameEvent;
 import org.tavall.control.events.core.EventSource;
 import org.tavall.control.events.core.GameEventResult;

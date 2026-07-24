@@ -1,7 +1,7 @@
 package org.tavall.control.castle;
 
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.BuildingType;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.domain.CastleBuildingSummary;

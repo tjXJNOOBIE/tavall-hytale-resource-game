@@ -1,7 +1,7 @@
 package org.tavall.control.cloud;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.authority.AuthorizationResult;
 import org.tavall.control.authority.AuthorityScopeType;
 import org.tavall.control.authority.ControlCommandRequest;

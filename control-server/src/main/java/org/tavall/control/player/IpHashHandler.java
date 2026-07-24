@@ -1,6 +1,6 @@
 package org.tavall.control.player;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IIpHashHandler;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

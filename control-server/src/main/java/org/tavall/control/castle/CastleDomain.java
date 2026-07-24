@@ -1,6 +1,6 @@
 package org.tavall.control.castle;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
 public interface CastleDomain {
     default CastleRepository getCastleRepository() {

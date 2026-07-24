@@ -1,6 +1,6 @@
 package org.tavall.control.world;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.FocusedWorldTarget;
 import java.util.Optional;
 import java.util.UUID;

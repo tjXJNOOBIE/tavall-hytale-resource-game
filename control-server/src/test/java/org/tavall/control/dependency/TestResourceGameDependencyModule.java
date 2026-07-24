@@ -6,8 +6,8 @@ import org.tavall.control.api.UIData;
 import org.tavall.control.runtime.IDebugCommandHandler;
 import org.tavall.control.clock.IKingdomClockHandler;
 import org.tavall.control.player.IPlayerDataHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
-import com.tjxjnoobie.api.dependency.IDependencyModule;
+import org.tavall.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.IDependencyModule;
 
 /**
  * Minimal test composition root for the repo-local DI layer.

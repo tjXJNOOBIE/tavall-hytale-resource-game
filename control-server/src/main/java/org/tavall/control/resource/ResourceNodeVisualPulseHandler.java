@@ -3,7 +3,7 @@ import org.tavall.control.player.PlayerSessionStore;
 import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.HytaleServer;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceNodeVisualPulseHandler;
 import org.tavall.control.resource.IResourceNodeVisualHandler;

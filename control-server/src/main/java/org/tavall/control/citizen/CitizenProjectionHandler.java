@@ -1,6 +1,6 @@
 package org.tavall.control.citizen;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.util.Map;
 import java.util.stream.Collectors;

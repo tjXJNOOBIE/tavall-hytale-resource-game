@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.resourcepack;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;

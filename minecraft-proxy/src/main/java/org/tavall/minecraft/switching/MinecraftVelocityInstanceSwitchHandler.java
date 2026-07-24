@@ -4,7 +4,7 @@ import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.minecraft.bridge.IMinecraftFrontendBridgeDependencyAccess;
 import org.tavall.minecraft.commands.source.MinecraftVelocityCommandSource;
 import org.tavall.minecraft.routing.MinecraftVelocityCommandResult;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 import java.util.List;
 import java.util.Map;

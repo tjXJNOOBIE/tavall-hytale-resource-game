@@ -1,6 +1,6 @@
 package org.tavall.control.runtime;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.api.minecraft.frontend.IFrontendControlCommandClient;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import org.tavall.api.minecraft.frontend.FrontendCommandEnvelope;

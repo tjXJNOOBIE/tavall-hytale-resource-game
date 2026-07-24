@@ -6,7 +6,7 @@ import org.tavall.api.minecraft.interaction.InteractionRequest;
 import org.tavall.api.minecraft.interaction.InteractionResult;
 import org.tavall.api.minecraft.interaction.InteractionResultType;
 import org.tavall.api.minecraft.frontend.ResourceGameFrontendSurfaceIdentity;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -1,6 +1,6 @@
 package org.tavall.control.events.dispatch;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.events.GameEventDomain;
 import org.tavall.control.events.middleware.EventDispatchMetricsMiddleware;
 import org.tavall.control.events.middleware.GameEventAuditHandler;

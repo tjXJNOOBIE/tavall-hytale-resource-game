@@ -1,6 +1,6 @@
 package org.tavall.control.population;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.population.UpgradeActionState;
 

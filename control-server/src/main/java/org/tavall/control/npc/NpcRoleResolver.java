@@ -1,7 +1,7 @@
 package org.tavall.control.npc;
 import org.tavall.control.npc.NpcRoleResolver;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 
 import java.util.LinkedHashSet;

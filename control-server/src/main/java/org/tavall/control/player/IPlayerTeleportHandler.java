@@ -3,7 +3,7 @@ package org.tavall.control.player;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 public interface IPlayerTeleportHandler extends IDependencyInjectableInterface {
     Vector3d standingPosition(Player player, Vector3d floorPosition);

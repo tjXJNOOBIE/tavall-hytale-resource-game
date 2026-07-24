@@ -1,6 +1,6 @@
 package org.tavall.minecraft.server.view;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.util.Collection;
 

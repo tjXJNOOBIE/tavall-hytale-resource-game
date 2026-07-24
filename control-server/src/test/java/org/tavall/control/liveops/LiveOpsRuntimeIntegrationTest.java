@@ -1,6 +1,6 @@
 package org.tavall.control.liveops;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.events.core.GameEventType;
 import org.tavall.control.events.dispatch.GameEventDispatchRuntime;
 import org.tavall.control.events.dispatch.GameEventDispatchRuntimeFactory;

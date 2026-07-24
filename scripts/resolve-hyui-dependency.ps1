@@ -11,28 +11,17 @@ if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
     $RepoRoot = Split-Path -Parent $PSScriptRoot
 }
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
-    $OutputDirectory = Join-Path $RepoRoot "target\hyui"
+    $OutputDirectory = Join-Path $RepoRoot "build\hyui"
 }
 
 New-Item -ItemType Directory -Force -Path $OutputDirectory | Out-Null
 
-$mavenCommand = "mvn.cmd"
-if (-not (Get-Command $mavenCommand -ErrorAction SilentlyContinue)) {
-    $mavenCommand = "C:\Tools\apache-maven-3.9.9\bin\mvn.cmd"
-}
-
-$artifact = "curse.maven:hyui-1431415:7820303"
+$gradleCommand = Join-Path $RepoRoot "gradlew.bat"
 Push-Location $RepoRoot
 try {
-    & $mavenCommand `
-        -q `
-        org.apache.maven.plugins:maven-dependency-plugin:3.8.1:copy `
-        "-Dartifact=$artifact" `
-        "-DoutputDirectory=$OutputDirectory" `
-        "-Dmdep.stripVersion=false" `
-        "-DremoteRepositories=cursemaven::default::https://www.cursemaven.com"
+    & $gradleCommand -q resolveHyuiDependency
     if ($LASTEXITCODE -ne 0) {
-        throw "Failed to resolve HyUI dependency with Maven."
+        throw "Failed to resolve HyUI dependency with Gradle."
     }
 } finally {
     Pop-Location
@@ -90,7 +79,7 @@ if ($Quiet) {
 }
 
 [ordered]@{
-    artifact = $artifact
+    artifact = "hyui-1431415:7820303"
     jarPath = $stableJarPath
     dependencyId = $dependencyId
     version = $manifest.Version

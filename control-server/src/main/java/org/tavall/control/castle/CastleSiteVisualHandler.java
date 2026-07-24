@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.tavall.control.config.CastleAssetConfig;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.castle.ICastleSiteVisualHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.domain.CastleLocationData;

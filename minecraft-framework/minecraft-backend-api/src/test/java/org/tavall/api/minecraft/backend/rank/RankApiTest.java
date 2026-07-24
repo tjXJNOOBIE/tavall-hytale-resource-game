@@ -5,6 +5,7 @@ import org.tavall.api.minecraft.frontend.ResourceGameFrontendPlatform;
 import org.tavall.api.minecraft.permissions.RankOperationType;
 import org.tavall.api.minecraft.permissions.RankRequest;
 import org.tavall.api.minecraft.permissions.RankResponse;
+import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
 
 import java.time.Instant;
 import java.util.Map;
@@ -17,12 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 final class RankApiTest {
     @Test
-    void listInspectSetAndRemoveUseTheRepository() {
+    void listInspectAndSetRoleUseTheRepository() {
         InMemoryRankRepository repository = new InMemoryRankRepository();
         Instant now = Instant.parse("2025-01-01T00:00:00Z");
         repository.saveRankDefinition(new RankDefinition("Member", 100, Set.of(), now, now));
-        repository.saveRankDefinition(new RankDefinition("VIP+", 250, Set.of("speedrun.*"), now, now));
-        repository.saveRankDefinition(new RankDefinition("God", 1000, Set.of(), now, now));
+        repository.saveRankDefinition(new RankDefinition("ADMIN", 80, Set.of("MANAGE_GAME_STATE"), now, now));
+        repository.saveRankDefinition(new RankDefinition("OWNER", 100, Set.of(), now, now));
         repository.savePlayerProfile(new RankPlayerProfile(
                 "player-1",
                 "Miner",
@@ -49,7 +50,7 @@ final class RankApiTest {
 
         assertTrue(listResponse.success());
         assertEquals(3, listResponse.subjects().size());
-        assertTrue(listResponse.subjects().stream().map(subject -> subject.rankName()).toList().contains("VIP+"));
+        assertTrue(listResponse.subjects().stream().map(subject -> subject.role()).toList().contains(UniversalPermissionRole.ADMIN));
 
         RankResponse inspectResponse = api.inspect(
                 RankRequest.inspect(
@@ -67,17 +68,17 @@ final class RankApiTest {
 
         assertTrue(inspectResponse.success());
         assertNotNull(inspectResponse.subject());
-        assertEquals("Member", inspectResponse.subject().rankName());
+        assertEquals(UniversalPermissionRole.MEMBER, inspectResponse.subject().role());
 
         RankResponse setResponse = api.inspect(
-                RankRequest.setRank(
+                RankRequest.setRole(
                         "rank-set",
                         ResourceGameFrontendPlatform.MINECRAFT,
                         "admin-1",
                         "Admin",
                         "player-1",
                         "Miner",
-                        "VIP+",
+                        UniversalPermissionRole.ADMIN,
                         Map.of("source", "test"),
                         3L
                 ),
@@ -85,28 +86,25 @@ final class RankApiTest {
         );
 
         assertTrue(setResponse.success());
-        assertEquals("VIP+", setResponse.subject().rankName());
-        assertEquals(250, setResponse.subject().powerLevel());
-        assertTrue(setResponse.subject().hasPermission("speedrun.fly"));
+        assertEquals(UniversalPermissionRole.ADMIN, setResponse.subject().role());
 
-        RankResponse removeResponse = api.inspect(
-                RankRequest.removeRank(
-                        "rank-remove",
+        RankResponse memberResponse = api.inspect(
+                RankRequest.setRole(
+                        "rank-member",
                         ResourceGameFrontendPlatform.MINECRAFT,
                         "admin-1",
                         "Admin",
                         "player-1",
                         "Miner",
-                        null,
+                        UniversalPermissionRole.MEMBER,
                         Map.of("source", "test"),
                         4L
                 ),
                 now
         );
 
-        assertTrue(removeResponse.success());
-        assertEquals("Member", removeResponse.subject().rankName());
-        assertFalse(removeResponse.subject().hasPermission("speedrun.fly"));
+        assertTrue(memberResponse.success());
+        assertEquals(UniversalPermissionRole.MEMBER, memberResponse.subject().role());
     }
 
     @Test
@@ -133,23 +131,23 @@ final class RankApiTest {
         assertFalse(missingPlayer.success());
         assertTrue(missingPlayer.message().contains("Player not found"));
 
-        RankResponse missingRank = api.inspect(
-                RankRequest.setRank(
-                        "missing-rank",
+        RankResponse missingRoleTarget = api.inspect(
+                RankRequest.setRole(
+                        "missing-role-target",
                         ResourceGameFrontendPlatform.MINECRAFT,
                         "admin-1",
                         "Admin",
                         "missing",
                         "Missing",
-                        "Nope",
+                        UniversalPermissionRole.ADMIN,
                         Map.of(),
                         6L
                 ),
                 now
         );
 
-        assertFalse(missingRank.success());
-        assertTrue(missingRank.message().contains("Rank not found"));
+        assertFalse(missingRoleTarget.success());
+        assertTrue(missingRoleTarget.message().contains("Player not found"));
 
         assertEquals(RankOperationType.INSPECT, RankRequest.inspect(
                 "round-trip",

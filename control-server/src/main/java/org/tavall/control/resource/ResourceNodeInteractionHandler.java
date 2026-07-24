@@ -4,7 +4,7 @@ import org.tavall.control.player.PlayerSession;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.player.PlayerInteractEvent;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.world.IFocusedWorldInteractionHandler;
 import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceNodeInteractionHandler;

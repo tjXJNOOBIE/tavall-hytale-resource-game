@@ -1,6 +1,6 @@
 package org.tavall.control.clock;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.event.DomainEventPublisher;
 import org.tavall.control.event.RecordingDomainEventPublisher;
 

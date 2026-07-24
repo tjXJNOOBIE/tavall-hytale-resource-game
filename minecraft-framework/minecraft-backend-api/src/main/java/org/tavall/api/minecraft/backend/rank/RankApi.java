@@ -2,13 +2,16 @@ package org.tavall.api.minecraft.backend.rank;
 
 import org.tavall.api.minecraft.permissions.RankRequest;
 import org.tavall.api.minecraft.permissions.RankResponse;
-import org.tavall.api.minecraft.permissions.RankSubject;
+import org.tavall.api.minecraft.permissions.UniversalPermission;
+import org.tavall.api.minecraft.permissions.UniversalPermissionRole;
+import org.tavall.api.minecraft.permissions.UniversalPermissionSubject;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public final class RankApi {
     private final RankRepository repository;
@@ -25,8 +28,7 @@ public final class RankApi {
             return switch (request.operation()) {
                 case LIST -> listDefinitions(request, now);
                 case INSPECT -> inspectPlayer(request, now);
-                case SET -> setRank(request, now);
-                case REMOVE -> removeRank(request, now);
+                case SET_ROLE -> setRole(request, now);
             };
         } catch (RuntimeException exception) {
             return RankResponse.unavailable(request.requestId(), "Rank API error: " + safeMessage(exception));
@@ -34,8 +36,8 @@ public final class RankApi {
     }
 
     private RankResponse listDefinitions(RankRequest request, Instant now) {
-        List<RankSubject> subjects = repository().findRankDefinitions().stream()
-                .map(this::toDefinitionSubject)
+        List<UniversalPermissionSubject> subjects = repository().findRankDefinitions().stream()
+                .map(definition -> toDefinitionSubject(request, definition))
                 .toList();
         Map<String, String> metadata = requestContext(request);
         metadata.put("definitionCount", String.valueOf(subjects.size()));
@@ -64,28 +66,25 @@ public final class RankApi {
         return RankResponse.inspected(
                 request.requestId(),
                 "Loaded rank profile for " + current.displayName() + ".",
-                toPlayerSubject(current),
+                toPlayerSubject(request, current),
                 metadata
         );
     }
 
-    private RankResponse setRank(RankRequest request, Instant now) {
-        if (request.requestedRankName() == null) {
-            return RankResponse.unavailable(request.requestId(), "Requested rank is required for rank updates.");
+    private RankResponse setRole(RankRequest request, Instant now) {
+        if (request.requestedRole() == null) {
+            return RankResponse.unavailable(request.requestId(), "Requested role is required for rank updates.");
         }
-        RankDefinition rankDefinition = repository().findRankDefinition(request.requestedRankName())
-                .orElse(null);
-        if (rankDefinition == null) {
-            return RankResponse.unavailable(request.requestId(), rankNotFoundMessage(request.requestedRankName()));
-        }
+        RankDefinition rankDefinition = findRoleDefinition(request.requestedRole())
+                .orElseGet(() -> definitionFor(request.requestedRole(), now));
         RankPlayerProfile current = resolveTargetProfile(request).orElse(null);
         if (current == null) {
             return RankResponse.unavailable(request.requestId(), targetPlayerNotFoundMessage(request));
         }
         RankPlayerProfile updated = updateProfile(current, rankDefinition, request, now);
         repository().savePlayerProfile(updated);
-        List<RankSubject> subjects = repository().findPlayerProfiles().stream()
-                .map(this::toPlayerSubject)
+        List<UniversalPermissionSubject> subjects = repository().findPlayerProfiles().stream()
+                .map(profile -> toPlayerSubject(request, profile))
                 .toList();
         Map<String, String> metadata = requestContext(request);
         metadata.put("requestTime", now.toString());
@@ -97,40 +96,25 @@ public final class RankApi {
         return RankResponse.updated(
                 request.requestId(),
                 "Updated " + updated.displayName() + " to " + rankDefinition.rankName() + ".",
-                toPlayerSubject(updated),
+                toPlayerSubject(request, updated),
                 subjects,
                 metadata
         );
     }
 
-    private RankResponse removeRank(RankRequest request, Instant now) {
-        RankPlayerProfile current = resolveTargetProfile(request).orElse(null);
-        if (current == null) {
-            return RankResponse.unavailable(request.requestId(), targetPlayerNotFoundMessage(request));
-        }
-        String fallbackRankName = request.fallbackRankName() == null ? "Member" : request.fallbackRankName();
-        RankDefinition fallbackDefinition = repository().findRankDefinition(fallbackRankName).orElse(null);
-        if (fallbackDefinition == null) {
-            return RankResponse.unavailable(request.requestId(), rankNotFoundMessage(fallbackRankName));
-        }
-        RankPlayerProfile updated = updateProfile(current, fallbackDefinition, request, now);
-        repository().savePlayerProfile(updated);
-        List<RankSubject> subjects = repository().findPlayerProfiles().stream()
-                .map(this::toPlayerSubject)
-                .toList();
-        Map<String, String> metadata = requestContext(request);
-        metadata.put("requestTime", now.toString());
-        metadata.put("platformAccountId", updated.platformAccountId());
-        metadata.put("displayName", updated.displayName());
-        metadata.put("rankName", updated.rankName());
-        metadata.put("powerLevel", String.valueOf(updated.powerLevel()));
-        metadata.put("fallbackRankName", fallbackDefinition.rankName());
-        return RankResponse.updated(
-                request.requestId(),
-                "Reverted " + updated.displayName() + " to " + fallbackDefinition.rankName() + ".",
-                toPlayerSubject(updated),
-                subjects,
-                metadata
+    private Optional<RankDefinition> findRoleDefinition(UniversalPermissionRole role) {
+        return repository().findRankDefinitions().stream()
+                .filter(definition -> definition.rankName().equalsIgnoreCase(role.name()))
+                .findFirst();
+    }
+
+    private RankDefinition definitionFor(UniversalPermissionRole role, Instant now) {
+        return new RankDefinition(
+                role.name(),
+                role.powerLevel(),
+                role.permissions().stream().map(Enum::name).collect(java.util.stream.Collectors.toUnmodifiableSet()),
+                now,
+                now
         );
     }
 
@@ -175,30 +159,54 @@ public final class RankApi {
         return current.displayName();
     }
 
-    private RankSubject toDefinitionSubject(RankDefinition definition) {
-        Map<String, String> metadata = new LinkedHashMap<>();
-        metadata.put("definition", "true");
-        metadata.put("createdAt", definition.createdAt().toString());
-        metadata.put("updatedAt", definition.updatedAt().toString());
-        return new RankSubject(
+    private UniversalPermissionSubject toDefinitionSubject(RankRequest request, RankDefinition definition) {
+        return new UniversalPermissionSubject(
+                request.platform(),
                 definition.rankName(),
                 definition.rankName(),
-                definition.rankName(),
-                definition.powerLevel(),
-                definition.permissions(),
-                metadata
+                roleFor(definition.rankName(), definition.powerLevel()),
+                permissionsFor(definition.permissions())
         );
     }
 
-    private RankSubject toPlayerSubject(RankPlayerProfile profile) {
-        return new RankSubject(
+    private UniversalPermissionSubject toPlayerSubject(RankRequest request, RankPlayerProfile profile) {
+        return new UniversalPermissionSubject(
+                request.platform(),
                 profile.platformAccountId(),
                 profile.displayName(),
-                profile.rankName(),
-                profile.powerLevel(),
-                profile.permissions(),
-                profile.metadata()
+                roleFor(profile.rankName(), profile.powerLevel()),
+                permissionsFor(profile.permissions())
         );
+    }
+
+    private UniversalPermissionRole roleFor(String rankName, int powerLevel) {
+        try {
+            return UniversalPermissionRole.valueOf(rankName.trim().toUpperCase(java.util.Locale.ROOT));
+        } catch (IllegalArgumentException ignored) {
+            if (powerLevel >= UniversalPermissionRole.OWNER.powerLevel()) {
+                return UniversalPermissionRole.OWNER;
+            }
+            if (powerLevel >= UniversalPermissionRole.ADMIN.powerLevel()) {
+                return UniversalPermissionRole.ADMIN;
+            }
+            if (powerLevel >= UniversalPermissionRole.MODERATOR.powerLevel()) {
+                return UniversalPermissionRole.MODERATOR;
+            }
+            return UniversalPermissionRole.MEMBER;
+        }
+    }
+
+    private Set<UniversalPermission> permissionsFor(Set<String> permissions) {
+        return permissions.stream()
+                .map(permission -> {
+                    try {
+                        return UniversalPermission.valueOf(permission.trim().toUpperCase(java.util.Locale.ROOT));
+                    } catch (IllegalArgumentException ignored) {
+                        return null;
+                    }
+                })
+                .filter(java.util.Objects::nonNull)
+                .collect(java.util.stream.Collectors.toUnmodifiableSet());
     }
 
     private Map<String, String> requestContext(RankRequest request) {
@@ -230,10 +238,6 @@ public final class RankApi {
             return "Player not found: " + request.targetPlatformAccountId().trim();
         }
         return "Player not found.";
-    }
-
-    private String rankNotFoundMessage(String rankName) {
-        return "Rank not found: " + rankName;
     }
 
     private String safeMessage(Exception exception) {

@@ -1,7 +1,7 @@
 package org.tavall.control.protection;
 
 import com.hypixel.hytale.math.vector.Vector3i;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.world.ProtectedBlockMetadata;
 import org.tavall.control.world.ProtectedPlacementZone;
 import org.tavall.control.world.ProtectedStructureType;

@@ -11,9 +11,9 @@ import org.tavall.minecraft.server.snapshot.IMinecraftBukkitSnapshotSubmitHandle
 import org.tavall.minecraft.server.tasks.IMinecraftBukkitTaskScheduler;
 import org.tavall.minecraft.server.view.MinecraftBukkitServerView;
 import org.tavall.minecraft.server.visual.IMinecraftBukkitVisualHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 
-public interface IBukkitUtilDependencyAccess {
+public interface IBukkitUtilDependencyAccess extends MinecraftBukkitServerDomain {
     default IMinecraftBukkitServerConfig getMinecraftBukkitServerConfig() {
         return DependencyLoaderAccess.requireInstance(IMinecraftBukkitServerConfig.class);
     }

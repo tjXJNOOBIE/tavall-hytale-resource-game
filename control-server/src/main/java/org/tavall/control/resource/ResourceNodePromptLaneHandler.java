@@ -2,7 +2,7 @@ package org.tavall.control.resource;
 
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerTeleportHandler;
 import org.tavall.control.resource.IResourceNodePromptLaneHandler;
 import org.tavall.control.domain.ResourceNodeData;

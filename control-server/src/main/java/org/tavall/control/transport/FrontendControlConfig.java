@@ -1,6 +1,6 @@
 package org.tavall.control.transport;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.api.minecraft.frontend.IFrontendControlConfig;
 
 import java.net.URI;

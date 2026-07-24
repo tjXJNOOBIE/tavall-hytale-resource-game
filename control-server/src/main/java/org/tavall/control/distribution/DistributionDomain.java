@@ -1,6 +1,6 @@
 package org.tavall.control.distribution;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.distribution.health.IRemoteHealthCheckHandler;
 import org.tavall.control.distribution.node.INodeHeartbeatHandler;
 import org.tavall.control.distribution.node.INodeRegistryHandler;

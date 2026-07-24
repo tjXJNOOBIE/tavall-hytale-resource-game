@@ -1,6 +1,6 @@
 package org.tavall.control.cloud;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableInterface;
+import org.tavall.dependency.IDependencyInjectableInterface;
 
 import java.time.Instant;
 import java.util.Optional;

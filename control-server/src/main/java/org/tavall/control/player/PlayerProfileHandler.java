@@ -2,7 +2,7 @@ package org.tavall.control.player;
 import org.tavall.control.runtime.InfrastructureMetricsRecorder;
 
 import org.tavall.control.cache.JacksonCacheCodec;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.control.player.IPlayerProfileHandler;
 import org.tavall.control.domain.PlayerProfile;
 import org.tavall.control.player.cache.PlayerProfileCache;

@@ -1,7 +1,7 @@
 package org.tavall.minecraft.server;
 
-import com.tjxjnoobie.api.dependency.DependencyLoader;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoader;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.minecraft.server.resourcepack.IMinecraftBukkitResourcePackHandler;
 import org.tavall.minecraft.server.resourcepack.MinecraftBukkitResourcePackHandler;
@@ -17,7 +17,7 @@ final class MinecraftBukkitInventoryUiHandlerTest {
     @Test
     void castleAndBuildingPagesAdvertiseResourcePackRoots() throws IOException {
         DependencyLoader.getDependencyLoader().clear();
-        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.clear();
+        org.tavall.dependency.DependencyLoaderAccess.clear();
         Path root = Files.createTempDirectory("tavall-resource-pack-ui");
         Files.createDirectories(root.resolve("castles"));
         Files.createDirectories(root.resolve("buildings"));

@@ -1,6 +1,6 @@
 package org.tavall.control.cloud;
 
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.authority.AuthorityRepository;
 import org.tavall.control.authority.AuthorityScope;
 import org.tavall.control.authority.ControlAuthority;

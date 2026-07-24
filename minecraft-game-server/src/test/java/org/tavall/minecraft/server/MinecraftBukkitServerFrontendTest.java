@@ -25,8 +25,8 @@ import org.tavall.minecraft.server.json.IMinecraftBukkitJsonMapper;
 import org.tavall.minecraft.server.json.MinecraftBukkitJsonHandler;
 import org.tavall.minecraft.server.json.MinecraftBukkitJsonMapper;
 import org.tavall.minecraft.server.snapshot.MinecraftBukkitSnapshotHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoader;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoader;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -259,7 +259,7 @@ final class MinecraftBukkitServerFrontendTest {
     @Test
     void jsonHandlerSerializesVisualRenderRequestForServerSurface() throws IOException {
         DependencyLoader.getDependencyLoader().clear();
-        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.clear();
+        org.tavall.dependency.DependencyLoaderAccess.clear();
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitJsonMapper.class, new MinecraftBukkitJsonMapper());
         MinecraftVisualRenderRequest request = new MinecraftVisualRenderRequest(
                 ResourceGameFrontendSurfaceIdentity.BUKKIT_SERVER,
@@ -282,10 +282,10 @@ final class MinecraftBukkitServerFrontendTest {
 
     private void registerBukkitFrontendDependencies(MinecraftBukkitServerConfig config, long startedAtEpochMillis, URI controlIngressUri) {
         DependencyLoader.getDependencyLoader().clear();
-        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.clear();
+        org.tavall.dependency.DependencyLoaderAccess.clear();
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitServerConfig.class, config);
         DependencyLoaderAccess.registerInstance(IMinecraftBukkitRuntimeState.class, new MinecraftBukkitRuntimeState(startedAtEpochMillis));
-        com.tjxjnoobie.api.dependency.DependencyLoaderAccess.registerInstance(org.tavall.api.minecraft.frontend.IFrontendControlConfig.class,
+        org.tavall.dependency.DependencyLoaderAccess.registerInstance(org.tavall.api.minecraft.frontend.IFrontendControlConfig.class,
                 new FrontendControlConfig(controlIngressUri, "minecraft-bukkit-server"));
         new MinecraftBukkitServerDependencyModule().registerDependencies();
     }

@@ -1,7 +1,7 @@
 package org.tavall.control.api;
 
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.TrackedUiState;

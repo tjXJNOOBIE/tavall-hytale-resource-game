@@ -1,6 +1,6 @@
 package org.tavall.control.citizen;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 public final class CitizenAgeStageMappingHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenAgeStage ageStageForYears(double gameYears, CitizenAgingConfig config) {

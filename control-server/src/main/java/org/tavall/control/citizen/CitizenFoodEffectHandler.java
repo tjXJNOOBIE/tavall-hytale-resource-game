@@ -1,6 +1,6 @@
 package org.tavall.control.citizen;
 
-import com.tjxjnoobie.api.dependency.IDependencyInjectableConcrete;
+import org.tavall.dependency.IDependencyInjectableConcrete;
 
 public final class CitizenFoodEffectHandler implements CitizenDomain, IDependencyInjectableConcrete {
     public CitizenConditionEffectResult evaluate(CitizenData citizen) {

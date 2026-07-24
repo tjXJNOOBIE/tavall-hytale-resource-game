@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tavall.control.api.PlayerDataApi;
 import org.tavall.api.minecraft.backend.rank.RankApi;
 import org.tavall.control.interaction.ControlPlaneInteractionHandler;
-import com.tjxjnoobie.api.dependency.DependencyLoaderAccess;
+import org.tavall.dependency.DependencyLoaderAccess;
 import org.tavall.control.runtime.ControlCommandRuntime;
 import org.tavall.control.transport.ControlPlaneTcpBridgeRequest;
 import org.tavall.control.transport.ControlPlaneTcpBridgeRequestType;
@@ -20,7 +20,7 @@ import org.tavall.api.minecraft.permissions.PunishRequest;
 import org.tavall.api.minecraft.permissions.PunishResponse;
 import org.tavall.api.minecraft.permissions.RankRequest;
 import org.tavall.api.minecraft.permissions.RankResponse;
-import com.tjxjnoobie.api.platform.global.console.Log;
+import org.tavall.logging.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
