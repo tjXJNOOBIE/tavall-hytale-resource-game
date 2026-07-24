@@ -21,10 +21,30 @@ jobs:
           distribution: temurin
           java-version: "25"
           cache: gradle
+      - name: Check out Tavall logging
+        uses: actions/checkout@v4
+        with:
+          repository: tjXJNOOBIE/tavall-logging
+          ref: main
+          path: .dependency-source/tavall-logging
+          fetch-depth: 0
+      - name: Publish Tavall logging for the build
+        working-directory: .dependency-source/tavall-logging
+        run: ./gradlew --no-daemon --max-workers=1 -I "$GITHUB_WORKSPACE/gradle/tavall-tools-version.init.gradle" publishToMavenLocal
+      - name: Check out Tavall DI
+        uses: actions/checkout@v4
+        with:
+          repository: tjXJNOOBIE/tavall-di
+          ref: main
+          path: .dependency-source/tavall-di
+          fetch-depth: 0
+      - name: Publish Tavall DI for the build
+        working-directory: .dependency-source/tavall-di
+        run: ./gradlew --no-daemon --max-workers=1 -I "$GITHUB_WORKSPACE/gradle/tavall-tools-version.init.gradle" publishToMavenLocal
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: wrapper
       - name: Verify
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew --no-daemon clean check publishToMavenLocal stageDistribution
+        run: ./gradlew --no-daemon --max-workers=1 clean check publishToMavenLocal stageDistribution
