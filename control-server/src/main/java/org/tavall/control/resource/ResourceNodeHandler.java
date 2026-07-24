@@ -22,7 +22,6 @@ import org.tavall.control.domain.ResourceNodePillageResult;
 import org.tavall.control.domain.ResourceNodeSummary;
 import org.tavall.control.domain.CastleBuildingData;
 import org.tavall.control.resources.ResourceType;
-import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -244,7 +243,7 @@ public final class ResourceNodeHandler implements IResourceNodeHandler, IDepende
             PlayerGameState updatedState = rewriteNodes(state.withResources(resources, now), nodes, now);
             session.updateGameState(updatedState);
             gameStateHandler.cacheState(session.playerId(), updatedState);
-            AsyncTask.runAsync(() -> gameStateHandler.persistState(updatedState, now));
+            gameStateHandler.persistStateAsync(updatedState, now);
             return new ResourceNodePillageResult(
                     updatedState,
                     true,
@@ -357,7 +356,7 @@ public final class ResourceNodeHandler implements IResourceNodeHandler, IDepende
         PlayerGameState updatedState = rewriteNodes(session.gameState(), nodes, now);
         session.updateGameState(updatedState);
         gameStateHandler.cacheState(session.playerId(), updatedState);
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(updatedState, now));
+        gameStateHandler.persistStateAsync(updatedState, now);
         LOGGER.info(() -> "Resource nodes updated for " + session.playerId() + ": " + nodes.size() + " nodes");
         return updatedState;
     }
@@ -521,4 +520,3 @@ public final class ResourceNodeHandler implements IResourceNodeHandler, IDepende
         return " | ttl " + remainingMinutes + "m";
     }
 }
-

@@ -21,7 +21,6 @@ import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.PopulationSummary;
 import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.resources.ResourceType;
-import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -121,7 +120,7 @@ public final class CastleEconomySimulationHandler implements ICastleEconomySimul
         resourceNodeVisualHandler.refreshNodes(session.playerId(), updatedState);
         uiNavigator.refreshTrackedPage(session.playerId(), updatedState);
         PlayerGameState persistedState = updatedState;
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(persistedState, now));
+        gameStateHandler.persistStateAsync(persistedState, now);
         LOGGER.fine(() -> "Economy tick applied for " + session.playerId());
     }
 }

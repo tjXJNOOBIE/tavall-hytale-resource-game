@@ -25,12 +25,15 @@ import org.tavall.control.player.cache.PlayerGameStateCache;
 import org.tavall.control.persistence.PlayerGameStateStore;
 import org.tavall.control.persistence.PopulationSummaryDefaults;
 import org.tavall.abstractcache.semantic.SemanticCache;
+import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 /**
@@ -44,6 +47,7 @@ public final class PlayerGameStateHandler implements IPlayerGameStateHandler, ID
     private final PlayerGameStateCache cache;
     private final ObjectMapper objectMapper;
     private final InfrastructureMetricsRecorder metricsRecorder;
+    private final Map<Long, CompletableFuture<PlayerGameState>> persistenceTails;
 
     public PlayerGameStateHandler(
             PlayerGameStateStore repository,
@@ -74,6 +78,7 @@ public final class PlayerGameStateHandler implements IPlayerGameStateHandler, ID
         this.cache = cache;
         this.objectMapper = objectMapper;
         this.metricsRecorder = metricsRecorder;
+        this.persistenceTails = new ConcurrentHashMap<>();
     }
 
     public Optional<PlayerGameState> readCached(UUID playerId) {
@@ -131,6 +136,19 @@ public final class PlayerGameStateHandler implements IPlayerGameStateHandler, ID
         } catch (Exception ex) {
             throw new IllegalStateException("Failed to persist player game state", ex);
         }
+    }
+
+    @Override
+    public CompletableFuture<PlayerGameState> persistStateAsync(PlayerGameState state, Instant now) {
+        long profileId = state.profileId();
+        CompletableFuture<PlayerGameState> next = persistenceTails.compute(profileId, (ignored, previous) -> {
+            CompletableFuture<Void> ready = previous == null
+                    ? CompletableFuture.completedFuture(null)
+                    : previous.handle((persisted, failure) -> null);
+            return ready.thenCompose(ignoredReady -> AsyncTask.supplyAsync(() -> persistState(state, now)));
+        });
+        next.whenComplete((persisted, failure) -> persistenceTails.remove(profileId, next));
+        return next;
     }
 
     public void cacheState(UUID playerId, PlayerGameState state) {
@@ -477,4 +495,3 @@ public final class PlayerGameStateHandler implements IPlayerGameStateHandler, ID
         return state.updatedAt() == null ? Instant.now() : state.updatedAt();
     }
 }
-

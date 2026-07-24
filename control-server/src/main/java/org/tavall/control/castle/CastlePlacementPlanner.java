@@ -13,7 +13,6 @@ import org.tavall.control.player.IPlayerSessionStore;
 import org.tavall.control.resource.IResourceNodeVisualHandler;
 import org.tavall.control.domain.CastleLocationData;
 import org.tavall.control.domain.PlayerGameState;
-import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -64,8 +63,7 @@ public final class CastlePlacementPlanner implements ICastlePlacementHandler, ID
         castleSiteVisualHandler.refreshSite(playerId, updatedState);
         buildingVisualHandler.refreshBuildings(playerId, updatedState);
         resourceNodeVisualHandler.refreshNodes(playerId, updatedState);
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(updatedState, now));
+        gameStateHandler.persistStateAsync(updatedState, now);
         return updatedState;
     }
 }
-
