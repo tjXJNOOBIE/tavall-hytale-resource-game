@@ -21,26 +21,8 @@ jobs:
           distribution: temurin
           java-version: "25"
           cache: gradle
-      - name: Check out Tavall logging
-        uses: actions/checkout@v4
-        with:
-          repository: tjXJNOOBIE/tavall-logging
-          ref: working/migrate-to-gradle
-          path: .dependency-source/tavall-logging
-          fetch-depth: 0
-      - name: Publish Tavall logging for the build
-        working-directory: .dependency-source/tavall-logging
-        run: ./gradlew --no-daemon --max-workers=1 -I "$GITHUB_WORKSPACE/gradle/tavall-tools-version.init.gradle" publishToMavenLocal
-      - name: Check out Tavall DI
-        uses: actions/checkout@v4
-        with:
-          repository: tjXJNOOBIE/tavall-di
-          ref: working/migrate-to-gradle
-          path: .dependency-source/tavall-di
-          fetch-depth: 0
-      - name: Publish Tavall DI for the build
-        working-directory: .dependency-source/tavall-di
-        run: ./gradlew --no-daemon --max-workers=1 -I "$GITHUB_WORKSPACE/gradle/tavall-tools-version.init.gradle" publishToMavenLocal
+      - name: Publish migrated Tavall tools for the build
+        run: ./scripts/bootstrap-tavall-tools.sh
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: wrapper
