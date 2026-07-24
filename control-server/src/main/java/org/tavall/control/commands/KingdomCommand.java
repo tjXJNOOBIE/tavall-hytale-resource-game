@@ -23,7 +23,6 @@ import org.tavall.control.castle.CastleEconomySimulationHandler;
 import org.tavall.control.player.PlayerSession;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationResult;
 import org.tavall.api.minecraft.frontend.FrontendCommandVerificationState;
-import org.tavall.internal.utils.concurrent.AsyncTask;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
 import java.time.Instant;
@@ -335,7 +334,7 @@ public final class KingdomCommand extends AbstractAsyncCommand implements Resour
     private void persistAccountState(PlayerSession session, PlayerGameState updatedState, Instant now) {
         session.updateGameState(updatedState);
         getPlayerGameStateHandler().cacheState(session.playerId(), updatedState);
-        AsyncTask.runAsync(() -> getPlayerGameStateHandler().persistState(updatedState, now));
+        getPlayerGameStateHandler().persistStateAsync(updatedState, now);
     }
 
     private String accountStatusLine(PlayerSession session) {
@@ -569,7 +568,7 @@ public final class KingdomCommand extends AbstractAsyncCommand implements Resour
         PlayerGameState updatedState = getPlayerGameStateHandler().resetOnboardingProgress(session.gameState(), now);
         session.updateGameState(updatedState);
         getPlayerGameStateHandler().cacheState(session.playerId(), updatedState);
-        AsyncTask.runAsync(() -> getPlayerGameStateHandler().persistState(updatedState, now));
+        getPlayerGameStateHandler().persistStateAsync(updatedState, now);
         context.sendMessage(Message.raw("Tutorial onboarding reset.").color("green"));
     }
 

@@ -26,7 +26,6 @@ import org.tavall.control.domain.ResourceNodeData;
 import org.tavall.minecraft.domain.interior.InteriorLayout;
 import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 import org.tavall.control.population.PromotionCost;
-import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -540,7 +539,7 @@ public final class CastleBuildingHandler implements ResourceGameDomain, ICastleB
     private void persistSessionState(PlayerSession session, PlayerGameState updatedState, Instant now) {
         session.updateGameState(updatedState);
         getPlayerGameStateHandler().cacheState(session.playerId(), updatedState);
-        AsyncTask.runAsync(() -> getPlayerGameStateHandler().persistState(updatedState, now));
+        getPlayerGameStateHandler().persistStateAsync(updatedState, now);
         LOGGER.info(() -> "Castle buildings updated for " + session.playerId() + ": " + listBuildings(updatedState).size() + " buildings");
     }
 
@@ -647,5 +646,3 @@ public final class CastleBuildingHandler implements ResourceGameDomain, ICastleB
         return discount.foodCost() + "F/" + discount.woodCost() + "W/" + discount.ironCost() + "I";
     }
 }
-
-

@@ -13,7 +13,6 @@ import org.tavall.control.domain.PlayerGameState;
 import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.resources.ResourceType;
 
-import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -77,7 +76,7 @@ public final class ResourceHandler implements IResourceHandler, IDependencyInjec
         castleSiteVisualHandler.refreshSite(playerId, updatedState);
         uiNavigator.refreshTrackedPage(playerId, updatedState);
         gameStateHandler.cacheState(playerId, updatedState);
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(updatedState, Instant.now()));
+        gameStateHandler.persistStateAsync(updatedState, Instant.now());
         return updatedState;
     }
 }

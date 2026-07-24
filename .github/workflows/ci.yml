@@ -21,10 +21,12 @@ jobs:
           distribution: temurin
           java-version: "25"
           cache: gradle
+      - name: Publish migrated Tavall tools for the build
+        run: ./scripts/bootstrap-tavall-tools.sh
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: wrapper
       - name: Verify
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew --no-daemon clean check publishToMavenLocal stageDistribution
+        run: ./gradlew --no-daemon --max-workers=1 clean check publishToMavenLocal stageDistribution

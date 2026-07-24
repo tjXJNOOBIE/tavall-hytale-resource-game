@@ -8,6 +8,7 @@ import org.tavall.control.domain.DebugModeState;
 import org.tavall.control.domain.PlayerGameState;
 
 import java.time.Instant;
+import java.util.concurrent.CompletableFuture;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,6 +18,10 @@ public interface IPlayerGameStateHandler extends IDependencyInjectableInterface 
     PlayerGameState loadOrCreate(long profileId, UUID playerId, CastleLocationData spawnLocation, Instant now);
 
     PlayerGameState persistState(PlayerGameState state, Instant now);
+
+    default CompletableFuture<PlayerGameState> persistStateAsync(PlayerGameState state, Instant now) {
+        return CompletableFuture.completedFuture(persistState(state, now));
+    }
 
     void cacheState(UUID playerId, PlayerGameState state);
 
@@ -48,4 +53,3 @@ public interface IPlayerGameStateHandler extends IDependencyInjectableInterface 
 
     PlayerGameState setDebugMode(PlayerGameState state, DebugModeState debugModeState, Instant now);
 }
-

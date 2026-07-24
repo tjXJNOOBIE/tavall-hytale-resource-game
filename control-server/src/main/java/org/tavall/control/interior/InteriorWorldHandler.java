@@ -33,7 +33,6 @@ import org.tavall.control.domain.UiNavigationContext;
 import org.tavall.minecraft.domain.interior.InteriorLayout;
 import org.tavall.minecraft.domain.interior.InteriorLayoutHandler;
 import org.tavall.control.interior.InteriorStructureHandler;
-import org.tavall.internal.utils.concurrent.AsyncTask;
 import org.tavall.control.tasks.WorldTasks;
 import org.tavall.minecraft.framework.game.ui.UiScreenKey;
 
@@ -191,7 +190,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
                 session.updateGameState(updated);
             }
             gameStateHandler.cacheState(playerId, updated);
-            AsyncTask.runAsync(() -> gameStateHandler.persistState(updated, now));
+            gameStateHandler.persistStateAsync(updated, now);
 
             preloadInteriorChunks(interiorWorld, layout).whenComplete((ignored, preloadThrowable) -> {
                 if (!isActiveTransition(playerId, transitionToken)) {
@@ -349,7 +348,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
         PlayerGameState updatedState = gameStateHandler.bumpInteriorInstanceIndex(state.withInteriorSession(null, now), now);
         session.updateGameState(updatedState);
         gameStateHandler.cacheState(playerId, updatedState);
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(updatedState, now));
+        gameStateHandler.persistStateAsync(updatedState, now);
 
         interiorTourMarkerHandler.clearTourMarkers(playerId);
         displayHandler.clearDisplays(playerId);
@@ -403,7 +402,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
         PlayerGameState updatedState = gameStateHandler.bumpInteriorInstanceIndex(state, now);
         session.updateGameState(updatedState);
         gameStateHandler.cacheState(playerId, updatedState);
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(updatedState, now));
+        gameStateHandler.persistStateAsync(updatedState, now);
 
         int nextIndex = gameStateHandler.interiorInstanceIndex(updatedState);
         InteriorLayout targetLayout = layoutHandler.createLayoutForCastle(castleLocation, nextIndex);
@@ -486,7 +485,7 @@ public final class InteriorWorldHandler implements IInteriorWorldHandler, IDepen
                 TimeUnit.MILLISECONDS
         );
         gameStateHandler.cacheState(playerId, updated);
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(updated, Instant.now()));
+        gameStateHandler.persistStateAsync(updated, Instant.now());
     }
 
     private void executeInteriorExitOnWorld(

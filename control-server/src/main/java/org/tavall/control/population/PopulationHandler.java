@@ -21,7 +21,6 @@ import org.tavall.control.domain.ResourceInventory;
 import org.tavall.control.population.PromotionCost;
 import org.tavall.control.population.UpgradeActionState;
 
-import org.tavall.internal.utils.concurrent.AsyncTask;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -174,7 +173,7 @@ public final class PopulationHandler implements IPopulationHandler, IDependencyI
         PlayerGameState updated = session.gameState().withPopulation(updatedSummary, now);
         session.updateGameState(updated);
         gameStateHandler.cacheState(playerId, updated);
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(updated, now));
+        gameStateHandler.persistStateAsync(updated, now);
         return updated;
     }
 
@@ -210,7 +209,7 @@ public final class PopulationHandler implements IPopulationHandler, IDependencyI
         uiNavigator.refreshTrackedPage(playerId, updated);
         gameStateHandler.cacheState(playerId, updated);
         PlayerGameState persistedState = updated;
-        AsyncTask.runAsync(() -> gameStateHandler.persistState(persistedState, now));
+        gameStateHandler.persistStateAsync(persistedState, now);
         return updated;
     }
 }
